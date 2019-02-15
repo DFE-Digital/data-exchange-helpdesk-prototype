@@ -1,86 +1,123 @@
-{% from "accordion/macro.njk"        import govukAccordion %}
-{% from "back-link/macro.njk"        import govukBackLink %}
-{% from "breadcrumbs/macro.njk"      import govukBreadcrumbs %}
-{% from "button/macro.njk"           import govukButton %}
-{% from "character-count/macro.njk"  import govukCharacterCount %}
-{% from "checkboxes/macro.njk"       import govukCheckboxes %}
-{% from "date-input/macro.njk"       import govukDateInput %}
-{% from "details/macro.njk"          import govukDetails %}
-{% from "error-message/macro.njk"    import govukErrorMessage %}
-{% from "error-summary/macro.njk"    import govukErrorSummary %}
-{% from "fieldset/macro.njk"         import govukFieldset %}
-{% from "file-upload/macro.njk"      import govukFileUpload %}
-{% from "input/macro.njk"            import govukInput %}
-{% from "inset-text/macro.njk"       import govukInsetText %}
-{% from "panel/macro.njk"            import govukPanel %}
-{% from "phase-banner/macro.njk"     import govukPhaseBanner %}
-{% from "radios/macro.njk"           import govukRadios %}
-{% from "select/macro.njk"           import govukSelect %}
-{% from "skip-link/macro.njk"        import govukSkipLink %}
-{% from "summary-list/macro.njk"     import govukSummaryList %}
-{% from "table/macro.njk"            import govukTable %}
-{% from "tabs/macro.njk"             import govukTabs %}
-{% from "tag/macro.njk"              import govukTag %}
-{% from "textarea/macro.njk"         import govukTextarea %}
-{% from "warning-text/macro.njk"     import govukWarningText %}
+{% from 'accordion/macro.njk'        import govukAccordion %}
+{% from 'back-link/macro.njk'        import govukBackLink %}
+{% from 'breadcrumbs/macro.njk'      import govukBreadcrumbs %}
+{% from 'button/macro.njk'           import govukButton %}
+{% from 'character-count/macro.njk'  import govukCharacterCount %}
+{% from 'checkboxes/macro.njk'       import govukCheckboxes %}
+{% from 'date-input/macro.njk'       import govukDateInput %}
+{% from 'details/macro.njk'          import govukDetails %}
+{% from 'error-message/macro.njk'    import govukErrorMessage %}
+{% from 'error-summary/macro.njk'    import govukErrorSummary %}
+{% from 'fieldset/macro.njk'         import govukFieldset %}
+{% from 'file-upload/macro.njk'      import govukFileUpload %}
+{% from 'input/macro.njk'            import govukInput %}
+{% from 'inset-text/macro.njk'       import govukInsetText %}
+{% from 'panel/macro.njk'            import govukPanel %}
+{% from 'phase-banner/macro.njk'     import govukPhaseBanner %}
+{% from 'radios/macro.njk'           import govukRadios %}
+{% from 'select/macro.njk'           import govukSelect %}
+{% from 'skip-link/macro.njk'        import govukSkipLink %}
+{% from 'summary-list/macro.njk'     import govukSummaryList %}
+{% from 'table/macro.njk'            import govukTable %}
+{% from 'tabs/macro.njk'             import govukTabs %}
+{% from 'tag/macro.njk'              import govukTag %}
+{% from 'textarea/macro.njk'         import govukTextarea %}
+{% from 'warning-text/macro.njk'     import govukWarningText %}
 
 
-{% from "banner/macro.njk" import hmctsBanner %}
-{% from "global-footer/macro.njk" import hmctsGlobalFooter %}
-{% from "filter/macro.njk" import hmctsFilter %}
-{% from "global-header/macro.njk" import hmctsGlobalHeader %}
-{% from "identity-bar/macro.njk" import hmctsIdentityBar %}
-{% from "menu/macro.njk" import hmctsMenu %}
-{% from "page-header-with-actions/macro.njk" import hmctsPageHeaderWithActions %}
-{% from "pagination/macro.njk" import hmctsPagination %}
-{% from "progress-bar/macro.njk" import hmctsProgressBar %}
-{% from "primary-navigation/macro.njk" import hmctsPrimaryNavigation %}
-{% from "search/macro.njk" import hmctsSearch %}
-{% from "textarea/macro.njk" import govukTextarea %}
-{% from "sub-navigation/macro.njk" import hmctsSubNavigation %}
-{% from 'timeline/macro.njk' import hmctsTimeline %}
+{% from 'hmcts/banner/macro.njk' import hmctsBanner %}
+{% from 'hmcts/global-footer/macro.njk' import hmctsGlobalFooter %}
+{% from 'hmcts/filter/macro.njk' import hmctsFilter %}
+{% from 'hmcts/global-header/macro.njk' import hmctsGlobalHeader %}
+{% from 'hmcts/identity-bar/macro.njk' import hmctsIdentityBar %}
+{% from 'hmcts/menu/macro.njk' import hmctsMenu %}
+{% from 'hmcts/page-header-with-actions/macro.njk' import hmctsPageHeaderWithActions %}
+{% from 'hmcts/pagination/macro.njk' import hmctsPagination %}
+{% from 'hmcts/progress-bar/macro.njk' import hmctsProgressBar %}
+{% from 'hmcts/primary-navigation/macro.njk' import hmctsPrimaryNavigation %}
+{% from 'hmcts/search/macro.njk' import hmctsSearch %}
+{% from 'hmcts/sub-navigation/macro.njk' import hmctsSubNavigation %}
+{% from 'hmcts/timeline/macro.njk' import hmctsTimeline %}
 
-{% block head %}
-  {% include "includes/head.html" %}
-{% endblock %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{% block pageTitle %}{{ serviceName }}{% endblock %}</title>
+    {% block head %}
+      {% include "includes/head.html" %}
+    {% endblock %}
+  </head>
+  <body class="govuk-template__body">
+    {{ hmctsGlobalHeader({
 
-{% block pageTitle %}
-  GOV.UK Prototype Kit
-{% endblock %}
-
-{% block header %}
-  {# Set serviceName in config.js. #}
-  {{ govukHeader({
-    homepageUrl: "/",
-    serviceName: serviceName,
-    serviceUrl: "/",
-    containerClasses: "hmcts-width-container"
-  }) }}
-{% endblock %}
-
-{% if useAutoStoreData %}
-  {% block footer %}
-    {{ govukFooter({
-      meta: {
-        items: [
-          {
-            href: "https://govuk-prototype-kit.herokuapp.com/",
-            text: "GOV.UK Prototype Kit " + releaseVersion
-          },
-          {
-            href: "/prototype-admin/clear-data",
-            text: "Clear data"
-          }
-        ]
+      service: {
+      name: serviceName,
+      url: '#'
+      },
+      
+      navigation: {
+      label: 'Account navigation',
+      items: [{
+        text: 'Work queue',
+        href: '#1'
+      }, {
+        text: 'Find a school',
+        href: '#1'
+      }, {
+        text: 'Sign out',
+        href: '#1'
+      }]
       }
+      
     }) }}
-  {% endblock %}
-{% endif %}
+    <div class="govuk-width-container">
+      <main id="main-content" class="govuk-main-wrapper" role="main">
+        {% block content %}
+        {% endblock %}
+      </main>
+    </div>
+    {{ hmctsGlobalFooter({
 
-{% block bodyEnd %}
-  {% block scripts %}
-    {% include "includes/scripts.html" %}
-    {% block pageScripts %}{% endblock %}
-  {% endblock %}
-  <!-- GOV.UK Prototype Kit {{releaseVersion}} -->
-{% endblock %}
+      help: {
+      heading: 'Help',
+      email: {
+        address: '#',
+        text: 'service-desk@education.gov.uk'
+      },
+      phone: {
+        text: '0200 521 4512'
+      },
+      opening: {
+        text: 'Monday to Friday, 8am to 6pm (excluding public holidays)'
+      }
+      },
+      
+      navigation: {
+      items: [{
+        text: 'Terms and conditions',
+        href: '#'
+      }, {
+        text: 'Cookies',
+        href: '#'
+      }, {
+        text: 'Privacy policy',
+        href: '#'
+      }, {
+        text: 'Clear data',
+        href: '/prototype-admin/clear-data'
+      }]
+      }
+    
+    }) }} 
+    {% block bodyEnd %}
+      {% block scripts %}
+        {% include "includes/scripts.html" %}
+        {% block pageScripts %}{% endblock %}
+      {% endblock %}
+      <!-- GOV.UK Prototype Kit {{releaseVersion}} -->
+    {% endblock %}
+  </body>
+</html>

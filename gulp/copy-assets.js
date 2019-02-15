@@ -14,6 +14,11 @@ gulp.task('copy-assets', function () {
     .pipe(gulp.dest(config.paths.public))
 })
 
+gulp.task('copy-assets-hmcts', function () {
+  return gulp.src(['node_modules/@hmcts/frontend/components/**'])
+    .pipe(gulp.dest('app/views/hmcts'))
+})
+
 gulp.task('copy-assets-documentation', function () {
   return gulp.src(['!' + config.paths.docsAssets + 'sass{,/**/*}',
     config.paths.docsAssets + '/**'])
