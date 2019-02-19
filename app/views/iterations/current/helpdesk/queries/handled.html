@@ -1,0 +1,156 @@
+{% extends 'layout_internal.html' %}
+
+{% block pageTitle %}
+    Handled queries
+{% endblock %}
+
+{% block postHeader %}
+<div class="hmcts-identity-bar">
+  <div class="hmcts-identity-bar__container">
+    <div class="hmcts-identity-bar__details">
+        <span class="hmcts-identity-bar__title"><b>Feetham’s High School</b> 320/4930</span>
+    </div>
+    <div style="float:right;">
+        {{ govukButton({
+            text: 'Return to work queue',
+            href: '#',
+            classes: 'hmcts-menu-item hmcts-button--secondary'
+        }) }}
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+
+    <div class="govuk-grid-column-full census-case-nav">
+
+        {{ hmctsSubNavigation({
+            label: 'Sub navigation',
+            items: [
+                {
+                    text: '8 queries',
+                    href: 'overview'
+                },
+                {
+                    text: '2 actioned queries',
+                    href: 'handled',
+                    active: true
+                },
+                {
+                    text: '4 errors',
+                    href: '#'
+                },
+                {
+                    text: 'Census data',
+                    href: '#'
+                },
+                {
+                    html: 'View as LA <svg style="transform: translateY(3px);" xmlns="http://www.w3.org/2000/svg" id="Layer_1" data-name="Layer 1" width="19" height="19" viewBox="0 0 64 64"><title>Icons 400</title><path d="M51.9981,26.9756a2,2,0,0,1-2.002-1.9981V16.8364L33.3721,33.4139a1.9894,1.9894,0,0,1-2.8045-2.8224L47.21,13.9962h-8.232a1.9981,1.9981,0,1,1,0-3.9962h13.02A2,2,0,0,1,54,11.998V24.9775A2,2,0,0,1,51.9981,26.9756ZM28,21.9932H16a2.0024,2.0024,0,0,0-2,2.0006V48a2.0022,2.0022,0,0,0,2,2.0006H40A2.0027,2.0027,0,0,0,42,48V36a2,2,0,1,1,4,0V48a6.0077,6.0077,0,0,1-6,6.0021H16A6.0078,6.0078,0,0,1,10,48V23.9938a6.0075,6.0075,0,0,1,6-6.0019H28a2.0007,2.0007,0,0,1,0,4.0013Z" fill-rule="evenodd" fill="#005ea5"></path></svg>',
+                    href: '#',
+                    classes: 'test'
+                }
+            ]
+        }) }} 
+
+    </div>
+
+</div>
+
+<div class="govuk-grid-row">
+
+    <div class="govuk-grid-column-one-half">
+        {% set findHTML %}
+        <div class="govuk-!-padding-bottom-5">
+            {{ hmctsSearch({
+                input: {
+                    id: 'search-query',
+                    name: 'search-query'
+                },
+                label: {
+                    text: 'Find a query'
+                },
+                hint: {
+                    text: 'You can find a query by number or keywords'
+                },
+                button: {
+                    text: 'Find'
+                }
+            }) }}
+        </div>
+        {% endset -%}
+
+        
+        {{ govukDetails({
+        summaryText: "Find a query",
+        html: findHTML
+        }) }}
+
+    </div>
+
+</div>
+
+<div class="govuk-grid-row">
+
+    <div class="govuk-grid-column-full">
+
+        {{ govukTable({
+            caption: 'Queries',
+            firstCellIsHeader: true,
+            classes: 'internal-table query-table',
+            head: [
+                {
+                    html: '<span class="no-wrap">Query</span>'
+                },
+                {
+                    html: '<span class="no-wrap">Explanation</span>'
+                },
+                {
+                    html: '<span class="no-wrap">Accepting guide</span>',
+                    classes: 'width-medium'
+                },
+                {
+                    html: '<span class="no-wrap">Actions</span>'
+                }
+            ],
+            rows: [
+                [
+                    {
+                        html: '<h3 class="govuk-heading-m" style="margin-bottom: 5px;">2740Q</h3><span href="#" class="no-wrap type-tag school">School</span><br>Learning start date seems too early.'
+                    },
+                    {
+                        html: '<div class="note"><span class="title">26 January 2019 at 10:03</span>Early start date agreed by governors.</div><div class="note reply"><span class="title">Rejection pending</span>You must confirm this information is correct.</div>'
+                    },
+                    {
+                        html: 'Confirmation that the information is correct',
+                        classes: 'width-medium'
+                    },
+                    {
+                        html: '<a href="#" class="govuk-button govuk-button-blue govuk-button-small">Change response note</a><br><a href="#" class="govuk-button govuk-button-red govuk-button-small">Delete response</a>'
+                    }
+                ],
+                [
+                    {
+                        html: '<h3 class="govuk-heading-m" style="margin-bottom: 5px;">TonT1C</h3><span href="#" class="no-wrap type-tag term">Term-on-term</span><br>There are significantly fewer pupils than last collection. A reason must be provided for this decrease.'
+                    },
+                    {
+                        html: '<div class="note"><span class="title">26 January 2019 at 11:00</span>A new school opened close by.</div><div class="note approval"><span class="title">Approval pending</span></div>'
+                    },
+                    {
+                        html: 'A reason will sought if there is significant decrease of pupils. ',
+                        classes: 'width-medium'
+                    },
+                    {
+                        html: '<a href="#" class="govuk-button govuk-button-red govuk-button-small">Delete response</a>'
+                    }
+                ]
+            ]
+        }) }}
+
+    </div>
+
+</div>
+
+{% endblock %}

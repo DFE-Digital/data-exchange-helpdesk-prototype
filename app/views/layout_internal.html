@@ -50,29 +50,61 @@
       {% include "includes/head.html" %}
     {% endblock %}
   </head>
-  <body class="govuk-template__body">
+  <body class="govuk-template__body internal">
     {{ hmctsGlobalHeader({
-
       service: {
-      name: serviceName,
+      name: 'Data collections helpdesk',
       url: '#'
       },
-      
+
       navigation: {
       label: 'Account navigation',
-      items: [{
-        text: 'Work queue',
-        href: '#1'
-      }, {
-        text: 'Find a school',
-        href: '#1'
-      }, {
-        text: 'Sign out',
-        href: '#1'
-      }]
+      items: [
+        {
+          text: 'Ellie Sattler',
+          href: '#1'
+        },
+        {
+          text: 'Sign out',
+          href: '#1'
+        }
+      ]
       }
-      
     }) }}
+    {% set inlineSearchHtml %}
+      {{ hmctsSearch({
+        classes: 'hmcts-search--ondark hmcts-search--inline',
+        input: {
+          id: 'search',
+          name: 'search'
+        },
+        label: {
+          text: 'Search for a school',
+          classes: 'govuk-visually-hidden'
+        },
+        button: {
+          text: 'Search'
+        }
+      }) }}
+    {% endset %}
+
+    {{ hmctsPrimaryNavigation({
+      label: 'Primary navigation',
+      items: [{
+      text: 'Work queue',
+      href: '#1',
+      active: true
+      }, {
+      text: 'Guidance',
+      href: '#2'
+      }, {
+      text: 'Sign out',
+      href: '#3'
+      }],
+      searchHtml: inlineSearchHtml
+    }) }} 
+    {% block postHeader %}
+    {% endblock %}
     <div class="govuk-width-container">
       <main id="main-content" class="govuk-main-wrapper" role="main">
         {% block content %}
@@ -120,4 +152,9 @@
       <!-- GOV.UK Prototype Kit {{releaseVersion}} -->
     {% endblock %}
   </body>
+  <script>
+  $(document).ready(function () {
+    $('#search').attr('placeholder', 'LAESTAB, name or LA code')
+  })
+  </script>
 </html>
