@@ -137,6 +137,10 @@ module.exports = function(env) {
 		return toFriendlyNumber(output)
 	}
 
+	filters.debug = obj => {
+		return JSON.stringify(obj)
+	}
+
 	/* ------------------------------------------------------------------
     keep the following line to return your filters to the app
   ------------------------------------------------------------------ */

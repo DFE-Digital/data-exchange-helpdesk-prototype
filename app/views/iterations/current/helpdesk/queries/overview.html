@@ -4,11 +4,17 @@
     Queries
 {% endblock %}
 
+{% set schoolIndex = 0 %}
+{% set school = data['schools'][schoolIndex] %}
+{% set schoolName = school['name'] %}
+{% set laestab = school['LAESTAB'] %}
+{% set queries = school['queries'] %}
+
 {% block postHeader %}
 <div class="hmcts-identity-bar">
   <div class="hmcts-identity-bar__container">
     <div class="hmcts-identity-bar__details">
-        <span class="hmcts-identity-bar__title"><b>Feetham’s High School</b> 320/4930</span>
+        <span class="hmcts-identity-bar__title"><b>{{ schoolName }}</b> {{ laestab }}</span>
     </div>
     <div style="float:right;">
         {{ govukButton({
@@ -26,17 +32,25 @@
 <div class="govuk-grid-row">
 
     <div class="govuk-grid-column-full census-case-nav govuk-!-padding-bottom-5">
+        {% set handledCount = 0 %}
+        {% for query in queries %}
+            {% if query['handled'] == 'true' %}
+                {% set handledCount = handledCount + 1 %}
+            {% endif %}
+        {% endfor %}
+
+        {% set pendingCount = (queries | length) - handledCount %}
 
         {{ hmctsSubNavigation({
             label: 'Sub navigation',
             items: [
                 {
-                    text: '8 queries',
+                    text: pendingCount + ' queries' if pendingCount != 1 else '1 query',
                     href: '',
                     active: true
                 },
                 {
-                    text: '2 queries actioned',
+                    text: handledCount + ' queries actioned' if handledCount != 1 else '1 query actioned',
                     href: 'handled'
                 },
                 {
@@ -88,6 +102,8 @@
         html: findHTML
         }) }}
 
+        <br>
+
     </div>
 
 </div>
@@ -96,103 +112,86 @@
 
     <div class="govuk-grid-column-full">
 
-        {{ govukTable({
-            caption: 'Queries',
-            firstCellIsHeader: true,
-            classes: 'internal-table query-table',
-            head: [
-                {
-                    html: '<span class="no-wrap">Query</span>'
-                },
-                {
-                    html: '<span class="no-wrap">Explanation</span>'
-                },
-                {
-                    html: '<span class="no-wrap">Accepting guide</span>',
-                    classes: 'width-medium'
-                },
-                {
-                    html: '<span class="no-wrap">Actions</span>'
-                }
-            ],
-            rows: [
-                [
-                    {
-                        html: '<h3 class="govuk-heading-m" style="margin-bottom: 5px;">2502Q</h3><a href="#" class="no-wrap type-tag pupil">3 pupils</a><br>Zero attendance sessions possible recorded for pupil on roll. Pupil should only be recorded with zero sessions possible if dually registered and spent all of the previous term for which attendance data is being collected at other registration.'
-                    },
-                    {
-                        html: '<div class="note"><span class="title">26 January 2019 at 9:43</span>The pupil is dually registered and did not attend school this term.</div><div class="note reply"><span class="title">Rejected 26 January 2019 at 15:43</span>It is not clear if this refers to all pupils</div><div class="note"><span class="title">27 January 2019 at 8:23</span>Yes, this applies to all 3 pupils.</div>'
-                    },
-                    {
-                        html: 'Confirmation is not acceptable. Acceptable note entry ‘pupil is dually registered and though did not attend this establishment in the previous term, they remain on roll’.',
-                        classes: 'width-medium'
-                    },
-                    {
-                        html: '<a href="#" class="govuk-button govuk-button-small">Approve all</a><br><a href="#" class="govuk-button govuk-button-red govuk-button-small" id="rejectPrompt">Reject all</a><br><a href="single-query" class="govuk-button govuk-button-blue govuk-button-small">View records</a>'
-                    }
-                ],
-                [
-                    {
-                        html: '<h3 class="govuk-heading-m" style="margin-bottom: 5px;">2502Q</h3><a href="#" class="no-wrap type-tag pupil">1 pupil</a><br>Zero attendance sessions possible recorded for pupil on roll. Pupil should only be recorded with zero sessions possible if dually registered and spent all of the previous term for which attendance data is being collected at other registration.'
-                    },
-                    {
-                        html: '<div class="note"><span class="title">26 January 2019 at 9:45</span>Pupil was added to this term by mistake, will be off-role on next census.</div>'
-                    },
-                    {
-                        html: 'Confirmation is not acceptable. Acceptable note entry ‘pupil is dually registered and though did not attend this establishment in the previous term, they remain on roll’.',
-                        classes: 'width-medium'
-                    },
-                    {
-                        html: '<a href="#" class="govuk-button govuk-button-small">Approve</a><br><a href="#" class="govuk-button govuk-button-red govuk-button-small">Reject</a><br><a href="#" class="govuk-button govuk-button-blue govuk-button-small">View record</a>'
-                    }
-                ],
-                [
-                    {
-                        html: '<h3 class="govuk-heading-m" style="margin-bottom: 5px;">2695Q</h3><span href="#" class="no-wrap type-tag school">School</span><br>90% or more of infant pupils have free school meal eligibility.'
-                    },
-                    {
-                        html: '<div class="note"><span class="title">26 January 2019 at 9:51</span>The school is in an area of high unemployment.</div>'
-                    },
-                    {
-                        html: 'Confirmation is not acceptable. A statement must be included that these infant pupils also meet the FSM criteria and that they have not been recorded as FSM due to receipt of UiFSM. Due to pupil premium funding this is to ensure that schools have not made an error.',
-                        classes: 'width-medium'
-                    },
-                    {
-                        html: '<a href="#" class="govuk-button govuk-button-small">Approve</a><br><a href="#" class="govuk-button govuk-button-red govuk-button-small">Reject</a>'
-                    }
-                ],
-                [
-                    {
-                        html: '<h3 class="govuk-heading-m" style="margin-bottom: 5px;">2740Q</h3><span href="#" class="no-wrap type-tag school">School</span><br>Learning start date seems too early.'
-                    },
-                    {
-                        html: '<div class="note"><span class="title">26 January 2019 at 10:03</span>Early start date agreed by governors.</div>'
-                    },
-                    {
-                        html: 'Confirmation that the information is correct',
-                        classes: 'width-medium'
-                    },
-                    {
-                        html: '<a href="#" class="govuk-button govuk-button-small">Approve</a><br><a href="#" class="govuk-button govuk-button-red govuk-button-small">Reject</a>'
-                    }
-                ],
-                [
-                    {
-                        html: '<h3 class="govuk-heading-m" style="margin-bottom: 5px;">TonT1C</h3><span href="#" class="no-wrap type-tag term">Term-on-term</span><br>There are significantly fewer pupils than last collection. A reason must be provided for this decrease.'
-                    },
-                    {
-                        html: '<div class="note"><span class="title">26 January 2019 at 11:00</span>A new school opened close by.</div>'
-                    },
-                    {
-                        html: 'A reason will sought if there is significant decrease of pupils. ',
-                        classes: 'width-medium'
-                    },
-                    {
-                        html: '<a href="#" class="govuk-button govuk-button-small">Approve</a><br><a href="#" class="govuk-button govuk-button-red govuk-button-small">Reject</a>'
-                    }
-                ]
-            ]
-        }) }}
+        <table class="govuk-table internal-table query-table">
+            
+            <caption class="govuk-table__caption">Queries</caption>
+            
+            
+            <thead class="govuk-table__head">
+                <tr class="govuk-table__row">
+                
+                <th class="govuk-table__header" scope="col"><span class="no-wrap">Query</span></th>
+                
+                <th class="govuk-table__header" scope="col"><span class="no-wrap">Explanation</span></th>
+                
+                <th class="govuk-table__header width-medium" scope="col"><span class="no-wrap">Accepting guide</span></th>
+                
+                <th class="govuk-table__header" scope="col"><span class="no-wrap">Actions</span></th>
+                
+                </tr>
+            </thead>
+            
+            <tbody class="govuk-table__body">
+
+                {% for query in queries %}
+                    {% set consolidatedQuery = false %}
+                    <tr class="govuk-table__row">
+                        <th class="govuk-table__header" scope="row">
+                            <h3 class="govuk-heading-m" style="margin-bottom: 5px;">
+                                {{ query['id'] }}
+                            </h3>
+                            {% if query['type'] == 'pupil' %}
+                            <a href="single-query" class="no-wrap type-tag {{ query['type'] }}"  data-name="selected-query" data-value="{{ loop.index }}">
+                                {% if query['pupils'] | length != 1 %}
+                                    {{ query['pupils'] | length }} pupils
+                                    {% set consolidatedQuery = true %}
+                                {% else %}
+                                    1 pupil
+                                {% endif %}
+                            </a>
+                            {% else %}
+                                <span class="type-tag {{ query['type'] }}">{{ query['type'] | titleCase }}</span>
+                            {% endif %}
+                            <br>
+                            {{ query['description'] }}
+                        </th>
+
+                        <td class="govuk-table__cell">
+                            {% for note in query['notes'] %}
+                            <div class="note {{ note.type }}">
+                                <span class="title">{{ 'Approved ' if note.type == 'approval' }}{{ 'Rejected ' if note.type == 'reply' }}{{ note.date }}</span>
+                                {{ note.text }}
+                            </div>
+                            {% endfor -%}
+                        </td>
+
+                        <td class="govuk-table__cell width-medium">
+                            {{ query.guide }}
+                        </td>
+
+                        <td class="govuk-table__cell">
+                            <a href="overview" data-name="schools[{{schoolIndex}}]['queries'][{{loop.index - 1}}]['handled']" data-value="true" class="govuk-button govuk-button-small">Approve{{ ' all' if consolidatedQuery }}</a>
+                            <!--TRYING TO FIX DATA ERROR-->
+                            <form action="overview">
+                                <input type="hidden" name="schools[{{schoolIndex}}]['queries'][{{loop.index - 1}}]['handled']" value="true">
+                                {{ govukButton({
+                                    html: 'Approve'
+                                }) }}
+                            </form>
+                            <!--TRYING TO FIX DATA ERROR-->
+                            <br>
+                            <a href="#" class="govuk-button govuk-button-red govuk-button-small" id="rejectPrompt">Reject{{ ' all' if consolidatedQuery }}</a><br>
+                            {% if query['type'] == 'pupil' %}
+                            <a href="single-query" data-name="selected-query" data-value="{{ loop.index }}" class="govuk-button govuk-button-blue govuk-button-small">View record{{ 's' if consolidatedQuery }}</a>
+                            {% endif %}
+                        </td>
+
+                    </tr>
+
+                {% endfor -%}
+                
+            </tbody>
+        </table>
 
     </div>
 

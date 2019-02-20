@@ -278,7 +278,8 @@ a.type-tag,
 		color: govuk-colour('green');
 		background-color: rgba(govuk-colour('green'), 0.025);
 	}
-	&.term {
+	&.term,
+	&.term-on-term {
 		border-color: govuk-colour('pink');
 		color: govuk-colour('pink');
 		background-color: rgba(govuk-colour('pink'), 0.025);

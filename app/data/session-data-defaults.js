@@ -22,32 +22,43 @@ module.exports = {
 
 	schools: [
 		{
-			name: 'fleethams',
+			name: 'Feetham’s High School',
 			LAESTAB: '456/3204',
 			queries: [
 				{
 					id: '2502',
 					type: 'pupil',
+					handled: 'false',
 					description:
 						'Zero attendance sessions possible recorded for pupil on roll. Pupil should only be recorded with zero sessions possible if dually registered and spent all of the previous term for which attendance data is being collected at other registration.',
 					guide:
 						'Confirmation is not acceptable. Acceptable note entry ‘pupil is dually registered and though did not attend this establishment in the previous term, they remain on roll’.',
 					notes: [
 						{
-							sender: 'school',
+							type: 'school',
 							text:
 								'The pupil is dually registered and did not attend school this term.',
 							date: '26 January 2019 at 9:43'
 						},
 						{
-							sender: 'dfe',
+							type: 'reply',
 							text: 'It is not clear if this refers to all pupils.',
 							date: '26 January 2019 at 15:43'
 						},
 						{
-							sender: 'school',
+							type: 'school',
 							text: 'Yes, this applies to all 3 pupils.',
 							date: '27 January 2019 at 8:23'
+						},
+						{
+							type: 'approval',
+							date: '27 January 2019 at 09:32'
+						},
+						{
+							type: 'reply',
+							text:
+								'This should not have been approved, we need an explanation as to why.',
+							date: '27 January 2019 at 11:45'
 						}
 					],
 					pupils: [
@@ -79,6 +90,69 @@ module.exports = {
 							firstname: 'Karissa',
 							UPN: 'W304332222312A',
 							dob: '4 June 2013'
+						}
+					]
+				},
+				{
+					id: '2502',
+					type: 'pupil',
+					handled: 'false',
+					description:
+						'Zero attendance sessions possible recorded for pupil on roll. Pupil should only be recorded with zero sessions possible if dually registered and spent all of the previous term for which attendance data is being collected at other registration.',
+					guide:
+						'Confirmation is not acceptable. Acceptable note entry ‘pupil is dually registered and though did not attend this establishment in the previous term, they remain on roll’.',
+					notes: [
+						{
+							type: 'school',
+							text:
+								'Pupil was added to this term by mistake, will be off-role on next census.',
+							date: '26 January 2019 at 9:45'
+						}
+					]
+				},
+				{
+					id: '2695',
+					type: 'school',
+					handled: 'false',
+					description:
+						'90% or more of infant pupils have free school meal eligibility.',
+					guide:
+						'Confirmation is not acceptable. A statement must be included that these infant pupils also meet the FSM criteria and that they have not been recorded as FSM due to receipt of UiFSM. Due to pupil premium funding this is to ensure that schools have not made an error.',
+					notes: [
+						{
+							type: 'school',
+							text: 'The school is in an area of high unemployment.',
+							date: '26 January 2019 at 9:51'
+						}
+					]
+				},
+				{
+					id: '2740',
+					type: 'school',
+					handled: 'false',
+					description: 'Learning start date seems too early.',
+					guide: 'Confirmation that the information is correct',
+					notes: [
+						{
+							type: 'school',
+							text: 'Early start date agreed by governors.',
+							date: '26 January 2019 at 10:03'
+						}
+					]
+				},
+				{
+					id: 'TonT1C',
+					type: 'term-on-term',
+					handled: 'false',
+					description:
+						'There are significantly fewer pupils than last collection. A reason must be provided for this decrease.',
+					guide:
+						'A reason will sought if there is significant decrease of pupils. ',
+					notes: [
+						{
+							type: 'school',
+							text: 'A new school opened close by.',
+							date: '26 January 2019 at 11:00'
 						}
 					]
 				}
