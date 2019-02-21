@@ -342,9 +342,6 @@ if (useV6) {
 
 // Strip .html and .htm if provided
 app.get(/\.html?$/i, function(req, res) {
-	for (var key in req.query) {
-		req.session.data[key] = decodeURI(req.query[key])
-	}
 	var path = req.path
 	var parts = path.split('.')
 	parts.pop()

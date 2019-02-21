@@ -135,8 +135,9 @@
 
                 {% for query in queries %}
                     {% set consolidatedQuery = false %}
+                    {% if query['handled'] == 'false' %}
                     <tr class="govuk-table__row">
-                        <th class="govuk-table__header" scope="row">
+                        <th class="govuk-table__header query-description" scope="row">
                             <h3 class="govuk-heading-m" style="margin-bottom: 5px;">
                                 {{ query['id'] }}
                             </h3>
@@ -153,14 +154,15 @@
                                 <span class="type-tag {{ query['type'] }}">{{ query['type'] | titleCase }}</span>
                             {% endif %}
                             <br>
-                            {{ query['description'] }}
+                            <p>{{ query['description'] }}</p>
                         </th>
 
-                        <td class="govuk-table__cell">
+                        <td class="govuk-table__cell notes">
                             {% for note in query['notes'] %}
                             <div class="note {{ note.type }}">
                                 <span class="title">{{ 'Approved ' if note.type == 'approval' }}{{ 'Rejected ' if note.type == 'reply' }}{{ note.date }}</span>
-                                {{ note.text }}
+                                {{ note.text }}<br>
+                                <a href="#" style="display: inline-block; margin-top: 5px;">{{note.author}}</a>
                             </div>
                             {% endfor -%}
                         </td>
@@ -170,23 +172,17 @@
                         </td>
 
                         <td class="govuk-table__cell">
-                            <a href="overview" data-name="schools[{{schoolIndex}}]['queries'][{{loop.index - 1}}]['handled']" data-value="true" class="govuk-button govuk-button-small">Approve{{ ' all' if consolidatedQuery }}</a>
-                            <!--TRYING TO FIX DATA ERROR-->
-                            <form action="overview">
-                                <input type="hidden" name="schools[{{schoolIndex}}]['queries'][{{loop.index - 1}}]['handled']" value="true">
-                                {{ govukButton({
-                                    html: 'Approve'
-                                }) }}
-                            </form>
-                            <!--TRYING TO FIX DATA ERROR-->
+                            <a href="overview" data-name=":set:" data-value="schools[{{schoolIndex}}].queries[{{loop.index - 1}}].handled=true" class="govuk-button govuk-button-small">Approve{{ ' all' if consolidatedQuery }}</a>
+                            
                             <br>
-                            <a href="#" class="govuk-button govuk-button-red govuk-button-small" id="rejectPrompt">Reject{{ ' all' if consolidatedQuery }}</a><br>
+                            <button type="button" class="govuk-button govuk-button-red govuk-button-small open-dialog" id="rejectPrompt">Reject{{ ' all' if consolidatedQuery }}</button><br>
                             {% if query['type'] == 'pupil' %}
                             <a href="single-query" data-name="selected-query" data-value="{{ loop.index }}" class="govuk-button govuk-button-blue govuk-button-small">View record{{ 's' if consolidatedQuery }}</a>
                             {% endif %}
                         </td>
 
                     </tr>
+                    {% endif %}
 
                 {% endfor -%}
                 
@@ -196,5 +192,77 @@
     </div>
 
 </div>
+
+
+<div class="dialog" role="dialog" aria-labelledby="dialog-title" aria-describedby="dialog-description">
+            
+    <div class="query-description"></div>
+    <div class="notes"></div>
+    {% set responseHTML %}
+        {{ govukTextarea({
+            id: 'reject-reason',
+            name: 'reject-reason',
+            value: data['reject-reason'] if data['reject-reason'] else '',
+            label: {
+                text: 'Response'
+            }
+        }) }}
+    {% endset -%}
+
+    <form class="internal-form" action="overview">
+        {{ govukRadios({
+            idPrefix: 'reject-response',
+            name: 'reject-response',
+            fieldset: {
+                legend: {
+                    text: 'Note to send to school',
+                    isPageHeading: true,
+                    classes: 'govuk-fieldset__legend--m govuk-visually-hidden'
+                }
+            },
+            items: [
+                {
+                    text: '“You must confirm that the information is correct.”',
+                    value: 'You must confirm that the information is correct.',
+                    checked: true
+                },
+                {
+                text: '“Please provide more information.”',
+                    value: 'Please provide more information.'
+                },
+                {
+                    text: 'Custom response',
+                    value: 'custom',
+                    conditional: {
+                        html: responseHTML
+                    }
+                }
+            ]
+        }) }}
+        {{ govukButton({
+            html: 'Save response',
+            classes: 'send'
+        }) }}
+    </form>
+    <p>
+        <a href="#" class="close-dialog">Cancel</a>
+    </p>
+        
+</div>
+
+<div class="dialog-overlay" tabindex="-1"></div>
+
+
+{% endblock %}
+
+{% block pageScripts %}
+
+<script>
+    var navDialogEl = document.querySelector('.dialog');
+    var dialogOverlay = document.querySelector('.dialog-overlay');
+    
+    var myDialog = new Dialog(navDialogEl, dialogOverlay);
+    myDialog.addEventListeners('.open-dialog', '.close-dialog');
+</script>
 
 {% endblock %}

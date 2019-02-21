@@ -36,26 +36,31 @@ module.exports = {
 					notes: [
 						{
 							type: 'school',
+							author: 'Nilda Roger',
 							text:
 								'The pupil is dually registered and did not attend school this term.',
 							date: '26 January 2019 at 9:43'
 						},
 						{
 							type: 'reply',
+							author: 'Shantell Heister',
 							text: 'It is not clear if this refers to all pupils.',
 							date: '26 January 2019 at 15:43'
 						},
 						{
 							type: 'school',
+							author: 'Lonnie Marbury',
 							text: 'Yes, this applies to all 3 pupils.',
 							date: '27 January 2019 at 8:23'
 						},
 						{
 							type: 'approval',
+							author: 'Alexandra Moon',
 							date: '27 January 2019 at 09:32'
 						},
 						{
 							type: 'reply',
+							author: 'Carisa Sipple',
 							text:
 								'This should not have been approved, we need an explanation as to why.',
 							date: '27 January 2019 at 11:45'
@@ -104,6 +109,7 @@ module.exports = {
 					notes: [
 						{
 							type: 'school',
+							author: 'Elden Brown',
 							text:
 								'Pupil was added to this term by mistake, will be off-role on next census.',
 							date: '26 January 2019 at 9:45'
@@ -121,6 +127,7 @@ module.exports = {
 					notes: [
 						{
 							type: 'school',
+							author: 'Velva Panton',
 							text: 'The school is in an area of high unemployment.',
 							date: '26 January 2019 at 9:51'
 						}
@@ -135,6 +142,7 @@ module.exports = {
 					notes: [
 						{
 							type: 'school',
+							author: 'Lilian Mahi',
 							text: 'Early start date agreed by governors.',
 							date: '26 January 2019 at 10:03'
 						}
@@ -151,6 +159,7 @@ module.exports = {
 					notes: [
 						{
 							type: 'school',
+							author: 'Alyce Belden',
 							text: 'A new school opened close by.',
 							date: '26 January 2019 at 11:00'
 						}
