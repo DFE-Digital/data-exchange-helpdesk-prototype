@@ -106,6 +106,13 @@ module.exports = {
 						'Zero attendance sessions possible recorded for pupil on roll. Pupil should only be recorded with zero sessions possible if dually registered and spent all of the previous term for which attendance data is being collected at other registration.',
 					guide:
 						'Confirmation is not acceptable. Acceptable note entry ‘pupil is dually registered and though did not attend this establishment in the previous term, they remain on roll’.',
+					pupils: [
+						{
+							surname: 'CAIN',
+							firstname: 'Jaylahs',
+							UPN: 'W30433221895A'
+						}
+					],
 					notes: [
 						{
 							type: 'school',
