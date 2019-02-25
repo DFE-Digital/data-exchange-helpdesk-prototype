@@ -20,15 +20,19 @@ Example usage:
 module.exports = {
 	// Insert values here
 
+	'selected-school': 0,
+
 	schools: [
 		{
 			name: 'Feetham’s High School',
 			LAESTAB: '456/3204',
 			queries: [
 				{
+					ref: 0,
 					id: '2502',
 					type: 'pupil',
 					handled: 'false',
+					response: '',
 					description:
 						'Zero attendance sessions possible recorded for pupil on roll. Pupil should only be recorded with zero sessions possible if dually registered and spent all of the previous term for which attendance data is being collected at other registration.',
 					guide:
@@ -52,18 +56,6 @@ module.exports = {
 							author: 'Lonnie Marbury',
 							text: 'Yes, this applies to all 3 pupils.',
 							date: '27 January 2019 at 8:23'
-						},
-						{
-							type: 'approval',
-							author: 'Alexandra Moon',
-							date: '27 January 2019 at 09:32'
-						},
-						{
-							type: 'reply',
-							author: 'Carisa Sipple',
-							text:
-								'This should not have been approved, we need an explanation as to why.',
-							date: '27 January 2019 at 11:45'
 						}
 					],
 					pupils: [
@@ -99,9 +91,11 @@ module.exports = {
 					]
 				},
 				{
+					ref: 1,
 					id: '2502',
 					type: 'pupil',
 					handled: 'false',
+					response: '',
 					description:
 						'Zero attendance sessions possible recorded for pupil on roll. Pupil should only be recorded with zero sessions possible if dually registered and spent all of the previous term for which attendance data is being collected at other registration.',
 					guide:
@@ -124,9 +118,11 @@ module.exports = {
 					]
 				},
 				{
+					ref: 2,
 					id: '2695',
 					type: 'school',
 					handled: 'false',
+					response: '',
 					description:
 						'90% or more of infant pupils have free school meal eligibility.',
 					guide:
@@ -141,9 +137,11 @@ module.exports = {
 					]
 				},
 				{
+					ref: 3,
 					id: '2740',
 					type: 'school',
 					handled: 'false',
+					response: '',
 					description: 'Learning start date seems too early.',
 					guide: 'Confirmation that the information is correct',
 					notes: [
@@ -156,9 +154,11 @@ module.exports = {
 					]
 				},
 				{
+					ref: 4,
 					id: 'TonT1C',
 					type: 'term-on-term',
 					handled: 'false',
+					response: '',
 					description:
 						'There are significantly fewer pupils than last collection. A reason must be provided for this decrease.',
 					guide:
@@ -169,6 +169,71 @@ module.exports = {
 							author: 'Alyce Belden',
 							text: 'A new school opened close by.',
 							date: '26 January 2019 at 11:00'
+						}
+					]
+				},
+				{
+					ref: 5,
+					id: '1633',
+					type: 'pupil',
+					handled: 'false',
+					response: '',
+					description:
+						'Pupil has an exemption for English GCSE funding due to learning difficulties but does not have  an education, health and care plan (EHCP).',
+					guide:
+						'As this impacts on funding a reason will be sought why a student who does not have an EHC plan would have a funding exemption which states the student has a learning disability which prevents them from studying the qualification',
+					pupils: [
+						{
+							surname: 'CAIN',
+							firstname: 'Jaylahs',
+							UPN: 'W30433221895A'
+						}
+					],
+					notes: [
+						{
+							type: 'school',
+							author: 'Mylo Deacon',
+							text:
+								'Special relief agreed by LA, authorised by Arnold Calderon.',
+							date: '26 January 2019 at 11:31'
+						}
+					]
+				},
+				{
+					ref: 6,
+					id: '1753',
+					type: 'pupil',
+					handled: 'false',
+					response: '',
+					description:
+						'Percentage of pupils in NC Year 7 with periods of free school meal eligibility is high (greater than 50%)',
+					guide:
+						"Schools will be required to specifically confirm that the FSM information is correct for the year group.  Acceptable note entry 'The school has confirmed that they do have more than 50% of 'Year 7' pupils who are entitled to a FSM'.",
+					notes: [
+						{
+							type: 'school',
+							author: 'Theresa Knight',
+							text: 'This is correct.',
+							date: '26 January 2019 at 11:22'
+						}
+					]
+				},
+				{
+					ref: 7,
+					id: '1850',
+					type: 'pupil',
+					handled: 'false',
+					response: '',
+					description:
+						'Percentage of pupils where language has not been obtained is high (greater than 10%)',
+					guide:
+						'Confirmation that information is correct is acceptable, however, additional information would be helpful i.e school still awaiting response from parents.',
+					notes: [
+						{
+							type: 'school',
+							author: 'Theresa Knight',
+							text: 'We’re waiting on hearing back from the pupil’s parents.',
+							date: '26 January 2019 at 11:22'
 						}
 					]
 				}

@@ -110,6 +110,20 @@
 
 <div class="govuk-grid-row">
 
+    {% if pendingCount == 0 %}
+
+    <div class="govuk-grid-column-two-thirds">
+        <h2 class="govuk-heading-l">All the queries have a response</h1>
+        <p>You can <a href="handled">review the responses</a>.</p>
+        {{ govukButton({
+            text: 'Send to school’s MIS',
+            href: '#',
+            classes: 'govuk-button--start'
+        }) }}
+    </div>
+
+    {% else %}
+
     <div class="govuk-grid-column-full">
 
         <table class="govuk-table internal-table query-table">
@@ -133,7 +147,7 @@
             
             <tbody class="govuk-table__body">
 
-                {% for query in queries %}
+                {% for query in queries | sort(false, true, 'id') %}
                     {% set consolidatedQuery = false %}
                     {% if query['handled'] == 'false' %}
                     <tr class="govuk-table__row">
@@ -142,14 +156,18 @@
                                 {{ query['id'] }}
                             </h3>
                             {% if query['type'] == 'pupil' %}
-                            <a href="single-query" class="no-wrap type-tag {{ query['type'] }}"  data-name="selected-query" data-value="{{ loop.index }}">
-                                {% if query['pupils'] | length != 1 %}
-                                    {{ query['pupils'] | length }} pupils
-                                    {% set consolidatedQuery = true %}
+                                {% if query['pupils'] | length == 0 %}
+                                    <span class="type-tag {{ query['type'] }}">{{ query['type'] | titleCase }} query</span>
                                 {% else %}
-                                    1 pupil
+                                <a href="single-query" class="no-wrap type-tag {{ query['type'] }}"  data-name="selected-query" data-value="{{ loop.index }}">
+                                    {% if query['pupils'] | length != 1 %}
+                                        {{ query['pupils'] | length }} pupils
+                                        {% set consolidatedQuery = true %}
+                                    {% else %}
+                                        1 pupil
+                                    {% endif %}
+                                </a>
                                 {% endif %}
-                            </a>
                             {% else %}
                                 <span class="type-tag {{ query['type'] }}">{{ query['type'] | titleCase }}</span>
                             {% endif %}
@@ -164,7 +182,7 @@
                                 {{ note.text }}
                             </div>
                             {% endfor -%}
-                            <input type="hidden" class="new-note-location" value="schools[{{schoolIndex}}].queries[{{loop.index - 1}}].notes[{{ query['notes'] | length }}]">
+                            <div class="query-index" style="display: none;">{{query.ref}}</div>
                         </td>
 
                         <td class="govuk-table__cell width-medium">
@@ -172,11 +190,11 @@
                         </td>
 
                         <td class="govuk-table__cell">
-                            <a href="overview" data-name=":set:" data-value="schools[{{schoolIndex}}].queries[{{loop.index - 1}}].handled=true" class="govuk-button govuk-button-small approveButton">Approve{{ ' all' if consolidatedQuery }}</a>
+                            <a href="/handle-query?selected-query={{query.ref}}&response=approved" class="govuk-button govuk-button-small approveButton">Approve{{ ' all' if consolidatedQuery }}</a>
                             
                             <br>
                             <button type="button" class="govuk-button govuk-button-red govuk-button-small open-dialog">Reject{{ ' all' if consolidatedQuery }}</button><br>
-                            {% if query['type'] == 'pupil' %}
+                            {% if query['type'] == 'pupil' and query['pupils'] | length != 0 %}
                             <a href="single-query" data-name="selected-query" data-value="{{ loop.index }}" class="govuk-button govuk-button-blue govuk-button-small">View record{{ 's' if consolidatedQuery }}</a>
                             {% endif %}
                         </td>
@@ -190,6 +208,8 @@
         </table>
 
     </div>
+
+    {% endif %}
 
 </div>
 
@@ -209,7 +229,7 @@
         }) }}
     {% endset -%}
 
-    <form class="internal-form" action="overview">
+    <form class="internal-form" action="/handle-query">
         {{ govukRadios({
             idPrefix: 'reject-response',
             name: 'reject-response',
@@ -238,8 +258,9 @@
                 }
             ]
         }) }}
-        <input type="hidden" id="newNote" name=":set:">
-        <input type="hidden" id="setHandled" name=":set:">
+        <input type="hidden" id="selectedQuery" name="selected-query">
+        <input type="hidden" id="responseNote" name="response-note" value="">
+        <input type="hidden" name="response" value="rejected">
         {{ govukButton({
             html: 'Save response',
             classes: 'send'
@@ -282,8 +303,7 @@
     })
     function updateNote(input) {
         newNoteValue = input
-        $('#newNote').val(newNoteLocation + '=' + newNoteValue)
-        $('#setHandled').val(handledLocation)
+        $('#responseNote').val(newNoteValue)
     }
 </script>
 
