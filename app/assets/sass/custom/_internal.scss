@@ -277,7 +277,7 @@ a.type-tag,
 	padding: 3px 5px 1px 5px;
 	margin-bottom: 5px;
 	text-decoration: none;
-	border: 1px solid govuk-colour('blue');
+	border: 1.5px solid govuk-colour('blue');
 	border-radius: 3px;
 	&.school {
 		border-color: govuk-colour('green');
@@ -328,9 +328,9 @@ a.type-tag,
 		width: 25px;
 	}
 	.govuk-radios__input + .govuk-radios__label::after {
-		top: 4.5px;
-		left: 4.5px;
-		border: 8px solid currentColor;
+		top: 6px;
+		left: 6px;
+		border: 7px solid currentColor;
 	}
 	.govuk-radios__conditional {
 		margin-left: 11px;

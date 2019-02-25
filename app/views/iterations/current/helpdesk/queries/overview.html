@@ -46,7 +46,7 @@
             items: [
                 {
                     text: pendingCount + ' queries' if pendingCount != 1 else '1 query',
-                    href: '',
+                    href: 'overview',
                     active: true
                 },
                 {
@@ -160,11 +160,11 @@
                         <td class="govuk-table__cell notes">
                             {% for note in query['notes'] %}
                             <div class="note {{ note.type }}">
-                                <span class="title">{{ 'Approved ' if note.type == 'approval' }}{{ 'Rejected ' if note.type == 'reply' }}{{ note.date }}</span>
-                                {{ note.text }}<br>
-                                <a href="#" style="display: inline-block; margin-top: 5px;">{{note.author}}</a>
+                                <span class="title">{{ 'Approved by ' if note.type == 'approval' }}{{ 'Rejected by ' if note.type == 'reply' }}{{ 'Note added by ' if note.type == 'school' }} {{ note.author }}<br>{{ note.date }}</span>
+                                {{ note.text }}
                             </div>
                             {% endfor -%}
+                            <input type="hidden" class="new-note-location" value="schools[{{schoolIndex}}].queries[{{loop.index - 1}}].notes[{{ query['notes'] | length }}]">
                         </td>
 
                         <td class="govuk-table__cell width-medium">
@@ -172,10 +172,10 @@
                         </td>
 
                         <td class="govuk-table__cell">
-                            <a href="overview" data-name=":set:" data-value="schools[{{schoolIndex}}].queries[{{loop.index - 1}}].handled=true" class="govuk-button govuk-button-small">Approve{{ ' all' if consolidatedQuery }}</a>
+                            <a href="overview" data-name=":set:" data-value="schools[{{schoolIndex}}].queries[{{loop.index - 1}}].handled=true" class="govuk-button govuk-button-small approveButton">Approve{{ ' all' if consolidatedQuery }}</a>
                             
                             <br>
-                            <button type="button" class="govuk-button govuk-button-red govuk-button-small open-dialog" id="rejectPrompt">Reject{{ ' all' if consolidatedQuery }}</button><br>
+                            <button type="button" class="govuk-button govuk-button-red govuk-button-small open-dialog">Reject{{ ' all' if consolidatedQuery }}</button><br>
                             {% if query['type'] == 'pupil' %}
                             <a href="single-query" data-name="selected-query" data-value="{{ loop.index }}" class="govuk-button govuk-button-blue govuk-button-small">View record{{ 's' if consolidatedQuery }}</a>
                             {% endif %}
@@ -223,8 +223,7 @@
             items: [
                 {
                     text: '“You must confirm that the information is correct.”',
-                    value: 'You must confirm that the information is correct.',
-                    checked: true
+                    value: 'You must confirm that the information is correct.'
                 },
                 {
                 text: '“Please provide more information.”',
@@ -239,6 +238,8 @@
                 }
             ]
         }) }}
+        <input type="hidden" id="newNote" name=":set:">
+        <input type="hidden" id="setHandled" name=":set:">
         {{ govukButton({
             html: 'Save response',
             classes: 'send'
@@ -263,6 +264,27 @@
     
     var myDialog = new Dialog(navDialogEl, dialogOverlay);
     myDialog.addEventListeners('.open-dialog', '.close-dialog');
+
+    $('.dialog input.govuk-radios__input').on('change', function() {
+        if ($(this).val() === 'custom') {
+            updateNote($('.dialog .govuk-textarea').val())
+            customNote = true
+        } else {
+            updateNote($(this).val())
+            customNote = false
+        }
+    })
+
+    $('.dialog .govuk-textarea').on('change', function() {
+        if (customNote) {
+            updateNote($('.dialog .govuk-textarea').val())
+        }
+    })
+    function updateNote(input) {
+        newNoteValue = input
+        $('#newNote').val(newNoteLocation + '=' + newNoteValue)
+        $('#setHandled').val(handledLocation)
+    }
 </script>
 
 {% endblock %}

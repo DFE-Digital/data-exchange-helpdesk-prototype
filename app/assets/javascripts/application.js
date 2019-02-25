@@ -11,6 +11,11 @@ if (window.console && window.console.info) {
 	window.console.info('GOV.UK Prototype Kit - do not use for production')
 }
 
+var newNoteLocation = ''
+var handledLocation = ''
+var newNoteValue = ''
+var customNote = false
+
 $(document).ready(function() {
 	window.GOVUKFrontend.initAll()
 
@@ -237,8 +242,11 @@ Dialog.prototype.addEventListeners = function(openDialogSel, closeDialogSel) {
 			var queryRow = $(this).closest('tr')
 			var queryDescription = queryRow.find('.query-description').html()
 			var notes = queryRow.find('td.notes').html()
+			handledLocation = queryRow.find('.approveButton').attr('data-value')
+			newNoteLocation = queryRow.find('.new-note-location').val()
 			$('.dialog .query-description').html(queryDescription)
 			$('.dialog .notes').html(notes)
+
 			Dialog.open()
 		})
 	}

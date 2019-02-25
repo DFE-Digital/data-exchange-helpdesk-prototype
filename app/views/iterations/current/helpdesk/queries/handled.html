@@ -33,15 +33,24 @@
 
     <div class="govuk-grid-column-full census-case-nav">
 
+        {% set handledCount = 0 %}
+        {% for query in queries %}
+            {% if query['handled'] == 'true' %}
+                {% set handledCount = handledCount + 1 %}
+            {% endif %}
+        {% endfor %}
+
+        {% set pendingCount = (queries | length) - handledCount %}
+
         {{ hmctsSubNavigation({
             label: 'Sub navigation',
             items: [
                 {
-                    text: '8 queries',
+                    text: pendingCount + ' queries' if pendingCount != 1 else '1 query',
                     href: 'overview'
                 },
                 {
-                    text: '2 actioned queries',
+                    text: handledCount + ' queries actioned' if handledCount != 1 else '1 query actioned',
                     href: 'handled',
                     active: true
                 },
@@ -59,7 +68,7 @@
                     classes: 'test'
                 }
             ]
-        }) }} 
+        }) }}  
         
     </div>
 
