@@ -26,6 +26,7 @@ module.exports = {
 		{
 			name: 'Feetham’s High School',
 			LAESTAB: '456/3204',
+			type: 'Academy',
 			queries: [
 				{
 					ref: 0,

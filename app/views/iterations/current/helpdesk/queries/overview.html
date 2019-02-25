@@ -14,7 +14,7 @@
 <div class="hmcts-identity-bar">
   <div class="hmcts-identity-bar__container">
     <div class="hmcts-identity-bar__details">
-        <span class="hmcts-identity-bar__title"><b>{{ schoolName }}</b> {{ laestab }}</span>
+        <span class="hmcts-identity-bar__title"><b>{{ schoolName }}</b> {{ laestab }} <strong class="govuk-!-padding-right-4"></strong>{{ govukTag({text: school.type}) }}</span>
     </div>
     <div style="float:right;">
         {{ govukButton({
