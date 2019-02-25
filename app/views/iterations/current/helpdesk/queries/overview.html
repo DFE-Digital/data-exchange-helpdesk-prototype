@@ -10,6 +10,15 @@
 {% set laestab = school['LAESTAB'] %}
 {% set queries = school['queries'] %}
 
+{% set handledCount = 0 %}
+{% for query in queries %}
+    {% if query['handled'] == 'true' %}
+        {% set handledCount = handledCount + 1 %}
+    {% endif %}
+{% endfor %}
+
+{% set pendingCount = (queries | length) - handledCount %}
+
 {% block postHeader %}
 <div class="hmcts-identity-bar">
   <div class="hmcts-identity-bar__container">
@@ -17,11 +26,19 @@
         <span class="hmcts-identity-bar__title"><b>{{ schoolName }}</b> {{ laestab }} <strong class="govuk-!-padding-right-4"></strong>{{ govukTag({text: school.type}) }}</span>
     </div>
     <div style="float:right;">
+        {% if pendingCount != 0 %}
         {{ govukButton({
             text: 'Return to work queue',
             href: '#',
             classes: 'hmcts-menu-item hmcts-button--secondary'
         }) }}
+        {% else %}
+        {{ govukButton({
+            text: 'Send responses to school',
+            href: '#',
+            classes: 'hmcts-menu-item'
+        }) }}
+        {% endif %}
     </div>
   </div>
 </div>
@@ -32,14 +49,6 @@
 <div class="govuk-grid-row">
 
     <div class="govuk-grid-column-full census-case-nav govuk-!-padding-bottom-5">
-        {% set handledCount = 0 %}
-        {% for query in queries %}
-            {% if query['handled'] == 'true' %}
-                {% set handledCount = handledCount + 1 %}
-            {% endif %}
-        {% endfor %}
-
-        {% set pendingCount = (queries | length) - handledCount %}
 
         {{ hmctsSubNavigation({
             label: 'Sub navigation',
@@ -72,6 +81,24 @@
     </div>
 
 </div>
+
+{% if pendingCount == 0 %}
+
+    <div class="govuk-grid-row">
+
+        <div class="govuk-grid-column-one-half">
+            <h2 class="govuk-heading-l">All queries have a response</h1>
+            <p>You can <a href="handled">review the responses</a>. Once the responses are sent the school can reply to rejected queries or amend data in their MIS.</p>
+            {{ govukButton({
+                text: 'Send responses to school',
+                href: '#',
+                classes: ''
+            }) }}
+        </div>
+
+    </div>
+
+{% else %}
 
 <div class="govuk-grid-row">
 
@@ -109,20 +136,6 @@
 </div>
 
 <div class="govuk-grid-row">
-
-    {% if pendingCount == 0 %}
-
-    <div class="govuk-grid-column-two-thirds">
-        <h2 class="govuk-heading-l">All the queries have a response</h1>
-        <p>You can <a href="handled">review the responses</a>.</p>
-        {{ govukButton({
-            text: 'Send to school’s MIS',
-            href: '#',
-            classes: 'govuk-button--start'
-        }) }}
-    </div>
-
-    {% else %}
 
     <div class="govuk-grid-column-full">
 
@@ -209,10 +222,9 @@
 
     </div>
 
-    {% endif %}
-
 </div>
 
+{% endif %}
 
 <div class="dialog" role="dialog" aria-labelledby="dialog-title" aria-describedby="dialog-description">
             
