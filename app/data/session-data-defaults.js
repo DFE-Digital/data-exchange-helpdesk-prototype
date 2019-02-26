@@ -63,7 +63,8 @@ module.exports = {
 						{
 							surname: 'CAIN',
 							firstname: 'Jaylahs',
-							UPN: 'W30433221895A'
+							UPN: 'W30433221895A',
+							dob: '23 August 2008'
 						},
 						{
 							surname: 'ARCHER',
@@ -105,7 +106,8 @@ module.exports = {
 						{
 							surname: 'CAIN',
 							firstname: 'Jaylahs',
-							UPN: 'W30433221895A'
+							UPN: 'W30433221895A',
+							dob: '2 April 2011'
 						}
 					],
 					notes: [
@@ -187,7 +189,8 @@ module.exports = {
 						{
 							surname: 'CAIN',
 							firstname: 'Jaylahs',
-							UPN: 'W30433221895A'
+							UPN: 'W30433221895A',
+							dob: '2 April 2011'
 						}
 					],
 					notes: [
@@ -235,6 +238,27 @@ module.exports = {
 							author: 'Theresa Knight',
 							text: 'We’re waiting on hearing back from the pupil’s parents.',
 							date: '26 January 2019 at 11:22'
+						}
+					]
+				},
+				{
+					ref: 8,
+					id: '1850',
+					type: 'pupil',
+					handled: 'true',
+					auto: 'true',
+					response: '',
+					handledOn: 1546300800,
+					description:
+						'Percentage of pupils with a new entry date seems high (greater than 50%)',
+					guide:
+						'Confirmation that the information has been confirmed by the school as being correct.  Acceptable note entry confirmed as correct.',
+					notes: [
+						{
+							type: 'school',
+							author: 'Theresa Knight',
+							text: 'Confirmed as correct',
+							date: '25 January 2019 at 11:22'
 						}
 					]
 				}

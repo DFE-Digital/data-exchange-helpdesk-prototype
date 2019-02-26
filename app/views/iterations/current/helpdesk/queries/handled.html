@@ -4,28 +4,45 @@
     Handled queries
 {% endblock %}
 
+{% set schoolIndex = data['selected-school'] %}
+{% set school = data['schools'][schoolIndex] %}
+{% set schoolName = school['name'] %}
+{% set laestab = school['LAESTAB'] %}
+{% set queries = school['queries'] %}
+
+{% set handledCount = 0 %}
+{% for query in queries %}
+    {% if query['handled'] == 'true' %}
+        {% set handledCount = handledCount + 1 %}
+    {% endif %}
+{% endfor %}
+
+{% set pendingCount = (queries | length) - handledCount %}
+
 {% block postHeader %}
 <div class="hmcts-identity-bar">
   <div class="hmcts-identity-bar__container">
     <div class="hmcts-identity-bar__details">
-        <span class="hmcts-identity-bar__title"><b>Feetham’s High School</b> 320/4930</span>
+        <span class="hmcts-identity-bar__title"><b>{{ schoolName }}</b> {{ laestab }} <strong class="govuk-!-padding-right-4"></strong>{{ govukTag({text: school.type}) }}</span>
     </div>
     <div style="float:right;">
+        {% if pendingCount != 0 %}
         {{ govukButton({
             text: 'Return to work queue',
             href: '#',
             classes: 'hmcts-menu-item hmcts-button--secondary'
         }) }}
+        {% else %}
+        {{ govukButton({
+            text: 'Send responses to school',
+            href: '#',
+            classes: 'hmcts-menu-item'
+        }) }}
+        {% endif %}
     </div>
   </div>
 </div>
 {% endblock %}
-
-{% set schoolIndex = 0 %}
-{% set school = data['schools'][schoolIndex] %}
-{% set schoolName = school['name'] %}
-{% set laestab = school['LAESTAB'] %}
-{% set queries = school['queries'] %}
 
 {% block content %}
 
@@ -33,12 +50,6 @@
 
     <div class="govuk-grid-column-full census-case-nav">
 
-        {% set handledCount = 0 %}
-        {% for query in queries %}
-            {% if query['handled'] == 'true' %}
-                {% set handledCount = handledCount + 1 %}
-            {% endif %}
-        {% endfor %}
 
         {% set pendingCount = (queries | length) - handledCount %}
 
@@ -134,30 +145,32 @@
 
                 {% for query in queries | sort(false, true, 'handledOn') | reverse %}
                     {% set consolidatedQuery = false %}
-                    {% if query['handled'] == 'true' %}
+                    {% if query.handled == 'true' %}
                     <tr class="govuk-table__row">
                         <th class="govuk-table__header query-description" scope="row">
                             <h3 class="govuk-heading-m" style="margin-bottom: 5px;">
-                                {{ query['id'] }}
+                                {{ query.id }}
                             </h3>
                             {% if query['type'] == 'pupil' %}
                             <a href="single-query" class="no-wrap type-tag {{ query['type'] }}"  data-name="selected-query" data-value="{{query.ref}}">
-                                {% if query['pupils'] | length != 1 %}
-                                    {{ query['pupils'] | length }} pupils
+                                {% if query.pupils | length == 0 %}
+                                    Pupil query
+                                {% elseif query.pupils | length != 1 %}
+                                    {{ query.pupils | length }} pupils
                                     {% set consolidatedQuery = true %}
                                 {% else %}
                                     1 pupil
                                 {% endif %}
                             </a>
                             {% else %}
-                                <span class="type-tag {{ query['type'] }}">{{ query['type'] | titleCase }}</span>
+                                <span class="type-tag {{ query.type }}">{{ query.type | titleCase }}</span>
                             {% endif %}
                             <br>
-                            <p>{{ query['description'] }}</p>
+                            <p>{{ query.description }}</p>
                         </th>
 
                         <td class="govuk-table__cell notes">
-                            {% for note in query['notes'] %}
+                            {% for note in query.notes %}
                             <div class="note {{ note.type }}">
                                 <span class="title">{{ 'Approved by ' if note.type == 'approval' }}{{ 'Rejected by ' if note.type == 'reply' }}{{ 'Note added by ' if note.type == 'school' }} {{ note.author }}<br>{{ note.date }}</span>
                                 {{ note.text }}
@@ -170,7 +183,12 @@
                             </div>
                             {% else %}
                             <div class="note approval">
+                                {% if query.auto == 'true' %}
+                                <span class="title">Automatic approval pending</span>
+                                {% else %}
                                 <span class="title">Approval pending</span>
+                                {% endif %}
+                                
                             </div>
                             {% endif %}
                         </td>
@@ -194,5 +212,19 @@
     </div>
 
 </div>
+
+<script>
+    $('#search-query').on('input', function() {
+        var value = $(this).val()
+        $('.query-description').each(function() {
+            var queryDesc = $(this).html()
+            if (!queryDesc.toLowerCase().includes(value.toLowerCase())) {
+                $(this).closest('tr').hide()
+            } else {
+                $(this).closest('tr').show()
+            }
+        })
+    })
+</script>
 
 {% endblock %}

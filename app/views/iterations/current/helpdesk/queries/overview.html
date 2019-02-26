@@ -4,7 +4,7 @@
     Queries
 {% endblock %}
 
-{% set schoolIndex = 0 %}
+{% set schoolIndex = data['selected-school'] %}
 {% set school = data['schools'][schoolIndex] %}
 {% set schoolName = school['name'] %}
 {% set laestab = school['LAESTAB'] %}
@@ -88,7 +88,7 @@
 
         <div class="govuk-grid-column-one-half">
             <h2 class="govuk-heading-l">All queries have a response</h1>
-            <p>You can <a href="handled">review the responses</a>. Once the responses are sent the school can reply to rejected queries or amend data in their MIS.</p>
+            <p>You can <a href="handled">review the responses</a> before they are sent. Once the responses are sent the school can reply to rejected queries or amend data in their MIS.</p>
             {{ govukButton({
                 text: 'Send responses to school',
                 href: '#',
@@ -185,7 +185,7 @@
                                 <span class="type-tag {{ query['type'] }}">{{ query['type'] | titleCase }}</span>
                             {% endif %}
                             <br>
-                            <p>{{ query['description'] }}</p>
+                            <p>{{ query.description }}</p>
                         </th>
 
                         <td class="govuk-table__cell notes">
@@ -208,7 +208,7 @@
                             <br>
                             <button type="button" class="govuk-button govuk-button-red govuk-button-small open-dialog">Reject{{ ' all' if consolidatedQuery }}</button><br>
                             {% if query['type'] == 'pupil' and query['pupils'] | length != 0 %}
-                            <a href="single-query" data-name="selected-query" data-value="{{ loop.index }}" class="govuk-button govuk-button-blue govuk-button-small">View record{{ 's' if consolidatedQuery }}</a>
+                            <a href="single-query" data-name="selected-query" data-value="{{ query.ref }}" class="govuk-button govuk-button-blue govuk-button-small">View record{{ 's' if consolidatedQuery }}</a>
                             {% endif %}
                         </td>
 
@@ -292,6 +292,19 @@
 {% block pageScripts %}
 
 <script>
+
+    $('#search-query').on('input', function() {
+        var value = $(this).val()
+        $('.query-description').each(function() {
+            var queryDesc = $(this).html()
+            if (!queryDesc.toLowerCase().includes(value.toLowerCase())) {
+                $(this).closest('tr').hide()
+            } else {
+                $(this).closest('tr').show()
+            }
+        })
+    })
+
     var navDialogEl = document.querySelector('.dialog');
     var dialogOverlay = document.querySelector('.dialog-overlay');
     
