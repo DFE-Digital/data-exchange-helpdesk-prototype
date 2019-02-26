@@ -294,13 +294,13 @@
 <script>
 
     $('#search-query').on('input', function() {
-        var value = $(this).val()
+        var value = $(this).val();
         $('.query-description').each(function() {
-            var queryDesc = $(this).html()
+            var queryDesc = $(this).html();
             if (!queryDesc.toLowerCase().includes(value.toLowerCase())) {
-                $(this).closest('tr').hide()
+                $(this).closest('tr').hide();
             } else {
-                $(this).closest('tr').show()
+                $(this).closest('tr').show();
             }
         })
     })
@@ -313,22 +313,22 @@
 
     $('.dialog input.govuk-radios__input').on('change', function() {
         if ($(this).val() === 'custom') {
-            updateNote($('.dialog .govuk-textarea').val())
-            customNote = true
+            updateNote($('.dialog .govuk-textarea').val());
+            customNote = true;
         } else {
-            updateNote($(this).val())
-            customNote = false
+            updateNote($(this).val());
+            customNote = false;
         }
     })
 
     $('.dialog .govuk-textarea').on('change', function() {
         if (customNote) {
-            updateNote($('.dialog .govuk-textarea').val())
+            updateNote($('.dialog .govuk-textarea').val());
         }
     })
     function updateNote(input) {
-        newNoteValue = input
-        $('#responseNote').val(newNoteValue)
+        newNoteValue = input;
+        $('#responseNote').val(newNoteValue);
     }
 </script>
 

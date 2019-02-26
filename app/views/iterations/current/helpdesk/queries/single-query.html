@@ -179,27 +179,27 @@
 
         <script>
             $('.govuk-table__head .table-checkbox-cell input[type=checkbox]').on('change', function() {
-                $(this).closest('table').find('.table-checkbox-cell input[type=checkbox]').prop('checked', $(this).prop('checked'))
-                $(this).closest('table').find('.govuk-table__body tr').removeClass('highlight-row')
+                $(this).closest('table').find('.table-checkbox-cell input[type=checkbox]').prop('checked', $(this).prop('checked'));
+                $(this).closest('table').find('.govuk-table__body tr').removeClass('highlight-row');
                 if ($(this).prop('checked')) {
-                    $(this).closest('table').find('.govuk-table__body tr').addClass('highlight-row')
+                    $(this).closest('table').find('.govuk-table__body tr').addClass('highlight-row');
                 }
                 validateSelected()
             })
             $('.govuk-table__body .table-checkbox-cell input[type=checkbox]').on('change', function() {
-                var row = $(this).closest('tr')
-                row.removeClass('highlight-row')
+                var row = $(this).closest('tr');
+                row.removeClass('highlight-row');
                 if ($(this).prop('checked')) {
-                    row.addClass('highlight-row')
+                    row.addClass('highlight-row');
                 }
-                validateSelected()
+                validateSelected();
             })
 
             function validateSelected() {
                 if ($('.govuk-table__body .table-checkbox-cell input[type=checkbox]:checked').length != 0) {
-                    $('.selected-button').removeClass('govuk-button--disabled')
+                    $('.selected-button').removeClass('govuk-button--disabled');
                 } else {
-                    $('.selected-button').addClass('govuk-button--disabled')
+                    $('.selected-button').addClass('govuk-button--disabled');
                 }
             }
         </script>
