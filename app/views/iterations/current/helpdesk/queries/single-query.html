@@ -101,11 +101,15 @@
 
     <div class="govuk-grid-column-full">
 
+        {% set isMultiple = query.pupils | length != 1 %}
+
         <table class="govuk-table">
-        <caption class="govuk-table__caption">Pupils relating to query {{ query.id }}</caption>
+        <caption class="govuk-table__caption">Pupil{{ 's' if isMultiple }} relating to query {{ query.id }}</caption>
         <thead class="govuk-table__head">
             <tr class="govuk-table__row">
+                {% if isMultiple %}
                 <th class="govuk-table__header table-checkbox-cell" scope="row"><input type="checkbox" id="select{{ loop.index }}"><label for="select{{ loop.index }}"></label></th>
+                {% endif %}
                 <th class="govuk-table__header" scope="col">UPN</th>
                 <th class="govuk-table__header" scope="col">Name</th>
                 <th class="govuk-table__header" scope="col">Date of birth</th>
@@ -114,7 +118,9 @@
         <tbody class="govuk-table__body">
             {% for pupil in query.pupils %}
             <tr class="govuk-table__row">
+                {% if isMultiple %}
                 <th class="govuk-table__header table-checkbox-cell" scope="row"><input type="checkbox" id="select{{ loop.index }}"><label for="select{{ loop.index }}"></label></th>
+                {% endif %}
                 <th class="govuk-table__header" scope="row">{{pupil.UPN}}</th>
                 <td class="govuk-table__cell">{{pupil.surname}}, {{pupil.firstname}}</td>
                 <td class="govuk-table__cell">{{pupil.dob}}</td>
@@ -122,6 +128,8 @@
             {% endfor -%}
         </tbody>
         </table>
+
+        {% if isMultiple %}
 
         {{ govukButton({
             text: 'Approve selected',
@@ -150,6 +158,22 @@
             href: '#',
             classes: 'govuk-button-red govuk-!-margin-left-2'
         }) }}
+
+        {% else %}
+
+        {{ govukButton({
+            text: 'Approve',
+            href: '#',
+            classes: ' '
+        }) }}
+
+        {{ govukButton({
+            text: 'Reject',
+            href: '#',
+            classes: 'govuk-button-red govuk-!-margin-left-2'
+        }) }}
+
+        {% endif %}
 
         </div>
 
