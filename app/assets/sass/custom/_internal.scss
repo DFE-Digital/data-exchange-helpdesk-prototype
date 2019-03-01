@@ -264,6 +264,10 @@
 		margin-right: 0;
 		margin-left: 20px;
 	}
+	.action & {
+		margin-right: 0;
+		margin-left: 0;
+	}
 }
 
 a.type-tag,
@@ -405,5 +409,11 @@ tr.highlight-row {
 			opacity: 0;
 			background: transparent;
 		}
+	}
+}
+
+.collector-table {
+	.govuk-button {
+		margin-bottom: 0;
 	}
 }

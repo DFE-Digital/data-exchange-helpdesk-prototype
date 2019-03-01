@@ -1,0 +1,99 @@
+{% extends 'layout_internal.html' %}
+
+{% block pageTitle %}
+    Workloads
+{% endblock %}
+
+
+{% block content %}
+
+<div class="govuk-grid-row">
+
+    <div class="govuk-grid-column-full">
+
+        <h2 class="govuk-heading-l">Manage collectors for spring census</h2>
+
+        {{ govukWarningText({
+            text: 'There are 19,732 unallocated schools',
+            iconFallbackText: 'There are 19,732 unallocated schools'
+        }) }}
+
+        {{ govukButton({
+            html: 'Allocate work'
+        }) }}
+
+        <table class="govuk-table internal-table collector-table">
+            
+            <caption class="govuk-table__caption">Collectors</caption>
+            
+            
+            <thead class="govuk-table__head">
+                <tr class="govuk-table__row">
+                
+                <th class="govuk-table__header" scope="col"><span class="no-wrap">Name</span></th>
+
+                <th class="govuk-table__header" scope="col"><span class="no-wrap">Work allocation</span></th>
+                
+                <th class="govuk-table__header" scope="col"><span class="no-wrap">Managed schools</span></th>
+                
+                <th class="govuk-table__header width-medium" scope="col"><span class="no-wrap">Academies</span></th>
+                
+                <th class="govuk-table__header width-medium" scope="col"><span class="no-wrap">Total schools</span></th>
+                
+                <th class="govuk-table__header" scope="col"><span class="no-wrap">Actions</span></th>
+                
+                </tr>
+            </thead>
+            
+            <tbody class="govuk-table__body">
+
+                {% for collector in data.collectors %}
+
+                <tr class="govuk-table__row">
+                        <th class="govuk-table__header" scope="row">
+                            {{ collector.name }}
+                        </th>
+                        <td class="govuk-table__cell">
+                            {{ collector.weighting | float * 100 if collector.weighting else '100' }}%
+                        </td>
+                        <td class="govuk-table__cell">
+                            {{ collector.laTotal | friendlyNumber }}
+                        </td>
+                        <td class="govuk-table__cell">
+                            {{ collector.academiesTotal | friendlyNumber }}
+                        </td>
+                        <td class="govuk-table__cell">
+                            {{ [collector.laTotal, collector.academiesTotal] | stringSum }}
+                        </td>
+                        <td class="govuk-table__cell">
+                            <button type="button" class="govuk-button govuk-button-blue govuk-button-small">
+                                Manage
+                            </button>
+                            <button type="button" class="govuk-button govuk-button-red govuk-button-small">
+                                Remove
+                            </button>
+                        </td>
+                        
+                </tr>
+
+                {% endfor -%}
+                
+            </tbody>
+        </table>
+        
+        {{ govukButton({
+            text: 'Add a new collector',
+            href: '#',
+            classes: ' ',
+            attributes: {
+                style: 'float: right;'
+            }
+        }) }}
+
+    </div>
+
+</div>
+
+
+
+{% endblock %}

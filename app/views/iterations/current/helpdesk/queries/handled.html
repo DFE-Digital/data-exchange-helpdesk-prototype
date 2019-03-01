@@ -132,11 +132,11 @@
                 
                 <th class="govuk-table__header" scope="col"><span class="no-wrap">Query</span></th>
                 
-                <th class="govuk-table__header" scope="col"><span class="no-wrap">Explanation</span></th>
+                <th class="govuk-table__header" scope="col"><span class="no-wrap">Notes</span></th>
                 
                 <th class="govuk-table__header width-medium" scope="col"><span class="no-wrap">Accepting guide</span></th>
                 
-                <th class="govuk-table__header" scope="col"><span class="no-wrap">Action</span></th>
+                <th class="govuk-table__header" scope="col"><span class="no-wrap">Saved response</span></th>
                 
                 </tr>
             </thead>
@@ -176,29 +176,29 @@
                                 {{ note.text }}
                             </div>
                             {% endfor -%}
-                            {% if query.approved == 'false' %}
-                            <div class="note reply">
-                                <span class="title">Rejection pending</span>
-                                {{ query.response }}
-                            </div>
-                            {% else %}
-                            <div class="note approval">
-                                {% if query.auto == 'true' %}
-                                <span class="title">Automatic approval pending</span>
-                                {% else %}
-                                <span class="title">Approval pending</span>
-                                {% endif %}
-                                
-                            </div>
-                            {% endif %}
                         </td>
 
                         <td class="govuk-table__cell width-medium">
                             {{ query.guide }}
                         </td>
 
-                        <td class="govuk-table__cell">
-                            <a href="/delete-response?selected-query={{query.ref}}" class="govuk-button govuk-button-small govuk-button-red">Undo response</a>
+                        <td class="govuk-table__cell action">
+                            {% if query.approved == 'false' %}
+                            <div class="note reply">
+                                <span class="title">Rejected by you</span>
+                                {{ query.response }}
+                            </div>
+                            {% else %}
+                            <div class="note approval">
+                                {% if query.auto == 'true' %}
+                                <span class="title">Automatically approved</span>
+                                {% else %}
+                                <span class="title">Approved by you</span>
+                                {% endif %}
+                                
+                            </div>
+                            {% endif %}
+                            <a href="/delete-response?selected-query={{query.ref}}" class="govuk-button govuk-button-small govuk-button-red">Delete response</a>
                         </td>
 
                     </tr>

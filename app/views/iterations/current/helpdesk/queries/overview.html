@@ -131,6 +131,8 @@
 
         <br>
 
+        {{ data.fakeNames.firstNames[2] }} {{ data.fakeNames.lastNames[9] }}
+
     </div>
 
 </div>
@@ -149,7 +151,7 @@
                 
                 <th class="govuk-table__header" scope="col"><span class="no-wrap">Query</span></th>
                 
-                <th class="govuk-table__header" scope="col"><span class="no-wrap">Explanation</span></th>
+                <th class="govuk-table__header" scope="col"><span class="no-wrap">Notes</span></th>
                 
                 <th class="govuk-table__header width-medium" scope="col"><span class="no-wrap">Accepting guide</span></th>
                 
@@ -172,7 +174,7 @@
                                 {% if query['pupils'] | length == 0 %}
                                     <span class="type-tag {{ query['type'] }}">{{ query['type'] | titleCase }} query</span>
                                 {% else %}
-                                <a href="single-query" class="no-wrap type-tag {{ query['type'] }}"  data-name="selected-query" data-value="{{ loop.index }}">
+                                <a href="single-query" class="no-wrap type-tag {{ query['type'] }}"  data-name="selected-query" data-value="{{ query.ref }}">
                                     {% if query['pupils'] | length != 1 %}
                                         {{ query['pupils'] | length }} pupils
                                         {% set consolidatedQuery = true %}
