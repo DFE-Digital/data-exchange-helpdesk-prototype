@@ -1,3 +1,5 @@
+const faker = require('faker')
+
 module.exports = function(env) {
 	/**
 	 * Instantiate object used to store the methods registered as a
@@ -5,6 +7,11 @@ module.exports = function(env) {
 	 * gov.uk core filters by creating filter methods of the same name.
 	 * @type {Object}
 	 */
+
+	const randomItemFrom = array => {
+		return array[Math.floor(Math.random() * array.length)]
+	}
+
 	var filters = {}
 
 	/* ------------------------------------------------------------------
@@ -139,6 +146,38 @@ module.exports = function(env) {
 
 	filters.debug = obj => {
 		return JSON.stringify(obj)
+	}
+
+	filters.getById = (array, str) => {
+		return array.find(obj => {
+			return obj.id.toString() === str
+		})
+	}
+
+	filters.randomSchool = _ => {
+		return (
+			faker.address.city() +
+			' ' +
+			randomItemFrom([
+				'High School',
+				'Primary School',
+				'Primary School',
+				'Primary School',
+				'Primary School',
+				'Community Primary School',
+				'Infants',
+				'Community School',
+				'Secondary School',
+				'Secondary School',
+				'Secondary School',
+				'Academy',
+				'Grammar School',
+				'Technical School',
+				'College',
+				'College',
+				'Institute'
+			])
+		)
 	}
 
 	/* ------------------------------------------------------------------

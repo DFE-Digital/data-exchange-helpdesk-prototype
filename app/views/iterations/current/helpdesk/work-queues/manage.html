@@ -11,22 +11,22 @@
 
     <div class="govuk-grid-column-full">
 
-        <h2 class="govuk-heading-l">Manage collectors for spring census</h2>
+        <h2 class="govuk-heading-l">Manage collectors for 2019 spring census</h2>
+
+        {% if not data.isAllocated %}
 
         {{ govukWarningText({
-            text: 'There are 19,732 unallocated schools',
-            iconFallbackText: 'There are 19,732 unallocated schools'
+            text: 'There are ' + data.totalNumberOfSchools | friendlyNumber + ' unallocated schools',
+            iconFallbackText: 'alert'
         }) }}
 
         {{ govukButton({
-            html: 'Allocate work'
-        }) }}
-
-        {{ govukButton({
-            text: 'Allocate schools to queues',
+            text: 'Allocate schools to work queues',
             href: 'allocate',
             classes: ' '
         }) }}
+
+        {% endif %}
 
         <table class="govuk-table internal-table collector-table">
             
@@ -38,13 +38,15 @@
                 
                 <th class="govuk-table__header" scope="col"><span class="no-wrap">Name</span></th>
 
-                <th class="govuk-table__header" scope="col"><span class="no-wrap">Work allocation</span></th>
+                <th class="govuk-table__header numeric" scope="col"><span class="no-wrap">Hours per week</span></th>
+
+                <th class="govuk-table__header numeric" scope="col"><span class="no-wrap">Local authorities</span></th>
                 
-                <th class="govuk-table__header" scope="col"><span class="no-wrap">Managed schools</span></th>
+                <th class="govuk-table__header numeric" scope="col"><span class="no-wrap">Managed schools</span></th>
                 
-                <th class="govuk-table__header width-medium" scope="col"><span class="no-wrap">Academies</span></th>
+                <th class="govuk-table__header width-medium numeric" scope="col"><span class="no-wrap">Academies</span></th>
                 
-                <th class="govuk-table__header width-medium" scope="col"><span class="no-wrap">Total schools</span></th>
+                <th class="govuk-table__header width-medium numeric" scope="col"><span class="no-wrap">Total schools</span></th>
                 
                 <th class="govuk-table__header" scope="col"><span class="no-wrap">Actions</span></th>
                 
@@ -57,24 +59,27 @@
 
                 <tr class="govuk-table__row">
                         <th class="govuk-table__header" scope="row">
-                            {{ collector.name }}
+                            {{ collector.firstName }} {{ collector.lastName }}
                         </th>
-                        <td class="govuk-table__cell">
-                            {{ collector.weighting | float * 100 if collector.weighting else '100' }}%
+                        <td class="govuk-table__cell numeric">
+                            {{ (collector.weighting | float * 37 if collector.weighting else '37') | round }}
                         </td>
-                        <td class="govuk-table__cell">
+                        <td class="govuk-table__cell numeric">
+                            {{ (collector.las | length) | friendlyNumber  }}
+                        </td>
+                        <td class="govuk-table__cell numeric">
                             {{ collector.laTotal | friendlyNumber }}
                         </td>
-                        <td class="govuk-table__cell">
+                        <td class="govuk-table__cell numeric">
                             {{ collector.academiesTotal | friendlyNumber }}
                         </td>
-                        <td class="govuk-table__cell">
+                        <td class="govuk-table__cell numeric">
                             {{ [collector.laTotal, collector.academiesTotal] | stringSum }}
                         </td>
                         <td class="govuk-table__cell">
-                            <button type="button" class="govuk-button govuk-button-blue govuk-button-small">
+                            <a href="single-queue" data-name="selected-user" data-value="{{ collector.id }}" class="govuk-button govuk-button-blue govuk-button-small">
                                 Manage
-                            </button>
+                            </a>
                             <button type="button" class="govuk-button govuk-button-red govuk-button-small">
                                 Remove
                             </button>

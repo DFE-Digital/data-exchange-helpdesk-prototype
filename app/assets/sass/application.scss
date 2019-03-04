@@ -88,3 +88,27 @@ a[href='#'] {
 .govuk-button {
 	white-space: nowrap;
 }
+
+.govuk-c-loader {
+	text-align: center;
+	position: relative;
+	line-height: 0;
+	&:focus {
+		outline: 3px solid orange;
+	}
+
+	&__spinner {
+		z-index: 2000000000;
+	}
+
+	&__label {
+		display: block;
+		line-height: 1em;
+		margin-top: -0.5em;
+		padding-bottom: 1.5em;
+	}
+}
+
+.numeric {
+	text-align: right;
+}
