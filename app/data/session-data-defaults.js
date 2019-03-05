@@ -892,8 +892,35 @@ localAuthorities.forEach(la => {
 	totalLASchools += la.schoolCount
 })
 
-const totalNumberOfSchools = 29932
+const totalNumberOfSchools = 21321
 const academiesTotal = totalNumberOfSchools - totalLASchools
+
+const numberToMonthString = input => {
+	const months = [
+		'January',
+		'February',
+		'March',
+		'April',
+		'May',
+		'June',
+		'July',
+		'August',
+		'September',
+		'October',
+		'November',
+		'December'
+	]
+	return months[Number(input)]
+}
+
+const getRandomDate = (minDaysFromNow, maxDaysFromNow) => {
+	const secondsInADay = 24 * 60 * 60
+	const now = new Date().getTime()
+	const maxTime = now - minDaysFromNow * secondsInADay
+	const minTime = now - maxDaysFromNow * secondsInADay
+	const randomUNIXSeconds = Math.random() * (maxTime * 1000 - minTime * 1000)
+	return minTime + randomUNIXSeconds
+}
 
 module.exports = {
 	// Insert values here
@@ -938,19 +965,19 @@ module.exports = {
 							author: randomName(),
 							text:
 								'The pupil is dually registered and did not attend school this term.',
-							date: '26 January 2019 at 9:43'
+							date: getRandomDate(7, 8)
 						},
 						{
 							type: 'reply',
 							author: randomName(),
 							text: 'It is not clear if this refers to all pupils.',
-							date: '26 January 2019 at 15:43'
+							date: getRandomDate(5, 6)
 						},
 						{
 							type: 'school',
 							author: randomName(),
 							text: 'Yes, this applies to all 3 pupils.',
-							date: '27 January 2019 at 8:23'
+							date: getRandomDate(2, 4)
 						}
 					],
 					pupils: createPupils(14)
@@ -979,7 +1006,7 @@ module.exports = {
 							author: randomName(),
 							text:
 								'Pupil was added to this term by mistake, will be off-role on next census.',
-							date: '26 January 2019 at 9:45'
+							date: getRandomDate(2, 4)
 						}
 					]
 				},
@@ -998,7 +1025,7 @@ module.exports = {
 							type: 'school',
 							author: randomName(),
 							text: 'The school is in an area of high unemployment.',
-							date: '26 January 2019 at 9:51'
+							date: getRandomDate(2, 4)
 						}
 					]
 				},
@@ -1015,7 +1042,7 @@ module.exports = {
 							type: 'school',
 							author: randomName(),
 							text: 'Early start date agreed by governors.',
-							date: '26 January 2019 at 10:03'
+							date: getRandomDate(2, 4)
 						}
 					]
 				},
@@ -1034,7 +1061,7 @@ module.exports = {
 							type: 'school',
 							author: randomName(),
 							text: 'A new school opened close by.',
-							date: '26 January 2019 at 11:00'
+							date: getRandomDate(2, 4)
 						}
 					]
 				},
@@ -1054,8 +1081,10 @@ module.exports = {
 							type: 'school',
 							author: randomName(),
 							text:
-								'Special relief agreed by LA, authorised by Arnold Calderon.',
-							date: '26 January 2019 at 11:31'
+								'Special relief agreed by LA, authorised by ' +
+								randomName() +
+								'.',
+							date: getRandomDate(2, 4)
 						}
 					]
 				},
@@ -1074,7 +1103,7 @@ module.exports = {
 							type: 'school',
 							author: randomName(),
 							text: 'This is correct.',
-							date: '26 January 2019 at 11:22'
+							date: getRandomDate(2, 4)
 						}
 					]
 				},
@@ -1093,7 +1122,7 @@ module.exports = {
 							type: 'school',
 							author: randomName(),
 							text: 'We’re waiting on hearing back from the pupil’s parents.',
-							date: '26 January 2019 at 11:22'
+							date: getRandomDate(2, 4)
 						}
 					]
 				},
@@ -1104,7 +1133,7 @@ module.exports = {
 					handled: 'true',
 					auto: 'true',
 					response: '',
-					handledOn: 1546300800,
+					handledOn: getRandomDate(7, 8),
 					description:
 						'Percentage of pupils with a new entry date seems high (greater than 50%)',
 					guide:
@@ -1114,7 +1143,7 @@ module.exports = {
 							type: 'school',
 							author: randomName(),
 							text: 'Confirmed as correct',
-							date: '25 January 2019 at 11:22'
+							date: getRandomDate(2, 4)
 						}
 					]
 				}

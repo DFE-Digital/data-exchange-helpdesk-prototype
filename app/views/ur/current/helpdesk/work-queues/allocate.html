@@ -1,0 +1,34 @@
+{% extends 'layout_internal.html' %}
+
+{% block pageTitle %}
+    Workloads
+{% endblock %}
+
+
+{% block content %}
+
+<div class="govuk-grid-row">
+
+    <div class="govuk-grid-column-one-half">
+
+        <h2 class="govuk-heading-l">Allocate schools to collectors</h2>
+
+        <p>This service will automatically allocate a fair number of local authorities and academies to each of the {{ data.collectors | length }} collectors based on how many hours they work per week.</p>
+
+        <p>Although this task cannot be undone, changes to work queues after allocation can be made at any time.</p>
+
+        <p>Ensure the list of <a href="manage">collectors</a> is up-to-date and the hours per week are correct before continuing.</p>
+
+        {{ govukButton({
+            text: 'Start allocation',
+            href: '/allocate-work',
+            classes: ' '
+        }) }}
+
+    </div>
+
+</div>
+
+
+
+{% endblock %}

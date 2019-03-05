@@ -1,0 +1,219 @@
+{% extends 'layout_internal.html' %}
+
+{% block pageTitle %}
+    Workloads
+{% endblock %}
+
+{% set collector = data.collectors | getById(0) %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+
+    <div class="govuk-grid-column-full">
+
+        {{ govukBackLink({
+            text: 'Back',
+            href: 'javascript:history.back()'
+        }) }}
+
+        <h1 class="govuk-heading-l">My work queue</h1>
+
+        {{ hmctsSubNavigation({
+            label: 'Sub navigation',
+            items: [{
+                html: 'Inbox <span class="type-tag count-tag">32</span>',
+                href: '#1',
+                active: true
+            }, {
+                html: 'Responded <span class="type-tag count-tag">82</span>',
+                href: '#2'
+            }, {
+                html: 'Not started <span class="type-tag count-tag">1,321</span>',
+                href: '#3'
+            }]
+        }) }} 
+
+        {% set filtersHTML %}
+
+        <form action="">
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-column-one-third">
+                    {{ govukSelect({
+                        id: 'filter-type',
+                        name: 'filter-type',
+                        classes: 'govuk-input--width-20',
+                        label: {
+                            text: 'School type'
+                        },
+                        items: [
+                            {
+                                value: 'published',
+                                text: 'Maintained schools and academies',
+                                selected: true
+                            },
+                            {
+                                value: 'updated',
+                                text: 'Only maintained schools'
+                            },
+                            {
+                                value: 'views',
+                                text: 'Only academies'
+                            }
+                        ]
+                    }) }}
+                    {{ govukInput({
+                        id: 'filter-name',
+                        name: 'filter-name',
+                        value: data['filter-name'] if data['filter-name'] else '',
+                        classes: 'govuk-input--width-20',
+                        label: {
+                            text: 'School name contains',
+                            classes: 'govuk-input--width-20'
+                        }
+                    }) }}
+                    {{ govukInput({
+                        id: 'filter-la',
+                        name: 'filter-la',
+                        value: data['filter-la'] if data['filter-la'] else '',
+                        classes: 'govuk-input--width-20',
+                        label: {
+                            text: 'LAESTAB contains',
+                            classes: 'govuk-input--width-20'
+                        }
+                    }) }}
+                </div>
+                <div class="govuk-grid-column-one-third">
+                    {{ govukInput({
+                        id: 'filter-queries',
+                        name: 'filter-queries',
+                        value: data['filter-queries'] if data['filter-queries'] else '',
+                        attributes: {
+                            placeholder: 'e.g. 2520, 2584, 5240'
+                        },
+                        hint: {
+                            text: 'Separate multiple queries with commas'
+                        },
+                        classes: 'govuk-input--width-20',
+                        label: {
+                            text: 'Query numbers',
+                            classes: 'govuk-input--width-20'
+                        }
+                    }) }}
+                    {{ govukInput({
+                        id: 'filter-errors',
+                        name: 'filter-errors',
+                        value: data['filter-errors'] if data['filter-errors'] else '',
+                        attributes: {
+                            placeholder: 'e.g. 1500, 1741, 3150'
+                        },
+                        hint: {
+                            text: 'Separate errors with commas'
+                        },
+                        classes: 'govuk-input--width-20',
+                        label: {
+                            text: 'Error numbers',
+                            classes: 'govuk-input--width-20'
+                        }
+                    }) }}
+                </div>
+                <div class="govuk-grid-column-full">
+                    {{ govukButton({
+                        html: 'Apply filters'
+                    }) }}
+                    {{ govukButton({
+                        html: 'Clear filters',
+                        disabled: true,
+                        classes: 'govuk-button-red'
+                    }) }}
+                </div>
+            </div>
+        </form>
+
+        {% endset %}
+
+        {{ govukDetails({
+        summaryText: "Filter schools",
+        html: filtersHTML
+        }) }}
+
+        <table class="govuk-table internal-table collector-table">
+            
+            <caption class="govuk-table__caption">My work queue</caption>
+            
+            
+            <thead class="govuk-table__head">
+                <tr class="govuk-table__row">
+                
+                <th class="govuk-table__header" scope="col"><span class="no-wrap">Name</span></th>
+
+                <th class="govuk-table__header" scope="col"><span class="no-wrap">Submitted</span></th>
+
+                <th class="govuk-table__header" scope="col"><span class="no-wrap">Type</span></th>
+
+                <th class="govuk-table__header" scope="col"><span class="no-wrap">LAESTAB</span></th>
+
+                <th class="govuk-table__header numeric" scope="col"><span class="no-wrap">Queries</span></th>
+
+                <th class="govuk-table__header numeric" scope="col"><span class="no-wrap">Errors</span></th>
+                
+                <th class="govuk-table__header" scope="col"><span class="no-wrap">Actions</span></th>
+                
+                </tr>
+            </thead>
+            
+            <tbody class="govuk-table__body">
+
+                {% for i in range(0, 31) -%}
+
+                {% set school = '' | randomSchool %}
+
+                <tr class="govuk-table__row">
+                        <th class="govuk-table__header" scope="row">
+                            <a href="queries/overview.html?noOfQueries={{ noOfQueries }}&noOfErrors={{ noOfErrors }}&schoolName={{ school }}">
+                                {{ school }}
+                            </a>
+                        </th>
+                        <td class="govuk-table__cell">
+                            {{ ['08','09','10','11','13','14','15'] | random }}:{{ ['11','13','16','23','32','35','44','51'] | random }} {{ [19,20,21,22,23,24,25,26] | random
+                             }} February 2019
+                        </td>
+                        <td class="govuk-table__cell">
+                            {% set schoolType = ['maintained', 'maintained', 'academy'] | random %}
+                            {{ govukTag({
+                                text: schoolType,
+                                classes: schoolType
+                            }) }}
+                        </td>
+                        <td class="govuk-table__cell">
+                            {{ [241,940,493,912,314] | random }}/{{ [1,2,3,4,5,6,7,8,9] | random }}{{ [1,2,3,4,5,6,7,8,9] | random }}{{ [1,2,3,4,5,6,7,8,9] | random }}{{ [1,2,3,4,5,6,7,8,9] | random }}
+                        </td>
+                        <td class="govuk-table__cell numeric">
+                            {% set noOfQueries = [23,43,92,39,19,30,40] | random %}
+                            {{ noOfQueries }}
+                        </td>
+                        <td class="govuk-table__cell numeric">
+                            {% set noOfErrors = [9,0,0,0,93,19,3,12] | random %}
+                            {{ noOfErrors }}
+                        </td>
+                        <td class="govuk-table__cell">
+                            <a href="queries/overview.html?noOfQueries={{ noOfQueries }}&noOfErrors={{ noOfErrors }}" class="govuk-button govuk-button-blue govuk-button-small">
+                                Open
+                            </a>
+                        </td>
+                        
+                </tr>
+
+                {% endfor -%}
+                
+            </tbody>
+        </table>
+
+ 
+    </div>
+
+</div>
+
+
+
+{% endblock %}

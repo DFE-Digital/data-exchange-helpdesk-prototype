@@ -131,8 +131,6 @@
 
         <br>
 
-        {{ data.fakeNames.firstNames[2] }} {{ data.fakeNames.lastNames[9] }}
-
     </div>
 
 </div>
@@ -151,7 +149,7 @@
                 
                 <th class="govuk-table__header" scope="col"><span class="no-wrap">Query</span></th>
                 
-                <th class="govuk-table__header" scope="col"><span class="no-wrap">Notes</span></th>
+                <th class="govuk-table__header" scope="col"><span class="no-wrap">Explanation</span></th>
                 
                 <th class="govuk-table__header width-medium" scope="col"><span class="no-wrap">Accepting guide</span></th>
                 
@@ -174,7 +172,7 @@
                                 {% if query['pupils'] | length == 0 %}
                                     <span class="type-tag {{ query['type'] }}">{{ query['type'] | titleCase }} query</span>
                                 {% else %}
-                                <a href="single-query" class="no-wrap type-tag {{ query['type'] }}"  data-name="selected-query" data-value="{{ query.ref }}">
+                                <a href="single-query" class="no-wrap type-tag {{ query['type'] }}"  data-name="selected-query" data-value="{{ loop.index }}">
                                     {% if query['pupils'] | length != 1 %}
                                         {{ query['pupils'] | length }} pupils
                                         {% set consolidatedQuery = true %}
@@ -193,7 +191,7 @@
                         <td class="govuk-table__cell notes">
                             {% for note in query['notes'] %}
                             <div class="note {{ note.type }}">
-                                <span class="title">{{ 'Approved by ' if note.type == 'approval' }}{{ 'Rejected by ' if note.type == 'reply' }}{{ 'Note added by ' if note.type == 'school' }} {{ note.author }}<br>{{ note.date | formatDate }}</span>
+                                <span class="title">{{ 'Approved by ' if note.type == 'approval' }}{{ 'Rejected by ' if note.type == 'reply' }}{{ 'Note added by ' if note.type == 'school' }} {{ note.author }}<br>{{ note.date }}</span>
                                 {{ note.text }}
                             </div>
                             {% endfor -%}
@@ -296,13 +294,13 @@
 <script>
 
     $('#search-query').on('input', function() {
-        var value = $(this).val();
+        var value = $(this).val()
         $('.query-description').each(function() {
-            var queryDesc = $(this).html();
+            var queryDesc = $(this).html()
             if (!queryDesc.toLowerCase().includes(value.toLowerCase())) {
-                $(this).closest('tr').hide();
+                $(this).closest('tr').hide()
             } else {
-                $(this).closest('tr').show();
+                $(this).closest('tr').show()
             }
         })
     })
@@ -315,22 +313,22 @@
 
     $('.dialog input.govuk-radios__input').on('change', function() {
         if ($(this).val() === 'custom') {
-            updateNote($('.dialog .govuk-textarea').val());
-            customNote = true;
+            updateNote($('.dialog .govuk-textarea').val())
+            customNote = true
         } else {
-            updateNote($(this).val());
-            customNote = false;
+            updateNote($(this).val())
+            customNote = false
         }
     })
 
     $('.dialog .govuk-textarea').on('change', function() {
         if (customNote) {
-            updateNote($('.dialog .govuk-textarea').val());
+            updateNote($('.dialog .govuk-textarea').val())
         }
     })
     function updateNote(input) {
-        newNoteValue = input;
-        $('#responseNote').val(newNoteValue);
+        newNoteValue = input
+        $('#responseNote').val(newNoteValue)
     }
 </script>
 

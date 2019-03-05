@@ -112,3 +112,7 @@ a[href='#'] {
 .numeric {
 	text-align: right;
 }
+
+[class*='govuk-heading'].stat {
+	margin-bottom: 0;
+}

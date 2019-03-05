@@ -223,18 +223,30 @@
 .govuk-button-red {
 	background-color: govuk-colour('red');
 	box-shadow: 0 2px 0 darken(govuk-colour('red'), 20%);
-	&:hover {
+	&:hover,
+	&:focus,
+	&:active {
 		background-color: darken(govuk-colour('red'), 10%);
 		box-shadow: 0 2px 0 darken(govuk-colour('red'), 20%);
+	}
+	&[disabled],
+	&.govuk-button--disabled {
+		background-color: rgba(govuk-colour('red'), 50%);
 	}
 }
 
 .govuk-button-blue {
 	background-color: govuk-colour('blue');
 	box-shadow: 0 2px 0 darken(govuk-colour('blue'), 20%);
-	&:hover {
+	&:hover,
+	&:focus,
+	&:active {
 		background-color: darken(govuk-colour('blue'), 10%);
 		box-shadow: 0 2px 0 darken(govuk-colour('blue'), 20%);
+	}
+	&[disabled],
+	&.govuk-button--disabled {
+		background-color: rgba(govuk-colour('blue'), 50%);
 	}
 }
 
@@ -293,6 +305,20 @@ a.type-tag,
 		border-color: govuk-colour('pink');
 		color: govuk-colour('pink');
 		background-color: rgba(govuk-colour('pink'), 0.025);
+	}
+	&.count-tag {
+		font-size: 14px;
+		text-decoration: none;
+		margin-left: 5px;
+	}
+}
+
+.govuk-tag {
+	&.maintained {
+		background-color: govuk-colour('blue');
+	}
+	&.academy {
+		background-color: govuk-colour('turquoise');
 	}
 }
 

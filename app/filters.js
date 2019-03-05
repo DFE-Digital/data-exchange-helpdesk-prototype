@@ -74,8 +74,8 @@ module.exports = function(env) {
 
 	// Render numeric date as month string e.g. '04' becomes 'April'
 
-	let numberToMonthString = input => {
-		let months = [
+	const numberToMonthString = input => {
+		const months = [
 			'January',
 			'February',
 			'March',
@@ -89,7 +89,71 @@ module.exports = function(env) {
 			'November',
 			'December'
 		]
-		return months[Number(input) - 1]
+		return months[Number(input)]
+	}
+
+	filters.formatDate = str => {
+		const date = new Date(str)
+		return (
+			date.getDate() +
+			' ' +
+			numberToMonthString(date.getMonth()) +
+			' ' +
+			date.getFullYear() +
+			' at ' +
+			('0' + (Math.round(date.getHours() / 2.4) + 7)).slice(-2) +
+			':' +
+			('0' + date.getMinutes()).slice(-2)
+		)
+	}
+
+	filters.formatColumnDate = str => {
+		const date = new Date(str)
+		return (
+			('0' + (Math.round(date.getHours() / 2.4) + 7)).slice(-2) +
+			':' +
+			('0' + date.getMinutes()).slice(-2) +
+			' ' +
+			date.getDate() +
+			' ' +
+			numberToMonthString(date.getMonth()) +
+			' ' +
+			date.getFullYear()
+		)
+	}
+
+	filters.friendlyDate = str => {
+		const date = new Date(str)
+		const now = new Date()
+		const secondsPassed = now - date
+		if (secondsPassed < 100) {
+			return 'just now'
+		} else if (secondsPassed < 60 * 5) {
+			return 'a few minutes ago'
+		} else if (secondsPassed < 60 * 59) {
+			return secondsPassed / 60 + ' minutes ago'
+		} else if (
+			secondsPassed < 60 * 60 * 24 &&
+			now.getDate() === date.getDate()
+		) {
+			return (
+				('0' + (Math.round(date.getHours() / 2.4) + 7)).slice(-2) +
+				':' +
+				('0' + date.getMinutes()).slice(-2)
+			)
+		} else {
+			return (
+				('0' + (Math.round(date.getHours() / 2.4) + 7)).slice(-2) +
+				':' +
+				('0' + date.getMinutes()).slice(-2) +
+				' ' +
+				date.getDate() +
+				' ' +
+				numberToMonthString(date.getMonth()) +
+				' ' +
+				date.getFullYear()
+			)
+		}
 	}
 
 	filters.orElse = (str, fallback) => {
@@ -99,7 +163,7 @@ module.exports = function(env) {
 		return str
 	}
 
-	filters.month = number => numberToMonthString(number)
+	filters.month = number => numberToMonthString(number - 1)
 
 	filters.lowerCase = str => str.toLowerCase()
 
@@ -151,6 +215,12 @@ module.exports = function(env) {
 	filters.getById = (array, str) => {
 		return array.find(obj => {
 			return obj.id.toString() === str
+		})
+	}
+
+	filters.getByCode = (array, str) => {
+		return array.find(obj => {
+			return obj.code.toString() === str
 		})
 	}
 

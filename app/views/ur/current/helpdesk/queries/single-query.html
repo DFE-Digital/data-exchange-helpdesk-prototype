@@ -1,0 +1,214 @@
+{% extends 'layout_internal.html' %}
+
+{% set schoolIndex = data['selected-school'] %}
+{% set school = data['schools'][schoolIndex] %}
+{% set schoolName = school['name'] %}
+{% set laestab = school['LAESTAB'] %}
+{% set query = school['queries'][data['selected-query']] %}
+
+{% block pageTitle %}
+    {{ query.id }}
+{% endblock %}
+
+{% block postHeader %}
+<div class="hmcts-identity-bar">
+  <div class="hmcts-identity-bar__container">
+    <div class="hmcts-identity-bar__details">
+        <span class="hmcts-identity-bar__title"><b>{{ schoolName }}</b> {{ laestab }} <strong class="govuk-!-padding-right-4"></strong>{{ govukTag({text: school.type}) }}</span>
+    </div>
+    <div style="float:right;">
+        {% if pendingCount != 0 %}
+        {{ govukButton({
+            text: 'Return to work queue',
+            href: '#',
+            classes: 'hmcts-menu-item hmcts-button--secondary'
+        }) }}
+        {% else %}
+        {{ govukButton({
+            text: 'Send responses to school',
+            href: '#',
+            classes: 'hmcts-menu-item'
+        }) }}
+        {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+
+    <div class="govuk-grid-column-full census-case-nav">
+
+        {{ govukBreadcrumbs({
+            items: [
+                {
+                    text: 'Queries',
+                    href: 'overview'
+                },
+                {
+                    text: query.id
+                }
+            ]
+        }) }}
+
+    </div>
+
+</div>
+
+<div class="govuk-grid-row">
+
+    <div class="govuk-grid-column-one-half">
+        
+        <h1 class="govuk-heading-xl query-heading">{{ query.id }}</h1>
+
+        {% if query['type'] == 'pupil' %}
+            {% if query['pupils'] | length == 0 %}
+                <span class="type-tag {{ query['type'] }}">{{ query['type'] | titleCase }} query</span>
+            {% else %}
+            <span class="no-wrap type-tag {{ query['type'] }}"  data-name="selected-query" data-value="{{ loop.index }}">
+                {% if query['pupils'] | length != 1 %}
+                    {{ query['pupils'] | length }} pupils
+                    {% set consolidatedQuery = true %}
+                {% else %}
+                    1 pupil
+                {% endif %}
+            </span>
+            {% endif %}
+        {% else %}
+            <span class="type-tag {{ query['type'] }}">{{ query['type'] | titleCase }}</span>
+        {% endif %}
+
+        <p>{{ query.description }}</p>
+
+    </div>
+
+    <div class="govuk-grid-column-one-half">
+        <div class="notes">
+            {% for note in query.notes %}
+            <div class="note {{ note.type }}">
+                <span class="title">{{ 'Approved by ' if note.type == 'approval' }}{{ 'Rejected by ' if note.type == 'reply' }}{{ 'Note added by ' if note.type == 'school' }} {{ note.author }}<br>{{ note.date }}</span>
+                {{ note.text }}
+            </div>
+            {% endfor -%}
+        </div>
+    </div>
+
+</div>
+
+<div class="govuk-grid-row">
+
+    <div class="govuk-grid-column-full">
+
+        {% set isMultiple = query.pupils | length != 1 %}
+
+        <table class="govuk-table">
+        <caption class="govuk-table__caption">Pupil{{ 's' if isMultiple }} relating to query {{ query.id }}</caption>
+        <thead class="govuk-table__head">
+            <tr class="govuk-table__row">
+                {% if isMultiple %}
+                <th class="govuk-table__header table-checkbox-cell" scope="row"><input type="checkbox" id="select{{ loop.index }}"><label for="select{{ loop.index }}"></label></th>
+                {% endif %}
+                <th class="govuk-table__header" scope="col">UPN</th>
+                <th class="govuk-table__header" scope="col">Name</th>
+                <th class="govuk-table__header" scope="col">Date of birth</th>
+            </tr>
+        </thead>
+        <tbody class="govuk-table__body">
+            {% for pupil in query.pupils %}
+            <tr class="govuk-table__row">
+                {% if isMultiple %}
+                <th class="govuk-table__header table-checkbox-cell" scope="row"><input type="checkbox" id="select{{ loop.index }}"><label for="select{{ loop.index }}"></label></th>
+                {% endif %}
+                <th class="govuk-table__header" scope="row">{{pupil.UPN}}</th>
+                <td class="govuk-table__cell">{{pupil.surname}}, {{pupil.firstname}}</td>
+                <td class="govuk-table__cell">{{pupil.dob}}</td>
+            </tr>
+            {% endfor -%}
+        </tbody>
+        </table>
+
+        {% if isMultiple %}
+
+        {{ govukButton({
+            text: 'Approve selected',
+            href: '#',
+            classes: 'selected-button',
+            disabled: true
+        }) }}
+
+        {{ govukButton({
+            text: 'Reject selected',
+            href: '#',
+            classes: 'selected-button govuk-button-red govuk-!-margin-left-2',
+            disabled: true
+        }) }}
+
+        <div style="float:right;">
+
+        {{ govukButton({
+            text: 'Approve all',
+            href: '#',
+            classes: ' '
+        }) }}
+
+        {{ govukButton({
+            text: 'Reject all',
+            href: '#',
+            classes: 'govuk-button-red govuk-!-margin-left-2'
+        }) }}
+
+        {% else %}
+
+        {{ govukButton({
+            text: 'Approve',
+            href: '#',
+            classes: ' '
+        }) }}
+
+        {{ govukButton({
+            text: 'Reject',
+            href: '#',
+            classes: 'govuk-button-red govuk-!-margin-left-2'
+        }) }}
+
+        {% endif %}
+
+        </div>
+
+        <script>
+            $('.govuk-table__head .table-checkbox-cell input[type=checkbox]').on('change', function() {
+                $(this).closest('table').find('.table-checkbox-cell input[type=checkbox]').prop('checked', $(this).prop('checked'));
+                $(this).closest('table').find('.govuk-table__body tr').removeClass('highlight-row');
+                if ($(this).prop('checked')) {
+                    $(this).closest('table').find('.govuk-table__body tr').addClass('highlight-row');
+                }
+                validateSelected()
+            })
+            $('.govuk-table__body .table-checkbox-cell input[type=checkbox]').on('change', function() {
+                var row = $(this).closest('tr');
+                row.removeClass('highlight-row');
+                if ($(this).prop('checked')) {
+                    row.addClass('highlight-row');
+                }
+                validateSelected();
+            })
+
+            function validateSelected() {
+                if ($('.govuk-table__body .table-checkbox-cell input[type=checkbox]:checked').length != 0) {
+                    $('.selected-button').removeClass('govuk-button--disabled');
+                } else {
+                    $('.selected-button').addClass('govuk-button--disabled');
+                }
+            }
+        </script>
+
+
+
+    </div>
+
+</div>
+
+
+{% endblock %}
