@@ -443,3 +443,33 @@ tr.highlight-row {
 		margin-bottom: 0;
 	}
 }
+
+.dialog .govuk-summary-list__key {
+	margin-bottom: govuk-spacing(1);
+	@include govuk-typography-weight-bold;
+	@include govuk-media-query($from: tablet) {
+		word-break: keep-all;
+		width: 50%;
+	}
+}
+
+.queried-data {
+	&.govuk-summary-list__value {
+		&::before {
+			content: '?';
+			display: inline-block;
+			height: 16px;
+			width: 16px;
+			font-size: 14px;
+			padding: 2px;
+			font-weight: bold;
+			background-color: govuk-colour('blue');
+			color: govuk-colour('white');
+			text-align: center;
+			border-radius: 50%;
+			transform: translateY(-1px) translateX(-5px);
+		}
+	}
+
+	background-color: rgba(govuk-colour('light-blue'), 0.1);
+}

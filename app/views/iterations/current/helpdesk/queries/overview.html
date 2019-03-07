@@ -206,7 +206,9 @@
                             <br>
                             <button type="button" class="govuk-button govuk-button-red govuk-button-small open-dialog">Reject{{ ' all' if consolidatedQuery }}</button><br>
                             {% if query['type'] == 'pupil' and query['pupils'] | length != 0 %}
-                            <a href="single-query" data-name="selected-query" data-value="{{ query.ref }}" class="govuk-button govuk-button-blue govuk-button-small">View details</a>
+                            <a href="single-query" data-name="selected-query" data-value="{{ query.ref }}" class="govuk-button govuk-button-blue govuk-button-small">
+                                View details
+                                </a>
                             {% endif %}
                         </td>
 
