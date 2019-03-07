@@ -61,49 +61,6 @@ const createSchools = amount => {
 	return new Array(amount).fill(null).map(_ => randomSchoolName())
 }
 
-const createPupils = amount => {
-	const upnPrefixes = ['W', 'X', 'P']
-	const upnSuffixes = ['B', 'D', 'M']
-	const days = new Array(28).fill(null).map((_, i) => i + 1)
-	const months = [
-		'January',
-		'February',
-		'March',
-		'April',
-		'May',
-		'June',
-		'July',
-		'August',
-		'September',
-		'October',
-		'November',
-		'December'
-	]
-	const years = new Array(8).fill(null).map((_, i) => i + 2009)
-	const upnNumber = length => {
-		const numberArray = new Array(length)
-			.fill(null)
-			.map(_ => Math.floor(Math.random() * 9).toString())
-		return numberArray.join('')
-	}
-	return new Array(amount).fill(null).map(_ => {
-		return {
-			surname: randomLastName().toUpperCase(),
-			firstname: randomFirstName(),
-			UPN:
-				randomItemFrom(upnPrefixes) +
-				upnNumber(10) +
-				randomItemFrom(upnSuffixes),
-			dob:
-				randomItemFrom(days) +
-				' ' +
-				randomItemFrom(months) +
-				' ' +
-				randomItemFrom(years)
-		}
-	})
-}
-
 const createCollectors = amount => {
 	return new Array(amount).fill(null).map((_, i) => {
 		let firstName = randomFirstName()
@@ -895,30 +852,60 @@ localAuthorities.forEach(la => {
 const totalNumberOfSchools = 21321
 const academiesTotal = totalNumberOfSchools - totalLASchools
 
+const months = [
+	'January',
+	'February',
+	'March',
+	'April',
+	'May',
+	'June',
+	'July',
+	'August',
+	'September',
+	'October',
+	'November',
+	'December'
+]
+
 const numberToMonthString = input => {
-	const months = [
-		'January',
-		'February',
-		'March',
-		'April',
-		'May',
-		'June',
-		'July',
-		'August',
-		'September',
-		'October',
-		'November',
-		'December'
-	]
 	return months[Number(input)]
 }
 
-const getRandomDate = (minDaysFromNow, maxDaysFromNow) => {
+const createPupils = amount => {
+	const upnPrefixes = ['W', 'X', 'P']
+	const upnSuffixes = ['B', 'D', 'M']
+	const days = new Array(28).fill(null).map((_, i) => i + 1)
+	const years = new Array(8).fill(null).map((_, i) => i + 2009)
+	const upnNumber = length => {
+		const numberArray = new Array(length)
+			.fill(null)
+			.map(_ => Math.floor(Math.random() * 9).toString())
+		return numberArray.join('')
+	}
+	return new Array(amount).fill(null).map(_ => {
+		return {
+			surname: randomLastName().toUpperCase(),
+			firstname: randomFirstName(),
+			UPN:
+				randomItemFrom(upnPrefixes) +
+				upnNumber(10) +
+				randomItemFrom(upnSuffixes),
+			dob:
+				randomItemFrom(days) +
+				' ' +
+				randomItemFrom(months) +
+				' ' +
+				randomItemFrom(years)
+		}
+	})
+}
+
+const getRandomDate = (fromDaysBack, toDaysBack) => {
 	const secondsInADay = 24 * 60 * 60
 	const now = new Date().getTime()
-	const maxTime = now - minDaysFromNow * secondsInADay
-	const minTime = now - maxDaysFromNow * secondsInADay
-	const randomUNIXSeconds = Math.random() * (maxTime * 1000 - minTime * 1000)
+	const maxTime = now - toDaysBack * secondsInADay * 1000
+	const minTime = now - fromDaysBack * secondsInADay * 1000
+	const randomUNIXSeconds = Math.random() * (maxTime - minTime)
 	return minTime + randomUNIXSeconds
 }
 
@@ -965,19 +952,19 @@ module.exports = {
 							author: randomName(),
 							text:
 								'The pupil is dually registered and did not attend school this term.',
-							date: getRandomDate(7, 8)
+							date: getRandomDate(8, 7)
 						},
 						{
 							type: 'reply',
 							author: randomName(),
 							text: 'It is not clear if this refers to all pupils.',
-							date: getRandomDate(5, 6)
+							date: getRandomDate(6, 5)
 						},
 						{
 							type: 'school',
 							author: randomName(),
-							text: 'Yes, this applies to all 3 pupils.',
-							date: getRandomDate(2, 4)
+							text: 'Yes, this applies to all 14 pupils.',
+							date: getRandomDate(4, 2)
 						}
 					],
 					pupils: createPupils(14)
@@ -992,21 +979,14 @@ module.exports = {
 						'Zero attendance sessions possible recorded for pupil on roll. Pupil should only be recorded with zero sessions possible if dually registered and spent all of the previous term for which attendance data is being collected at other registration.',
 					guide:
 						'Confirmation is not acceptable. Acceptable note entry ‘pupil is dually registered and though did not attend this establishment in the previous term, they remain on roll’.',
-					pupils: [
-						{
-							surname: 'CAIN',
-							firstname: 'Jaylahs',
-							UPN: 'W30433221895A',
-							dob: '2 April 2011'
-						}
-					],
+					pupils: createPupils(1),
 					notes: [
 						{
 							type: 'school',
 							author: randomName(),
 							text:
 								'Pupil was added to this term by mistake, will be off-role on next census.',
-							date: getRandomDate(2, 4)
+							date: getRandomDate(4, 2)
 						}
 					]
 				},
@@ -1025,7 +1005,7 @@ module.exports = {
 							type: 'school',
 							author: randomName(),
 							text: 'The school is in an area of high unemployment.',
-							date: getRandomDate(2, 4)
+							date: getRandomDate(4, 2)
 						}
 					]
 				},
@@ -1042,7 +1022,7 @@ module.exports = {
 							type: 'school',
 							author: randomName(),
 							text: 'Early start date agreed by governors.',
-							date: getRandomDate(2, 4)
+							date: getRandomDate(4, 2)
 						}
 					]
 				},
@@ -1061,7 +1041,7 @@ module.exports = {
 							type: 'school',
 							author: randomName(),
 							text: 'A new school opened close by.',
-							date: getRandomDate(2, 4)
+							date: getRandomDate(4, 2)
 						}
 					]
 				},
@@ -1084,7 +1064,7 @@ module.exports = {
 								'Special relief agreed by LA, authorised by ' +
 								randomName() +
 								'.',
-							date: getRandomDate(2, 4)
+							date: getRandomDate(4, 2)
 						}
 					]
 				},
@@ -1103,7 +1083,7 @@ module.exports = {
 							type: 'school',
 							author: randomName(),
 							text: 'This is correct.',
-							date: getRandomDate(2, 4)
+							date: getRandomDate(4, 2)
 						}
 					]
 				},
@@ -1122,7 +1102,7 @@ module.exports = {
 							type: 'school',
 							author: randomName(),
 							text: 'We’re waiting on hearing back from the pupil’s parents.',
-							date: getRandomDate(2, 4)
+							date: getRandomDate(4, 2)
 						}
 					]
 				},
@@ -1133,7 +1113,7 @@ module.exports = {
 					handled: 'true',
 					auto: 'true',
 					response: '',
-					handledOn: getRandomDate(7, 8),
+					handledOn: getRandomDate(8, 7),
 					description:
 						'Percentage of pupils with a new entry date seems high (greater than 50%)',
 					guide:
@@ -1143,7 +1123,251 @@ module.exports = {
 							type: 'school',
 							author: randomName(),
 							text: 'Confirmed as correct',
-							date: getRandomDate(2, 4)
+							date: getRandomDate(4, 2)
+						}
+					]
+				}
+			]
+		},
+		{
+			name: randomSchoolName(),
+			LAESTAB: '456/3204',
+			type: 'Academy',
+			queries: [
+				{
+					ref: 0,
+					id: '2502',
+					type: 'pupil',
+					handled: 'false',
+					response: '',
+					description:
+						'Zero attendance sessions possible recorded for pupil on roll. Pupil should only be recorded with zero sessions possible if dually registered and spent all of the previous term for which attendance data is being collected at other registration.',
+					guide:
+						'Confirmation is not acceptable. Acceptable note entry ‘pupil is dually registered and though did not attend this establishment in the previous term, they remain on roll’.',
+					notes: [
+						{
+							type: 'school',
+							author: randomName(),
+							text:
+								'The pupil is dually registered and did not attend school this term.',
+							date: getRandomDate(8, 7)
+						},
+						{
+							type: 'reply',
+							author: randomName(),
+							text: 'It is not clear if this refers to all pupils.',
+							date: getRandomDate(6, 5)
+						},
+						{
+							type: 'school',
+							author: randomName(),
+							text: 'Yes, this applies to all 14 pupils.',
+							date: getRandomDate(4, 2)
+						},
+						{
+							type: 'approval',
+							author: randomName(),
+							date: getRandomDate(6, 5)
+						}
+					],
+					pupils: createPupils(14)
+				},
+				{
+					ref: 1,
+					id: '2502',
+					type: 'pupil',
+					handled: 'false',
+					response: '',
+					description:
+						'Zero attendance sessions possible recorded for pupil on roll. Pupil should only be recorded with zero sessions possible if dually registered and spent all of the previous term for which attendance data is being collected at other registration.',
+					guide:
+						'Confirmation is not acceptable. Acceptable note entry ‘pupil is dually registered and though did not attend this establishment in the previous term, they remain on roll’.',
+					pupils: createPupils(1),
+					notes: [
+						{
+							type: 'school',
+							author: randomName(),
+							text:
+								'Pupil was added to this term by mistake, will be off-role on next census.',
+							date: getRandomDate(4, 2)
+						},
+						{
+							type: 'reply',
+							text: 'Please fix this data in your MIS correctly.',
+							author: randomName(),
+							date: getRandomDate(2, 1)
+						}
+					]
+				},
+				{
+					ref: 2,
+					id: '2695',
+					type: 'school',
+					handled: 'false',
+					response: '',
+					description:
+						'90% or more of infant pupils have free school meal eligibility.',
+					guide:
+						'Confirmation is not acceptable. A statement must be included that these infant pupils also meet the FSM criteria and that they have not been recorded as FSM due to receipt of UiFSM. Due to pupil premium funding this is to ensure that schools have not made an error.',
+					notes: [
+						{
+							type: 'school',
+							author: randomName(),
+							text: 'The school is in an area of high unemployment.',
+							date: getRandomDate(4, 2)
+						},
+						{
+							type: 'approval',
+							author: randomName(),
+							date: getRandomDate(2, 1)
+						}
+					]
+				},
+				{
+					ref: 3,
+					id: '2740',
+					type: 'school',
+					handled: 'false',
+					response: '',
+					description: 'Learning start date seems too early.',
+					guide: 'Confirmation that the information is correct',
+					notes: [
+						{
+							type: 'school',
+							author: randomName(),
+							text: 'Early start date agreed by governors.',
+							date: getRandomDate(4, 2)
+						},
+						{
+							type: 'approval',
+							author: randomName(),
+							date: getRandomDate(2, 1)
+						}
+					]
+				},
+				{
+					ref: 4,
+					id: 'TonT1C',
+					type: 'term-on-term',
+					handled: 'false',
+					response: '',
+					description:
+						'There are significantly fewer pupils than last collection. A reason must be provided for this decrease.',
+					guide:
+						'A reason will sought if there is significant decrease of pupils. ',
+					notes: [
+						{
+							type: 'school',
+							author: randomName(),
+							text: 'A new school opened close by.',
+							date: getRandomDate(4, 2)
+						},
+						{
+							type: 'approval',
+							author: randomName(),
+							date: getRandomDate(2, 1)
+						}
+					]
+				},
+				{
+					ref: 5,
+					id: '1633',
+					type: 'pupil',
+					handled: 'false',
+					response: '',
+					description:
+						'Pupil has an exemption for English GCSE funding due to learning difficulties but does not have  an education, health and care plan (EHCP).',
+					guide:
+						'As this impacts on funding a reason will be sought why a student who does not have an EHC plan would have a funding exemption which states the student has a learning disability which prevents them from studying the qualification',
+					pupils: createPupils(1),
+					notes: [
+						{
+							type: 'school',
+							author: randomName(),
+							text:
+								'Special relief agreed by LA, authorised by ' +
+								randomName() +
+								'.',
+							date: getRandomDate(4, 2)
+						},
+						{
+							type: 'approval',
+							author: randomName(),
+							date: getRandomDate(2, 1)
+						}
+					]
+				},
+				{
+					ref: 6,
+					id: '1753',
+					type: 'pupil',
+					handled: 'false',
+					response: '',
+					description:
+						'Percentage of pupils in NC Year 7 with periods of free school meal eligibility is high (greater than 50%)',
+					guide:
+						"Schools will be required to specifically confirm that the FSM information is correct for the year group.  Acceptable note entry 'The school has confirmed that they do have more than 50% of 'Year 7' pupils who are entitled to a FSM'.",
+					notes: [
+						{
+							type: 'school',
+							author: randomName(),
+							text: 'This is correct.',
+							date: getRandomDate(4, 2)
+						},
+						{
+							type: 'approval',
+							author: randomName(),
+							date: getRandomDate(2, 1)
+						}
+					]
+				},
+				{
+					ref: 7,
+					id: '1850',
+					type: 'pupil',
+					handled: 'false',
+					response: '',
+					description:
+						'Percentage of pupils where language has not been obtained is high (greater than 10%)',
+					guide:
+						'Confirmation that information is correct is acceptable, however, additional information would be helpful i.e school still awaiting response from parents.',
+					notes: [
+						{
+							type: 'school',
+							author: randomName(),
+							text: 'We’re waiting on hearing back from the pupil’s parents.',
+							date: getRandomDate(4, 2)
+						},
+						{
+							type: 'approval',
+							author: randomName(),
+							date: getRandomDate(2, 1)
+						}
+					]
+				},
+				{
+					ref: 8,
+					id: '1850',
+					type: 'pupil',
+					handled: 'true',
+					auto: 'true',
+					response: '',
+					handledOn: getRandomDate(8, 7),
+					description:
+						'Percentage of pupils with a new entry date seems high (greater than 50%)',
+					guide:
+						'Confirmation that the information has been confirmed by the school as being correct.  Acceptable note entry confirmed as correct.',
+					notes: [
+						{
+							type: 'school',
+							author: randomName(),
+							text: 'Confirmed as correct',
+							date: getRandomDate(4, 2)
+						},
+						{
+							type: 'approval',
+							author: randomName(),
+							date: getRandomDate(2, 1)
 						}
 					]
 				}

@@ -119,9 +119,11 @@
             {% for pupil in query.pupils %}
             <tr class="govuk-table__row">
                 {% if isMultiple %}
-                <th class="govuk-table__header table-checkbox-cell" scope="row"><input type="checkbox" id="select{{ loop.index }}"><label for="select{{ loop.index }}"></label></th>
+                <th class="govuk-table__header table-checkbox-cell" scope="row"><input type="checkbox" id="select{{ loop.index - 1 }}"><label for="select{{ loop.index }}"></label></th>
                 {% endif %}
-                <th class="govuk-table__header" scope="row">{{pupil.UPN}}</th>
+                <th class="govuk-table__header" scope="row">
+                    <a href="#" data-pupil="{{ loop.index - 1 }}">{{pupil.UPN}}</a>
+                </th>
                 <td class="govuk-table__cell">{{pupil.surname}}, {{pupil.firstname}}</td>
                 <td class="govuk-table__cell">{{pupil.dob}}</td>
             </tr>
@@ -132,7 +134,7 @@
         {% if isMultiple %}
 
         {{ govukButton({
-            text: 'Approve selected',
+            text: 'Accept selected',
             href: '#',
             classes: 'selected-button',
             disabled: true
@@ -148,7 +150,7 @@
         <div style="float:right;">
 
         {{ govukButton({
-            text: 'Approve all',
+            text: 'Accept all',
             href: '#',
             classes: ' '
         }) }}
@@ -162,7 +164,7 @@
         {% else %}
 
         {{ govukButton({
-            text: 'Approve',
+            text: 'Accept',
             href: '#',
             classes: ' '
         }) }}
@@ -209,6 +211,17 @@
     </div>
 
 </div>
+
+<div class="dialog" role="dialog" aria-labelledby="dialog-title" aria-describedby="dialog-description">
+            
+    <h2 class="govuk-heading-l">P3362313215D</h2>
+    <h3 class="govuk-heading-m">MACGYVER, Wilhelm</h3>
+
+
+        
+</div>
+
+<div class="dialog-overlay" tabindex="-1"></div>
 
 
 {% endblock %}
