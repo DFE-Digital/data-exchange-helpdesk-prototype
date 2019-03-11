@@ -187,12 +187,21 @@
                         </th>
 
                         <td class="govuk-table__cell notes">
-                            {% for note in query['notes'] %}
-                            <div class="note {{ note.type }}">
-                                <span class="title">{{ 'Approved by ' if note.type == 'approval' }}{{ 'Rejected by ' if note.type == 'reply' }}{{ 'Note added by ' if note.type == 'school' }} {{ note.author }}<br>{{ note.date | formatDate }}</span>
+                            <div class="note school">
+                            {% for note in query.notes %}
+                                **********<br>
+                                {{ 'Approved by ' if note.type == 'approval' }}{{ 'Rejected by ' if note.type == 'reply' }}{{ 'Note added by ' if note.type == 'school' }} {{ note.author }}<br>{{ note.date | formatDate }}</span><br>
+                                {% if note.text %}
+                                ⨠
                                 {{ note.text }}
-                            </div>
+                                {% endif %}
+                                <br>
+                                **********
+                                {% if loop.index != query.notes | length %}
+                                <br><br>
+                                {% endif %}
                             {% endfor -%}
+                            </div>
                             <div class="query-index" style="display: none;">{{query.ref}}</div>
                         </td>
 
