@@ -122,11 +122,12 @@
                 <th class="govuk-table__header table-checkbox-cell" scope="row"><input type="checkbox" id="select{{ loop.index - 1 }}"><label for="select{{ loop.index }}"></label></th>
                 {% endif %}
                 <th class="govuk-table__header" scope="row">
-                    <a href="#" class="open-dialog" data-pupil="{{ loop.index - 1 }}"><span class="upn">{{pupil.UPN}}</span></a>
+                    <a href="#" class="open-dialog" data-pupil="{{ loop.index - 1 }}"><span class="upn">{{ [pupil.UPN, pupil.UPN, pupil.UPN, pupil.UPN, pupil.UPN, 'UPN missing'] | random }}</span></a>
                 </th>
                 <td class="govuk-table__cell">
+                    {% set name = '<span class="last-name">' + pupil.surname + '</span>, <span class="first-name">' + pupil.firstname + '</span>' %}
                     <span class="name">
-                    <span class="last-name">{{pupil.surname}}</span>, <span class="first-name">{{pupil.firstname}}</span>
+                    {{ [name, name, name, name, name, name, name, '<span class="last-name govuk-visually-hidden"></span><span class="first-name govuk-visually-hidden"></span>Name missing'] | random | safe }}
                     </span>
                 </td>
                 <td class="govuk-table__cell"><span class="dob">{{pupil.dob}}</span></td>
