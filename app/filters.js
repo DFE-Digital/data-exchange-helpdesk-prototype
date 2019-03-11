@@ -1,4 +1,4 @@
-const faker = require('faker')
+const generate = require('./data/generators')
 
 module.exports = function(env) {
 	/**
@@ -224,30 +224,8 @@ module.exports = function(env) {
 		})
 	}
 
-	filters.randomSchool = _ => {
-		return (
-			faker.address.city() +
-			' ' +
-			randomItemFrom([
-				'High School',
-				'Primary School',
-				'Primary School',
-				'Primary School',
-				'Primary School',
-				'Community Primary School',
-				'Infants',
-				'Community School',
-				'Secondary School',
-				'Secondary School',
-				'Secondary School',
-				'Academy',
-				'Grammar School',
-				'Technical School',
-				'College',
-				'College',
-				'Institute'
-			])
-		)
+	filters.randomSchool = () => {
+		return generate.schoolName()
 	}
 
 	/* ------------------------------------------------------------------
