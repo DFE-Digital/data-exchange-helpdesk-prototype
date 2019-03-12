@@ -14,6 +14,32 @@ generators.randomItemFrom = array => {
 	return array[Math.floor(Math.random() * array.length)]
 }
 
+/**
+ * @param {number} length
+ */
+
+generators.randomCode = length => {
+	var output = ''
+	var i = 0
+	for (i; i < length; i++) {
+		output += generators
+			.randomItemFrom([0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
+			.toString()
+	}
+	return output
+}
+
+/**
+ * @param {number} min
+ * @param {number} max
+ */
+
+generators.randomNumber = (min, max) => {
+	min = Math.ceil(min)
+	max = Math.floor(max)
+	return Math.floor(Math.random() * (max - min + 1)) + min
+}
+
 // Simulated people
 
 generators.firstName = faker.name.firstName
@@ -127,11 +153,39 @@ generators.schoolName = () => {
 }
 
 /**
+ * @param {string} name
+ * @param {string} laCode
+ * @param {string} type
+ * @param {number} noOfQueries
+ */
+
+generators.school = (name, laCode, type, noOfQueries) => {
+	return {
+		name,
+		type,
+		noOfQueries,
+		noOfErrors: generators.randomNumber(0, 122),
+		LAESTAB: laCode.toString() + '/' + generators.randomCode(4),
+		queries: []
+	}
+}
+
+/**
  * @param {number} amount
  */
 
 generators.schools = amount => {
-	return new Array(amount).fill(null).map(_ => generators.schoolName())
+	return new Array(amount).fill(null).map((_, i) => {
+		const school = generators.school(
+			generators.schoolName(),
+			generators.randomCode(3),
+			generators.randomItemFrom(['academy', 'maintained', 'maintained']),
+			generators.randomNumber(8, 75)
+		)
+		school.id = i
+		school.submittedDate = generators.randomDate(5, 1)
+		return school
+	})
 }
 
 // Simulated local authorities
@@ -935,6 +989,8 @@ generators.queries = amount => {
 		while (output.find(obj => obj.number === query.number)) {
 			query = generators.randomItemFrom(generators.queryArray)
 		}
+		query.id = i
+		query.handled = 'false'
 		output.push(query)
 	}
 	return output

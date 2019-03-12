@@ -45,7 +45,7 @@ module.exports = function(env) {
 
   ------------------------------------------------------------------ */
 
-	let separateThousandsWithComma = input => {
+	const separateThousandsWithComma = input => {
 		let amount = Math.round(Number(input) * 100) / 100
 		if (amount % 1 !== 0) {
 			amount = amount.toFixed(2)
@@ -53,7 +53,7 @@ module.exports = function(env) {
 		return amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
 	}
 
-	let toFriendlyNumber = input => {
+	const toFriendlyNumber = input => {
 		if (input == 0 || input == '0' || !input) {
 			return 'None'
 		} else {
@@ -113,7 +113,7 @@ module.exports = function(env) {
 			('0' + (Math.round(date.getHours() / 2.4) + 7)).slice(-2) +
 			':' +
 			('0' + date.getMinutes()).slice(-2) +
-			' ' +
+			' on ' +
 			date.getDate() +
 			' ' +
 			numberToMonthString(date.getMonth()) +
@@ -122,21 +122,26 @@ module.exports = function(env) {
 		)
 	}
 
-	filters.friendlyDate = str => {
+	filters.friendlyDate = (str, nowStr) => {
 		const date = new Date(str)
-		const now = new Date()
-		const secondsPassed = now - date
-		if (secondsPassed < 100) {
+		const now = new Date(nowStr)
+		const secondsPassed = (now - date) / 1000
+		if (secondsPassed < 15) {
 			return 'just now'
-		} else if (secondsPassed < 60 * 5) {
+		} else if (secondsPassed < 60) {
+			return 'less than a minute ago'
+		} else if (secondsPassed < 75) {
+			return 'a minute ago'
+		} else if (secondsPassed < 60 * 4) {
 			return 'a few minutes ago'
 		} else if (secondsPassed < 60 * 59) {
-			return secondsPassed / 60 + ' minutes ago'
+			return Math.floor(secondsPassed / 60) + ' minutes ago'
 		} else if (
 			secondsPassed < 60 * 60 * 24 &&
 			now.getDate() === date.getDate()
 		) {
 			return (
+				'today at ' +
 				('0' + (Math.round(date.getHours() / 2.4) + 7)).slice(-2) +
 				':' +
 				('0' + date.getMinutes()).slice(-2)

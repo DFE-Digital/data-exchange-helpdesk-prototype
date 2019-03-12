@@ -4,7 +4,7 @@
 {% set school = data['schools'][schoolIndex] %}
 {% set schoolName = school['name'] %}
 {% set laestab = school['LAESTAB'] %}
-{% set query = school['queries'][data['selected-query']] %}
+{% set query = school['queries'] | getById(data['selected-query']) %}
 
 {% block pageTitle %}
     {{ query.id }}
@@ -48,7 +48,7 @@
                     href: 'overview'
                 },
                 {
-                    text: query.id
+                    text: query.number
                 }
             ]
         }) }}
@@ -61,7 +61,7 @@
 
     <div class="govuk-grid-column-one-half">
         
-        <h1 class="govuk-heading-xl query-heading">{{ query.id }}</h1>
+        <h1 class="govuk-heading-xl query-heading">{{ query.number }}</h1>
 
         {% if query['type'] == 'pupil' %}
             {% if query['pupils'] | length == 0 %}
@@ -88,7 +88,7 @@
         <div class="notes">
             {% for note in query.notes %}
             <div class="note {{ note.type }}">
-                <span class="title">{{ 'Approved by ' if note.type == 'approval' }}{{ 'Rejected by ' if note.type == 'reply' }}{{ 'Note added by ' if note.type == 'school' }} {{ note.author }}<br>{{ note.date }}</span>
+                <span class="title">{{ 'Approved by ' if note.type == 'approval' }}{{ 'Rejected by ' if note.type == 'reply' }}{{ 'Note added by ' if note.type == 'school' }} {{ note.author }}<br>{{ note.date | formatDate }}</span>
                 {{ note.text }}
             </div>
             {% endfor -%}
@@ -104,7 +104,7 @@
         {% set isMultiple = query.pupils | length != 1 %}
 
         <table class="govuk-table">
-        <caption class="govuk-table__caption">Pupil{{ 's' if isMultiple }} relating to query {{ query.id }}</caption>
+        <caption class="govuk-table__caption">Pupil{{ 's' if isMultiple }} relating to query {{ query.number }}</caption>
         <thead class="govuk-table__head">
             <tr class="govuk-table__row">
                 {% if isMultiple %}

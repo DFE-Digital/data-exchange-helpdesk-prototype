@@ -29,7 +29,7 @@
         {% if pendingCount != 0 %}
         {{ govukButton({
             text: 'Return to work queue',
-            href: '#',
+            href: '../my-queue',
             classes: 'hmcts-menu-item hmcts-button--secondary'
         }) }}
         {% else %}
@@ -131,7 +131,7 @@
                 
                 <th class="govuk-table__header width-medium" scope="col"><span class="no-wrap">Accepting guide</span></th>
                 
-                <th class="govuk-table__header" scope="col"><span class="no-wrap">Saved response</span></th>
+                <th class="govuk-table__header numeric" scope="col"><span class="no-wrap">Saved response</span></th>
                 
                 </tr>
             </thead>
@@ -144,7 +144,7 @@
                     <tr class="govuk-table__row">
                         <th class="govuk-table__header query-description" scope="row">
                             <h3 class="govuk-heading-m" style="margin-bottom: 5px;">
-                                {{ query.id }}
+                                {{ query.number }}
                             </h3>
                             {% if query['type'] == 'pupil' %}
                             <a href="single-query" class="no-wrap type-tag {{ query['type'] }}"  data-name="selected-query" data-value="{{query.ref}}">
@@ -177,10 +177,13 @@
                             {{ query.guide }}
                         </td>
 
-                        <td class="govuk-table__cell action">
+                        <td class="govuk-table__cell action numeric">
                             {% if query.approved == 'false' %}
                             <div class="note reply">
-                                <span class="title">Rejected by you</span>
+                                <span class="title">
+                                    Rejected by you<br>
+                                    {{ query.handledOn | friendlyDate(data['time']) }}
+                                </span>
                                 {{ query.response }}
                             </div>
                             {% else %}
@@ -188,7 +191,10 @@
                                 {% if query.auto == 'true' %}
                                 <span class="title">Automatically approved</span>
                                 {% else %}
-                                <span class="title">Approved by you</span>
+                                <span class="title">
+                                    Approved by you<br>
+                                    {{ query.handledOn | friendlyDate(data['time']) }}
+                                </span>
                                 {% endif %}
                                 
                             </div>

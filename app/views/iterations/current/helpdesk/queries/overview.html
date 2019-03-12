@@ -20,16 +20,21 @@
 {% set pendingCount = (queries | length) - handledCount %}
 
 {% block postHeader %}
+{% if queries | length == 0 %}
+<script>
+window.location.href = '/select-school'
+</script>
+{% endif %}
 <div class="hmcts-identity-bar">
   <div class="hmcts-identity-bar__container">
     <div class="hmcts-identity-bar__details">
-        <span class="hmcts-identity-bar__title"><b>{{ schoolName }}</b> {{ laestab }} <strong class="govuk-!-padding-right-4"></strong>{{ govukTag({text: school.type}) }}</span>
+        <span class="hmcts-identity-bar__title"><b>{{ schoolName }}</b> {{ laestab }} <strong class="govuk-!-padding-right-4"></strong>{{ govukTag({text: school.type, classes: school.type}) }}</span>
     </div>
     <div style="float:right;">
         {% if pendingCount != 0 %}
         {{ govukButton({
             text: 'Return to work queue',
-            href: '#',
+            href: '../my-queue',
             classes: 'hmcts-menu-item hmcts-button--secondary'
         }) }}
         {% else %}
@@ -127,8 +132,6 @@
 
         <br>
 
-        {{ data.fakeNames.firstNames[2] }} {{ data.fakeNames.lastNames[9] }}
-
     </div>
 
 </div>
@@ -151,26 +154,26 @@
                 
                 <th class="govuk-table__header width-medium" scope="col"><span class="no-wrap">Acceptance criteria</span></th>
                 
-                <th class="govuk-table__header" scope="col"><span class="no-wrap">Actions</span></th>
+                <th class="govuk-table__header numeric" scope="col"><span class="no-wrap">Actions</span></th>
                 
                 </tr>
             </thead>
             
             <tbody class="govuk-table__body">
 
-                {% for query in queries | sort(false, true, 'id') %}
+                {% for query in queries | sort(false, true, 'number') %}
                     {% set consolidatedQuery = false %}
                     {% if query['handled'] == 'false' %}
                     <tr class="govuk-table__row">
                         <th class="govuk-table__header query-description" scope="row">
                             <h3 class="govuk-heading-m" style="margin-bottom: 5px;">
-                                {{ query['id'] }}
+                                {{ query['number'] }}
                             </h3>
                             {% if query['type'] == 'pupil' %}
                                 {% if query['pupils'] | length == 0 %}
                                     <span class="type-tag {{ query['type'] }}">{{ query['type'] | titleCase }} query</span>
                                 {% else %}
-                                <a href="single-query" class="no-wrap type-tag {{ query['type'] }}"  data-name="selected-query" data-value="{{ query.ref }}">
+                                <a href="single-query" class="no-wrap type-tag {{ query['type'] }}"  data-name="selected-query" data-value="{{ query.id }}">
                                     {% if query['pupils'] | length != 1 %}
                                         {{ query['pupils'] | length }} pupils
                                         {% set consolidatedQuery = true %}
@@ -193,20 +196,20 @@
                                 {{ note.text }}
                             </div>
                             {% endfor -%}
-                            <div class="query-index" style="display: none;">{{query.ref}}</div>
+                            <div class="query-index" style="display: none;">{{query.id}}</div>
                         </td>
 
                         <td class="govuk-table__cell width-medium">
                             {{ query.guide }}
                         </td>
 
-                        <td class="govuk-table__cell">
-                            <a href="/handle-query?selected-query={{query.ref}}&response=approved" class="govuk-button govuk-button-small approveButton">Accept{{ ' all' if consolidatedQuery }}</a>
+                        <td class="govuk-table__cell numeric">
+                            <a href="/handle-query?selected-query={{query.id}}&response=approved" class="govuk-button govuk-button-small approveButton">Accept{{ ' all' if consolidatedQuery }}</a>
                             
                             <br>
                             <button type="button" class="govuk-button govuk-button-red govuk-button-small open-dialog">Reject{{ ' all' if consolidatedQuery }}</button><br>
                             {% if query['type'] == 'pupil' and query['pupils'] | length != 0 %}
-                            <a href="single-query" data-name="selected-query" data-value="{{ query.ref }}" class="govuk-button govuk-button-blue govuk-button-small">
+                            <a href="single-query" data-name="selected-query" data-value="{{ query.id }}" class="govuk-button govuk-button-blue govuk-button-small">
                                 View details
                                 </a>
                             {% endif %}

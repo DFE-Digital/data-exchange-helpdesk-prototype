@@ -5,6 +5,7 @@
 {% endblock %}
 
 {% set collector = data.collectors | getById(0) %}
+{% set schools = data['schools'] %}
 
 {% block content %}
 
@@ -157,47 +158,41 @@
 
                 <th class="govuk-table__header numeric" scope="col"><span class="no-wrap">Errors</span></th>
                 
-                <th class="govuk-table__header" scope="col"><span class="no-wrap">Actions</span></th>
+                <th class="govuk-table__header numeric" scope="col"><span class="no-wrap">Actions</span></th>
                 
                 </tr>
             </thead>
             
             <tbody class="govuk-table__body">
 
-                {% for i in range(0, 31) -%}
-
-                {% set school = '' | randomSchool %}
+                {% for school in schools | sort(false, true, 'submittedDate')  -%}
 
                 <tr class="govuk-table__row">
                         <th class="govuk-table__header" scope="row">
-                            <a href="queries/overview.html?noOfQueries={{ noOfQueries }}&noOfErrors={{ noOfErrors }}&schoolName={{ school }}">
-                                {{ school }}
+                            <a href="queries/overview.html?selected-school={{ school.id }}">
+                                {{ school.name }}
                             </a>
                         </th>
                         <td class="govuk-table__cell">
-                            {{ ['08','09','10','11','13','14','15'] | random }}:{{ ['11','13','16','23','32','35','44','51'] | random }} {{ [19,20,21,22,23,24,25,26] | random
-                             }} February 2019
+                            {{ school.submittedDate | formatColumnDate }}
                         </td>
                         <td class="govuk-table__cell">
-                            {% set schoolType = ['maintained', 'maintained', 'academy'] | random %}
                             {{ govukTag({
-                                text: schoolType,
-                                classes: schoolType
+                                text: school.type,
+                                classes: school.type
                             }) }}
                         </td>
                         <td class="govuk-table__cell">
-                            {{ [241,940,493,912,314] | random }}/{{ [1,2,3,4,5,6,7,8,9] | random }}{{ [1,2,3,4,5,6,7,8,9] | random }}{{ [1,2,3,4,5,6,7,8,9] | random }}{{ [1,2,3,4,5,6,7,8,9] | random }}
+                            {{ school.LAESTAB }}
                         </td>
                         <td class="govuk-table__cell numeric">
-                            {% set noOfQueries = [23,43,92,39,19,30,40] | random %}
-                            {{ noOfQueries }}
+                            {{ school.noOfQueries }}
                         </td>
                         <td class="govuk-table__cell numeric">
-                            {% set noOfErrors = [9,0,0,0,93,19,3,12] | random %}
-                            {{ noOfErrors }}
+                            {{ school.noOfErrors }}
                         </td>
-                        <td class="govuk-table__cell">
-                            <a href="queries/overview.html?noOfQueries={{ noOfQueries }}&noOfErrors={{ noOfErrors }}" class="govuk-button govuk-button-blue govuk-button-small">
+                        <td class="govuk-table__cell numeric">
+                            <a href="queries/overview.html?selected-school={{ school.id }}" class="govuk-button govuk-button-blue govuk-button-small">
                                 Open
                             </a>
                         </td>

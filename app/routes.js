@@ -1,9 +1,10 @@
 const express = require('express')
 const router = express.Router()
 const set = require('lodash.set')
+const generate = require('./data/generators')
 
 // Generic 'next page' rule
-router.post('*', function(req, res, next) {
+router.post('*', (req, res, next) => {
 	console.log(req.body)
 	if (req.body['next-page']) {
 		res.redirect(req.body['next-page'])
@@ -12,8 +13,13 @@ router.post('*', function(req, res, next) {
 	}
 })
 
+router.all('*', (req, _, next) => {
+	set(req.session.data, 'time', new Date().getTime())
+	next()
+})
+
 // Generic 'next page' rule
-router.all('/handle-query', function(req, res, next) {
+router.all('/handle-query', (req, res) => {
 	const schoolIndex = req.session.data['selected-school']
 	const queryIndex = req.session.data['selected-query']
 	const response = req.body['response'] || req.session.data['response']
@@ -30,7 +36,7 @@ router.all('/handle-query', function(req, res, next) {
 	res.redirect(req.headers.referer)
 })
 
-router.all('/delete-response', function(req, res) {
+router.all('/delete-response', (req, res) => {
 	const schoolIndex = req.session.data['selected-school']
 	const queryIndex = req.session.data['selected-query']
 	const path = 'schools[' + schoolIndex + ']' + '.queries[' + queryIndex + ']'
@@ -42,7 +48,7 @@ router.all('/delete-response', function(req, res) {
 	res.redirect(req.headers.referer)
 })
 
-router.all('/amend-collector', function(req, res) {
+router.all('/amend-collector', (req, res) => {
 	const selectedCollector = req.session.data['selected-user']
 	const firstName = req.session.data['first-name']
 	const lastName = req.session.data['last-name']
@@ -59,7 +65,7 @@ router.all('/amend-collector', function(req, res) {
 	)
 })
 
-router.all('/allocate-work', function(req, res) {
+router.all('/allocate-work', (req, res) => {
 	const assignLocalAuthorities = (users, localAuthorities) => {
 		for (i in localAuthorities) {
 			var la = localAuthorities[i]
@@ -118,6 +124,18 @@ router.all('/allocate-work', function(req, res) {
 		req.headers.referer.substr(0, req.headers.referer.lastIndexOf('/') + 1) +
 			'manage'
 	)
+})
+
+router.all('/select-school', (req, res) => {
+	const selectedSchoolIndex = req.session.data['selected-school']
+	const selectedSchool = req.session.data['schools'][selectedSchoolIndex]
+	console.log(selectedSchoolIndex)
+	if (selectedSchool.queries.length == 0) {
+		const queries = generate.queries(selectedSchool.noOfQueries)
+		const path = 'schools[' + selectedSchoolIndex + '].queries'
+		set(req.session.data, path, queries)
+	}
+	res.redirect(req.headers.referer)
 })
 
 module.exports = router
