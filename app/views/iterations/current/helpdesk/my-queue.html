@@ -138,7 +138,7 @@
         html: filtersHTML
         }) }}
 
-        <table class="govuk-table internal-table collector-table">
+        <table id="queueTable" class="govuk-table internal-table collector-table">
             
             <caption class="govuk-table__caption">My work queue</caption>
             
@@ -146,17 +146,17 @@
             <thead class="govuk-table__head">
                 <tr class="govuk-table__row">
                 
-                <th class="govuk-table__header" scope="col"><span class="no-wrap">Name</span></th>
+                <th class="govuk-table__header" scope="col" aria-sort="none"><span class="no-wrap">Name</span></th>
 
-                <th class="govuk-table__header" scope="col"><span class="no-wrap">Submitted</span></th>
+                <th class="govuk-table__header" scope="col" aria-sort="ascending"><span class="no-wrap">Submitted</span></th>
 
-                <th class="govuk-table__header" scope="col"><span class="no-wrap">Type</span></th>
+                <th class="govuk-table__header" scope="col" aria-sort="none"><span class="no-wrap">Type</span></th>
 
-                <th class="govuk-table__header" scope="col"><span class="no-wrap">LAESTAB</span></th>
+                <th class="govuk-table__header" scope="col" aria-sort="none"><span class="no-wrap">LAESTAB</span></th>
 
-                <th class="govuk-table__header numeric" scope="col"><span class="no-wrap">Queries</span></th>
+                <th class="govuk-table__header numeric" scope="col" aria-sort="none"><span class="no-wrap">Queries</span></th>
 
-                <th class="govuk-table__header numeric" scope="col"><span class="no-wrap">Errors</span></th>
+                <th class="govuk-table__header numeric" scope="col" aria-sort="none"><span class="no-wrap">Errors</span></th>
                 
                 <th class="govuk-table__header numeric" scope="col"><span class="no-wrap">Actions</span></th>
                 
@@ -211,4 +211,11 @@
 
 
 
+{% endblock %}
+
+{% block pageScripts %}
+<script>
+    var table = document.getElementById('queueTable')
+    new SortableTable(table)
+</script>
 {% endblock %}

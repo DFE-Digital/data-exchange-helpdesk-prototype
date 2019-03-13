@@ -138,4 +138,14 @@ router.all('/select-school', (req, res) => {
 	res.redirect(req.headers.referer)
 })
 
+router.all('/send-responses', (req, res) => {
+	const selectedSchoolIndex = req.session.data['selected-school']
+	const path = 'schools[' + selectedSchoolIndex + '].responsesSent'
+	set(req.session.data, path, 'true')
+	res.redirect(
+		req.headers.referer.substr(0, req.headers.referer.lastIndexOf('/') + 1) +
+			'return-sent'
+	)
+})
+
 module.exports = router
