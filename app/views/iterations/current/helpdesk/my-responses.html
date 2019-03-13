@@ -33,11 +33,11 @@
             label: 'Sub navigation',
             items: [{
                 html: 'Inbox <span class="type-tag count-tag">' + inboxCount + '</span>',
-                href: 'my-queue',
-                active: true
+                href: 'my-queue'
             }, {
                 html: 'Responded <span class="type-tag count-tag">' + respondedCount + '</span>',
-                href: 'my-responses'
+                href: 'my-responses',
+                active: true
             }, {
                 html: 'Not started <span class="type-tag count-tag">1,321</span>',
                 href: '#3'
@@ -176,7 +176,7 @@
 
                 {% for school in schools | sort(false, true, 'submittedDate')  -%}
 
-                {% if school.responsesSent != 'true' %}
+                {% if school.responsesSent == 'true' %}
 
                 <tr class="govuk-table__row">
                         <th class="govuk-table__header" scope="row">

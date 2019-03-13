@@ -33,7 +33,7 @@ window.location.href = '/select-school'
     <div style="float:right;">
         {{ govukButton({
             text: 'Return to work queue' if pendingCount != 0 else 'Send responses to school',
-            href: '../my-queue',
+            href: '../my-queue' if pendingCount != 0 else '/send-responses',
             classes: 'hmcts-menu-item hmcts-button--secondary' if pendingCount != 0 else 'hmcts-menu-item'
         }) }}
     </div>
@@ -83,7 +83,7 @@ window.location.href = '/select-school'
             <p>You can <a href="handled">review the responses</a> before they are sent. Once the responses are sent the school can reply to rejected queries or amend data in their MIS.</p>
             {{ govukButton({
                 text: 'Send responses to school',
-                href: '#',
+                href: '/send-responses#',
                 classes: ''
             }) }}
         </div>
@@ -219,8 +219,6 @@ window.location.href = '/select-school'
 
 </div>
 
-{% endif %}
-
 <div class="dialog" role="dialog" aria-labelledby="dialog-title" aria-describedby="dialog-description">
             
     <div class="query-description"></div>
@@ -280,6 +278,8 @@ window.location.href = '/select-school'
 </div>
 
 <div class="dialog-overlay" tabindex="-1"></div>
+
+{% endif %}
 
 
 {% endblock %}

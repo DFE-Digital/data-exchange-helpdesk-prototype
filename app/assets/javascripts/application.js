@@ -462,3 +462,5 @@ function SortableTable(table) {
 		table.parentElement.insertBefore(status, table.nextSibling)
 	}
 }
+
+$('a[href]').addClass('govuk-link--no-visited-state')
