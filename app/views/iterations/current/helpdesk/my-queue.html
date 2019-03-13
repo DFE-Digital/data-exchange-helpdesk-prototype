@@ -184,7 +184,7 @@
                                 {{ school.name }}
                             </a>
                         </th>
-                        <td class="govuk-table__cell">
+                        <td class="govuk-table__cell govuk-table__cell--numeric" style="text-align: left">
                             {{ school.submittedDate | formatColumnDate }}
                         </td>
                         <td class="govuk-table__cell">
@@ -193,13 +193,13 @@
                                 classes: school.type
                             }) }}
                         </td>
-                        <td class="govuk-table__cell">
+                        <td class="govuk-table__cell govuk-table__cell--numeric">
                             {{ school.LAESTAB }}
                         </td>
-                        <td class="govuk-table__cell numeric">
+                        <td class="govuk-table__cell numeric govuk-table__cell--numeric">
                             {{ school.noOfQueries }}
                         </td>
-                        <td class="govuk-table__cell numeric">
+                        <td class="govuk-table__cell numeric govuk-table__cell--numeric">
                             {{ school.noOfErrors }}
                         </td>
                         <td class="govuk-table__cell numeric">
@@ -221,6 +221,8 @@
     </div>
 
 </div>
+
+
 
 
 

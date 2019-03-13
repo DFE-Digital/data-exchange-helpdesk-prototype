@@ -45,6 +45,10 @@ router.all('/delete-response', (req, res) => {
 	set(req.session.data, path + 'auto', 'false')
 	set(req.session.data, path + 'response', '')
 	set(req.session.data, path + 'handledOn', '')
+	if (req.session.data.schools[schoolIndex].responsesSent == 'true') {
+		const schoolPath = 'schools[' + schoolIndex + '].responsesSent'
+		set(req.session.data, schoolPath, 'false')
+	}
 	res.redirect(req.headers.referer)
 })
 

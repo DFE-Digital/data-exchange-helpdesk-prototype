@@ -21,9 +21,9 @@
 
 {% block postHeader %}
 {% if queries | length == 0 %}
-<script>
-window.location.href = '/select-school'
-</script>
+    <script>
+        window.location.href = '/select-school'
+    </script>
 {% endif %}
 <div class="hmcts-identity-bar">
   <div class="hmcts-identity-bar__container">
@@ -32,8 +32,8 @@ window.location.href = '/select-school'
     </div>
     <div style="float:right;">
         {{ govukButton({
-            text: 'Return to work queue' if pendingCount != 0 else 'Send responses to school',
-            href: '../my-queue' if pendingCount != 0 else '/send-responses',
+            text: 'Return to work queue' if (pendingCount == 0) or (school.responsesSent == 'true') else 'Send responses to school',
+            href: '../my-queue' if (pendingCount == 0) or (school.responsesSent == 'true') else '/send-responses',
             classes: 'hmcts-menu-item hmcts-button--secondary' if pendingCount != 0 else 'hmcts-menu-item'
         }) }}
     </div>
@@ -74,7 +74,23 @@ window.location.href = '/select-school'
 
 </div>
 
-{% if pendingCount == 0 %}
+{% if (pendingCount == 0) and (school.responsesSent == 'true') %}
+
+    <div class="govuk-grid-row">
+
+        <div class="govuk-grid-column-one-half">
+            <h2 class="govuk-heading-l">Responses have been sent to school</h1>
+            <p>You can <a href="handled">review the responses</a> and change the responses if there has been an error.</p>
+            {{ govukButton({
+                text: 'Review responses',
+                href: 'handled',
+                classes: ''
+            }) }}
+        </div>
+
+    </div>
+
+{% elseif pendingCount == 0 %}
 
     <div class="govuk-grid-row">
 

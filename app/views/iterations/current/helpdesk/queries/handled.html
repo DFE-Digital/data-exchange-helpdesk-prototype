@@ -27,8 +27,8 @@
     </div>
     <div style="float:right;">
         {{ govukButton({
-            text: 'Return to work queue' if pendingCount != 0 else 'Send responses to school',
-            href: '../my-queue',
+            text: 'Return to work queue' if (pendingCount == 0) or (school.responsesSent == 'true') else 'Send responses to school',
+            href: '../my-queue' if (pendingCount == 0) or (school.responsesSent == 'true') else '/send-responses',
             classes: 'hmcts-menu-item hmcts-button--secondary' if pendingCount != 0 else 'hmcts-menu-item'
         }) }}
     </div>
@@ -41,7 +41,6 @@
 <div class="govuk-grid-row">
 
     <div class="govuk-grid-column-full census-case-nav">
-
 
         {% set pendingCount = (queries | length) - handledCount %}
 
@@ -139,7 +138,7 @@
                                 {{ query.number }}
                             </h3>
                             {% if query['type'] == 'pupil' %}
-                            <a href="single-query" class="no-wrap type-tag {{ query['type'] }}"  data-name="selected-query" data-value="{{query.ref}}">
+                            <a href="single-query" class="no-wrap type-tag {{ query['type'] }}"  data-name="selected-query" data-value="{{query.id}}">
                                 {% if query.pupils | length == 0 %}
                                     Pupil query
                                 {% elseif query.pupils | length != 1 %}
@@ -191,7 +190,7 @@
                                 
                             </div>
                             {% endif %}
-                            <a href="/delete-response?selected-query={{query.ref}}" class="govuk-button govuk-button-small govuk-button-red">Delete response</a>
+                            <a href="/delete-response?selected-query={{query.id}}" class="govuk-button govuk-button-small govuk-button-red">Delete response</a>
                         </td>
 
                     </tr>
