@@ -31,11 +31,25 @@
         <span class="hmcts-identity-bar__title"><b>{{ schoolName }}</b> {{ laestab }} <strong class="govuk-!-padding-right-4"></strong>{{ govukTag({text: school.type, classes: school.type}) }}</span>
     </div>
     <div style="float:right;">
-        {{ govukButton({
-            text: 'Return to work queue' if (pendingCount == 0) or (school.responsesSent == 'true') else 'Send responses to school',
-            href: '../my-queue' if (pendingCount == 0) or (school.responsesSent == 'true') else '/send-responses',
-            classes: 'hmcts-menu-item hmcts-button--secondary' if pendingCount != 0 else 'hmcts-menu-item'
-        }) }}
+        {% if (school.responsesSent == 'true') %}
+            {{ govukButton({
+                text: 'Return to work queue',
+                href: '../my-responses',
+                classes: 'hmcts-menu-item hmcts-button--secondary'
+            }) }}
+        {% elseif (pendingCount == 0) %}
+            {{ govukButton({
+                text: 'Send responses to school',
+                href: '/send-responses',
+                classes: 'hmcts-menu-item'
+            }) }}
+        {% else %}
+            {{ govukButton({
+                text: 'Return to work queue',
+                href: '../my-queue',
+                classes: 'hmcts-menu-item hmcts-button--secondary'
+            }) }}
+        {% endif %}
     </div>
   </div>
 </div>

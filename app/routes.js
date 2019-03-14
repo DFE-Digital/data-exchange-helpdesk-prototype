@@ -144,8 +144,17 @@ router.all('/select-school', (req, res) => {
 
 router.all('/send-responses', (req, res) => {
 	const selectedSchoolIndex = req.session.data['selected-school']
-	const path = 'schools[' + selectedSchoolIndex + '].responsesSent'
-	set(req.session.data, path, 'true')
+	const path = 'schools[' + selectedSchoolIndex + ']'
+	const queries = req.session.data.schools[selectedSchoolIndex].queries
+	var acceptedCount = 0
+	queries.forEach(query => {
+		if (query.approved == 'true') {
+			acceptedCount++
+		}
+	})
+	set(req.session.data, path + '.responsesSent', 'true')
+	set(req.session.data, path + '.approvedCount', acceptedCount)
+	set(req.session.data, path + '.respondedOn', new Date().getTime())
 	res.redirect(
 		req.headers.referer.substr(0, req.headers.referer.lastIndexOf('/') + 1) +
 			'return-sent'

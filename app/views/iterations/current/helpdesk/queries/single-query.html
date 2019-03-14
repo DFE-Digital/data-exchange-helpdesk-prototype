@@ -17,18 +17,24 @@
         <span class="hmcts-identity-bar__title"><b>{{ schoolName }}</b> {{ laestab }} <strong class="govuk-!-padding-right-4"></strong>{{ govukTag({text: school.type}) }}</span>
     </div>
     <div style="float:right;">
-        {% if pendingCount != 0 %}
-        {{ govukButton({
-            text: 'Return to work queue',
-            href: '#',
-            classes: 'hmcts-menu-item hmcts-button--secondary'
-        }) }}
+        {% if (school.responsesSent == 'true') %}
+            {{ govukButton({
+                text: 'Return to work queue',
+                href: '../my-responses',
+                classes: 'hmcts-menu-item hmcts-button--secondary'
+            }) }}
+        {% elseif (pendingCount == 0) %}
+            {{ govukButton({
+                text: 'Send responses to school',
+                href: '/send-responses',
+                classes: 'hmcts-menu-item'
+            }) }}
         {% else %}
-        {{ govukButton({
-            text: 'Send responses to school',
-            href: '#',
-            classes: 'hmcts-menu-item'
-        }) }}
+            {{ govukButton({
+                text: 'Return to work queue',
+                href: '../my-queue',
+                classes: 'hmcts-menu-item hmcts-button--secondary'
+            }) }}
         {% endif %}
     </div>
   </div>
@@ -119,7 +125,7 @@
             {% for pupil in query.pupils %}
             <tr class="govuk-table__row">
                 {% if isMultiple %}
-                <th class="govuk-table__header table-checkbox-cell" scope="row"><input type="checkbox" id="select{{ loop.index - 1 }}"><label for="select{{ loop.index }}"></label></th>
+                <th class="govuk-table__header table-checkbox-cell" scope="row"><input type="checkbox" id="select{{ loop.index - 1 }}"><label for="select{{ loop.index - 1 }}"></label></th>
                 {% endif %}
                 <th class="govuk-table__header" scope="row">
                     <a href="#" class="open-dialog" data-pupil="{{ loop.index - 1 }}"><span class="upn">{{ [pupil.UPN, pupil.UPN, pupil.UPN, pupil.UPN, pupil.UPN, 'UPN missing'] | random }}</span></a>

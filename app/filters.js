@@ -180,6 +180,10 @@ module.exports = function(env) {
 		})
 	}
 
+	filters.sentenceCase = str => {
+		return str.charAt(0).toUpperCase() + str.substr(1).toLowerCase()
+	}
+
 	filters.numbersOnly = str =>
 		str
 			.toString()

@@ -157,13 +157,17 @@
                 
                 <th class="govuk-table__header" scope="col" aria-sort="none"><span class="no-wrap">Name</span></th>
 
-                <th class="govuk-table__header" scope="col" aria-sort="ascending"><span class="no-wrap">Submitted</span></th>
+                <th class="govuk-table__header" scope="col" aria-sort="ascending"><span class="no-wrap">Responded</span></th>
 
                 <th class="govuk-table__header" scope="col" aria-sort="none"><span class="no-wrap">Type</span></th>
 
                 <th class="govuk-table__header" scope="col" aria-sort="none"><span class="no-wrap">LAESTAB</span></th>
 
                 <th class="govuk-table__header numeric" scope="col" aria-sort="none"><span class="no-wrap">Queries</span></th>
+
+                <th class="govuk-table__header numeric" scope="col" aria-sort="none"><span class="no-wrap">Accepted</span></th>
+
+                <th class="govuk-table__header numeric" scope="col" aria-sort="none"><span class="no-wrap">Rejected</span></th>
 
                 <th class="govuk-table__header numeric" scope="col" aria-sort="none"><span class="no-wrap">Errors</span></th>
                 
@@ -174,7 +178,7 @@
             
             <tbody class="govuk-table__body">
 
-                {% for school in schools | sort(false, true, 'submittedDate')  -%}
+                {% for school in schools | sort(false, true, 'respondedOn')  -%}
 
                 {% if school.responsesSent == 'true' %}
 
@@ -184,8 +188,8 @@
                                 {{ school.name }}
                             </a>
                         </th>
-                        <td class="govuk-table__cell">
-                            {{ school.submittedDate | formatColumnDate }}
+                        <td class="govuk-table__cell" data-sort-value="{{ school.respondedOn }}">
+                            {{ school.respondedOn | friendlyDate(data['time']) | sentenceCase }}
                         </td>
                         <td class="govuk-table__cell">
                             {{ govukTag({
@@ -200,11 +204,17 @@
                             {{ school.noOfQueries }}
                         </td>
                         <td class="govuk-table__cell numeric">
+                            {{ school.approvedCount }}
+                        </td>
+                        <td class="govuk-table__cell numeric">
+                            {{ school.noOfQueries | float - school.approvedCount | float }}
+                        </td>
+                        <td class="govuk-table__cell numeric">
                             {{ school.noOfErrors }}
                         </td>
                         <td class="govuk-table__cell numeric">
-                            <a href="queries/overview.html?selected-school={{ school.id }}" class="govuk-button govuk-button-blue govuk-button-small">
-                                Open
+                            <a href="queries/handled.html?selected-school={{ school.id }}" class="govuk-button govuk-button-blue govuk-button-small">
+                                Review
                             </a>
                         </td>
                         
