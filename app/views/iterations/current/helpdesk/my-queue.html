@@ -1,7 +1,7 @@
 {% extends 'layout_internal.html' %}
 
 {% block pageTitle %}
-    Workloads
+    My work queue
 {% endblock %}
 
 {% set collector = data.collectors | getById(0) %}
@@ -20,14 +20,10 @@
 
 <div class="govuk-grid-row">
 
-    <div class="govuk-grid-column-full">
-
-        {{ govukBackLink({
-            text: 'Back',
-            href: 'javascript:history.back()'
-        }) }}
+    <div class="govuk-grid-column-full census-case-nav">
 
         <h1 class="govuk-heading-l">My work queue</h1>
+
 
         {{ hmctsSubNavigation({
             label: 'Sub navigation',
@@ -41,8 +37,33 @@
             }, {
                 html: 'Not submitted <span class="type-tag count-tag">1,321</span>',
                 href: '#3'
+            }, {
+                html: 'See all queues',
+                href: '#4'
             }]
         }) }} 
+
+
+        {% if inboxCount == 0 %}
+
+        <div class="govuk-grid-row">
+
+            <div class="govuk-grid-column-one-half">
+                
+                <h2 class="govuk-heading-l">All schools in this queue have a response</h2>
+                <p>There are no schools in this queue waiting on responses. There are 1,321 schools in this queue that have not submitted their data collection</p>
+                <p>To respond to submissions you should:</p>
+                <ol class="govuk-list govuk-list--number">
+                    <li>Choose a school in the <a href="my-queue">inbox</a></li>
+                    <li>Provide an action for every query the school has sent responses for</li>
+                    <li>Send all the responses to the school</li>
+                </ol>
+
+            </div>
+  
+        </div>
+
+        {% else %}
 
         {% set filtersHTML %}
 
@@ -216,6 +237,8 @@
                 
             </tbody>
         </table>
+
+        {% endif %}
 
  
     </div>

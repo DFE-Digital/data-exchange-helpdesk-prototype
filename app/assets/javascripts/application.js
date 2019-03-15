@@ -464,3 +464,21 @@ function SortableTable(table) {
 }
 
 $('a[href]').addClass('govuk-link--no-visited-state')
+
+function iterationRoute(str, path) {
+	var pathParts = []
+	while (path.length != 0) {
+		pathParts.push(path.substring(path.lastIndexOf('/'), path.length))
+		path = path.slice(0, -pathParts[pathParts.length - 1].length)
+	}
+	return str.replace(
+		'#root#',
+		pathParts[pathParts.length - 1] + pathParts[pathParts.length - 2]
+	)
+}
+
+var windowPath = window.location.pathname
+
+$('a[href*=#root#]').each(function() {
+	$(this).attr('href', iterationRoute($(this).attr('href'), windowPath))
+})
