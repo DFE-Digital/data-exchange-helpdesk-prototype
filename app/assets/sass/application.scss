@@ -20,6 +20,381 @@ $govuk-global-styles: true;
 
 @import 'custom/internal';
 
+.block {
+	display: block;
+}
+
+.govuk-link-back--close {
+	padding-left: 0;
+}
+.govuk-link-back--close:before {
+	content: none;
+}
+
+.stat a {
+	border-top: 1px solid $govuk-border-colour;
+}
+
+.well--white-text {
+	color: govuk-colour('white');
+}
+
+.well--white-text a {
+	color: govuk-colour('white');
+}
+
+.well--turquoise {
+	background-color: govuk-colour('turquoise');
+}
+
+.well--blue {
+	background-color: govuk-colour('blue');
+	color: govuk-colour('white');
+}
+
+.well--blue a {
+	color: govuk-colour('white') !important;
+}
+
+.well {
+	height: 270px;
+	text-align: center;
+	padding-top: 24px;
+}
+
+.well--v2 {
+	height: inherit;
+	text-align: left;
+}
+
+.govuk-link--download {
+	padding-top: 89px !important;
+}
+
+ul.dataset-wrapper {
+}
+
+.dataset-button {
+	padding: 15px;
+	text-align: center;
+	display: block;
+	background-color: govuk-colour('blue');
+	color: govuk-colour('white') !important;
+	border-radius: 3px;
+	float: left;
+	margin: 0 20px 20px 0;
+}
+
+.govuk-section-break {
+	clear: both;
+}
+
+.clear {
+	height: 1px;
+	overflow: hidden;
+	clear: both;
+}
+
+.govuk-link--show-more-datasets {
+	clear: both;
+	display: block;
+	padding-top: 15px;
+}
+
+.events-list {
+	border-left: 3px solid $govuk-border-colour;
+}
+
+.govuk-tag--attention {
+	background-color: govuk-colour('orange');
+}
+
+.govuk-tag--error {
+	background-color: $govuk-error-colour;
+}
+.govuk-tag--progress {
+	background-color: govuk-colour('turquoise');
+}
+
+.group {
+	border-left: 5px solid $govuk-border-colour;
+}
+
+.group--error {
+	border-color: $govuk-error-colour;
+}
+
+.group--attention {
+	border-color: govuk-colour('orange');
+}
+
+a .govuk-hint {
+	text-decoration: none !important;
+}
+
+.govuk-list--pupils li.item--selected {
+	background-color: govuk-colour('grey-4');
+}
+
+.sections {
+	border-bottom: 3px solid govuk-colour('blue');
+}
+
+a.section {
+	background-color: govuk-colour('grey-4');
+	text-decoration: none;
+}
+
+a.section:hover {
+	background-color: govuk-colour('grey-3');
+}
+
+.section-progress {
+	background-color: govuk-colour('turquoise');
+	color: govuk-colour('white');
+}
+
+.section-progress h2 {
+	color: govuk-colour('white');
+}
+
+.section-progress a {
+	color: govuk-colour('white');
+}
+
+a.selected {
+	background-color: govuk-colour('blue');
+}
+
+a.selected:hover {
+	background-color: govuk-colour('blue');
+}
+
+a.selected {
+	text-decoration: none;
+}
+
+a.section h2 {
+	color: $govuk-link-colour;
+}
+
+a.selected h2 {
+	color: govuk-colour('white');
+}
+
+div.selected a {
+	color: govuk-colour('white') !important;
+	text-decoration: none;
+}
+
+.pupil-sections li {
+	display: inline-block;
+}
+
+#displayPane {
+	overflow-y: auto;
+	position: fixed;
+	top: 0;
+	right: 0;
+	background-color: govuk-colour('grey-4');
+	border-left: 1px solid $govuk-border-colour;
+	display: none;
+}
+
+#displayPane li.issue,
+tr.issue {
+	color: govuk-colour('orange');
+}
+
+.error,
+.error {
+	color: $govuk-error-colour;
+}
+
+.suggestions {
+	display: none;
+}
+
+.suggestions li {
+	border-bottom: 1px solid $govuk-border-colour;
+}
+
+.suggestions li:hover {
+	display: block;
+	background-color: govuk-colour('grey-3');
+	cursor: pointer;
+}
+
+.suggestions li .govuk-hint {
+	margin-bottom: 0;
+}
+
+.fitering-options a {
+	text-decoration: none;
+	border-left: 4px solid govuk-colour('grey-3');
+}
+.fitering-options a:hover {
+	background-color: govuk-colour('grey-4');
+}
+.fitering-options a.selected {
+	background-color: govuk-colour('grey-4');
+	border-left-color: govuk-colour('blue');
+}
+
+.notepad-entry {
+	display: block;
+	background-color: #fefdf4;
+	border: 1px solid govuk-colour('grey-3');
+	border-radius: 3px;
+}
+
+.author-and-timestamp {
+	color: govuk-colour('grey-1');
+}
+
+.report span {
+	display: block;
+}
+
+.c-align {
+	text-align: center;
+}
+
+.note-to-user {
+	background-color: govuk-colour('grey-4');
+}
+
+.clsHeading {
+	text-align: left;
+}
+
+.herospace {
+	background-color: govuk-colour('blue');
+}
+
+.herospace h1,
+.herospace p {
+	color: govuk-colour('white');
+}
+
+.herospace .govuk-button {
+	color: #005ea5;
+	background-color: #fff;
+	-webkit-box-shadow: 0 2px 0 #004274;
+	box-shadow: 0 2px 0 #004274;
+}
+
+.sticky h2 {
+	position: fixed;
+	top: 0;
+	z-index: 100;
+}
+
+#filteringOptions {
+	border-right: 1px solid $govuk-border-colour;
+}
+
+#listOfSchools li {
+	border-bottom: 1px solid $govuk-border-colour;
+}
+
+.monitor-view a.border {
+	border-top: 2px solid $govuk-border-colour;
+}
+
+//.monitor-view a {
+//    color: $govuk-text-colour !important;
+//}
+
+.monitor-view .first-item a {
+	color: govuk-colour('white');
+}
+
+.monitor-view .first-item {
+	background-color: govuk-colour('blue');
+	color: govuk-colour('white');
+}
+
+.r-align {
+	text-align: right;
+}
+
+.sortOptions--selected {
+}
+
+.js-enabled .govuk-tabs__panel {
+	border-left-color: transparent !important;
+	border-right-color: transparent !important;
+	border-bottom-color: transparent !important;
+}
+
+.no-wrap {
+	white-space: nowrap;
+}
+
+.govuk-table__header a {
+	text-decoration: none;
+}
+
+.pull-right {
+	float: right;
+}
+
+.govuk-summary-list {
+	& > .govuk-summary-list__row:last-child {
+		& > * {
+			border: none;
+		}
+	}
+}
+
+.js-enabled .govuk-accordion__controls {
+	display: flex;
+	align-items: center;
+	justify-content: left;
+	& > button:last-child {
+		margin-left: auto;
+	}
+}
+
+.js-enabled .govuk-accordion__section-header {
+	padding-left: 10px;
+}
+
+.js-enabled
+	.govuk-accordion__section--expanded
+	.govuk-accordion__section-content {
+	padding-left: 10px;
+}
+
+.orange-bg {
+	background-color: govuk-colour('orange');
+}
+
+.grey-bg {
+	background-color: govuk-colour('grey-1');
+}
+
+button.orange-bg {
+	box-shadow: 0 2px 0 darken(govuk-colour('orange'), 30%);
+	&:hover {
+		background-color: darken(govuk-colour('orange'), 20%);
+	}
+}
+
+.turquoise-bg {
+	background-color: govuk-colour('turquoise');
+	border-bottom-color: darken(govuk-colour('turquoise'), 10%);
+}
+
+.response .govuk-inset-text {
+	border-left-color: govuk-colour('turquoise');
+}
+
+.response.rejected .govuk-inset-text {
+	border-left-color: govuk-colour('orange');
+}
+
 a[href='#'] {
 	color: $govuk-link-colour;
 }
