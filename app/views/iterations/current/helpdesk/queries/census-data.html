@@ -91,27 +91,59 @@
 <div class="govuk-grid-row">
 
     <div class="govuk-grid-column-full">
+        
+        {% set summaryHTML  %}
+            {% include './census/census-summary.html' %}
+        {% endset -%}
+
+        {% set schoolHTML  %}
+            {% include './census/school.html' %}
+        {% endset -%}
+
+        {% set pupilsHTML  %}
+            {% include './census/pupils.html' %}
+        {% endset -%}
+
+        {% set reportsHTML  %}
+            {% include './census/report.html' %}
+        {% endset -%}
+
+
         {{ govukTabs({
             items: [
                 {
                     label: 'Summary',
                     id: 'summary',
                     panel: {
-                        html: '<span>Test</span>'
+                        html: summaryHTML
                     }
                 },
                 {
                     label: 'School details',
                     id: 'school',
                     panel: {
+                        html: schoolHTML
+                    }
+                },
+                {
+                    label: 'Class details',
+                    id: 'class',
+                    panel: {
                         html: '<span>Test</span>'
+                    }
+                },
+                {
+                    label: 'Pupil details',
+                    id: 'pupil',
+                    panel: {
+                        html: pupilsHTML
                     }
                 },
                 {
                     label: 'Reports',
                     id: 'reports',
                     panel: {
-                        html: '<span>Test</span>'
+                        html: reportsHTML
                     }
                 }
             ]
