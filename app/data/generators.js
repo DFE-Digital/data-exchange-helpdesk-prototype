@@ -1,6 +1,7 @@
 // @ts-check
 const faker = require('faker')
 const dummyQueries = require('./dummy-queries')
+const dummyErrors = require('./dummy-errors')
 
 const generators = {}
 
@@ -969,11 +970,17 @@ generators.randomDate = (fromDaysBack, toDaysBack) => {
 	return minTime + randomUNIXSeconds
 }
 
-// Simulated queries
+// Simulated queries and errors
 
 generators.queryArray = dummyQueries(
 	generators.name,
 	generators.randomDate,
+	generators.pupils
+)
+
+generators.errorArray = dummyErrors(
+	generators.randomNumber,
+	generators.randomItemFrom,
 	generators.pupils
 )
 
@@ -992,6 +999,24 @@ generators.queries = amount => {
 		query.id = i
 		query.handled = 'false'
 		output.push(query)
+	}
+	return output
+}
+
+/**
+ * @param {number} amount
+ */
+
+generators.errors = amount => {
+	var output = []
+	var i = 0
+	for (i; i < amount; i++) {
+		var error = generators.randomItemFrom(generators.errorArray)
+		while (output.find(obj => obj.number === error.number)) {
+			error = generators.randomItemFrom(generators.errorArray)
+		}
+		error.id = i
+		output.push(error)
 	}
 	return output
 }

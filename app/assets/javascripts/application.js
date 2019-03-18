@@ -19,18 +19,22 @@ var customNote = false
 $(document).ready(function() {
 	window.GOVUKFrontend.initAll()
 
+	$('body').addClass('js-enabled')
+
 	$('input').attr('autocomplete', 'off')
 
 	function getStickyItemPosition() {
 		try {
-			var itemTop = $('.sticky-item').offset().top
-			var itemPadding = parseInt(
-				$('.sticky-item')
-					.css('padding-top')
-					.replace('px', '')
-			)
+			if ($('.sticky-item').offset()) {
+				var itemTop = $('.sticky-item').offset().top
+				var itemPadding = parseInt(
+					$('.sticky-item')
+						.css('padding-top')
+						.replace('px', '')
+				)
 
-			return itemTop + itemPadding
+				return itemTop + itemPadding
+			}
 		} catch (error) {
 			console.log(error)
 			return false

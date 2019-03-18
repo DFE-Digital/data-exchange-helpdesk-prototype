@@ -1,1462 +1,3960 @@
-module.exports = (randomName, getRandomDate, createPupils) => {
+/**
+ * @param {function} randomNumber
+ * @param {function} randomItemFrom
+ * @param {function} createPupils
+ */
+
+module.exports = (randomNumber, randomItemFrom, createPupils) => {
 	return [
 		{
-			number: '1601',
-			type: 'pupil',
-			description: 'Pupil’s age is out of range for school type',
-			guide:
-				'Confirmation that the information is correct, however a reason will be sought if the pupil’s age is significantly out of range for the school type.',
-			pupils: createPupils(3),
-			notes: [
-				{
-					type: 'school',
-					author: randomName(),
-					text: 'This is correct',
-					date: getRandomDate(3, 2)
-				}
-			]
-		},
-		{
-			number: '1601',
-			type: 'pupil',
-			description: 'Pupil’s age is out of range for school type',
-			guide:
-				'Confirmation that the information is correct, however a reason will be sought if the pupil’s age is significantly out of range for the school type.',
-			pupils: createPupils(1),
-			notes: [
-				{
-					type: 'school',
-					author: randomName(),
-					text:
-						'Pupil is SEN and has learning to catch up with from previous years',
-					date: getRandomDate(3, 2)
-				}
-			]
-		},
-		{
-			number: '1620',
-			type: 'pupil',
-			description:
-				'Duplicate pupil records with the same Surname, Forename, Gender and Date of birth',
-			guide:
-				'Reason will be requested to ensure that pupils are different.  For example pupils could be twins where the same name etc is shared',
-			pupils: createPupils(1),
-			notes: [
-				{
-					type: 'school',
-					author: randomName(),
-					text:
-						'This is correct, pupil is twin with the same name as her sister',
-					date: getRandomDate(3, 2)
-				}
-			]
-		},
-		{
-			number: '1633',
-			type: 'pupil',
-			description:
-				'Pupil has an exemption for English GCSE funding due to learning difficulties but does not have  an education, health and care plan (EHCP)',
-			guide:
-				'As this impacts on funding a reason will be sought why a student who does not have an EHC plan would have a funding exemption which states the student has a learning disability which prevents them from studying the qualification',
-			pupils: createPupils(1),
-			notes: [
-				{
-					type: 'school',
-					author: randomName(),
-					text:
-						'This has been approved by ' +
-						randomName() +
-						' from local authority',
-					date: getRandomDate(3, 2)
-				}
-			]
-		},
-		{
-			number: '1633',
-			type: 'pupil',
-			description:
-				'Pupil has an exemption for English GCSE funding due to learning difficulties but does not have  an education, health and care plan (EHCP)',
-			guide:
-				'As this impacts on funding a reason will be sought why a student who does not have an EHC plan would have a funding exemption which states the student has a learning disability which prevents them from studying the qualification',
-			pupils: createPupils(2),
-			notes: [
-				{
-					type: 'school',
-					author: randomName(),
-					text:
-						'Pupils have recently been enrolled and EHCP has not been established yet.',
-					date: getRandomDate(3, 2)
-				}
-			]
-		},
-		{
-			number: '1640',
-			type: 'pupil',
-			description: '100% of pupils are from a White ethnic background ',
-			guide:
-				'Confirmation that the information has been confirmed by the school as being correct.  Acceptable note entry ‘confirmed as correct’',
-			notes: [
-				{
-					type: 'school',
-					author: randomName(),
-					text: 'Correct',
-					date: getRandomDate(3, 2)
-				}
-			]
-		},
-		{
-			number: '1700',
-			type: 'pupil',
-			description:
-				'Percentage of pupils on roll for whom ethnicity has not been obtained is high (greater than 10%)',
-			guide:
-				'Confirmation that the information has been confirmed by the school as being correct.  Acceptable note entry ’confirmed as correct‘',
-			notes: [
-				{
-					type: 'school',
-					author: randomName(),
-					text:
-						'We have had a new influx of students and information has yet to be requested from parents',
-					date: getRandomDate(3, 2)
-				}
-			]
-		},
-		{
-			number: '1745',
-			type: 'pupil',
-			description:
-				'The start date and end date are the same within a single Free School Meal period',
-			guide:
-				'Reason will be requested why a pupil only has one day FSM.  Due to pupil premium funding this is to ensure that schools have not made an error',
-			pupils: createPupils(3),
-			notes: [
-				{
-					type: 'school',
-					author: randomName(),
-					text: 'This is correct',
-					date: getRandomDate(3, 2)
-				}
-			]
-		},
-		{
-			number: '1745',
-			type: 'pupil',
-			description:
-				'The start date and end date are the same within a single Free School Meal period',
-			guide:
-				'Reason will be requested why a pupil only has one day FSM.  Due to pupil premium funding this is to ensure that schools have not made an error',
-			pupils: createPupils(1),
-			notes: [
-				{
-					type: 'school',
-					author: randomName(),
-					text:
-						'This pupil had free school meals confirmed but was revoked by council the following day',
-					date: getRandomDate(3, 2)
-				}
-			]
-		},
-		{
-			number: '1750',
-			type: 'pupil',
-			description:
-				'Percentage of pupils with periods of free school meal eligibility is high (greater than 45%)',
-			guide:
-				'Schools will be required to specifically confirm that the FSM information is correct.  Acceptable note entry "The school has confirmed that they do have more than 45%  of pupils who are entitled to a FSM".',
-			notes: [
-				{
-					type: 'school',
-					author: randomName(),
-					text:
-						'This is correct, our school is in an area of very high unemployment',
-					date: getRandomDate(3, 2)
-				}
-			]
-		},
-		{
-			number: '1760',
-			type: 'pupil',
-			description:
-				'No pupils in the school eligible for free school meals during the period since the last census',
-			guide:
-				'Confirmation that the information has been confirmed by the school as being correct.  Acceptable note entry “No pupils qualify for FSM”',
-			notes: [
-				{
-					type: 'school',
-					author: randomName(),
-					text: 'None of our pupils claim free school meals',
-					date: getRandomDate(3, 2)
-				}
-			]
-		},
-		{
-			number: '1767',
-			type: 'pupil',
-			description:
-				'Due to FSM protection we would not expect FSM periods to have an end date. Please provide a reason.',
-			guide:
-				'Confirmation will not be acceptable, a reason must be provided as to why FSM period has an end date.',
-			notes: [
-				{
-					type: 'school',
-					author: randomName(),
-					text: 'This is correct',
-					date: getRandomDate(3, 2)
-				}
-			]
-		},
-		{
-			number: '1767',
-			type: 'pupil',
-			description:
-				'Due to FSM protection we would not expect FSM periods to have an end date. Please provide a reason.',
-			guide:
-				'Confirmation will not be acceptable, a reason must be provided as to why FSM period has an end date.',
-			notes: [
-				{
-					type: 'school',
-					author: randomName(),
-					text:
-						'This has been authorised by the local authority as mistake was made in initial assessment of parent’s means.',
-					date: getRandomDate(3, 2)
-				}
-			]
-		},
-		{
-			number: '1849',
-			type: 'pupil',
-			description:
-				'Pupil aged 3 or 4 eligible for early years pupil premium and recorded as post looked after arrangements would be expected to have reason ‘RO’ or ‘RB’',
-			guide:
-				'Confirmation will not be acceptable, a reason must be provided why the basis for funding is not recorded as RO or RB if the pupil is recorded with "post looked after arrangements"',
-			notes: [
-				{
-					type: 'school',
-					author: randomName(),
-					text: 'Correct',
-					date: getRandomDate(3, 2)
-				}
-			]
-		},
-		{
-			number: '1850',
-			type: 'pupil',
-			description:
-				'Percentage of pupils where language has not been obtained is high (greater than 10%)',
-			guide:
-				'Confirmation will not be acceptable, a reason must be provided why the basis for funding is not recorded as RO or RB if the pupil is recorded with "post looked after arrangements"',
-			notes: [
-				{
-					type: 'school',
-					author: randomName(),
-					text:
-						'We have had a new influx of students and information has yet to be requested from parents',
-					date: getRandomDate(3, 2)
-				}
-			]
-		},
-		{
-			number: '1850',
-			type: 'pupil',
-			description:
-				'Percentage of pupils where language has not been obtained is high (greater than 10%)',
-			guide:
-				'Confirmation will not be acceptable, a reason must be provided why the basis for funding is not recorded as RO or RB if the pupil is recorded with "post looked after arrangements"',
-			notes: [
-				{
-					type: 'school',
-					author: randomName(),
-					text: 'This is correct',
-					date: getRandomDate(3, 2)
-				}
-			]
-		},
-		{
-			number: '1853',
-			type: 'pupil',
-			description:
-				'Pupil aged 3 or 4 eligible for early years pupil premium and recorded as FSM on census would be expected to have a reason of ‘RE’ or ‘RB’',
-			guide:
-				'Confirmation will not be acceptable, a reason must be provided why the basis for funding is not recorded as RO or RB if the pupil is recorded as FSM eligible',
-			notes: [
-				{
-					type: 'school',
-					author: randomName(),
-					text: 'Correct',
-					date: getRandomDate(3, 2)
-				}
-			]
-		},
-		{
-			number: '1870',
-			type: 'pupil',
-			description:
-				'Percentage of pupils with sole registrations at the school is low (fewer than 95%)',
-			guide:
-				'As the enrolment status affects funding a reason for low percentage of sole registrations must be provided.',
-			notes: [
-				{
-					type: 'school',
-					author: randomName(),
-					text:
-						'Our school admits many children from military families so are mostly dually-registered ',
-					date: getRandomDate(3, 2)
-				}
-			]
-		},
-		{
-			number: '1872',
-			type: 'pupil',
-			description:
-				'Percentage of pupils on roll on census day reported as having ceased to be looked after through adoption, a special guardianship order, residence order or child arrangement order is high (greater than 5%)',
-			guide:
-				'Schools will be required to specifically confirm that the number of pupils ceased to be looked after through adoption, a special guardianship order or a residence order is high. Acceptable note entry "The school has confirmed that more than 5% of their pupils were post looked after from local authority care in England or Wales."',
-			notes: [
-				{
-					type: 'school',
-					author: randomName(),
-					text: 'This is correct',
-					date: getRandomDate(3, 2)
-				}
-			]
-		},
-		{
-			number: '1877',
-			type: 'pupil',
-			description:
-				'Take up of school lunches for pupils in reception, year 1 and year 2 (plus pupils aged 4 to 6 in year X) greater than 95%. Please confirm more than 95% of infant pupils took a school lunch on census day',
-			guide: 'Confirmation will be acceptable',
-			notes: [
-				{
-					type: 'school',
-					author: randomName(),
-					text: 'This is correct',
-					date: getRandomDate(3, 2)
-				}
-			]
-		},
-		{
-			number: '1878',
-			type: 'pupil',
-			description:
-				'No infant pupils are recorded as having a school lunch on census day?',
-			guide:
-				'Confirmation will not be acceptable.  A reason must be provided. Do not record aggregated pupil numbers in the notepad as these will not be actioned and may result in loss of funding.',
-			notes: [
-				{
-					type: 'school',
-					author: randomName(),
-					text: 'Our school doesn’t have any free school meal eligible pupils',
-					date: getRandomDate(3, 2)
-				}
-			]
-		},
-		{
-			number: '1881',
-			type: 'pupil',
-			description:
-				'Please check the entry date as the sessions possible indicate that the pupil attended the school during the first half of the summer term. If the pupil left and was subsequently readmitted, the query will be accepted by DfE on condition that a suitable explanatory notepad entry is provided.',
-			guide:
-				'Confirmation will not be acceptable.  Acceptable note entry should provide details that the pupil left in x term and then returned in x term.',
-			pupils: createPupils(1),
-			notes: [
-				{
-					type: 'school',
-					author: randomName(),
-					text: 'This is correct',
-					date: getRandomDate(3, 2)
-				}
-			]
-		},
-		{
-			number: '1883',
-			type: 'pupil',
-			description:
-				'Please check entry date as the sessions possible indicate that the pupil attended the school during the second half of the summer term. If the pupil left and was subsequently readmitted, the query will be accepted by DfE on condition that a suitable explanatory notepad entry is provided.',
-			guide:
-				'Confirmation will not be acceptable.  Acceptable note entry should provide details that the pupil left in x term and then returned in x term.',
-			pupils: createPupils(1),
-			notes: [
-				{
-					type: 'school',
-					author: randomName(),
-					text:
-						'This pupil left 2 terms ago as the pupil was visiting family abroad and has returned to school this term',
-					date: getRandomDate(3, 2)
-				}
-			]
-		},
-		{
-			number: '1885',
-			type: 'pupil',
-			description:
-				'Percentage of pupils with a new entry date seems high (greater than 50%)',
-			guide:
-				'Confirmation that the information has been confirmed by the school as being correct.  Acceptable note entry confirmed as correct',
-			notes: [
-				{
-					type: 'school',
-					author: randomName(),
-					text:
-						'There has been a large influx of pupils registering at the school due to us opening a new extension',
-					date: getRandomDate(3, 2)
-				}
-			]
-		},
-		{
-			number: '1960',
-			type: 'pupil',
-			description:
-				'Percentage of part-time pupils in school seems high (at greater than 35%)',
-			guide:
-				'It is only expected that a Nursery school would have a high proportion of part time pupils therefore for other school types a reason would be sought.',
-			notes: [
-				{
-					type: 'school',
-					author: randomName(),
-					text:
-						'Many of our pupils are from military families and study part-time at another site',
-					date: getRandomDate(3, 2)
-				}
-			]
-		},
-		{
-			number: '1980',
-			type: 'pupil',
-			description: 'School has reported boarding pupils',
-			guide:
-				'Confirmation that the information has been confirmed by the school as being correct.  Acceptable note entry "confirmed as correct"',
-			notes: [
-				{
-					type: 'school',
-					author: randomName(),
-					text: 'Correct',
-					date: getRandomDate(3, 2)
-				}
-			]
-		},
-		{
-			number: '1990',
-			type: 'pupil',
-			description:
-				'Pupil is in receipt of top-up funding but is not classed as having an EHCP?',
-			guide:
-				'Confirmation that the information has been confirmed by the school as being correct.  Acceptable note entry "confirmed as correct"',
-			notes: [
-				{
-					type: 'school',
-					author: randomName(),
-					text:
-						'Correct, we were given guidance by ' +
-						randomName() +
-						' from local authority to allow funding.',
-					date: getRandomDate(3, 2)
-				}
-			]
-		},
-		{
-			number: '1998',
-			type: 'pupil',
-			description:
-				'The pupil has  planned employability, enrichment and pastoral hours but no planned learning hours',
-			guide:
-				'As this information is used to calculate funding, confirmation alone is not acceptable. A reason should be provided why a student on a post 16 study programme does not have any qualification hours.',
-			pupils: createPupils(1),
-			notes: [
-				{
-					type: 'school',
-					author: randomName(),
-					text:
-						'Pupil is dually registered and attends our school only for work experience and life skills sessions',
-					date: getRandomDate(3, 2)
-				}
-			]
-		},
-		{
-			number: '1998',
-			type: 'pupil',
-			description:
-				'The pupil has  planned employability, enrichment and pastoral hours but no planned learning hours',
-			guide:
-				'As this information is used to calculate funding, confirmation alone is not acceptable. A reason should be provided why a student on a post 16 study programme does not have any qualification hours.',
-			pupils: createPupils(23),
-			notes: [
-				{
-					type: 'school',
-					author: randomName(),
-					text: 'Confirmed as correct',
-					date: getRandomDate(3, 2)
-				}
-			]
-		},
-		{
-			number: '1999',
-			type: 'pupil',
-			description:
-				'No pupils have planned employability, enrichment and pastoral hours',
-			guide:
-				'As this information is used to calculate funding, confirmation alone is not acceptable. A reason should be provided why a student on a post 16 study programme does not have any planned employability, enrichment and pastoral hours.',
-			notes: [
-				{
-					type: 'school',
-					author: randomName(),
-					text: 'Due to exams all extra times have been suspended this term',
-					date: getRandomDate(3, 2)
-				}
-			]
-		},
-		{
-			number: '2010',
-			type: 'pupil',
-			description: '10% or more pupils’ year group differing from their age',
-			guide:
-				'Though confirmation would be acceptable a reason would be advisable. DfE may query at a later date if data looks ‘odd’ in additional analysis.',
-			notes: [
-				{
-					type: 'school',
-					author: randomName(),
-					text: 'Confirmed as correct',
-					date: getRandomDate(3, 2)
-				}
-			]
-		},
-		{
-			number: '2010',
-			type: 'pupil',
-			description: '10% or more pupils’ year group differing from their age',
-			guide:
-				'Though confirmation would be acceptable a reason would be advisable. DfE may query at a later date if data looks ‘odd’ in additional analysis.',
-			notes: [
-				{
-					type: 'school',
-					author: randomName(),
-					text:
-						'Our school takes in pupils who have been disruptive at other schools, many of these pupils must re-sit previous year exams',
-					date: getRandomDate(3, 2)
-				}
-			]
-		},
-		{
-			number: '2020',
-			type: 'pupil',
-			description: 'Pupil year group and age inconsistent',
-			guide:
-				'Reason will be sought why the pupil is two years outside their expected NC year.  For example an acceptable note entry is that pupil has severe SEN or language difficulties or pupil is academically gifted',
-			pupils: createPupils(3),
-			notes: [
-				{
-					type: 'school',
-					author: randomName(),
-					text: 'Confirmed as correct',
-					date: getRandomDate(3, 2)
-				}
-			]
-		},
-		{
-			number: '2020',
-			type: 'pupil',
-			description: 'Pupil year group and age inconsistent',
-			guide:
-				'Reason will be sought why the pupil is two years outside their expected NC year.  For example an acceptable note entry is that pupil has severe SEN or language difficulties or pupil is academically gifted',
-			pupils: createPupils(5),
-			notes: [
-				{
-					type: 'school',
-					author: randomName(),
-					text:
-						'Pupils have been identified as gifted by external board and have been accelerated forward to year 10',
-					date: getRandomDate(3, 2)
-				}
-			]
-		},
-		{
-			number: '2030',
-			type: 'pupil',
-			description: 'Pupil in unexpected year group for this school',
-			guide:
-				'Confirmation that the information has been confirmed by the school as being correct.  Acceptable note entry ‘confirmed as correct’',
-			pupils: createPupils(5),
-			notes: [
-				{
-					type: 'school',
-					author: randomName(),
-					text: 'Correct',
-					date: getRandomDate(3, 2)
-				}
-			]
-		},
-		{
-			number: '2040',
-			type: 'pupil',
-			description: 'Expected year group with no pupils (apart from year 14)',
-			guide:
-				'Confirmation with reason i.e school is newly opened and is staggering intake of year groups. Or school is due to close',
-			notes: [
-				{
-					type: 'school',
-					author: randomName(),
-					text:
-						'We have a staffing issue for some year groups so have needed to stagger ',
-					date: getRandomDate(3, 2)
-				}
-			]
-		},
-		{
-			number: '2050',
-			type: 'pupil',
-			description:
-				'Is school type correct? Some pupils are outside the expected age range for this type.',
-			guide:
-				'Confirmation that the information has been confirmed by the school as being correct.  Acceptable note entry "confirmed as correct"',
-			pupils: createPupils(4),
-			notes: [
-				{
-					type: 'school',
-					author: randomName(),
-					text: 'This is correct',
-					date: getRandomDate(3, 2)
-				}
-			]
-		},
-		{
-			number: '2070',
-			type: 'pupil',
-			description: 'Pupil’s class type and year group incompatible',
-			guide:
-				'Confirmation that the information has been confirmed by the school as being correct.  Acceptable note entry "confirmed as correct"',
-			pupils: createPupils(14),
-			notes: [
-				{
-					type: 'school',
-					author: randomName(),
-					text: 'Confirmed as correct',
-					date: getRandomDate(3, 2)
-				}
-			]
-		},
-		{
-			number: '2090',
-			type: 'pupil',
-			description: 'Nursery pupils reported but no nursery class records',
-			guide:
-				'Confirmation that the information has been confirmed by the school as being correct.  Acceptable note entry "confirmed as correct"',
-			notes: [
-				{
-					type: 'school',
-					author: randomName(),
-					text: 'Confirmed as correct',
-					date: getRandomDate(3, 2)
-				}
-			]
-		},
-		{
-			number: '2110',
-			type: 'pupil',
-			description: 'More pupils in nursery classes than nursery pupils',
-			guide:
-				'Confirmation that the information has been confirmed by the school as being correct.  Acceptable note entry "confirmed as correct"',
-			notes: [
-				{
-					type: 'school',
-					author: randomName(),
-					text: 'Confirmed as correct',
-					date: getRandomDate(3, 2)
-				}
-			]
-		},
-		{
-			number: '2190',
-			type: 'pupil',
-			description:
-				'Percentage of pupils in school with  EHCPs seems high (greater than 10%)',
-			guide:
-				'Confirmation that the information has been confirmed by the school as being correct.  Acceptable note entry "confirmed as correct"',
-			notes: [
-				{
-					type: 'school',
-					author: randomName(),
-					text: 'Confirmed as correct',
-					date: getRandomDate(3, 2)
-				}
-			]
-		},
-		{
-			number: '2200',
-			type: 'pupil',
-			description: 'There are no pupils in the school with SEN provision',
-			guide:
-				'Confirmation that the information has been confirmed by the school as being correct.  Acceptable note entry "confirmed as correct"',
-			notes: [
-				{
-					type: 'school',
-					author: randomName(),
-					text: 'Confirmed as correct',
-					date: getRandomDate(3, 2)
-				}
-			]
-		},
-		{
-			number: '2205',
-			type: 'pupil',
-			description:
-				'Percentage of pupils in school with SEN provision of SEN support seems high (greater than 40%)',
-			guide:
-				'Confirmation that the information has been confirmed by the school as being correct.  Acceptable note entry "confirmed as correct"',
-			notes: [
-				{
-					type: 'school',
-					author: randomName(),
-					text: 'Confirmed as correct',
-					date: getRandomDate(3, 2)
-				}
-			]
-		},
-		{
-			number: '2210',
-			type: 'pupil',
-			description:
-				'Percentage of pupils in school with  an EHCP seems low for a special school (less than 70%)',
-			guide:
-				'Confirmation that the information has been confirmed by the school as being correct.  Acceptable note entry "confirmed as correct"',
-			notes: [
-				{
-					type: 'school',
-					author: randomName(),
-					text: 'Confirmed as correct',
-					date: getRandomDate(3, 2)
-				}
-			]
-		},
-		{
-			number: '2320',
-			type: 'pupil',
-			description: 'Number of sessions excluded is greater than 90',
-			guide:
-				'Reason should be provided why the pupil has been excluded for more than 90 sessions.',
-			pupils: createPupils(2),
-			notes: [
-				{
-					type: 'school',
-					author: randomName(),
-					text:
-						'It was deemed necessary by headteacher in response to a child protection issue',
-					date: getRandomDate(3, 2)
-				}
-			]
-		},
-		{
-			number: '2355',
-			type: 'pupil',
-			description: 'Pupil record with no address details',
-			guide: 'Reason will be sought why no address details have been provided ',
-			pupils: createPupils(4),
-			notes: [
-				{
-					type: 'school',
-					author: randomName(),
-					text: 'Pupils had temporary living arrangements for short term',
-					date: getRandomDate(3, 2)
-				}
-			]
-		},
-		{
-			number: '1634',
-			type: 'pupil',
-			description:
-				'Pupil has an exemption for Maths GCSE funding due to learning difficulties but does not have an education, health and care plan (EHCP)',
-			guide:
-				'As this impacts on funding a reason will be sought why a student who does not have an EHC plan would have a funding exemption which states the student has a learning disability which prevents them from studying the qualification',
-			pupils: createPupils(2),
-			notes: [
-				{
-					type: 'school',
-					author: randomName(),
-					text: 'Confirmed as correct',
-					date: getRandomDate(3, 2)
-				}
-			]
-		},
-		{
-			number: '2070',
-			type: 'pupil',
-			description: 'Pupil’s class type and year group incompatible',
-			guide:
-				'Confirmation that the information has been confirmed by the school as being correct.  Acceptable note entry "confirmed as correct"',
-			pupils: createPupils(1),
-			notes: [
-				{
-					type: 'school',
-					author: randomName(),
-					text: 'There is a reason for this issue',
-					date: getRandomDate(3, 2)
-				}
-			]
-		},
-		{
-			number: '2560',
-			type: 'pupil',
-			description:
-				'Percentage of authorised absence is greater than 30% - are you sure?',
-			guide:
-				'The school must confirm that the information is correct. Acceptable note entry "school confirm that authorised absence in x term was more than 30%"',
-			notes: [
-				{
-					type: 'school',
-					author: randomName(),
-					text: 'This is due to circumstances beyond our control',
-					date: getRandomDate(3, 2)
-				}
-			]
-		},
-		{
-			number: '2560',
-			type: 'pupil',
-			description: 'Day school with a majority of boarding pupils',
-			guide:
-				'The school must confirm that the information is correct. Acceptable note entry "school confirm that authorised absence in x term was more than 30%"',
-			pupils: createPupils(1),
-			notes: [
-				{
-					type: 'school',
-					author: randomName(),
-					text: 'Confirmed as correct',
-					date: getRandomDate(3, 2)
-				}
-			]
-		},
-		{
-			number: '270',
+			number: 100,
 			type: 'school',
-			description: 'School email address is missing',
-			guide: 'Confirmation that the school does not have an email address',
-			notes: [
-				{
-					type: 'school',
-					author: randomName(),
-					text: 'School does not have an active email address at present',
-					date: getRandomDate(3, 2)
-				}
-			]
+			description: 'Reference date must be present and valid for the term'
 		},
 		{
-			number: '290',
+			number: 110,
 			type: 'school',
-			description: 'School email address is missing',
-			guide:
-				'Confirmation that the information has been confirmed by the school as being correct.  Acceptable note entry "confirmed as correct"',
-			notes: [
-				{
-					type: 'school',
-					author: randomName(),
-					text: 'This is correct',
-					date: getRandomDate(3, 2)
-				}
-			]
+			description: 'School name missing'
 		},
 		{
-			number: '300',
+			number: 120,
 			type: 'school',
-			description: 'Boarding school with a majority of day pupils',
-			guide:
-				'Confirmation that the information has been confirmed by the school as being correct.  Acceptable note entry "confirmed as correct"',
-			notes: [
-				{
-					type: 'school',
-					author: randomName(),
-					text: 'Confirmed as correct',
-					date: getRandomDate(3, 2)
-				}
-			]
+			description: 'Phase is missing or invalid'
 		},
 		{
-			number: '330',
+			number: 130,
 			type: 'school',
-			description: 'More day pupils on roll than the approved maximum',
-			guide:
-				'Confirmation that the information has been confirmed by the school as being correct.  Acceptable note entry "confirmed as correct"',
-			notes: [
-				{
-					type: 'school',
-					author: randomName(),
-					text: 'Correct',
-					date: getRandomDate(3, 2)
-				}
-			]
+			description: 'DfE number and phase are not consistent'
 		},
 		{
-			number: '340',
+			number: 140,
 			type: 'school',
-			description: 'More boarding pupils on roll than the approved maximum',
-			guide:
-				'Confirmation that the information has been confirmed by the school as being correct.  Acceptable note entry "confirmed as correct"',
-			notes: [
-				{
-					type: 'school',
-					author: randomName(),
-					text: 'Confirmed as correct',
-					date: getRandomDate(3, 2)
-				}
-			]
+			description: 'School type is missing'
 		},
 		{
-			number: '564',
+			number: 150,
+			type: 'school',
+			description: 'School type and phase not consistent'
+		},
+		{
+			number: 160,
 			type: 'school',
 			description:
-				'Primary admission appeals figures should be provided and and are expected to be greater than zero',
-			guide:
-				'Confirmation that your school did not have any Primary admission appeals.',
-			notes: [
-				{
-					type: 'school',
-					author: randomName(),
-					text: 'We did not receive any admission appeals',
-					date: getRandomDate(3, 2)
-				}
-			]
+				"The establishment's GIAS URN is missing or URN recorded on COLLECT does not match URN recorded on GIAS"
 		},
 		{
-			number: '565',
+			number: 165,
+			type: 'school',
+			description: 'No school details have been recorded'
+		},
+		{
+			number: 210,
 			type: 'school',
 			description:
-				'Secondary admission appeals figures should be provided and are expected to be greater than zero',
-			guide:
-				'Confirmation that your school did not have any Secondary admission appeals.',
-			notes: [
-				{
-					type: 'school',
-					author: randomName(),
-					text: 'No appeals received',
-					date: getRandomDate(3, 2)
-				}
-			]
+				'School’s highest national curriculum year group is missing or invalid'
 		},
 		{
-			number: '566',
+			number: 220,
 			type: 'school',
 			description:
-				'Infant admissions appeals figures should be provided and are expected to be greater than zero',
-			guide:
-				'Confirmation that your school did not have any infant admission appeals.',
-			notes: [
-				{
-					type: 'school',
-					author: randomName(),
-					text: 'This is correct',
-					date: getRandomDate(3, 2)
-				}
-			]
+				'School’s lowest national curriculum year group is missing or invalid'
 		},
 		{
-			number: '1010',
-			type: 'school',
-			description: '10% or more of pupils not in class at selected time',
-			guide:
-				'Confirmation that the information has been confirmed by the school as being correct.  Acceptable note entry "confirmed as correct"',
-			notes: [
-				{
-					type: 'school',
-					author: randomName(),
-					text: 'No support staff employed',
-					date: getRandomDate(3, 2)
-				}
-			]
-		},
-		{
-			number: '1070',
-			type: 'school',
-			description: 'Number of teachers in class is missing or invalid',
-			guide:
-				'Confirmation that the information has been confirmed by the school as being correct.  Acceptable note entry "confirmed as correct"',
-			notes: [
-				{
-					type: 'school',
-					author: randomName(),
-					text: 'Confirmed as correct',
-					date: getRandomDate(3, 2)
-				}
-			]
-		},
-		{
-			number: '1110',
-			type: 'school',
-			description: 'No support staff reported for any class',
-			guide:
-				'Confirmation that the information has been confirmed by the school as being correct.  Acceptable note entry "confirmed as correct"',
-			notes: [
-				{
-					type: 'school',
-					author: randomName(),
-					text: 'Confirmed as correct',
-					date: getRandomDate(3, 2)
-				}
-			]
-		},
-		{
-			number: '1150',
-			type: 'school',
-			description: 'Class type and class year group different',
-			guide:
-				'Confirmation that the information has been confirmed by the school as being correct.  Acceptable note entry "confirmed as correct"',
-			notes: [
-				{
-					type: 'school',
-					author: randomName(),
-					text: 'Confirmed as correct',
-					date: getRandomDate(3, 2)
-				}
-			]
-		},
-		{
-			number: '1155',
-			type: 'school',
-			description: 'Class type and class year group different',
-			guide:
-				'Confirmation that the information has been confirmed by the school as being correct. Acceptable note entry "confirmed as correct"',
-			notes: [
-				{
-					type: 'school',
-					author: randomName(),
-					text: 'Confirmed as correct',
-					date: getRandomDate(3, 2)
-				}
-			]
-		},
-		{
-			number: '1180',
-			type: 'school',
-			description: 'Activity shown as other for all classes',
-			guide:
-				'Reason why all classes are only doing activity equal to (OT) Other.',
-			notes: [
-				{
-					type: 'school',
-					author: randomName(),
-					text: 'This is due to an online safety week arranged by local police',
-					date: getRandomDate(3, 2)
-				}
-			]
-		},
-		{
-			number: '1240',
+			number: 221,
 			type: 'school',
 			description:
-				'Please check the number of guest pupils in the class is equal to or greater than the number of home pupils',
-			guide:
-				'A reason must be provided as to why a schools "guest pupils" is equal to the number of pupils they have on roll. Confirmation will not be acceptable.',
-			notes: [
-				{
-					type: 'school',
-					author: randomName(),
-					text: 'This is accurate to our records',
-					date: getRandomDate(3, 2)
-				}
-			]
+				'Intake Type is missing or invalid. Intake type must be `COMP’'
 		},
 		{
-			number: 'TonT1B',
-			type: 'term-on-term',
+			number: 222,
+			type: 'school',
 			description:
-				'There are significantly more pupils than last collection (this collection xx, last collection  xx). A reason must be provided for this increase.',
-			guide: 'A reason will sought if there is significant increase of pupils.',
-			notes: [
-				{
-					type: 'school',
-					author: randomName(),
-					text:
-						'We have moved from a single-form entry school to a two-form entry school',
-					date: getRandomDate(3, 2)
-				}
-			]
+				"Governance is missing or invalid. Governance must be `CO’ or 'CA'"
 		},
 		{
-			number: 'TonT1C',
-			type: 'term-on-term',
+			number: 223,
+			type: 'school',
 			description:
-				'There are significantly fewer pupils than last collection (this collection xx, last collection xx). A reason must be provided for this decrease.',
-			guide: 'A reason will sought if there is significant decrease of pupils.',
-			notes: [
-				{
-					type: 'school',
-					author: randomName(),
-					text:
-						'We did not take on new admissions this year as the school is due to close',
-					date: getRandomDate(3, 2)
-				}
-			]
+				"Intake of 'SPEC' (special) or HOSP (hospital special) can only be returned for schools with a Phase of SP (special)"
 		},
 		{
-			number: 'TonT1D',
-			type: 'term-on-term',
+			number: 224,
+			type: 'school',
 			description:
-				'Previous Collection’s Total Number of Pupils(headcount) is zero(this collection  xx, last collection 0).',
-			guide:
-				'Confirmation that the information has been confirmed by the school as being correct.  Acceptable note entry "confirmed as correct"',
-			notes: [
-				{
-					type: 'school',
-					author: randomName(),
-					text: 'Confirmed as correct',
-					date: getRandomDate(3, 2)
-				}
-			]
+				"Intake type is missing or invalid. Intake type must be `SPEC’ or 'HOSP'"
 		},
 		{
-			number: 'TonT3B',
-			type: 'term-on-term',
+			number: 230,
+			type: 'school',
 			description:
-				'There are significantly more Infant pupils eligible for a FSM than last collection (this collection  xx, last collection xx). A reason must be provided for this increase.',
-			guide:
-				'Confirmation alone is not sufficient, a reason must be provided.  Please ensure that the school have not mistakenly included infant pupils who are entitled to UIFSM only.',
-			notes: [
-				{
-					type: 'school',
-					author: randomName(),
-					text:
-						'One of the biggest employers in the area has closed down which has led to a large increase in unemployment amongst parents',
-					date: getRandomDate(3, 2)
-				}
-			]
+				'School’s lowest national curriculum year group cannot be greater than school’s highest national curriculum year group'
 		},
 		{
-			number: 'TonT3C',
-			type: 'term-on-term',
-			description:
-				'There are significantly fewer Infant pupils eligible for a FSM than last collection (this collection  xx, last collection xx). A reason must be provided for this decrease.',
-			guide:
-				'Confirmation alone is not sufficient, a reason must be provided.  ',
-			notes: [
-				{
-					type: 'school',
-					author: randomName(),
-					text:
-						'An increase in local employment due to new shopping centre now means less pupils ae eligible',
-					date: getRandomDate(3, 2)
-				}
-			]
+			number: 240,
+			type: 'school',
+			description: 'Intake type is missing or invalid'
 		},
 		{
-			number: 'TonT3D',
-			type: 'term-on-term',
+			number: 260,
+			type: 'school',
 			description:
-				'Previous Collection’s % of Infant pupils eligible for FSM is zero(this collection  xx, last collection 0).',
-			guide:
-				'Confirmation that the information has been confirmed by the school as being correct. Acceptable note entry the school confirms that there were no infant pupils eligible for FSM last term.',
-			notes: [
-				{
-					type: 'school',
-					author: randomName(),
-					text: 'No infants were eligible for FSM last term',
-					date: getRandomDate(3, 2)
-				}
-			]
+				"Governance is missing or invalid. Governance must not be 'IN'"
 		},
 		{
-			number: 'TonT3D',
-			type: 'term-on-term',
+			number: 261,
+			type: 'school',
 			description:
-				'Previous Collection’s % of Infant pupils eligible for FSM is zero(this collection  xx, last collection 0).',
-			guide:
-				'Confirmation that the information has been confirmed by the school as being correct. Acceptable note entry the school confirms that there were no infant pupils eligible for FSM last term.',
-			notes: [
-				{
-					type: 'school',
-					author: randomName(),
-					text: 'No infants were eligible for FSM last term',
-					date: getRandomDate(3, 2)
-				}
-			]
+				"If school type is recorded as an academy (49) then the school governance must also be recorded as an academy with code 'CA'"
 		},
 		{
-			number: 'TonT4B',
-			type: 'term-on-term',
+			number: 262,
+			type: 'school',
 			description:
-				'There are significantly more pupils eligible for a FSM than last collection (this collection  xx, last collection xx). A reason must be provided for this increase.',
-			guide: 'Confirmation alone is not sufficient, a reason must be provided.',
-			notes: [
-				{
-					type: 'school',
-					author: randomName(),
-					text: 'This is due to an increase in local unemployment',
-					date: getRandomDate(3, 2)
-				}
-			]
+				'If school governance is recorded as an academy (CA) then school type must also be recorded as an academy with code 49'
 		},
 		{
-			number: 'TonT4C',
-			type: 'term-on-term',
+			number: 263,
+			type: 'school',
 			description:
-				'There are significantly fewer pupils eligible for a FSM than last collection (this collection  xx, last collection xx).A reason must be provided for this decrease.',
-			guide:
-				'Confirmation alone is not sufficient, a reason must be provided. ',
-			notes: [
-				{
-					type: 'school',
-					author: randomName(),
-					text: 'A change in legislation has led to this reduction',
-					date: getRandomDate(3, 2)
-				}
-			]
+				"If school type is recorded as a CTC (47) then governance must also be recorded as a CTC with code 'CT'"
 		},
 		{
-			number: 'TonT4D',
-			type: 'term-on-term',
+			number: 264,
+			type: 'school',
 			description:
-				'Previous Collection’s % of Pupils eligible for FSM is zero(this collection  xx, last collection 0).',
-			guide:
-				'Confirmation that the information has been confirmed by the school as being correct.  Acceptable note entry school confirms that no pupils were eligible for FSM last term ',
-			notes: [
-				{
-					type: 'school',
-					author: randomName(),
-					text: 'No pupils were eligible for FSM last term at the school',
-					date: getRandomDate(3, 2)
-				}
-			]
+				'If governance is recorded as a CTC (CT) then school type must also be recorded as a CTC with code 47'
 		},
 		{
-			number: 'TonT5B',
-			type: 'term-on-term',
+			number: 280,
+			type: 'school',
 			description:
-				'There are significantly more pupils with an EHCP than last collection (this collection  xx, last collection xx).',
-			guide:
-				'Confirmation that the information has been confirmed by the school as being correct.  Acceptable note entry "confirmed as correct"',
-			notes: [
-				{
-					type: 'school',
-					author: randomName(),
-					text: 'Confirmed',
-					date: getRandomDate(3, 2)
-				}
-			]
+				'School organisation (day, boarding or hospital) is missing or invalid'
 		},
 		{
-			number: 'TonT5C',
-			type: 'term-on-term',
-			description:
-				'There are significantly fewer pupils with an EHCP than last collection (this collection  xx, last collection xx).',
-			guide:
-				'Confirmation that the information has been confirmed by the school as being correct.  Acceptable note entry "confirmed as correct"',
-			notes: [
-				{
-					type: 'school',
-					author: randomName(),
-					text: 'This is true',
-					date: getRandomDate(3, 2)
-				}
-			]
+			number: 310,
+			type: 'school',
+			description: 'Approved maximum for day pupils is missing'
 		},
 		{
-			number: 'TonT5D',
-			type: 'term-on-term',
+			number: 320,
+			type: 'school',
 			description:
-				'Previous Collection’s % of Pupils with an EHCP is zero(this collection  xx, last collection 0).',
-			guide:
-				'Confirmation that the information has been confirmed by the school as being correct.  Acceptable note entry "confirmed as correct"',
-			notes: [
-				{
-					type: 'school',
-					author: randomName(),
-					text: 'Confirmed as correct',
-					date: getRandomDate(3, 2)
-				}
-			]
+				'Approved maximum for boarding pupils is missing (or, for hospital special schools, is provided when it is not required)'
 		},
 		{
-			number: 'TonT6B',
-			type: 'term-on-term',
-			description:
-				'There are significantly more pupils with SEN without an EHCP than last collection (this collection xx, last collection xx).’',
-			guide:
-				'Confirmation that the information has been confirmed by the school as being correct.  Acceptable note entry "confirmed as correct"',
-			notes: [
-				{
-					type: 'school',
-					author: randomName(),
-					text: 'Correct',
-					date: getRandomDate(3, 2)
-				}
-			]
+			number: 350,
+			type: 'school',
+			description: 'Boys on roll not provided, or age not in range 2 to 27'
 		},
 		{
-			number: 'TonT6C',
-			type: 'term-on-term',
-			description:
-				'There are significantly fewer pupils with SEN without an EHCP than last collection (this collection xx, last collection xx).',
-			guide:
-				'Confirmation that the information has been confirmed by the school as being correct.  Acceptable note entry "confirmed as correct"',
-			notes: [
-				{
-					type: 'school',
-					author: randomName(),
-					text: 'Confirmed as correct',
-					date: getRandomDate(3, 2)
-				}
-			]
+			number: 360,
+			type: 'school',
+			description: 'Girls on roll not provided, or age not in range 2 to 27'
 		},
 		{
-			number: 'TonT6D',
-			type: 'term-on-term',
+			number: 370,
+			type: 'school',
 			description:
-				'Previous Collection’s % of Pupils with SEN without an EHCP is zero(this collection  xx, last collection 0).',
-			guide:
-				'Confirmation that the information has been confirmed by the school as being correct.  Acceptable note entry "confirmed as correct"',
-			notes: [
-				{
-					type: 'school',
-					author: randomName(),
-					text: 'Information correct to our knowledge',
-					date: getRandomDate(3, 2)
-				}
-			]
+				'Approved maximum age (boys) is shown but there is no minimum, or vice versa'
 		},
 		{
-			number: 'TonT7B',
-			type: 'term-on-term',
+			number: 380,
+			type: 'school',
 			description:
-				'There are significantly more pupils whose language is not English than last collection (this collection xx, last collection xx).’',
-			guide:
-				'A reason would be sought for this increase.  Unless there has been significant changes to overall pupil numbers it is not expected that this figure will change much from one term to the next.',
-			notes: [
-				{
-					type: 'school',
-					author: randomName(),
-					text:
-						'This is due to a local faith school closing down and we have taken a portion of pupils',
-					date: getRandomDate(3, 2)
-				}
-			]
+				'Approved maximum age (girls) is shown but there is no minimum, or vice versa'
 		},
 		{
-			number: 'TonT7C',
-			type: 'term-on-term',
+			number: 390,
+			type: 'school',
 			description:
-				'There are significantly fewer pupils whose language is not English than last collection (this collection xx, last collection xx).’',
-			guide:
-				'A reason would be sought for this decrease.  Unless there has been significant changes to overall pupil numbers it is not expected that this figure will change much from one term to the next.',
-			notes: [
-				{
-					type: 'school',
-					author: randomName(),
-					text:
-						'More children are now fluent in English as a result of a year schooling and a extra-curricular language tuition programme',
-					date: getRandomDate(3, 2)
-				}
-			]
+				'Approved maximum age (boys) must be equal to or greater than minimum'
 		},
 		{
-			number: 'TonT7D',
-			type: 'term-on-term',
+			number: 400,
+			type: 'school',
 			description:
-				'Previous collections % of pupils with language code not English is zero (this collection xx, last collection 0).',
-			guide:
-				'A reason would be sought, unless there has been significant changes to overall pupil numbers or in the previous term the school had a high percentage of not obtained, it is not expected that this figure will change much from one term to the next.',
-			notes: [
-				{
-					type: 'school',
-					author: randomName(),
-					text: 'The area has an increase in population by EU citizens',
-					date: getRandomDate(3, 2)
-				}
-			]
+				'Approved maximum age (girls) must be equal to or greater than minimum'
 		},
 		{
-			number: 'TonT7D',
-			type: 'term-on-term',
+			number: 410,
+			type: 'school',
 			description:
-				'There are significantly more service children than last collection (this collection xx, last collection xx).',
-			guide:
-				'Confirmation alone is not acceptable.  A reason should be provided for this increase in service children.',
-			notes: [
-				{
-					type: 'school',
-					author: randomName(),
-					text:
-						'An increase in service men and women following a sustained local recruitment campaign',
-					date: getRandomDate(3, 2)
-				}
-			]
+				'Information on SEN school types for which school is approved is missing or invalid '
 		},
 		{
-			number: 'TonT7D',
-			type: 'term-on-term',
-			description:
-				'There are significantly more service children than last collection (this collection xx, last collection xx).',
-			guide:
-				'Confirmation alone is not acceptable.  A reason should be provided for this increase in service children.',
-			notes: [
-				{
-					type: 'school',
-					author: randomName(),
-					text:
-						'An increase in service men and women following a sustained local recruitment campaign',
-					date: getRandomDate(3, 2)
-				}
-			]
+			number: 420,
+			type: 'school',
+			description: 'School telephone number is missing'
 		},
 		{
-			number: 'TonT8C',
-			type: 'term-on-term',
-			description:
-				'There are significantly fewer service children than last collection (this collection xx, last collection xx).',
-			guide:
-				'Confirmation alone is not acceptable.  A reason should be provided for this decrease in service children.',
-			notes: [
-				{
-					type: 'school',
-					author: randomName(),
-					text:
-						'The local barracks have closed so many service men and women have been redeployed',
-					date: getRandomDate(3, 2)
-				}
-			]
+			number: 540,
+			type: 'school',
+			description: 'Child mothers indicator is missing or invalid'
 		},
 		{
-			number: 'TonT9B',
-			type: 'term-on-term',
-			description:
-				'There are significantly more pupils whose ethnicity is not obtained than last collection (this collection xx, last collection xx).’',
-			guide:
-				'A reason will be sought as to why significantly more pupils have an ethnicity not known from last term.',
-			notes: [
-				{
-					type: 'school',
-					author: randomName(),
-					text: 'Instructed that collecting ethnicity no longer required',
-					date: getRandomDate(3, 2)
-				}
-			]
+			number: 541,
+			type: 'school',
+			description: 'Count of places for teenage mothers is missing'
 		},
 		{
-			number: 'TonT9C',
-			type: 'term-on-term',
-			description:
-				'There are significantly fewer pupils whose ethnicity is not obtained than last collection (this collection xx, last collection xx).’',
-			guide:
-				'Confirmation that the information has been confirmed by the school as being correct.  Acceptable note entry "confirmed as correct"',
-			notes: [
-				{
-					type: 'school',
-					author: randomName(),
-					text: 'Confirmed as correct',
-					date: getRandomDate(3, 2)
-				}
-			]
+			number: 542,
+			type: 'school',
+			description: 'Childcare facilities indicator is missing or invalid'
 		},
 		{
-			number: 'TonT13B',
-			type: 'term-on-term',
+			number: 560,
+			type: 'school',
 			description:
-				'There are significantly more infants taking a school lunch than last collection (this collection xx, last collection xx). A reason must be provided for this increase.',
-			guide:
-				'As this data will be used in funding calculations a reason must be provided for this increase.',
-			notes: [
-				{
-					type: 'school',
-					author: randomName(),
-					text: 'Children prefer new lunch menu options',
-					date: getRandomDate(3, 2)
-				}
-			]
+				'Primary admissions appeals withdrawn plus heard do not equal those lodged'
+		},
+		{
+			number: 570,
+			type: 'school',
+			description:
+				'Primary admission appeals upheld plus appeals rejected should match the number of appeals heard'
+		},
+		{
+			number: 5013,
+			type: 'school',
+			description:
+				"Data items in the Primary admission appeals module are only required from schools with governance type of 'VA', 'FO' or 'CA'"
+		},
+		{
+			number: 5014,
+			type: 'school',
+			description:
+				"Data items in the Primary admission appeals module are not required from schools with a phase of 'NS', 'SP' or 'PR'"
+		},
+		{
+			number: 561,
+			type: 'school',
+			description:
+				'There were more Secondary admission appeals withdrawn and / or plus heard than were actually do not equal those lodged'
+		},
+		{
+			number: 571,
+			type: 'school',
+			description:
+				'Secondary admission appeals upheld plus appeals rejected should match the number of appeals heard'
+		},
+		{
+			number: 5125,
+			type: 'school',
+			description:
+				"Data items in the Secondary admission appeals module are only required from schools with governance type of 'VA', 'FO' or 'CA'"
+		},
+		{
+			number: 5126,
+			type: 'school',
+			description:
+				"Data items in the Secondary admission appeals module are not required from schools with a phase of 'NS', 'SP' or 'PR'"
+		},
+		{
+			number: 580,
+			type: 'school',
+			description: 'Overall appeals lodged is less than infant appeals lodged'
+		},
+		{
+			number: 590,
+			type: 'school',
+			description:
+				'Overall appeals withdrawn is less than infant appeals withdrawn'
+		},
+		{
+			number: 600,
+			type: 'school',
+			description: 'Overall appeals heard is less than infant appeals heard'
+		},
+		{
+			number: 610,
+			type: 'school',
+			description: 'Overall appeals upheld is less than infant appeals upheld '
+		},
+		{
+			number: 620,
+			type: 'school',
+			description:
+				'Overall appeals rejected is less than infant appeals rejected'
+		},
+		{
+			number: 630,
+			type: 'school',
+			description:
+				'More Number of appeals withdrawn plus or heard do not equal those than were lodged for infant classes'
+		},
+		{
+			number: 640,
+			type: 'school',
+			description:
+				'Infant appeals upheld plus infant appeals rejected should match the number of infant appeals heard'
+		},
+		{
+			number: 5018,
+			type: 'school',
+			description:
+				"Data items in the infant admission appeals module are only required from schools with governance type of 'VA', 'FO' or 'CA'"
+		},
+		{
+			number: 5019,
+			type: 'school',
+			description:
+				"Data items in the Infant admission appeals module are only required from schools with a phase of 'PS' or 'AT'"
+		},
+		{
+			number: 920,
+			type: 'pupil',
+			description: 'Number of part-time pupils not at school is missing'
+		},
+		{
+			number: 930,
+			type: 'pupil',
+			description:
+				'More part-time pupils not in school than total part-time pupils registered'
+		},
+		{
+			number: 940,
+			type: 'pupil',
+			description: 'Number of  private study pupils is missing'
+		},
+		{
+			number: 950,
+			type: 'pupil',
+			description: 'Number of  pupils at another school is missing'
+		},
+		{
+			number: 953,
+			type: 'pupil',
+			description: 'Number of  pupils on work experience is missing'
+		},
+		{
+			number: 957,
+			type: 'pupil',
+			description: 'Number of  pupils at FE colleges is missing'
+		},
+		{
+			number: 1000,
+			type: 'pupil',
+			description:
+				'Pupil reconciliation does not match number of pupils on roll'
+		},
+		{
+			number: 5023,
+			type: 'pupil',
+			description:
+				"Data items in the pupil reconciliation module are only required from schools with a phase of 'PS', 'MP', 'MS', 'SS' or 'AT'"
+		},
+		{
+			number: 5026,
+			type: 'pupil',
+			description:
+				"Pupils can only be on work experience if the census return is from a school with a phase of 'MS', 'SS' or 'AT'"
+		},
+		{
+			number: 5027,
+			type: 'pupil',
+			description:
+				"Pupils can only be attending an FE college if the census return is from a school with a phase of 'MS', 'SS' or 'AT'"
+		},
+		{
+			number: 1050,
+			type: 'class',
+			description: 'Class name is missing'
+		},
+		{
+			number: 1060,
+			type: 'class',
+			description: 'Two (or more) classes have the same name'
+		},
+		{
+			number: 1090,
+			type: 'class',
+			description: 'Number of support staff in class is missing'
+		},
+		{
+			number: 1100,
+			type: 'class',
+			description: 'Class with no staff'
+		},
+		{
+			number: 1130,
+			type: 'class',
+			description: 'Class Type is missing or invalid'
+		},
+		{
+			number: 1140,
+			type: 'class',
+			description:
+				'Class year group is missing, or invalid for this phase of school\n'
+		},
+		{
+			number: 1160,
+			type: 'class',
+			description: 'Class key stage not present or invalid'
+		},
+		{
+			number: 1170,
+			type: 'class',
+			description: 'Class activity is missing or invalid'
+		},
+		{
+			number: 1190,
+			type: 'class',
+			description: 'Class year group and key stage not consistent'
+		},
+		{
+			number: 1200,
+			type: 'class',
+			description: 'Number of home pupils in class is missing'
+		},
+		{
+			number: 1210,
+			type: 'class',
+			description: 'Number of guest pupils in class is missing'
+		},
+		{
+			number: 1220,
+			type: 'class',
+			description: 'Class with no pupils'
+		},
+		{
+			number: 1235,
+			type: 'class',
+			description:
+				'For KS1 or Reception classes class activity must reflect an “academic” activity '
+		},
+		{
+			number: 5032,
+			type: 'class',
+			description:
+				"Data items in the class information module are only required from schools with a phase of 'PS', 'MP', 'MS', 'SS' or 'AT'"
+		},
+		{
+			number: 5036,
+			type: 'class',
+			description:
+				"Class type can only be returned from schools with a phase of 'PS' or 'AT', and may be present only for year groups 'E1', 'E2', 'N1', 'N2', 'R', 1-7, or 'M'"
+		},
+		{
+			number: 5037,
+			type: 'class',
+			description:
+				"Class key stage can only be returned from schools with a phase of 'PS' or 'AT', and may be present only for year groups 'E1', 'E2', 'N1', 'N2', 'R', 1-7, or 'M'"
+		},
+		{
+			number: 5038,
+			type: 'class',
+			description:
+				"Class activity can only be returned from schools with a phase of 'PS' or 'AT', and may be present only for year groups 'E1', 'E2', 'N1', 'N2', 'R', 1-7, or 'M'"
+		},
+		{
+			number: 5039,
+			type: 'class',
+			description:
+				"The number of home pupils is only required from schools with a phase of 'PS', 'MP', 'MS', 'SS' or 'AT'"
+		},
+		{
+			number: 5040,
+			type: 'class',
+			description:
+				"The number of guest pupils is only required from schools with a phase of 'PS', 'MP', 'MS', 'SS' or 'AT'"
+		},
+		{
+			number: 5160,
+			type: 'class',
+			description: 'Class information is missing'
+		},
+		{
+			number: 1310,
+			type: 'school',
+			description: 'Number of free school meals taken is missing'
+		},
+		{
+			number: 1320,
+			type: 'school',
+			description:
+				'Please check: Free meals taken exceeds total eligible pupils '
+		},
+		{
+			number: 2900,
+			type: 'school',
+			description: 'Details of whether Childcare is provided on site is missing'
+		},
+		{
+			number: 2910,
+			type: 'school',
+			description:
+				'Signposting or promotion of off-site childcare is missing or invalid'
+		},
+		{
+			number: 2915,
+			type: 'school',
+			description:
+				'Opening time must be provided in the format HH:MM for on site childcare'
+		},
+		{
+			number: 2920,
+			type: 'school',
+			description:
+				'Closing time must be provided in the format HH:MM for on site childcare'
+		},
+		{
+			number: 2925,
+			type: 'school',
+			description: 'Number of childcare place for on site childcare missing'
+		},
+		{
+			number: 2930,
+			type: 'school',
+			description:
+				'The Service Provider of childcare for on site childcare missing'
+		},
+		{
+			number: 2935,
+			type: 'school',
+			description: 'Ability to accept pupils from other schools is missing'
+		},
+		{
+			number: 2940,
+			type: 'school',
+			description:
+				'Number of weeks which regular childcare provision is open is missing or out of the range 1 to 38'
+		},
+		{
+			number: 2945,
+			type: 'school',
+			description:
+				'Only details on the Type of Childcare and Childcare Signposting are required.  Other childcare details are not required where childcare is not provided on site'
+		},
+		{
+			number: 2950,
+			type: 'school',
+			description:
+				"Childcare Type '?' has not been provided (the error message should indicate which <TypeOfChildcare> is missing)"
+		},
+		{
+			number: 2955,
+			type: 'school',
+			description: 'The type of childcare has been reported more than once'
+		},
+		{
+			number: 2970,
+			type: 'school',
+			description:
+				'If the school has under 5 childcare, the number of hour for this provision must be equal to or greater than 9'
+		},
+		{
+			number: 2975,
+			type: 'school',
+			description:
+				'Number of weeks which regular childcare provision is open is missing or out of the range 1 to 15'
+		},
+		{
+			number: 5005,
+			type: 'school',
+			description:
+				"Data items in the Special School module are only required from schools with a phase of 'SP'"
+		},
+		{
+			number: 2165,
+			type: 'pupil',
+			description:
+				'Each SEN type must have a different ranking - two needs cannot both be ranked as the primary need',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 1500,
+			type: 'pupil',
+			description: 'UPN missing',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 1510,
+			type: 'pupil',
+			description:
+				'UPN invalid (wrong check letter at character 1)\nOR\nFormer UPN invalid (wrong check letter at character 1)\n',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 1520,
+			type: 'pupil',
+			description: 'More than one pupil record with the same UPN',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 1530,
+			type: 'pupil',
+			description:
+				'UPN invalid (characters 2-4 not a recognised LA code)\nOR\nFormer UPN invalid (characters 2-4 not a recognised LA code)\n',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 1540,
+			type: 'pupil',
+			description:
+				'UPN invalid (characters 5-12 not all numeric)\nOR\nFormer UPN invalid (characters 5-12 not all numeric)\n',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 1550,
+			type: 'pupil',
+			description:
+				'UPN invalid (character 13 not a recognised value or is missing)\nOR\nFormer UPN invalid (character 13 not a recognised value or is missing)\n',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 1570,
+			type: 'pupil',
+			description:
+				'Unique learner number must be provided for pupils aged 14 and over on census day',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 1573,
+			type: 'pupil',
+			description:
+				'Unique learner number must be provided for pupils aged 14 and over at date of leaving',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 1575,
+			type: 'pupil',
+			description:
+				'ULN format incorrect. Either number is less than 10 digits or the check digit is incorrect  - please check',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 1578,
+			type: 'pupil',
+			description: 'More than one pupil record with the same ULN',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 1580,
+			type: 'pupil',
+			description: 'Pupil with surname missing',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 1590,
+			type: 'pupil',
+			description: 'Pupil with forename missing',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 1600,
+			type: 'pupil',
+			description: 'Pupil’s date of birth is missing',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 1610,
+			type: 'pupil',
+			description: 'Pupil’s gender is missing or invalid',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 5065,
+			type: 'pupil',
+			description:
+				"Schools with a phase of 'NS' should not submit any records for pupils no longer on roll",
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 1630,
+			type: 'pupil',
+			description: "Pupil's ethnicity is missing or invalid",
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 1635,
+			type: 'pupil',
+			description:
+				"Where the learner has not achieved grade 'A*'-'C' / '9'-'4'  in Maths GCSE the stage that the learner achieved this must not be equal to '1' or '2'",
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 1636,
+			type: 'pupil',
+			description:
+				"Where learner has achieved grade 'A*'-'C' / '9'-'4' in maths the prior attainment stage must be equal to '1' or '2'",
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 1637,
+			type: 'pupil',
+			description:
+				"Where the learner has not achieved grade 'A*'-'C' / '9'-'4'  in English GCSE the stage that the learner achieved this must not be equal to '1' or '2'",
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 1638,
+			type: 'pupil',
+			description:
+				"Where learner has achieved grade 'A*'-'C' / '9'-'4' in English the prior attainment stage must be equal to '1' or '2'",
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 1741,
+			type: 'pupil',
+			description:
+				'Based on Ministry of Defence criteria, Service Children (parents designated as personnel category 1 or 2) are not eligible for free school meals',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 1761,
+			type: 'pupil',
+			description:
+				'A start date must be provided for each period of free school meal eligibility',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 1762,
+			type: 'pupil',
+			description:
+				'Periods of free school meal eligibility that started after the census day should not be included in the return.',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 1763,
+			type: 'pupil',
+			description:
+				'Periods of free school meal eligibility that ended before or on the previous census day or after the current census day should not be included in the return.',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 1764,
+			type: 'pupil',
+			description:
+				'The country code associated with the period of free school meal eligibility is not a valid value',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 1765,
+			type: 'pupil',
+			description:
+				"Any period of FSM eligibility outside of England, that is, Country of UK equals 'NIR', 'SCT' or 'WLS', must have an FSM eligibility end date before census day",
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 1766,
+			type: 'pupil',
+			description: 'The FSM end date is prior to the FSM start date',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 1768,
+			type: 'pupil',
+			description: 'Pupil cannot have multiple open FSM periods',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 1770,
+			type: 'pupil',
+			description:
+				'Youth support services (previously known as connexions) agreement is missing or invalid',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 1840,
+			type: 'pupil',
+			description: 'Language is missing or invalid value',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 1843,
+			type: 'pupil',
+			description:
+				'Early years pupil premium basis for funding is missing or invalid',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 1844,
+			type: 'pupil',
+			description:
+				"Early years pupil premium basis for funding is only required where early years pupil premium eligibility is 'Y'",
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 1846,
+			type: 'pupil',
+			description:
+				'Early years pupil premium must be recorded for all 3 year olds',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 1847,
+			type: 'pupil',
+			description:
+				'Early years pupil premium must be recorded for 4 year olds in Nursery provision',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 1848,
+			type: 'pupil',
+			description:
+				"Early years pupil premium must be recorded for 4 year olds in 'E1', 'E2', 'N1' or 'N2'",
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 1861,
+			type: 'pupil',
+			description:
+				"Early years pupil premium must only be recorded for 3 or for 4 year olds that are in Nursery provision, 'E1', 'E2', 'N1' or 'N2'\n\nEarly years pupil premium only required for pupils aged 3 and 4",
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 1862,
+			type: 'pupil',
+			description:
+				'Early years pupil premium not required for pupils aged 4 in reception or above',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 1851,
+			type: 'pupil',
+			description:
+				'Child’s funded hours must not be provided for pupil aged 5 and over or aged under 12',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 1852,
+			type: 'pupil',
+			description:
+				'Child’s funded hours not provided or out of the range 0 to 15 to two decimal places for pupils aged 2 or 3',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 1854,
+			type: 'pupil',
+			description:
+				'Childs hours at setting must not be provided for pupil aged 5 and over or pupils aged under 12 and under',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 1855,
+			type: 'pupil',
+			description:
+				'Hours at setting is missing or invalid for 2 and, 3  year olds',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 1856,
+			type: 'pupil',
+			description:
+				'Service child in education indicator missing or invalid: This item is required for all pupils except those whose enrolment status is `S’ - current subsidiary (dual registration). ',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 1859,
+			type: 'pupil',
+			description:
+				'Funded hours plus any extended hours cannot be more than the hours at setting ',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 1864,
+			type: 'pupil',
+			description:
+				'Learner support code should not be provided for subsidiary pupils',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 1865,
+			type: 'pupil',
+			description: 'Learner support code is invalid',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 1866,
+			type: 'pupil',
+			description:
+				'The same learner support code should not appear more than once for the same pupil',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 1867,
+			type: 'pupil',
+			description:
+				'Learner is aged under 16 years as at 31 August 2018 and not eligible for bursary funding',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 1868,
+			type: 'pupil',
+			description:
+				'Learner is aged 20 years or over as at 31 August 2018 and not eligible for bursary funding',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 1869,
+			type: 'pupil',
+			description: 'Top Up Funding indicator is missing or invalid',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 1871,
+			type: 'pupil',
+			description:
+				'Post looked after arrangements indicator is missing or invalid',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 1875,
+			type: 'pupil',
+			description: 'School lunch taken is missing or invalid.',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 1876,
+			type: 'pupil',
+			description:
+				"School lunch taken only required from pupils in reception, year 1 or year 2 or from pupils aged 4 to 6 in year 'X'",
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 1992,
+			type: 'pupil',
+			description:
+				'Pupil has at least one learning aim which has been active during the current year but there are no planned learning hours recorded for the current academic year',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 1993,
+			type: 'pupil',
+			description:
+				'Pupil does not have at least one learning aim recorded therefore planned learning hours and/or planned employability, enrichment and pastoral hours should not be present',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 1997,
+			type: 'pupil',
+			description:
+				'The sum of planned learning hours and planned employability, enrichment and pastoral hours must not be greater than 4,000 hours',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 2690,
+			type: 'pupil',
+			description: 'Unit contact time is missing or invalid',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 3000,
+			type: 'pupil',
+			description: 'Maths GCSE attainment grade is missing or invalid',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 3005,
+			type: 'pupil',
+			description:
+				"The stage at which the learner achieved a Maths GCSE at grade 'A*'-'C' / '9' - '4' or not is missing or invalid",
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 3010,
+			type: 'pupil',
+			description: 'English GCSE attainment grade  is missing or invalid',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 3015,
+			type: 'pupil',
+			description:
+				"The stage at which the learner achieved a English GCSE at grade 'A*'-'C' / '9' - '4' or not is missing or invalid",
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 3040,
+			type: 'pupil',
+			description: 'Maths GCSE funding exemption is missing or invalid',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 3045,
+			type: 'pupil',
+			description: 'English GCSE funding exemption is missing or invalid',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 3100,
+			type: 'pupil',
+			description:
+				"Extended childcare hours have been entered where pupil is not in the eligible age range or year groups 'E1', 'E2', 'N1' or 'N2', or does not have a valid 30-hour code",
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 3105,
+			type: 'pupil',
+			description:
+				'The 30-hour code must be 11 digits long and contain numerical characters only',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 3110,
+			type: 'pupil',
+			description:
+				"A 30-hour code has been entered where pupil is not in the eligible age range or in year groups 'E1', 'E2', 'N1' or 'N2', or extended hours is missing",
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 3120,
+			type: 'pupil',
+			description:
+				'The disability access fund indicator should only be recorded for all pupils aged 3 and those aged 4 who are in nursery provision',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 3130,
+			type: 'pupil',
+			description:
+				'30-hour eligibility code missing for pupil aged 3 or 4 with extended hours present',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 3140,
+			type: 'pupil',
+			description:
+				'Child’s extended hours not provided or out of the range of 0 to 15 hours',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 3150,
+			type: 'pupil',
+			description:
+				'Child with extended hours greater than zero cannot have more than 15 funded hours',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 3160,
+			type: 'pupil',
+			description: 'More than one pupil is recorded with the same 30hour code',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 5046,
+			type: 'pupil',
+			description:
+				"Youth support services indicator is not required from schools with a phase of 'NS' or 'PS'",
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 5094,
+			type: 'pupil',
+			description:
+				'Hours at setting is not required from CTCs  or non-maintained special schools ',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 5095,
+			type: 'pupil',
+			description:
+				'Funded hours are not required from CTCs  or non-maintained special schools ',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 5096,
+			type: 'pupil',
+			description:
+				'30-hour code is  not required from CTCs  or non-maintained special schools ',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 5140,
+			type: 'pupil',
+			description:
+				"Proficiency in English is missing or invalid for child in reception and above with language not equal to 'ENG' (English), 'ENB' (believed to be English) or 'BSL' (British sign language)",
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 5170,
+			type: 'pupil',
+			description:
+				'Child’s funded hours must not be provided for pupil aged 4 in reception or above',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 5180,
+			type: 'pupil',
+			description:
+				'Child’s funded hours not provided or out of the range 0 to 25 to two decimal places for pupils aged 4 not in reception or above',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 5190,
+			type: 'pupil',
+			description:
+				'Child’s hours at setting must not be provided for pupils aged 4 in reception or above',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 5200,
+			type: 'pupil',
+			description:
+				'Child’s hours at setting is missing for pupils aged 4 in nursery provision',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 5210,
+			type: 'pupil',
+			description:
+				'Extended hours are not required from CTCs or non-maintained special schools',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 5215,
+			type: 'pupil',
+			description:
+				'Disability access fund information is  not required from CTCs  or non-maintained special schools ',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 5220,
+			type: 'pupil',
+			description:
+				'The disability access fund indicator is only available for pupils with funded or extended hours',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 5225,
+			type: 'pupil',
+			description:
+				'Child’s funded hours is out of the range 0 to 15 to two decimal places for pupils with a valid 30-hour code',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 5230,
+			type: 'pupil',
+			description:
+				'The disability access fund indicator is missing or not a valid value for pupils aged 3 or 4 (in nursery provision)',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 5235,
+			type: 'pupil',
+			description:
+				'2-year-old basis for funding is missing or an invalid value for a two year old with funded hours  or 2-year-old basis for funding has been provided without any funded hours being present',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 3200,
+			type: 'pupil',
+			description:
+				'The basis for funding should only be recorded for pupils aged 2 with funded hours greater than zero',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 3210,
+			type: 'pupil',
+			description:
+				'Each reason for funding code must be unique and used only once',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 200,
+			type: 'pupil',
+			description:
+				'The school has indicated that it does not follow the national curriculum (year ‘X’) but the pupil has a national curriculum year group other than ‘X’',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 1860,
+			type: 'pupil',
+			description: 'Enrolment status is missing or invalid',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 1880,
+			type: 'pupil',
+			description: 'Pupil’s entry date to school missing or after census date',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 1882,
+			type: 'pupil',
+			description:
+				'A new entry date should not be given for pupils moving directly from nursery to reception or entering year 12 directly from within the same school. Sessions possible indicate that the pupil attended the school during the summer second half term. If the pupil left and was subsequently readmitted, the error will be accepted by DfE on condition that a suitable explanatory notepad entry is provided. ',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 1920,
+			type: 'pupil',
+			description:
+				'Pupils leaving date is either missing, is either before entry date or equal to or after census date',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 1930,
+			type: 'pupil',
+			description: 'Pupil part-time indicator is missing or invalid',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 1940,
+			type: 'pupil',
+			description:
+				'Pupils aged 5-15 cannot be shown as having part-time status',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 1950,
+			type: 'pupil',
+			description: 'Part-time pupil shown as boarder',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 1970,
+			type: 'pupil',
+			description: 'Pupil boarder indicator is invalid',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 2000,
+			type: 'pupil',
+			description: 'Pupil actual year group is missing or invalid',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 2002,
+			type: 'pupil',
+			description:
+				"Pupil's NC year is not within the range of the school’s lowest and highest NC year",
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 2005,
+			type: 'pupil',
+			description:
+				'Pupil’s NC year on leaving is not a valid value should be present for pupils who have learning aims or is missing',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 2060,
+			type: 'pupil',
+			description:
+				"Pupil’s type of class is missing or invalid for pupils in primary classes with phase 'PS' or 'AT'",
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 2080,
+			type: 'pupil',
+			description: 'Pupil aged 6 or over is shown as being in a nursery class',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 2112,
+			type: 'pupil',
+			description:
+				"School is not following the national curriculum (year 'X') yet pupil has an NC year group The school has indicated that it does not follow the national curriculum (year ‘X’) therefore the pupil’s national curriculum year group must be 'X' ",
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 5048,
+			type: 'pupil',
+			description:
+				"Pupil's type of class can only be returned from schools with a phase of  'PS' or 'AT' and may be present only for pupils in NC Year 'E1', 'E2', 'N1', 'N2', 'R', or 1-7",
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 2120,
+			type: 'pupil',
+			description: 'Pupil with missing SEN provision or invalid value  ',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 2125,
+			type: 'pupil',
+			description: 'Pupil shows SEN information where provision is none',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 2130,
+			type: 'pupil',
+			description:
+				'Pupil SEN type code required where SEN type ranking provided',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 2140,
+			type: 'pupil',
+			description: 'Ranking of special educational need is missing or invalid',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 2160,
+			type: 'pupil',
+			description:
+				'If only one SEN type is present it must be the primary need',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 2166,
+			type: 'pupil',
+			description:
+				'A maximum of two types of SEN need should be included in the return',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 2170,
+			type: 'pupil',
+			description:
+				"A valid SEN type must be provided for pupils where with a SEN provision equals 'K', 'S' or 'E'",
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 2175,
+			type: 'pupil',
+			description:
+				'SEN type code ‘NSA’ (SEN support but no specialist assessment of type of need) can only be used where SEN provision is code ‘K’ (SEN support)',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 2180,
+			type: 'pupil',
+			description: 'Pupil in special school with no SEN',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 2230,
+			type: 'pupil',
+			description:
+				"Special provision (SEN Unit) indicator must be provided if SEN provision is equal to 'E' or 'K' or 'S'",
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 2250,
+			type: 'pupil',
+			description:
+				"Special provision (Resourced provision) indicator must be provided if SEN Pprovision is equal to 'E' or 'K' or 'S' ",
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 5049,
+			type: 'pupil',
+			description:
+				"SEN unit indicator is not required from schools with a phase of 'SP' or 'PR'",
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 5050,
+			type: 'pupil',
+			description:
+				"Resourced provision indicator is not required from schools with a phase of 'SP' or 'PR'",
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 2115,
+			type: 'pupil',
+			description:
+				"Code 'S' (statement of SEN) has been discontinued and is no longer in use. Please re-code this as code 'E' and carry out a review of the pupil's SEN",
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 2270,
+			type: 'pupil',
+			description:
+				'Start date, SEN provision or category is missing from exclusion record',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 2275,
+			type: 'pupil',
+			description: 'Exclusion Category is invalid',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 2280,
+			type: 'pupil',
+			description:
+				'Where exclusion category is present a valid exclusion reason must also be provided',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 2285,
+			type: 'pupil',
+			description: 'Pupil has more than one permanent exclusion record',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 2290,
+			type: 'pupil',
+			description: 'Exclusion start date invalid',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 2300,
+			type: 'pupil',
+			description:
+				'Where exclusion category is fixed or lunch the number of sessions must also be provided',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 2303,
+			type: 'pupil',
+			description:
+				'Pupil’s leaving date suggests they left the school prior to the start of their exclusion',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 2310,
+			type: 'pupil',
+			description: 'SEN Provision is not a valid value',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 2330,
+			type: 'pupil',
+			description:
+				'Where exclusion category is permanent the number of sessions is not applicable',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 2335,
+			type: 'pupil',
+			description: 'Permanent exclusion appears for pupil still on roll',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 5051,
+			type: 'pupil',
+			description: 'Exclusions must not be present for Nursery schools',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 2340,
+			type: 'pupil',
+			description: 'Postcode is missing or provided in an invalid format',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 2341,
+			type: 'pupil',
+			description:
+				'Postcode is missing or invalid for an off roll pupil for whom learning aims data are being submitted',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 2350,
+			type: 'pupil',
+			description: 'Insufficient address information provided.',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 2380,
+			type: 'pupil',
+			description:
+				'Where dwelling is present at least one of:  street, locality, town, administrative area or post town must be shown',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 2400,
+			type: 'pupil',
+			description:
+				'Where address line 1 is present, at least one other address line must also be present.',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 2445,
+			type: 'pupil',
+			description: 'Address information drawn from two conflicting formats',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 5155,
+			type: 'pupil',
+			description: 'UPRN is incorrect format',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 2470,
+			type: 'pupil',
+			description:
+				'Attendance information is not required for this pupil as they are either aged less than 4, over 15 or are a boarder',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 2475,
+			type: 'pupil',
+			description: 'Attendance code is invalid',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 2480,
+			type: 'pupil',
+			description:
+				'Pupil reporting zero sessions missed with attendance code. This should be provided and be greater than zero.\n\nWhere a reason for absence is provided the number of sessions missed should be greater than zero.\n',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 2490,
+			type: 'pupil',
+			description:
+				'Pupil reporting number of sessions missed with no corresponding reason (attendance code)',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 2500,
+			type: 'pupil',
+			description:
+				'For autumn:\n\nFor pupil on roll in the first summer half term the attendance sessions possible is missing must be greater than or equal to zero\n\nFor spring and summer:\n\nFor pupil on roll the attendance sessions possible is missing must be greater than or equal to zero',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 2505,
+			type: 'pupil',
+			description: 'Pupil with double-reporting of termly absences',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 2510,
+			type: 'pupil',
+			description:
+				'For autumn:\n\nFor pupil no longer on roll in the first summer half term the attendance sessions possible is missing or invalid must be greater than or equal to zero\n\nFor spring and summer:\n\nFor pupil no longer on roll the attendance sessions possible is missing or invalid must be greater than or equal to zero',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 2530,
+			type: 'pupil',
+			description:
+				'Total sessions missed must be less than or equal to sessions possible',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 5057,
+			type: 'pupil',
+			description:
+				"Attendance information is not required from schools with a phase of 'NS'\n",
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 5080,
+			type: 'pupil',
+			description:
+				'Summer half term 2 attendance not required if nursery school',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 2571,
+			type: 'pupil',
+			description:
+				'Attendance data for the second half of the summer term is not required for this pupil as they are either aged less than 4, over 15 or are a boarder',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 2572,
+			type: 'pupil',
+			description:
+				'Attendance code is invalid for absence reported for the second half of the summer term',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 2573,
+			type: 'pupil',
+			description:
+				'Pupil reporting zero sessions missed with attendance code. This should be provided and be greater than zero.\n\nWhere a reason for absence is provided the number of sessions missed should be greater than zero.\n',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 2574,
+			type: 'pupil',
+			description:
+				'Pupil reporting number of sessions missed with no corresponding reason (attendance code) for the second half of the summer term',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 2575,
+			type: 'pupil',
+			description:
+				'For pupils on roll the attendance sessions possible must be greater than or equal to zero is missing or invalid for the second half of the summer term',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 2577,
+			type: 'pupil',
+			description:
+				'Pupil with double-reporting of termly absences in the second half of the summer term',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 2579,
+			type: 'pupil',
+			description:
+				'For pupils no longer on roll the attendance sessions possible must be greater than or equal to zero is missing or invalid for the second half of the summer term',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 2582,
+			type: 'pupil',
+			description:
+				'Total sessions missed must be less than or equal to sessions possible for the second half of the summer term',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 2700,
+			type: 'pupil',
+			description: 'Qualification number is missing',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 2701,
+			type: 'pupil',
+			description:
+				"A learning aim withdrawal reason is only required where the learner has withdrawn and the learning aim status is recorded as '3'",
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 2705,
+			type: 'pupil',
+			description: 'Learning aims are only required for schools with 6th forms',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 2710,
+			type: 'pupil',
+			description:
+				'Qualification number has invalid characters or incorrectly formatted',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 2712,
+			type: 'pupil',
+			description: 'Full-time employment indicator is missing or invalid',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 2720,
+			type: 'pupil',
+			description: 'Qualification number is not a recognised value',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 2721,
+			type: 'pupil',
+			description:
+				'The core aim must not be ‘true’ if the student is studying an academic programme.',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 2722,
+			type: 'pupil',
+			description: 'Subject classification code is missing',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 2724,
+			type: 'pupil',
+			description: 'Subject classification code is not a recognised value',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 2730,
+			type: 'pupil',
+			description: 'Learning start date is missing or invalid',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 2735,
+			type: 'pupil',
+			description: 'Learning start date is after the census date',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 2750,
+			type: 'pupil',
+			description: 'Learning planned end date is missing or invalid',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 2760,
+			type: 'pupil',
+			description:
+				'Learning aim - the planned end date must be on or after the start date',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 2761,
+			type: 'pupil',
+			description:
+				'Learning aim - the actual end date must be on or after the start date',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 2765,
+			type: 'pupil',
+			description:
+				'Learning planned end date is more than 5 years after census date',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 2766,
+			type: 'pupil',
+			description:
+				'Learning planned end date must be on or before the 31st July of the academic year the learner is due to finish',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 2770,
+			type: 'pupil',
+			description: 'Learning aim end date is not a valid date',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 2780,
+			type: 'pupil',
+			description:
+				"Learning aim actual end date has incorrectly been provided for a learning aim which is continuing that is, for which learning aim status equals '1'",
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 2785,
+			type: 'pupil',
+			description: 'Learning aim withdrawal reason is missing or invalid value',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 2790,
+			type: 'pupil',
+			description:
+				"Learning aim actual end date must be provided where the learning aim status is '2' (completed), '3' (withdrawn) or '4' (transferred)",
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 2795,
+			type: 'pupil',
+			description:
+				"For pupils no longer on roll the learning aim status must be '2' (completed), '3' (withdrawn) or '4' (transferred) ",
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 2805,
+			type: 'pupil',
+			description:
+				'Please check: Learning aim actual end date must be the same as, or earlier than the census date',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 2820,
+			type: 'pupil',
+			description: 'Learning aim status is missing or invalid',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 2850,
+			type: 'pupil',
+			description:
+				'The learning aim start date is after the date that certification for this qualification closed',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 2870,
+			type: 'pupil',
+			description:
+				'Learning aims for the current academic year should must be submitted for a pupil in year 12 or above with single or main registration at the school',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 5106,
+			type: 'pupil',
+			description:
+				"Learning aims are only required for schools with a <Phase> of 'SS', 'AT' or 'PR'",
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 5130,
+			type: 'pupil',
+			description:
+				'Postcode is not required for off roll pupils without learning aims',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
+		},
+		{
+			number: 5165,
+			type: 'pupil',
+			description: 'Traineeship is missing or invalid',
+			pupils: createPupils(
+				randomItemFrom([
+					randomNumber(1, 10),
+					randomNumber(1, 10),
+					randomNumber(10, 20),
+					randomNumber(20, 50),
+					1,
+					1,
+					1,
+					1,
+					1
+				])
+			)
 		}
 	]
 }

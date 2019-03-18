@@ -306,6 +306,11 @@ a.type-tag,
 		color: govuk-colour('pink');
 		background-color: rgba(govuk-colour('pink'), 0.025);
 	}
+	&.class {
+		color: govuk-colour('brown');
+		border-color: govuk-colour('brown');
+		background-color: rgba(govuk-colour('brown'), 0.025);
+	}
 	&.count-tag {
 		font-size: 14px;
 		text-decoration: none;

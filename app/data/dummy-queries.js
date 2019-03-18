@@ -1,3 +1,9 @@
+/**
+ * @param {function} randomName
+ * @param {function} getRandomDate
+ * @param {function} createPupils
+ */
+
 module.exports = (randomName, getRandomDate, createPupils) => {
 	return [
 		{

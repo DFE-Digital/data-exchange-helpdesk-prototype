@@ -133,11 +133,17 @@ router.all('/allocate-work', (req, res) => {
 router.all('/select-school', (req, res) => {
 	const selectedSchoolIndex = req.session.data['selected-school']
 	const selectedSchool = req.session.data['schools'][selectedSchoolIndex]
+	const path = 'schools[' + selectedSchoolIndex + ']'
 	console.log(selectedSchoolIndex)
-	if (selectedSchool.queries.length == 0) {
+	if (selectedSchool.hasQueries != 'true') {
 		const queries = generate.queries(selectedSchool.noOfQueries)
-		const path = 'schools[' + selectedSchoolIndex + '].queries'
-		set(req.session.data, path, queries)
+		set(req.session.data, path + '.hasQueries', 'true')
+		set(req.session.data, path + '.queries', queries)
+	}
+	if (selectedSchool.hasErrors != 'true') {
+		const errors = generate.errors(selectedSchool.noOfErrors)
+		set(req.session.data, path + '.hasErrors', 'true')
+		set(req.session.data, path + '.errors', errors)
 	}
 	res.redirect(req.headers.referer)
 })
