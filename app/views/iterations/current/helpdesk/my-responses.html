@@ -1,4 +1,4 @@
-{% extends 'layout_internal.html' %}
+{% if data.isExternal == 'true' %}{% extends 'layout_la.html' %}{% else %}{% extends 'layout_internal.html' %}{% endif %}
 
 {% block pageTitle %}
     My work queue - responses 

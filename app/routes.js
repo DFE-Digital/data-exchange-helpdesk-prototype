@@ -22,7 +22,7 @@ router.all('*', (req, _, next) => {
 router.all('/handle-query', (req, res) => {
 	const schoolIndex = req.session.data['selected-school']
 	const queryIndex = req.session.data['selected-query']
-	const response = req.body['response'] || req.session.data['response']
+	const response = req.body.response || req.session.data.response
 	const responseNote = req.session.data['response-note']
 	const path = 'schools[' + schoolIndex + ']' + '.queries[' + queryIndex + ']'
 	set(req.session.data, path + 'handled', 'true')

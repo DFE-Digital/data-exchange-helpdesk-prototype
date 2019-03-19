@@ -1,4 +1,4 @@
-{% extends 'layout_internal.html' %}
+{% if data.isExternal == 'true' %}{% extends 'layout_la.html' %}{% else %}{% extends 'layout_internal.html' %}{% endif %}
 
 {% block pageTitle %}
     Queries
@@ -112,6 +112,10 @@
             {% include './census/report.html' %}
         {% endset -%}
 
+        {% set downloadHTML  %}
+            {% include './census/download.html' %}
+        {% endset -%}
+
 
         {{ govukTabs({
             items: [
@@ -148,6 +152,16 @@
                     id: 'reports',
                     panel: {
                         html: reportsHTML
+                    }
+                },
+                {
+                    label: 'Download data',
+                    id: 'download',
+                    attributes: {
+                        'style': 'float:right;'
+                    },
+                    panel: {
+                        html: downloadHTML
                     }
                 }
             ]

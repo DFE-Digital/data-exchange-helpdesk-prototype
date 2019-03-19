@@ -16,7 +16,13 @@
 
       {{ govukButton({
         text: 'Open latest helpdesk iteration',
-        href: 'iterations/current/helpdesk/my-queue',
+        href: 'iterations/current/helpdesk/my-queue?isExternal=false',
+        classes: 'govuk-button--start'
+      }) }}
+
+      {{ govukButton({
+        text: 'Open latest LA/MAT iteration',
+        href: 'iterations/current/helpdesk/my-queue?isExternal=true',
         classes: 'govuk-button--start'
       }) }}
 
