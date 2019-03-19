@@ -165,7 +165,7 @@ generators.school = (name, laCode, type, noOfQueries) => {
 		name,
 		type,
 		noOfQueries,
-		noOfErrors: generators.randomNumber(0, 122),
+		noOfErrors: generators.randomNumber(0, 20),
 		LAESTAB: laCode.toString() + '/' + generators.randomCode(4),
 		queries: []
 	}
