@@ -204,7 +204,7 @@
                                 {{ school.name }}
                             </a>
                         </th>
-                        <td class="govuk-table__cell govuk-table__cell--numeric" style="text-align: left">
+                        <td class="govuk-table__cell govuk-table__cell--numeric" style="text-align: left" data-sort-value="{{ school.submittedDate }}">
                             {{ school.submittedDate | formatColumnDate }}
                         </td>
                         <td class="govuk-table__cell">
