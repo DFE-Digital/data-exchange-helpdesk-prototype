@@ -158,6 +158,20 @@ module.exports = (randomName, getRandomDate, createPupils) => {
 					author: randomName(),
 					text:
 						'This pupil had free school meals confirmed but was revoked by council the following day',
+					date: getRandomDate(8, 7)
+				},
+				{
+					type: 'reply',
+					author: randomName(),
+					text:
+						'This is not a valid reason. Did this school receive authorisation from the LA?',
+					date: getRandomDate(6, 5)
+				},
+				{
+					type: 'school',
+					author: randomName(),
+					text:
+						'Yes this has been authorised by '+ randomName() + ' from local authority.',
 					date: getRandomDate(3, 2)
 				}
 			]
@@ -306,7 +320,21 @@ module.exports = (randomName, getRandomDate, createPupils) => {
 					author: randomName(),
 					text:
 						'Our school admits many children from military families so are mostly dually-registered ',
-					date: getRandomDate(3, 2)
+					date: getRandomDate(8, 7)
+				},
+				{
+					type: 'reply',
+					author: randomName(),
+					text:
+						'Please can you clarify what you mean by dually-registered in this case?',
+					date: getRandomDate(7, 6)
+				},
+				{
+					type: 'school',
+					author: randomName(),
+					text:
+						'Our students who are dually-registered are registered to both our school and another in their home area.',
+					date: getRandomDate(8, 7)
 				}
 			]
 		},
@@ -370,7 +398,19 @@ module.exports = (randomName, getRandomDate, createPupils) => {
 					type: 'school',
 					author: randomName(),
 					text: 'This is correct',
-					date: getRandomDate(3, 2)
+					date: getRandomDate(8, 7)
+				},
+				{
+					type: 'reply',
+					author: randomName(),
+					text: 'Please can you provide further detail around the reason?',
+					date: getRandomDate(7, 6)
+				},
+				{
+					type: 'school',
+					author: randomName(),
+					text: 'The pupil left due to long term illness and was later readmitted.',
+					date: getRandomDate(6, 5)
 				}
 			]
 		},
@@ -405,6 +445,34 @@ module.exports = (randomName, getRandomDate, createPupils) => {
 					author: randomName(),
 					text:
 						'There has been a large influx of pupils registering at the school due to us opening a new extension',
+					date: getRandomDate(9, 8)
+				},
+				{
+					type: 'reply',
+					author: randomName(),
+					text:
+						'Please can you provide more information about the capacity of the extension?',
+					date: getRandomDate(7, 6)
+				},
+				{
+					type: 'school',
+					author: randomName(),
+					text:
+						'The extension contains 12 large classrooms and a common area.',
+					date: getRandomDate(6, 5)
+				},
+				{
+					type: 'reply',
+					author: randomName(),
+					text:
+						'Approximately how many more students can you now accommodate?',
+					date: getRandomDate(4, 3)
+				},
+				{
+					type: 'school',
+					author: randomName(),
+					text:
+						'We have capacity for around 80 additional students since the extension.',
 					date: getRandomDate(3, 2)
 				}
 			]
@@ -473,7 +541,21 @@ module.exports = (randomName, getRandomDate, createPupils) => {
 					type: 'school',
 					author: randomName(),
 					text:
-						'Pupil is dually registered and attends our school only for work experience and life skills sessions',
+						'Confirmed correct',
+					date: getRandomDate(7, 6)
+				},
+				{
+					type: 'reply',
+					author: randomName(),
+					text:
+						'Please can you provide a reason why a student on a post 16 study programme does not have any learning hours?',
+					date: getRandomDate(6, 5)
+				},
+				{
+					type: 'school',
+					author: randomName(),
+					text:
+						'Due to health reasons, the student is going to resit the year but is still in receipt of pastoral support',
 					date: getRandomDate(3, 2)
 				}
 			]
@@ -554,6 +636,30 @@ module.exports = (randomName, getRandomDate, createPupils) => {
 					type: 'school',
 					author: randomName(),
 					text: 'Confirmed as correct',
+					date: getRandomDate(8, 7)
+				},
+				{
+					type: 'reply',
+					author: randomName(),
+					text: 'Please can you provide a reason for the inconsistency?',
+					date: getRandomDate(7, 6)
+				},
+				{
+					type: 'school',
+					author: randomName(),
+					text: 'The pupil has severe leaning difficulties',
+					date: getRandomDate(5, 4)
+				},
+				{
+					type: 'reply',
+					author: randomName(),
+					text: 'Have they been held back a year group previously?',
+					date: getRandomDate(4, 3)
+				},
+				{
+					type: 'school',
+					author: randomName(),
+					text: 'Yes, they repeated both years 7 and 8.',
 					date: getRandomDate(3, 2)
 				}
 			]
@@ -566,6 +672,20 @@ module.exports = (randomName, getRandomDate, createPupils) => {
 				'Reason will be sought why the pupil is two years outside their expected NC year.  For example an acceptable note entry is that pupil has severe SEN or language difficulties or pupil is academically gifted',
 			pupils: createPupils(5),
 			notes: [
+				{
+					type: 'school',
+					author: randomName(),
+					text:
+						'Confirmed correct',
+					date: getRandomDate(3, 2)
+				},
+				{
+					type: 'reply',
+					author: randomName(),
+					text:
+						'Please can you provide a reason for the inconsistency?',
+					date: getRandomDate(3, 2)
+				},
 				{
 					type: 'school',
 					author: randomName(),
@@ -746,6 +866,34 @@ module.exports = (randomName, getRandomDate, createPupils) => {
 					author: randomName(),
 					text:
 						'It was deemed necessary by headteacher in response to a child protection issue',
+					date: getRandomDate(8, 7)
+				},
+				{
+					type: 'reply',
+					author: randomName(),
+					text:
+						'Please could you provide further details of exclusion period?',
+					date: getRandomDate(6, 5)
+				},
+				{
+					type: 'school',
+					author: randomName(),
+					text:
+						'The student was excluded for 3 months',
+					date: getRandomDate(5, 4)
+				},
+				{
+					type: 'reply',
+					author: randomName(),
+					text:
+						'During with dates?',
+					date: getRandomDate(3, 2)
+				},
+				{
+					type: 'school',
+					author: randomName(),
+					text:
+						'November 2017 and February 2018.',
 					date: getRandomDate(3, 2)
 				}
 			]
@@ -794,6 +942,18 @@ module.exports = (randomName, getRandomDate, createPupils) => {
 					type: 'school',
 					author: randomName(),
 					text: 'There is a reason for this issue',
+					date: getRandomDate(6, 5)
+				},
+				{
+					type: 'reply',
+					author: randomName(),
+					text: 'Do you confirm that this incompatibility is correct?',
+					date: getRandomDate(4, 3)
+				},
+				{
+					type: 'school',
+					author: randomName(),
+					text: 'Confirmed correct',
 					date: getRandomDate(3, 2)
 				}
 			]
@@ -963,6 +1123,18 @@ module.exports = (randomName, getRandomDate, createPupils) => {
 					type: 'school',
 					author: randomName(),
 					text: 'No support staff employed',
+					date: getRandomDate(7, 6)
+				},
+				{
+					type: 'reply',
+					author: randomName(),
+					text: 'Do you confirm the data sent is correct?',
+					date: getRandomDate(5, 4)
+				},
+				{
+					type: 'school',
+					author: randomName(),
+					text: 'Confirmed correct',
 					date: getRandomDate(3, 2)
 				}
 			]
@@ -1034,6 +1206,18 @@ module.exports = (randomName, getRandomDate, createPupils) => {
 			guide:
 				'Reason why all classes are only doing activity equal to (OT) Other.',
 			notes: [
+				{
+					type: 'school',
+					author: randomName(),
+					text: 'Confirmed correct',
+					date: getRandomDate(5, 4)
+				},
+				{
+					type: 'reply',
+					author: randomName(),
+					text: 'Please can you provide a reason?',
+					date: getRandomDate(4, 3)
+				},
 				{
 					type: 'school',
 					author: randomName(),
@@ -1118,7 +1302,35 @@ module.exports = (randomName, getRandomDate, createPupils) => {
 					type: 'school',
 					author: randomName(),
 					text:
+						'Confirmed correct',
+					date: getRandomDate(8, 7)
+				},
+				{
+					type: 'reply',
+					author: randomName(),
+					text:
+						'A reason must be provided. Please can you tell us why more infants were eligible for a FSM than during last collection?',
+					date: getRandomDate(7, 6)
+				},
+				{
+					type: 'school',
+					author: randomName(),
+					text:
 						'One of the biggest employers in the area has closed down which has led to a large increase in unemployment amongst parents',
+					date: getRandomDate(6, 5)
+				},
+				{
+					type: 'reply',
+					author: randomName(),
+					text:
+						'Thank you. Does this reason account for the entire increase?',
+					date: getRandomDate(5, 4)
+				},
+				{
+					type: 'school',
+					author: randomName(),
+					text:
+						'Yes, that is correct',
 					date: getRandomDate(3, 2)
 				}
 			]
@@ -1179,6 +1391,18 @@ module.exports = (randomName, getRandomDate, createPupils) => {
 				'There are significantly more pupils eligible for a FSM than last collection (this collection  xx, last collection xx). A reason must be provided for this increase.',
 			guide: 'Confirmation alone is not sufficient, a reason must be provided.',
 			notes: [
+				{
+					type: 'school',
+					author: randomName(),
+					text: 'Confirmed correct',
+					date: getRandomDate(6, 5)
+				},
+				{
+					type: 'reply',
+					author: randomName(),
+					text: 'Confirmation alone is not sufficient. Please can you provide a reason?',
+					date: getRandomDate(4, 3)
+				},
 				{
 					type: 'school',
 					author: randomName(),
@@ -1323,6 +1547,20 @@ module.exports = (randomName, getRandomDate, createPupils) => {
 			guide:
 				'A reason would be sought for this increase.  Unless there has been significant changes to overall pupil numbers it is not expected that this figure will change much from one term to the next.',
 			notes: [
+				{
+					type: 'school',
+					author: randomName(),
+					text:
+						'Confirmed correct',
+					date: getRandomDate(6, 5)
+				},
+				{
+					type: 'reply',
+					author: randomName(),
+					text:
+						'Please can you give us a reason?',
+					date: getRandomDate(5, 4)
+				},
 				{
 					type: 'school',
 					author: randomName(),
