@@ -4,10 +4,10 @@
 {% set school = data['schools'][schoolIndex] %}
 {% set schoolName = school['name'] %}
 {% set laestab = school['LAESTAB'] %}
-{% set query = school['queries'][data['selected-query']] %}
+{% set query = school['queries'] | getById(data['selected-query']) %}
 
 {% block pageTitle %}
-    {{ query.id }}
+    {{ query.number }}
 {% endblock %}
 
 {% block postHeader %}
@@ -17,18 +17,24 @@
         <span class="hmcts-identity-bar__title"><b>{{ schoolName }}</b> {{ laestab }} <strong class="govuk-!-padding-right-4"></strong>{{ govukTag({text: school.type}) }}</span>
     </div>
     <div style="float:right;">
-        {% if pendingCount != 0 %}
-        {{ govukButton({
-            text: 'Return to work queue',
-            href: '#',
-            classes: 'hmcts-menu-item hmcts-button--secondary'
-        }) }}
+        {% if (school.responsesSent == 'true') %}
+            {{ govukButton({
+                text: 'Return to work queue',
+                href: '../my-responses',
+                classes: 'hmcts-menu-item hmcts-button--secondary'
+            }) }}
+        {% elseif (pendingCount == 0) %}
+            {{ govukButton({
+                text: 'Send responses to school',
+                href: '/send-responses',
+                classes: 'hmcts-menu-item'
+            }) }}
         {% else %}
-        {{ govukButton({
-            text: 'Send responses to school',
-            href: '#',
-            classes: 'hmcts-menu-item'
-        }) }}
+            {{ govukButton({
+                text: 'Return to work queue',
+                href: '../my-queue',
+                classes: 'hmcts-menu-item hmcts-button--secondary'
+            }) }}
         {% endif %}
     </div>
   </div>
@@ -48,7 +54,7 @@
                     href: 'overview'
                 },
                 {
-                    text: query.id
+                    text: query.number
                 }
             ]
         }) }}
@@ -61,7 +67,7 @@
 
     <div class="govuk-grid-column-one-half">
         
-        <h1 class="govuk-heading-xl query-heading">{{ query.id }}</h1>
+        <h1 class="govuk-heading-xl query-heading">{{ query.number }}</h1>
 
         {% if query['type'] == 'pupil' %}
             {% if query['pupils'] | length == 0 %}
@@ -88,7 +94,7 @@
         <div class="notes">
             {% for note in query.notes %}
             <div class="note {{ note.type }}">
-                <span class="title">{{ 'Approved by ' if note.type == 'approval' }}{{ 'Rejected by ' if note.type == 'reply' }}{{ 'Note added by ' if note.type == 'school' }} {{ note.author }}<br>{{ note.date }}</span>
+                <span class="title">{{ 'Approved by ' if note.type == 'approval' }}{{ 'Rejected by ' if note.type == 'reply' }}{{ 'Note added by ' if note.type == 'school' }} {{ note.author }}<br>{{ note.date | formatDate }}</span>
                 {{ note.text }}
             </div>
             {% endfor -%}
@@ -104,7 +110,7 @@
         {% set isMultiple = query.pupils | length != 1 %}
 
         <table class="govuk-table">
-        <caption class="govuk-table__caption">Pupil{{ 's' if isMultiple }} relating to query {{ query.id }}</caption>
+        <caption class="govuk-table__caption">Pupil{{ 's' if isMultiple }} relating to query {{ query.number }}</caption>
         <thead class="govuk-table__head">
             <tr class="govuk-table__row">
                 {% if isMultiple %}
@@ -119,7 +125,7 @@
             {% for pupil in query.pupils %}
             <tr class="govuk-table__row">
                 {% if isMultiple %}
-                <th class="govuk-table__header table-checkbox-cell" scope="row"><input type="checkbox" id="select{{ loop.index - 1 }}"><label for="select{{ loop.index }}"></label></th>
+                <th class="govuk-table__header table-checkbox-cell" scope="row"><input type="checkbox" id="select{{ loop.index - 1 }}"><label for="select{{ loop.index - 1 }}"></label></th>
                 {% endif %}
                 <th class="govuk-table__header" scope="row">
                     <a href="#" class="open-dialog" data-pupil="{{ loop.index - 1 }}"><span class="upn">{{ [pupil.UPN, pupil.UPN, pupil.UPN, pupil.UPN, pupil.UPN, 'UPN missing'] | random }}</span></a>

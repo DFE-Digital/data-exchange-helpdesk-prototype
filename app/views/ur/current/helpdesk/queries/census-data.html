@@ -1,0 +1,183 @@
+{% if data.isExternal == 'true' %}{% extends 'layout_la.html' %}{% else %}{% extends 'layout_internal.html' %}{% endif %}
+
+{% block pageTitle %}
+    Queries
+{% endblock %}
+
+{% set schoolIndex = data['selected-school'] %}
+{% set school = data['schools'][schoolIndex] %}
+{% set schoolName = school['name'] %}
+{% set laestab = school['LAESTAB'] %}
+{% set queries = school['queries'] %}
+
+{% set handledCount = 0 %}
+{% for query in queries %}
+    {% if query['handled'] == 'true' %}
+        {% set handledCount = handledCount + 1 %}
+    {% endif %}
+{% endfor %}
+
+{% set pendingCount = (queries | length) - handledCount %}
+
+{% block postHeader %}
+{% if queries | length == 0 %}
+    <script>
+        window.location.href = '/select-school'
+    </script>
+{% endif %}
+<div class="hmcts-identity-bar">
+  <div class="hmcts-identity-bar__container">
+    <div class="hmcts-identity-bar__details">
+        <span class="hmcts-identity-bar__title"><b>{{ schoolName }}</b> {{ laestab }} <strong class="govuk-!-padding-right-4"></strong>{{ govukTag({text: school.type, classes: school.type}) }}</span>
+    </div>
+    <div style="float:right;">
+        {% if (school.responsesSent == 'true') %}
+            {{ govukButton({
+                text: 'Return to work queue',
+                href: '../my-responses',
+                classes: 'hmcts-menu-item hmcts-button--secondary'
+            }) }}
+        {% elseif (pendingCount == 0) %}
+            {{ govukButton({
+                text: 'Send responses to school',
+                href: '/send-responses',
+                classes: 'hmcts-menu-item'
+            }) }}
+        {% else %}
+            {{ govukButton({
+                text: 'Return to work queue',
+                href: '../my-queue',
+                classes: 'hmcts-menu-item hmcts-button--secondary'
+            }) }}
+        {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+
+    <div class="govuk-grid-column-full census-case-nav govuk-!-padding-bottom-5">
+
+        {{ hmctsSubNavigation({
+            label: 'Sub navigation',
+            items: [
+                {
+                    text: pendingCount + ' queries' if pendingCount != 1 else '1 query',
+                    href: 'overview'
+                },
+                {
+                    text: handledCount + ' resolved queries' if handledCount != 1 else '1 resolved query',
+                    href: 'handled'
+                },
+                {
+                    text: school.noOfErrors + ' errors',
+                    href: 'errors'
+                },
+                {
+                    text: 'View all census data',
+                    href: 'census-data',
+                    active: true
+                }
+            ]
+        }) }} 
+
+    </div>
+
+</div>
+
+<div class="govuk-grid-row">
+
+    <div class="govuk-grid-column-full">
+        
+        {% set summaryHTML  %}
+            {% include './census/census-summary.html' %}
+        {% endset -%}
+
+        {% set schoolHTML  %}
+            {% include './census/school.html' %}
+        {% endset -%}
+
+        {% set classHTML  %}
+            {% include './census/class.html' %}
+        {% endset -%}
+
+        {% set pupilsHTML  %}
+            {% include './census/pupils.html' %}
+        {% endset -%}
+
+        {% set reportsHTML  %}
+            {% include './census/report.html' %}
+        {% endset -%}
+
+        {% set downloadHTML  %}
+            {% include './census/download.html' %}
+        {% endset -%}
+
+
+        {{ govukTabs({
+            items: [
+                {
+                    label: 'Summary',
+                    id: 'summary',
+                    panel: {
+                        html: summaryHTML
+                    }
+                },
+                {
+                    label: 'School details',
+                    id: 'school',
+                    panel: {
+                        html: schoolHTML
+                    }
+                },
+                {
+                    label: 'Class details',
+                    id: 'class',
+                    panel: {
+                        html: classHTML
+                    }
+                },
+                {
+                    label: 'Pupil details',
+                    id: 'pupil',
+                    panel: {
+                        html: pupilsHTML
+                    }
+                },
+                {
+                    label: 'Reports',
+                    id: 'reports',
+                    panel: {
+                        html: reportsHTML
+                    }
+                },
+                {
+                    label: 'Download data',
+                    id: 'download',
+                    attributes: {
+                        'style': 'float:right;'
+                    },
+                    panel: {
+                        html: downloadHTML
+                    }
+                }
+            ]
+        }) }}
+    </div>
+
+</div>
+
+{% endblock %}
+
+{% block pageScripts %}
+
+<script>
+
+    
+
+</script>
+
+{% endblock %}

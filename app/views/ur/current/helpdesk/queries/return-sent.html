@@ -1,0 +1,55 @@
+{% if data.isExternal == 'true' %}{% extends 'layout_la.html' %}{% else %}{% extends 'layout_internal.html' %}{% endif %}
+
+{% block pageTitle %}
+    Queries
+{% endblock %}
+
+{% set schoolIndex = data['selected-school'] %}
+{% set school = data['schools'][schoolIndex] %}
+{% set schoolName = school['name'] %}
+{% set laestab = school['LAESTAB'] %}
+{% set queries = school['queries'] %}
+
+{% set handledCount = 0 %}
+{% for query in queries %}
+    {% if query['handled'] == 'true' %}
+        {% set handledCount = handledCount + 1 %}
+    {% endif %}
+{% endfor %}
+
+{% set pendingCount = (queries | length) - handledCount %}
+
+{% block postHeader %}
+<div class="hmcts-identity-bar">
+  <div class="hmcts-identity-bar__container">
+    <div class="hmcts-identity-bar__details">
+        <span class="hmcts-identity-bar__title"><b>{{ schoolName }}</b> {{ laestab }} <strong class="govuk-!-padding-right-4"></strong>{{ govukTag({text: school.type, classes: school.type}) }}</span>
+    </div>
+    <div style="float:right;">
+        {{ govukButton({
+            text: 'Return to work queue',
+            href: '../my-queue',
+            classes: 'hmcts-menu-item'
+        }) }}
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block content %}
+
+    <div class="govuk-grid-row">
+
+        <div class="govuk-grid-column-one-half">
+            <h2 class="govuk-heading-l">Responses sent</h1>
+            <p>The school will be notified of the responses through their MIS.</p>
+            {{ govukButton({
+                text: 'Return to work queue',
+                href: '../my-queue',
+                classes: ''
+            }) }}
+        </div>
+
+    </div>
+
+{% endblock %}

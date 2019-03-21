@@ -23,21 +23,27 @@
 <div class="hmcts-identity-bar">
   <div class="hmcts-identity-bar__container">
     <div class="hmcts-identity-bar__details">
-        <span class="hmcts-identity-bar__title"><b>{{ schoolName }}</b> {{ laestab }} <strong class="govuk-!-padding-right-4"></strong>{{ govukTag({text: school.type}) }}</span>
+        <span class="hmcts-identity-bar__title"><b>{{ schoolName }}</b> {{ laestab }} <strong class="govuk-!-padding-right-4"></strong>{{ govukTag({text: school.type, classes: school.type}) }}</span>
     </div>
     <div style="float:right;">
-        {% if pendingCount != 0 %}
-        {{ govukButton({
-            text: 'Return to work queue',
-            href: '#',
-            classes: 'hmcts-menu-item hmcts-button--secondary'
-        }) }}
+        {% if (school.responsesSent == 'true') %}
+            {{ govukButton({
+                text: 'Return to work queue',
+                href: '../my-responses',
+                classes: 'hmcts-menu-item hmcts-button--secondary'
+            }) }}
+        {% elseif (pendingCount == 0) %}
+            {{ govukButton({
+                text: 'Send responses to school',
+                href: '/send-responses',
+                classes: 'hmcts-menu-item'
+            }) }}
         {% else %}
-        {{ govukButton({
-            text: 'Send responses to school',
-            href: '#',
-            classes: 'hmcts-menu-item'
-        }) }}
+            {{ govukButton({
+                text: 'Return to my queue',
+                href: '../my-queue',
+                classes: 'hmcts-menu-item hmcts-button--secondary'
+            }) }}
         {% endif %}
     </div>
   </div>
@@ -49,7 +55,6 @@
 <div class="govuk-grid-row">
 
     <div class="govuk-grid-column-full census-case-nav">
-
 
         {% set pendingCount = (queries | length) - handledCount %}
 
@@ -66,12 +71,12 @@
                     active: true
                 },
                 {
-                    text: '4 errors',
-                    href: '#'
+                    text: school.noOfErrors + ' errors',
+                    href: 'errors'
                 },
                 {
                     text: 'View all census data',
-                    href: '#'
+                    href: 'census-data'
                 }
             ]
         }) }}  
@@ -131,7 +136,7 @@
                 
                 <th class="govuk-table__header width-medium" scope="col"><span class="no-wrap">Accepting guide</span></th>
                 
-                <th class="govuk-table__header" scope="col"><span class="no-wrap">Saved response</span></th>
+                <th class="govuk-table__header numeric" scope="col"><span class="no-wrap">Saved response</span></th>
                 
                 </tr>
             </thead>
@@ -144,10 +149,10 @@
                     <tr class="govuk-table__row">
                         <th class="govuk-table__header query-description" scope="row">
                             <h3 class="govuk-heading-m" style="margin-bottom: 5px;">
-                                {{ query.id }}
+                                {{ query.number }}
                             </h3>
                             {% if query['type'] == 'pupil' %}
-                            <a href="single-query" class="no-wrap type-tag {{ query['type'] }}"  data-name="selected-query" data-value="{{query.ref}}">
+                            <a href="single-query" class="no-wrap type-tag {{ query['type'] }}"  data-name="selected-query" data-value="{{query.id}}">
                                 {% if query.pupils | length == 0 %}
                                     Pupil query
                                 {% elseif query.pupils | length != 1 %}
@@ -177,10 +182,13 @@
                             {{ query.guide }}
                         </td>
 
-                        <td class="govuk-table__cell action">
+                        <td class="govuk-table__cell action numeric">
                             {% if query.approved == 'false' %}
                             <div class="note reply">
-                                <span class="title">Rejected by you</span>
+                                <span class="title">
+                                    Rejected by you<br>
+                                    {{ query.handledOn | friendlyDate(data['time']) }}
+                                </span>
                                 {{ query.response }}
                             </div>
                             {% else %}
@@ -188,12 +196,15 @@
                                 {% if query.auto == 'true' %}
                                 <span class="title">Automatically approved</span>
                                 {% else %}
-                                <span class="title">Approved by you</span>
+                                <span class="title">
+                                    Approved by you<br>
+                                    {{ query.handledOn | friendlyDate(data['time']) }}
+                                </span>
                                 {% endif %}
                                 
                             </div>
                             {% endif %}
-                            <a href="/delete-response?selected-query={{query.ref}}" class="govuk-button govuk-button-small govuk-button-red">Delete response</a>
+                            <a href="/delete-response?selected-query={{query.id}}" class="govuk-button govuk-button-small govuk-button-red">Delete response</a>
                         </td>
 
                     </tr>
