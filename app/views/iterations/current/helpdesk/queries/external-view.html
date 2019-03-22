@@ -1,4 +1,4 @@
-{% if data.isExternal == 'true' %}{% extends 'layout_la.html' %}{% else %}{% extends 'layout_internal.html' %}{% endif %}
+{% set external = data.isExternal == 'true' %}{% if external %}{% extends 'layout_la.html' %}{% else %}{% extends 'layout_internal.html' %}{% endif %}
 
 {% block pageTitle %}
     Queries

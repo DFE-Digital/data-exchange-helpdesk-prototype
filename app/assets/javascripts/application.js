@@ -486,3 +486,8 @@ var windowPath = window.location.pathname
 $('a[href*=#root#]').each(function() {
 	$(this).attr('href', iterationRoute($(this).attr('href'), windowPath))
 })
+
+$('.hmcts-sub-navigation')
+	.find('a[href=""]')
+	.closest('.hmcts-sub-navigation__item')
+	.hide()

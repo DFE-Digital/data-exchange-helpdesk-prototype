@@ -45,7 +45,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>{% block pageTitle %}Check the progress of data collections for schools{% endblock %}</title>
+    <title>{% block pageTitle %}{{ serviceName }}{% endblock %}</title>
     {% block head %}
       {% include "includes/head.html" %}
     {% endblock %}
@@ -53,7 +53,7 @@
   <body class="govuk-template__body internal">
     {{ hmctsGlobalHeader({
       service: {
-      name: 'Check the progress of data collections for schools',
+      name: serviceName,
       url: '#'
       },
 

@@ -1,7 +1,7 @@
-{% if data.isExternal == 'true' %}{% extends 'layout_la.html' %}{% else %}{% extends 'layout_internal.html' %}{% endif %}
+{% set external = data.isExternal == 'true' %}{% if external %}{% extends 'layout_la.html' %}{% else %}{% extends 'layout_internal.html' %}{% endif %}
 
 {% block pageTitle %}
-    {{ 'My schools’ collections' if data.isExternal else 'My work queue' }}
+    {{ 'My schools’ collections' if external else 'My work queue' }}
 {% endblock %}
 
 {% set collector = data.collectors | getById(0) %}
@@ -22,23 +22,33 @@
 
     <div class="govuk-grid-column-full census-case-nav">
 
-        <h1 class="govuk-heading-l">{{ 'My schools’ collections' if data.isExternal == 'true' else 'My work queue' }}</h1>
+        <h1 class="govuk-heading-l">{{ 'My schools’ collections' if external else 'My work queue' }}</h1>
 
-        
+        {% set seeAllQueues = { 
+                html: 'See all queues',  
+                href: '#4'
+            }
+         %}
+
+         {% set addMissingSchools  = { 
+                html: 'Add missing schools',  
+                href: '#4'
+            }
+         %}
 
         {{ hmctsSubNavigation({
             label: 'Sub navigation',
             items: [{
-                html: ('Submitted' if (data.isExternal == 'true') else 'Inbox') + ' <span class="type-tag count-tag">' + inboxCount + '</span>',
+                html: ('Submitted' if external else 'Inbox') + ' <span class="type-tag count-tag">' + inboxCount + '</span>',
                 href: 'my-queue',
                 active: true
-            }, {
-                html: ('Waiting re-submission' if (data.isExternal == 'true') else 'Responded') + ' <span class="type-tag count-tag">' + respondedCount + '</span>',
+            },{
+                html: ('Awaiting re-submission' if external else 'Responded') + ' <span class="type-tag count-tag">' + respondedCount + '</span>',
                 href: 'my-responses'
-            }, {
+            },{
                 html: 'Not submitted <span class="type-tag count-tag">1,321</span>',
                 href: '#3'
-            }, { html: 'See all queues',  href: '#4'}
+            }, addMissingSchools if external else seeAllQueues
             ]
         }) }} 
 
@@ -119,7 +129,7 @@
                         name: 'filter-queries',
                         value: data['filter-queries'] if data['filter-queries'] else '',
                         attributes: {
-                            placeholder: 'e.g. 2520, 2584, 5240'
+                            placeholder: 'For example, 2520, 2584, 5240'
                         },
                         hint: {
                             text: 'Separate multiple queries with commas'
@@ -135,10 +145,10 @@
                         name: 'filter-errors',
                         value: data['filter-errors'] if data['filter-errors'] else '',
                         attributes: {
-                            placeholder: 'e.g. 1500, 1741, 3150'
+                            placeholder: 'For example, 1500, 1741, 3150'
                         },
                         hint: {
-                            text: 'Separate errors with commas'
+                            text: 'Separate multiple errors with commas'
                         },
                         classes: 'govuk-input--width-20',
                         label: {

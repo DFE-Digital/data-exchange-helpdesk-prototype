@@ -1,4 +1,4 @@
-{% if data.isExternal == 'true' %}{% extends 'layout_la.html' %}{% else %}{% extends 'layout_internal.html' %}{% endif %}
+{% set external = data.isExternal == 'true' %}{% if external %}{% extends 'layout_la.html' %}{% else %}{% extends 'layout_internal.html' %}{% endif %}
 
 {% block pageTitle %}
     Queries
@@ -33,7 +33,7 @@
     <div style="float:right;">
         {% if (school.responsesSent == 'true') %}
             {{ govukButton({
-                text: 'Return to work queue',
+                text: 'Return to my schools' if external else 'Return to work queue',
                 href: '../my-responses',
                 classes: 'hmcts-menu-item hmcts-button--secondary'
             }) }}
@@ -45,7 +45,7 @@
             }) }}
         {% else %}
             {{ govukButton({
-                text: 'Return to work queue',
+                text: 'Return to my schools' if external else 'Return to work queue',
                 href: '../my-queue',
                 classes: 'hmcts-menu-item hmcts-button--secondary'
             }) }}
@@ -61,6 +61,11 @@
 
     <div class="govuk-grid-column-full census-case-nav govuk-!-padding-bottom-5">
 
+    {% set actionedQueries = {
+        text: handledCount + ' actioned queries' if handledCount != 1 else '1 actioned query',
+        href: 'handled'
+    } %}
+
         {{ hmctsSubNavigation({
             label: 'Sub navigation',
             items: [
@@ -68,13 +73,9 @@
                     text: pendingCount + ' queries' if pendingCount != 1 else '1 query',
                     href: 'overview',
                     active: true
-                },
+                }, actionedQueries if not external,
                 {
-                    text: handledCount + ' resolved queries' if handledCount != 1 else '1 resolved query',
-                    href: 'handled'
-                },
-                {
-                    text: school.noOfErrors + ' errors',
+                    text: school.noOfErrors + ' errors' if school.noOfErrors != 1 else '1 error',
                     href: 'errors'
                 },
                 {
@@ -176,7 +177,9 @@
                 
                 <th class="govuk-table__header width-medium" scope="col"><span class="no-wrap">Acceptance criteria</span></th>
                 
+                {% if not external %}
                 <th class="govuk-table__header numeric" scope="col"><span class="no-wrap">Actions</span></th>
+                {% endif %}
                 
                 </tr>
             </thead>
@@ -225,6 +228,7 @@
                             {{ query.guide }}
                         </td>
 
+                        {% if not external %}
                         <td class="govuk-table__cell numeric">
                             <a href="/handle-query?selected-query={{query.id}}&response=approved" class="govuk-button govuk-button-small approveButton">Accept{{ ' all' if consolidatedQuery }}</a>
                             
@@ -236,6 +240,7 @@
                                 </a>
                             {% endif %}
                         </td>
+                        {% endif %}
 
                     </tr>
                     {% endif %}
