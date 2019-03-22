@@ -246,7 +246,7 @@ Dialog.prototype.addEventListeners = function(openDialogSel, closeDialogSel) {
 			var queryRow = $(this).closest('tr')
 			var queryDescription = queryRow.find('.query-description').html()
 			var notes = queryRow.find('td.notes').html()
-			selectedQuery = queryRow.find('.query-index').html()
+			var selectedQuery = queryRow.find('.query-index').html()
 			$('#selectedQuery').val(selectedQuery)
 			$('.dialog .query-description').html(queryDescription)
 			$('.dialog .notes').html(notes)

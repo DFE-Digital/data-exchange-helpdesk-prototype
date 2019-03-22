@@ -40,14 +40,14 @@
             label: 'Sub navigation',
             items: [{
                 html: ('Submitted' if external else 'Inbox') + ' <span class="type-tag count-tag">' + inboxCount + '</span>',
-                href: 'my-queue',
-                active: true
+                href: 'my-queue'
             },{
                 html: ('Awaiting re-submission' if external else 'Responded') + ' <span class="type-tag count-tag">' + respondedCount + '</span>',
                 href: 'my-responses'
             },{
                 html: 'Not submitted <span class="type-tag count-tag">1,321</span>',
-                href: 'not-submitted'
+                href: 'not-submitted',
+                active: true
             }, addMissingSchools if external else seeAllQueues
             ]
         }) }} 

@@ -69,8 +69,10 @@
         
         <h1 class="govuk-heading-xl query-heading">{{ query.number }}</h1>
 
+        {% set single = query['type'] | length == 0 %}
+
         {% if query['type'] == 'pupil' %}
-            {% if query['pupils'] | length == 0 %}
+            {% if single %}
                 <span class="type-tag {{ query['type'] }}">{{ query['type'] | titleCase }} query</span>
             {% else %}
             <span class="no-wrap type-tag {{ query['type'] }}"  data-name="selected-query" data-value="{{ loop.index }}">
