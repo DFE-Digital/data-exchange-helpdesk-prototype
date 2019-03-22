@@ -12,6 +12,7 @@ gulp.task('copy-assets', function() {
 	return gulp
 		.src([
 			'!' + config.paths.assets + 'sass{,/**/*}',
+			'!' + config.paths.assets + 'javascripts{,/**/*}',
 			config.paths.assets + '/**'
 		])
 		.pipe(gulp.dest(config.paths.public))

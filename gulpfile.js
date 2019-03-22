@@ -23,6 +23,7 @@ gulp.task(
 		gulp.parallel(
 			'sass',
 			'copy-assets',
+			'compress',
 			'sass-documentation',
 			'copy-assets-documentation',
 			'sass-v6',
@@ -34,6 +35,7 @@ gulp.task(
 	'watch',
 	gulp.parallel(
 		'watch-sass',
+		'watch-js',
 		'watch-assets',
 		'watch-sass-v6',
 		'watch-assets-v6'

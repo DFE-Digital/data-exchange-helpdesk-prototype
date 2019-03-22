@@ -1,5 +1,5 @@
 // @ts-check
-const faker = require('faker')
+const faker = require('faker/locale/en_GB')
 const dummyQueries = require('./dummy-queries')
 const dummyErrors = require('./dummy-errors')
 
@@ -39,6 +39,10 @@ generators.randomNumber = (min, max) => {
 	min = Math.ceil(min)
 	max = Math.floor(max)
 	return Math.floor(Math.random() * (max - min + 1)) + min
+}
+
+generators.phoneNumber = () => {
+	return faker.phone.phoneNumber()
 }
 
 // Simulated people

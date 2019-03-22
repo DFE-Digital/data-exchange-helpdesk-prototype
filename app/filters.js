@@ -237,6 +237,14 @@ module.exports = function(env) {
 		return generate.schoolName()
 	}
 
+	filters.randomName = () => {
+		return generate.name()
+	}
+
+	filters.phoneNumber = () => {
+		return generate.phoneNumber()
+	}
+
 	/* ------------------------------------------------------------------
     keep the following line to return your filters to the app
   ------------------------------------------------------------------ */
