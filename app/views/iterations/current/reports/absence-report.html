@@ -14,8 +14,6 @@
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
         <h1 class="govuk-heading-xl">Absence insight report</h1>
-        <h2 class="govuk-heading-l">{{ data.schools[0].name }}</h2>
-        <p><span><strong>URN</strong> 37719388</span><span class="govuk-!-margin-left-4"><strong>LAESTAB</strong> {{ data.schools[0].LAESTAB }}</span></p>
         <div class="note-to-user govuk-!-padding-4 govuk-!-margin-bottom-5">
         {% if data['report-is-within-window'] == 'no' %}
             <p class="govuk-!-font-size-16">The data collection is now closed, these figures will not change.  These figures are presented here for management purposes only, final official statistics (for all schools in England) will be published through the school absence national statistics releases.</p>
