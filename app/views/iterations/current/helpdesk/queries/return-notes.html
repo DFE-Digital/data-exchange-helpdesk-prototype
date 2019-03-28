@@ -1,0 +1,172 @@
+{% set external = data.isExternal == 'true' %}{% if external %}{% extends 'layout_la.html' %}{% else %}{% extends 'layout_internal.html' %}{% endif %}
+
+{% block pageTitle %}
+    Queries
+{% endblock %}
+
+{% set schoolIndex = data['selected-school'] %}
+{% set school = data['schools'][schoolIndex] %}
+{% set schoolName = school['name'] %}
+{% set laestab = school['LAESTAB'] %}
+{% set queries = school['queries'] %}
+
+{% set handledCount = 0 %}
+{% for query in queries %}
+    {% if query['handled'] == 'true' %}
+        {% set handledCount = handledCount + 1 %}
+    {% endif %}
+{% endfor %}
+
+{% set pendingCount = (queries | length) - handledCount %}
+
+{% block postHeader %}
+{% if queries | length == 0 %}
+    <script>
+        window.location.href = '/select-school'
+    </script>
+{% endif %}
+<div class="hmcts-identity-bar">
+  <div class="hmcts-identity-bar__container">
+    <div class="hmcts-identity-bar__details">
+        <span class="hmcts-identity-bar__title"><b>{{ schoolName }}</b> {{ laestab }} <strong class="govuk-!-padding-right-4"></strong>{{ govukTag({text: school.type, classes: school.type}) }}</span>
+    </div>
+    <div style="float:right;">
+        {% if (school.responsesSent == 'true') %}
+            {{ govukButton({
+                text: 'Return to my schools' if external else 'Return to work queue',
+                href: '../my-responses',
+                classes: 'hmcts-menu-item hmcts-button--secondary'
+            }) }}
+        {% elseif (pendingCount == 0) %}
+            {{ govukButton({
+                text: 'Send responses to school',
+                href: '/send-responses',
+                classes: 'hmcts-menu-item'
+            }) }}
+        {% else %}
+            {{ govukButton({
+                text: 'Return to my schools' if external else 'Return to work queue',
+                href: '../my-queue',
+                classes: 'hmcts-menu-item hmcts-button--secondary'
+            }) }}
+        {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+
+    <div class="govuk-grid-column-full census-case-nav govuk-!-padding-bottom-5">
+
+        {% set actionedQueries = {
+            text: handledCount + ' actioned queries' if handledCount != 1 else '1 actioned query',
+            href: 'handled'
+        } %}
+
+        {{ hmctsSubNavigation({
+            label: 'Sub navigation',
+            items: [
+                {
+                    text: pendingCount + ' queries' if pendingCount != 1 else '1 query',
+                    href: 'overview'
+                }, actionedQueries if not external,
+                {
+                    text: school.noOfErrors + ' errors' if school.noOfErrors != 1 else '1 error',
+                    href: 'errors'
+                },
+                {
+                    text: 'Preserved notes',
+                    href: 'return-notes',
+                    active: true
+                },
+                {
+                    text: 'View all census data',
+                    href: 'census-data'
+                }
+            ]
+        }) }}
+
+    </div>
+
+</div>
+
+<div class="govuk-grid-row">
+
+    <div class="govuk-grid-column-full">
+    {% set notesHTML %}
+        <code>
+        {% for query in queries | sort(false, true, 'number') %}
+            {% set consolidatedQuery = false %}
+            {% if query['handled'] == 'false' %}
+            :::::: Query: {{ query['number'] }}
+                    {% if query.type == 'pupil' %}
+                        -- Type: {{ query['type'] | titleCase }} query
+                    {% else %}
+                            {% if query['pupils'] | length == 0 %}
+                                 -- Type: Pupil query
+                            {% elseif query['pupils'] | length != 1 %}
+                                 -- Type: {{ query['pupils'] | length }} pupils
+                                {% set consolidatedQuery = true %}
+                            {% else %}
+                                -- Type:  1 pupil
+                            {% endif %}
+                        {% endif %}
+                    {% else %}
+                         -- Type: {{ query['type'] | titleCase }}
+                    {% endif %}
+            :::::: Description: {{ query.description }}
+
+        {% if query.type == 'pupil' %}
+            {% if query.pupils | length != 0 %}
+            :::::: Pupils relating to query:  
+                {% for pupil in query.pupils %}
+                Pupil {{ loop.index }}: URN: {{ [pupil.UPN, pupil.UPN, pupil.UPN, pupil.UPN, pupil.UPN, 'UPN missing'] | random }} Name: {% set name = '<span class="last-name">' + pupil.surname + '</span>, <span class="first-name">' + pupil.firstname + '</span>' %}{{ [name, name, name, name, name, name, name, '<span class="last-name govuk-visually-hidden"></span><span class="first-name govuk-visually-hidden"></span>Name missing'] | random | safe }} DoB: {{pupil.dob}} --
+                {% endfor %}
+            {% endif %}
+        {% endif %}
+
+            :::::: Notes:
+                {% for note in query.notes %}
+                {{ 'Approved by ' if note.type == 'approval' }}{{ 'Rejected by ' if note.type == 'reply' }}{{ 'Note added by ' if note.type == 'school' }} {{ note.author }} {{ note.date | formatDate }}: {{ note.text }} --
+                {% endfor -%}
+
+        {% endfor -%}
+        </code>
+    {% endset %}
+
+    <style>
+        pre {
+            max-width: 100vw;
+            word-wrap: break-word;
+        }
+    </style>
+
+    <code>
+
+    11:32 25 March 2019
+    <a name="note1"></a> {{ notesHTML | safe }}
+    09:27 20 March 2019
+    <a name="note2"></a> {{ notesHTML | safe }}
+    14:01 15 March 2019
+    <a name="note3"></a> {{ notesHTML | safe }}
+
+    </code>
+       
+    </div>
+
+</div>
+
+{% endblock %}
+
+{% block pageScripts %}
+
+<script>
+
+    
+
+</script>
+
+{% endblock %}
