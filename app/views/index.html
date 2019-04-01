@@ -1,51 +1,65 @@
-
 {% extends "layout.html" %}
 
 {% block pageTitle %}
-  GOV.UK Prototype Kit
+  Send your school census
 {% endblock %}
 
 {% block content %}
 
-  <div class="govuk-grid-row">
-    <div class="govuk-grid-column-two-thirds">
-      <h1 class="govuk-heading-xl">
-        {{ serviceName }} prototype
-        <span class="govuk-caption-xl">{{releaseVersion}}</span>
-      </h1>{{releaseVersion | log }}
+<div class="govuk-grid-row">
 
-      {{ govukButton({
-        text: 'Open latest helpdesk iteration',
-        href: 'ur/current/helpdesk/my-queue?isExternal=false',
-        classes: 'govuk-button--start'
-      }) }}
+	<div class="govuk-grid-column-two-thirds">
 
-      {{ govukButton({
-        text: 'Open latest LA/MAT iteration',
-        href: 'iterations/current/helpdesk/my-queue?isExternal=true',
-        classes: 'govuk-button--start'
-      }) }}
+		<h1 class="govuk-heading-xl">
+			{{ serviceName }} prototype
+			<span class="govuk-caption-xl">GOV.UK Prototype Kit {{releaseVersion}}</span>
+		</h1>
 
-      {{ govukButton({
-        text: 'Open latest school iteration',
-        href: 'iterations/current/school/overview',
-        classes: 'govuk-button--start'
-      }) }}
+		<p class="govuk-body">
+			The content of this service is to be made available to authorised Department for Education employees and contractors only. This is a prototype, do not use this version to submit real school data.
+		</p>
 
-      {{ govukButton({
-        text: 'Open latest absence insight report iteration',
-        href: 'iterations/current/reports/absence-options.html',
-        classes: 'govuk-button--start'
-      }) }}
+	</div>
+	
+</div>
 
-      {{ govukButton({
-        text: 'Open latest work queue iteration',
-        href: 'iterations/current/helpdesk/work-queues/manage',
-        classes: 'govuk-button--start'
-      }) }}
-      
-    </div>
+<div class="govuk-grid-row cards">
+
+	<div class="card">
+		<div class="card-body active">
+			<h3 class="govuk-heading-s card-heading">Design</h3>
+		</div>
+		<div class="card-action govuk-body-s">
+			<ul class="govuk-list govuk-!-font-size-16">
+				<li><a class="govuk-link" href="iterations/current/options.html">Current iteration</a></li>
+				<li><a class="govuk-link" href="https://dfe-data-exchange-dataprovider.herokuapp.com/">Archive</a></li>
+			</ul>
+		</div>
+	</div>
+
+	<div class="card">
+		<div class="card-body active">
+			<h3 class="govuk-heading-s card-heading">User research</h3>
+		</div>
+		<div class="card-action">
+			<ul class="govuk-list govuk-!-font-size-16">
+				<li><a class="govuk-link" href="ur/current/helpdesk/my-queue?isExternal=false">19 March 2019</a><br>Helpdesk agents</li>
+			</ul>
+		</div>
+	</div>
+
+	<div class="card">
+		<div class="card-body active">
+			<h3 class="govuk-heading-s card-heading">In development</h3>
+		</div>
+		<div class="card-action">
+			<ul class="govuk-list govuk-!-font-size-16">
+				<li><a class="govuk-link" href="dev/current/options.html">Current stable iteration</a></li>
+        <li><a class="govuk-link" href="iterations/current/reports/absence-options.html">Absence insight report</a></li>
+			</ul>
+		</div>
+	</div>
+
 </div>
 
 {% endblock %}
-

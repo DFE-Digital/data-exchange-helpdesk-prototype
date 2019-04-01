@@ -1,0 +1,122 @@
+// Copied from Personal Tax Account frontend
+
+.cards {
+	padding: 0 15px;
+	margin-top: 30px;
+	display: flex;
+	justify-content: space-between;
+}
+.card {
+	flex-grow: 0;
+	flex-basis: 100%;
+	margin-bottom: 2em;
+}
+
+@media screen and (min-width: 600px) and (max-width: 900px) {
+	.card {
+		flex-basis: 45.99%;
+		// Every card in the first row needs horizontal margin
+		&:nth-child(2n-1) {
+			margin-right: 3%;
+		}
+		// Every card in the second row needs horizontal margin
+		&:nth-child(2n-2) {
+			margin-left: 3%;
+		}
+	}
+}
+
+@media screen and (min-width: 900px) {
+	.card {
+		flex-basis: 31%;
+
+		&:nth-child(3n-1) {
+			margin-left: 3%;
+			margin-right: 3%;
+		}
+	}
+}
+
+html[data-useragent*='MSIE 10.0'] .flex-container {
+	.card {
+		flex-basis: 31%;
+		margin: 3%;
+	}
+}
+
+.card {
+	border: 1px solid govuk-colour('grey-3');
+	font-size: 16px;
+
+	&.inactive {
+		color: $govuk-secondary-text-colour;
+	}
+
+	.card-heading {
+		margin-top: 0;
+	}
+
+	.card-body {
+		border-bottom: 1px solid govuk-colour('grey-3');
+		padding: 12px;
+
+		*:last-child {
+			margin-bottom: 0;
+		}
+
+		&.active {
+			background-color: govuk-colour('grey-4');
+			transition: 0.1s ease-in-out;
+
+			.card-heading a {
+				color: $govuk-link-colour;
+				margin-top: 0;
+			}
+		}
+
+		.detail-large {
+			color: $govuk-secondary-text-colour;
+			font-size: 32px;
+			font-weight: 600;
+			margin-bottom: 8px;
+		}
+
+		.detail {
+			font-weight: 600;
+			margin-bottom: 8px;
+		}
+	}
+
+	.card-action {
+		border-top: 0;
+		padding: 12px;
+
+		a.govuk-link {
+			display: inline;
+			color: $govuk-link-colour;
+			line-height: 1.5em;
+
+			&:link,
+			&:visited {
+				color: $govuk-link-colour;
+			}
+
+			&:hover {
+				text-decoration: none;
+				color: $govuk-link-hover-colour;
+			}
+		}
+
+		ul {
+			margin: 0;
+
+			li {
+				margin: 0 0 1em;
+
+				&:last-child {
+					margin-bottom: 0;
+				}
+			}
+		}
+	}
+}
