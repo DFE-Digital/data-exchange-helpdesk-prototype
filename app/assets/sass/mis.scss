@@ -144,6 +144,8 @@ textarea {
 header {
 	background-color: #23292f;
 	color: $col_bg;
+	position: relative;
+	z-index: 999;
 	#logo {
 		display: inline-block;
 		width: 250px;
@@ -193,6 +195,9 @@ header {
 .row.banner-alert {
 	background-color: #ffcc00;
 	text-align: center;
+	animation: alert 350ms ease-out 2s both;
+	position: relative;
+	z-index: 998;
 	a.button {
 		margin-left: 30px;
 		background-color: transparent;
@@ -203,6 +208,17 @@ header {
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
+	}
+}
+
+@keyframes alert {
+	from {
+		transform: translateY(-100%);
+		background-color: rgba(#ffcc00, 0);
+	}
+	to {
+		transform: translateY(0);
+		background-color: rgba(#ffcc00, 1);
 	}
 }
 

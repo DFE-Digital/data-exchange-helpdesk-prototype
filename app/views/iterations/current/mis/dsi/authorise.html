@@ -1,0 +1,62 @@
+{% extends 'layout.html' %}
+
+{% block pageTitle %}
+    DfE Sign-in
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+
+        <div class="govuk-grid-column-two-thirds">
+
+            <form method="post">
+
+                <h1 class="govuk-heading-xl">Do you want to use Acme MIS to send us your school census data?</h1>
+
+                <p>Send Data to DfE is a secure new way to send your data.</p>
+
+                <p>The service is currently being tested. Please note that all schools must complete their January census returns as normal using COLLECT.</p>
+
+                <p>On completion of the trial we will contact you to confirm your data has been deleted. </p>
+
+                {{ govukRadios({
+                    idPrefix: 'authorise',
+                    name: 'authorise',
+                    fieldset: {
+                        legend: {
+                            text: 'Do you want to use Acme MIS to send us your school census data?',
+                            isPageHeading: true,
+                            classes: 'govuk-visually-hidden'
+                        }
+                            },
+                            items: [
+                        {
+                            text: 'Yes, I want to use Acme MIS',
+                            value: 'yes'
+                        },
+                        {
+                            text: 'Not now',
+                            value: 'no'
+                        }
+                    ]
+                }) }}
+
+                {{ govukButton({
+                    html: 'Save and continue'
+                }) }}
+
+            </form>
+
+        </div>
+
+</div>
+
+<script>
+var nextPageRoutes = {
+    yes: 'confirmation',
+    no: 'not-authorised'
+}
+</script>
+
+{% endblock %}
