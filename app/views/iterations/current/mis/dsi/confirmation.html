@@ -10,13 +10,15 @@
 
         <div class="govuk-grid-column-two-thirds">
 
-            <form action="../home.html?connected=true">
+            <form action="../home">
 
                 <h1 class="govuk-heading-xl">You can now send your school data from Acme MIS</h1>
 
                 <p>You may need to restart the MIS before you can send data using this service.</p>
 
                  <p>You can close this browser window.</p>
+
+                 <input type="hidden" name="connected" value="true">
 
                 {{ govukButton({
                     html: 'Sign out'

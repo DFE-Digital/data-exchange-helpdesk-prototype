@@ -288,6 +288,11 @@ header {
 	}
 }
 
+.submission {
+	background-color: rgba($col_blue, 0.1);
+	border-bottom: 1px solid rgba($col_blue, 0.2);
+}
+
 .graph svg {
 	width: 100%;
 	height: auto;
