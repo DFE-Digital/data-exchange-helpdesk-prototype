@@ -166,6 +166,27 @@ header {
 			font-weight: 900;
 			margin: 0;
 		}
+		.status {
+			text-decoration: none;
+			color: white;
+			display: flex;
+			align-items: center;
+			padding: 5px 10px;
+			background: black;
+			border-radius: 3px;
+			span.indicator {
+				display: block;
+				background-color: #ffcc00;
+				width: 15px;
+				height: 15px;
+				border-radius: 50%;
+				margin-right: 10px;
+			}
+			&.connected span.indicator {
+				background-color: $col_green;
+				animation: pulse 2s ease-in-out both infinite;
+			}
+		}
 	}
 	.header-controls {
 		display: flex;
@@ -192,10 +213,22 @@ header {
 	}
 }
 
+@keyframes pulse {
+	0% {
+		opactiy: 0.75;
+	}
+	10% {
+		opacity: 1;
+	}
+	100% {
+		opacity: 0.75;
+	}
+}
+
 .row.banner-alert {
 	background-color: #ffcc00;
 	text-align: center;
-	animation: alert 350ms ease-out 2s both;
+	animation: alert 350ms ease-out 1s both;
 	position: relative;
 	z-index: 998;
 	a.button {

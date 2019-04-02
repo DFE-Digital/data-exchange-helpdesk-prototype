@@ -18,6 +18,14 @@
         </div>
         <div class="col-one-quarter connect-controls">
           <h2 class="school-name">{{ data.schools[0].name }}</h2>
+          <a href="connect" class="status {{ 'connected' if data.connected == 'true' }}">
+            <span class="indicator"></span>
+            {% if data.connected == 'true' %}
+              <span class="text">Connected to DfE</span>
+            {% else %}
+              <span class="text">Not connected to DfE</span>
+            {% endif %}
+          </a>
         </div>
         <div class="col-one-half header-controls">
           <div class="nav-container">
