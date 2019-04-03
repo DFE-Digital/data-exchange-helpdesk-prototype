@@ -31,41 +31,11 @@
                     },
                     items: [
                         {
-                            text: 'Collector',
-                            value: 'collector',
-                            checked: true
-                        },
-                        {
-                            text: 'Collection lead',
-                            value: 'lead'
-                        },
-                        {
-                            text: 'School',
-                            value: 'school'
-                        },
-                        {
-                            text: 'Local authority',
-                            value: 'la'
-                        },
-                        {
-                            text: 'MAT',
-                            value: 'mat'
+                            text: '',
+                            value: ''
                         }
                     ]
                 }) }}
-
-                {{ govukInput({
-                    id: 'username',
-                    name: 'username',
-                    value: data['username'] if data['username'] else '' | randomName,
-                    classes: 'govuk-input--width-20',
-                    label: {
-                        text: 'User’s name',
-                        classes: 'govuk-input--width-20'
-                    }
-                }) }}
-                
-                
 
                 {{ govukButton({
                     html: 'Save and continue'
@@ -77,16 +47,4 @@
 
 </div>
 
-{% endblock %}
-
-{% block pageScripts %}
-<script>
-    nextPageRoutes = {
-        collector: 'helpdesk/my-queue',
-        lead: 'helpdesk/my-queue',
-        school: 'school/overview',
-        la: 'helpdesk/my-queue',
-        mat: 'helpdesk/my-queue'
-    }
-</script>
 {% endblock %}
