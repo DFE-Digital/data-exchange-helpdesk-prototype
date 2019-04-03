@@ -1,0 +1,48 @@
+{% extends 'layout_mis.html' %}
+
+{% block pageTitle %}
+    Spring census submission
+{% endblock %}
+
+{% block content %}
+<div class="submission">
+    <div class="row">
+        <div class="width-container">
+            <div class="col-two-thirds">
+                <h1>Spring census submission</h1>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="width-container">
+            <div class="col-one-half">
+                <h2>There are {{ data.misSchool.errors | length }} errors in your data</h2>
+                <p>You should fix these errors before you send your census to the Department for Education.</p>
+                <h2>There are {{ data.misSchool.queries | length }} queries about your data</h2>
+                <p>You should review these queries and consider if the data behind each one is correct.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="width-container">
+        <div class="col-one-quarter">
+            <h1 style="font-weight: 900;">{{ data.misSchool.errors | length }} errors</h1>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="width-container">
+        <div class="col-one-quarter">
+            <h1 style="font-weight: 900;">{{ data.misSchool.queries | length }} queries</h1>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block pageScripts %}
+
+{% endblock %}

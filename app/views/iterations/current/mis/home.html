@@ -1,0 +1,326 @@
+{% extends 'layout_mis.html' %}
+
+{% block pageTitle %}
+    Acme MIS
+{% endblock %}
+
+{% block content %}
+
+<div class="row banner-alert">
+    <div class="width-container">
+        {% if data.connected != 'true' %}
+        <div class="col-full banner-content">
+            <div class="left">Your spring school census is due, connect Acme MIS to the Department for Education to continue</div>
+            <div class="right">
+                <a href="connect" class="button">
+                    <svg xmlns="http://www.w3.org/2000/svg" id="Layer_1" data-name="Layer 1" viewBox="0 0 64 64">
+                        <title>Icons 300</title><path d="M29.0212,38.0208V33.0385a1.0273,1.0273,0,0,0-1.6224-.8191L17.4247,39.208a1,1,0,0,0,0,1.6383l9.9741,6.9887a1.0273,1.0273,0,0,0,1.6224-.819V42.0209h23.58a.7539.7539,0,0,1,.6593,1.1119A23.9863,23.9863,0,0,1,8.01,32.0208a23.5617,23.5617,0,0,1,.5574-5.0363,1.2436,1.2436,0,0,1,1.2208-.9637H35v4.9823a1.0272,1.0272,0,0,0,1.6223.8192l9.9742-6.9888a1,1,0,0,0,0-1.6381l-9.9742-6.9888A1.0272,1.0272,0,0,0,35,17.0258v4.995h-23.58a.7541.7541,0,0,1-.66-1.1118A23.9862,23.9862,0,0,1,56.01,32.0208a23.5649,23.5649,0,0,1-.557,5.0362,1.2438,1.2438,0,0,1-1.2208.9638Z" fill-rule="evenodd"></path>
+                    </svg>
+                    Connect Acme MIS to DfE
+                </a>
+            </div>
+        </div>
+        {% else %}
+        <div class="col-full banner-content">
+            <div class="left">Your spring school census is due, clean and send your data now</div>
+            <div class="right">
+                <a href="census-prep" class="button">
+                    <svg xmlns="http://www.w3.org/2000/svg" id="Layer_1" data-name="Layer 1" viewBox="0 0 64 64">
+                        <title>Icons 300</title>
+                        <path d="M54.0165,23.0208a1,1,0,0,1-1,1H11.0141a1,1,0,0,1-1-1v-9a2,2,0,0,1,2-2H23.3578a4,4,0,0,1,2.8289,1.1716l3.6567,3.6567a4.0017,4.0017,0,0,0,2.8289,1.1717H52.0165a2,2,0,0,1,2,2Zm-43.9962,3h43.993a2,2,0,0,1,1.994,2.1535L54.384,49.251a3.0006,3.0006,0,0,1-2.9916,2.77H12.6384a3,3,0,0,1-2.9917-2.77l-.5511-7.1533a1,1,0,0,1,.9971-1.0768H28v4.995a1.0242,1.0242,0,0,0,1.6179.8191l9.9484-6.9888a.9969.9969,0,0,0,0-1.6381l-9.9484-6.9887A1.0242,1.0242,0,0,0,28,32.0384v4.9824H9.6307a1,1,0,0,1-.9971-.9232l-.61-7.92A2.0027,2.0027,0,0,1,10.02,26.0207Z" fill-rule="evenodd"></path>
+                    </svg>
+                    Clean and send data
+                </a>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<div class="row">
+    <div class="width-container">
+        <div class="col-full">
+            <div class="tiles">
+                <div class="tile">
+                    <svg xmlns="http://www.w3.org/2000/svg" id="Layer_1" data-name="Layer 1" viewBox="0 0 64 64">
+                        <title>Icons 300</title>
+                        <path d="M13.0106,12.0208h38a5,5,0,0,1,5,5v30a5,5,0,0,1-5,5h-38a5,5,0,0,1-5-5v-30A5,5,0,0,1,13.0106,12.0208ZM16.175,48.829a2.0018,2.0018,0,0,0,2.6543-.9783l4.7984-10.3923,3.9727,3.97a2,2,0,0,0,3.23-.576L35.4263,30.9l3.9893,5.3169a2.001,2.001,0,0,0,3.498-.5679l6.001-17.9945A2,2,0,0,0,45.1192,16.39L40.3255,30.7642l-3.71-4.9449a2.0009,2.0009,0,0,0-3.4165.3623L28.4007,36.5739l-3.9726-3.97a2.0007,2.0007,0,0,0-3.2306.5761L15.1969,46.1754A2,2,0,0,0,16.175,48.829Z" fill-rule="evenodd"></path>
+                    </svg>
+                    <h2>Performance</h2>
+                </div>
+                <div class="tile" style="background-color:#37AF4B">
+                    <svg xmlns="http://www.w3.org/2000/svg" id="Layer_1" data-name="Layer 1" viewBox="0 0 64 64">
+                        <title>Icons 300</title><path d="M39.0106,54.0208c-2.9139,0-4.7509-1-7-1s-4.0862,1-7,1c-4.9482,0-15-8.52-15-24,0-9.09,5.7762-15,13-15,3.9506,0,5.7425,2,9,2s5.05-2,9-2c7.2236,0,13,5.91,13,15C54.01,45.5009,43.9588,54.0208,39.0106,54.0208Zm-5-40a1.6776,1.6776,0,0,1-1.5,1c-1.137,0-1.5-.5821-1.5-2,0-3.0217,2.4535-7,5-7,1.4477,0,3,.8827,3,2C39.0106,10.0179,35.9088,10.0418,34.01,14.0209Z" fill-rule="evenodd"></path>
+                    </svg>
+                    <h2>Attainment</h2>
+                </div>
+                <div class="tile" style="background-color:#FF9000">
+                    <svg xmlns="http://www.w3.org/2000/svg" id="Layer_1" data-name="Layer 1" viewBox="0 0 64 64">
+                        <title>Icons 400</title><path d="M50,52H14a4,4,0,0,1-4-4V24a4,4,0,0,1,4-4H50a4,4,0,0,1,4,4V48A4,4,0,0,1,50,52ZM44,34a1,1,0,0,0-1-1H35V25a1,1,0,0,0-1-1H30a1,1,0,0,0-1,1v8H21a1,1,0,0,0-1,1v4a1,1,0,0,0,1,1h8v8a1,1,0,0,0,1,1h4a1,1,0,0,0,1-1V39h8a1,1,0,0,0,1-1ZM43.236,18H40.882a1.25,1.25,0,0,1-1.1607-.7858l-1.96-4.9A.5.5,0,0,0,37.2972,12H26.7027a.5.5,0,0,0-.4641.3143l-1.96,4.9A1.25,1.25,0,0,1,23.1181,18h-2.354a.75.75,0,0,1-.6964-1.0285l2.5828-6.4571A4,4,0,0,1,26.3645,8H37.6356a4,4,0,0,1,3.714,2.5144l2.5828,6.4571A.75.75,0,0,1,43.236,18Z" fill-rule="evenodd"></path>
+                    </svg>
+                    <h2>Incidents and injuries</h2>
+                </div>
+                <div class="tile" style="background-color:#5C50DE">
+                    <svg xmlns="http://www.w3.org/2000/svg" id="Layer_1" data-name="Layer 1" viewBox="0 0 64 64">
+                        <title>Icons 300</title><path d="M22.8189,9.3251a.81.81,0,0,1-.0891,1.1467l-12.411,10.385a.8219.8219,0,0,1-1.1522-.1083,8.92,8.92,0,0,1,.98-12.6148A9.0484,9.0484,0,0,1,22.8189,9.3251ZM28.01,12.4046v-.3838a2,2,0,0,1,2-2h4a2,2,0,0,1,2,2v.3838A20.9773,20.9773,0,0,1,48.494,46.0034l3.4713,6.9334a.7491.7491,0,0,1-.6709,1.084h-3.99a2.0009,2.0009,0,0,1-1.4143-.5851l-2.6776-2.6742a20.8772,20.8772,0,0,1-22.4037,0l-2.6776,2.6742a2,2,0,0,1-1.414.5851h-3.99a.7491.7491,0,0,1-.671-1.084l3.4709-6.9334A20.9778,20.9778,0,0,1,28.01,12.4046Zm-3.933,27.5042,9.5591-4.4718a2.3857,2.3857,0,0,0,1.3825-2.4112C35,32.8509,33.5251,18.5068,33.5068,18.33a1.5087,1.5087,0,0,0-3,0l-1.3546,13.168-6.6382,5.9969A1.4546,1.4546,0,0,0,24.0774,39.9088ZM41.2018,9.2959A9.0452,9.0452,0,0,1,53.8741,8.1038a8.93,8.93,0,0,1,.98,12.6227.8217.8217,0,0,1-1.1522.1084L41.2909,10.4434A.8111.8111,0,0,1,41.2018,9.2959Z" fill-rule="evenodd"></path>
+                    </svg>
+                    <h2>Staff absences</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="width-container">
+        <div class="col-one-half graph">
+            <h2>Targets achieved</h2>
+
+            <svg width="702px" height="171px" viewBox="0 0 702 171" version="1.1">
+                <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                    <g id="DASHBOARD-CLICKED-STATE" transform="translate(-76.000000, -806.000000)">
+                        <g id="Line-Chart-Copy-2" transform="translate(76.000000, 806.000000)">
+                            <g id="Line" stroke="#EFEFEF" stroke-linecap="square">
+                                <path d="M0.847295552,170.5 L699.776983,170.5"></path>
+                                <path d="M1.20256344,103.5 L700.132251,103.5"></path>
+                                <path d="M1.20256344,69.5 L700.132251,69.5"></path>
+                                <path d="M1.20256344,35.5 L700.132251,35.5"></path>
+                                <path d="M0.847295552,0.5 L699.776983,0.5"></path>
+                                <path d="M1.20256344,137.5 L700.12934,137.5"></path>
+                            </g>
+                            <g id="Group">
+                                <g id="Rectangle-21-+-3" transform="translate(0.000000, 118.000000)">
+                                    <rect id="Rectangle-21" fill="#795548" x="0" y="0" width="40" height="53"></rect>
+                                    <rect id="Rectangle-21-Copy" fill="#FF9801" x="0" y="0" width="40" height="13"></rect>
+                                </g>
+                                <g id="Rectangle-21-+-3-Copy-14" transform="translate(0.000000, 31.000000)" fill="#673AB7">
+                                    <rect id="Rectangle-21" x="0" y="0" width="40" height="46"></rect>
+                                </g>
+                                <g id="Rectangle-21-+-3-Copy-12" transform="translate(0.000000, 91.000000)" fill="#CDDC39">
+                                    <rect id="Rectangle-21" x="0" y="0" width="40" height="28"></rect>
+                                </g>
+                                <g id="Rectangle-21-+-3-Copy-15" fill="#F44336">
+                                    <path d="M0,1.99821383 C0,0.894630804 0.891539827,0 1.99729162,0 L38.0027084,0 C39.1057821,0 40,0.894337654 40,1.99821383 L40,31 L0,31 L0,1.99821383 Z" id="Rectangle-21"></path>
+                                </g>
+                                <g id="Rectangle-21-+-3-Copy-13" transform="translate(0.000000, 76.000000)" fill="#2096F3">
+                                    <rect id="Rectangle-21" x="0" y="0" width="40" height="15"></rect>
+                                </g>
+                            </g>
+                            <g id="Rectangle-21-+-3-Copy-25" transform="translate(180.000000, 40.000000)" fill="#2096F3">
+                                <rect id="Rectangle-21" x="0" y="0" width="40" height="15"></rect>
+                            </g>
+                            <g id="Group" transform="translate(61.000000, 0.000000)">
+                                <g id="Rectangle-21-+-3-Copy-16" transform="translate(0.000000, 74.000000)" fill="#CDDC39">
+                                    <rect id="Rectangle-21" x="0" y="0" width="40" height="28"></rect>
+                                </g>
+                                <g id="Rectangle-21-+-3-Copy-17" transform="translate(0.000000, 47.000000)" fill="#2096F3">
+                                    <rect id="Rectangle-21" x="0" y="0" width="40" height="28"></rect>
+                                </g>
+                                <g id="Rectangle-21-+-3-Copy-19" fill="#F44336">
+                                    <path d="M0,2.00174332 C0,0.89621101 0.891539827,0 1.99729162,0 L38.0027084,0 C39.1057821,0 40,0.889261723 40,2.00174332 L40,32 L0,32 L0,2.00174332 Z" id="Rectangle-21"></path>
+                                </g>
+                                <g id="Rectangle-21-+-3-Copy-18" transform="translate(0.000000, 32.000000)" fill="#673AB7">
+                                    <rect id="Rectangle-21" x="0" y="0" width="40" height="15"></rect>
+                                </g>
+                                <g id="Rectangle-21-+-3-Copy" transform="translate(0.000000, 102.000000)">
+                                    <rect id="Rectangle-21" fill="#795548" x="0" y="0" width="40" height="69"></rect>
+                                    <rect id="Rectangle-21-Copy-2" fill="#FF9801" x="0" y="0" width="40" height="29"></rect>
+                                </g>
+                            </g>
+                            <g id="Group-Copy-4" transform="translate(421.000000, 0.000000)">
+                                <g id="Rectangle-21-+-3-Copy-16" transform="translate(0.000000, 74.000000)" fill="#CDDC39">
+                                    <rect id="Rectangle-21" x="0" y="0" width="40" height="28"></rect>
+                                </g>
+                                <g id="Rectangle-21-+-3-Copy-17" transform="translate(0.000000, 47.000000)" fill="#2096F3">
+                                    <rect id="Rectangle-21" x="0" y="0" width="40" height="28"></rect>
+                                </g>
+                                <g id="Rectangle-21-+-3-Copy-19" fill="#F44336">
+                                    <path d="M0,2.00174332 C0,0.89621101 0.891539827,0 1.99729162,0 L38.0027084,0 C39.1057821,0 40,0.889261723 40,2.00174332 L40,32 L0,32 L0,2.00174332 Z" id="Rectangle-21"></path>
+                                </g>
+                                <g id="Rectangle-21-+-3-Copy-18" transform="translate(0.000000, 32.000000)" fill="#673AB7">
+                                    <rect id="Rectangle-21" x="0" y="0" width="40" height="15"></rect>
+                                </g>
+                                <g id="Rectangle-21-+-3-Copy" transform="translate(0.000000, 102.000000)">
+                                    <rect id="Rectangle-21" fill="#795548" x="0" y="0" width="40" height="69"></rect>
+                                    <rect id="Rectangle-21-Copy-8" fill="#FF9801" x="0" y="0" width="40" height="30"></rect>
+                                </g>
+                            </g>
+                            <g id="Group" transform="translate(120.000000, 24.000000)">
+                                <g id="Rectangle-21-+-3-Copy-21" transform="translate(0.000000, 84.000000)" fill="#2096F3">
+                                    <rect id="Rectangle-21" x="0" y="0" width="40" height="28"></rect>
+                                </g>
+                                <g id="Rectangle-21-+-3-Copy-23" fill="#F44336">
+                                    <path d="M0,1.99188419 C0,0.891796927 0.891539827,0 1.99729162,0 L38.0027084,0 C39.1057821,0 40,0.893397331 40,1.99188419 L40,15 L0,15 L0,1.99188419 Z" id="Rectangle-21"></path>
+                                </g>
+                                <g id="Rectangle-21-+-3-Copy-20" transform="translate(0.000000, 112.000000)" fill="#CDDC39">
+                                    <rect id="Rectangle-21" x="0" y="0" width="40" height="15"></rect>
+                                </g>
+                                <g id="Rectangle-21-+-3-Copy-22" transform="translate(0.000000, 15.000000)" fill="#673AB7">
+                                    <rect id="Rectangle-21" x="0" y="0" width="40" height="69"></rect>
+                                </g>
+                                <g id="Rectangle-21-+-3-Copy-2" transform="translate(0.000000, 127.000000)">
+                                    <rect id="Rectangle-21" fill="#795548" x="0" y="0" width="40" height="20"></rect>
+                                    <rect id="Rectangle-21-Copy-3" fill="#FF9801" x="0" y="0" width="40" height="10"></rect>
+                                </g>
+                            </g>
+                            <g id="Group-Copy" transform="translate(240.000000, 24.000000)">
+                                <g id="Rectangle-21-+-3-Copy-21" transform="translate(0.000000, 84.000000)" fill="#2096F3">
+                                    <rect id="Rectangle-21" x="0" y="0" width="40" height="28"></rect>
+                                </g>
+                                <g id="Rectangle-21-+-3-Copy-23" fill="#F44336">
+                                    <path d="M0,1.99188419 C0,0.891796927 0.891539827,0 1.99729162,0 L38.0027084,0 C39.1057821,0 40,0.893397331 40,1.99188419 L40,15 L0,15 L0,1.99188419 Z" id="Rectangle-21"></path>
+                                </g>
+                                <g id="Rectangle-21-+-3-Copy-20" transform="translate(0.000000, 112.000000)" fill="#CDDC39">
+                                    <rect id="Rectangle-21" x="0" y="0" width="40" height="15"></rect>
+                                </g>
+                                <g id="Rectangle-21-+-3-Copy-22" transform="translate(0.000000, 15.000000)" fill="#673AB7">
+                                    <rect id="Rectangle-21" x="0" y="0" width="40" height="69"></rect>
+                                </g>
+                                <g id="Rectangle-21-+-3-Copy-2" transform="translate(0.000000, 127.000000)">
+                                    <rect id="Rectangle-21" fill="#795548" x="0" y="0" width="40" height="20"></rect>
+                                    <rect id="Rectangle-21-Copy-5" fill="#FF9801" x="0" y="0" width="40" height="10"></rect>
+                                </g>
+                            </g>
+                            <g id="Group-Copy-7" transform="translate(601.000000, 24.000000)">
+                                <g id="Rectangle-21-+-3-Copy-21" transform="translate(0.000000, 84.000000)" fill="#2096F3">
+                                    <rect id="Rectangle-21" x="0" y="0" width="40" height="28"></rect>
+                                </g>
+                                <g id="Rectangle-21-+-3-Copy-23" fill="#F44336">
+                                    <path d="M0,1.99188419 C0,0.891796927 0.891539827,0 1.99729162,0 L38.0027084,0 C39.1057821,0 40,0.893397331 40,1.99188419 L40,15 L0,15 L0,1.99188419 Z" id="Rectangle-21"></path>
+                                </g>
+                                <g id="Rectangle-21-+-3-Copy-20" transform="translate(0.000000, 112.000000)" fill="#CDDC39">
+                                    <rect id="Rectangle-21" x="0" y="0" width="40" height="15"></rect>
+                                </g>
+                                <g id="Rectangle-21-+-3-Copy-22" transform="translate(0.000000, 15.000000)" fill="#673AB7">
+                                    <rect id="Rectangle-21" x="0" y="0" width="40" height="69"></rect>
+                                </g>
+                                <g id="Rectangle-21-+-3-Copy-2" transform="translate(0.000000, 127.000000)">
+                                    <rect id="Rectangle-21" fill="#795548" x="0" y="0" width="40" height="20"></rect>
+                                    <rect id="Rectangle-21-Copy-11" fill="#FF9801" x="0" y="0" width="40" height="10"></rect>
+                                </g>
+                            </g>
+                            <g id="Group-Copy-2" transform="translate(301.000000, 24.000000)">
+                                <g id="Rectangle-21-+-3-Copy-21" transform="translate(0.000000, 99.000000)" fill="#CDDC39">
+                                    <rect id="Rectangle-21" x="0" y="0" width="40" height="28"></rect>
+                                </g>
+                                <g id="Rectangle-21-+-3-Copy-23" transform="translate(0.000000, 69.000000)" fill="#673AB7">
+                                    <rect id="Rectangle-21" x="0" y="0" width="40" height="15"></rect>
+                                </g>
+                                <g id="Rectangle-21-+-3-Copy-20" transform="translate(0.000000, 84.000000)" fill="#2096F3">
+                                    <rect id="Rectangle-21" x="0" y="0" width="40" height="15"></rect>
+                                </g>
+                                <g id="Rectangle-21-+-3-Copy-22" fill="#F44336">
+                                    <path d="M0,1.99062252 C0,0.89123206 0.891539827,0 1.99729162,0 L38.0027084,0 C39.1057821,0 40,0.897650985 40,1.99062252 L40,69 L0,69 L0,1.99062252 Z" id="Rectangle-21"></path>
+                                </g>
+                                <g id="Rectangle-21-+-3-Copy-2" transform="translate(0.000000, 127.000000)">
+                                    <rect id="Rectangle-21" fill="#795548" x="0" y="0" width="40" height="20"></rect>
+                                    <rect id="Rectangle-21-Copy-6" fill="#FF9801" x="0" y="0" width="40" height="10"></rect>
+                                </g>
+                            </g>
+                            <g id="Group-Copy-5" transform="translate(481.000000, 24.000000)">
+                                <g id="Rectangle-21-+-3-Copy-21" transform="translate(0.000000, 99.000000)" fill="#CDDC39">
+                                    <rect id="Rectangle-21" x="0" y="0" width="40" height="28"></rect>
+                                </g>
+                                <g id="Rectangle-21-+-3-Copy-23" transform="translate(0.000000, 69.000000)" fill="#673AB7">
+                                    <rect id="Rectangle-21" x="0" y="0" width="40" height="15"></rect>
+                                </g>
+                                <g id="Rectangle-21-+-3-Copy-20" transform="translate(0.000000, 84.000000)" fill="#2096F3">
+                                    <rect id="Rectangle-21" x="0" y="0" width="40" height="15"></rect>
+                                </g>
+                                <g id="Rectangle-21-+-3-Copy-22" fill="#F44336">
+                                    <path d="M0,1.99062252 C0,0.89123206 0.891539827,0 1.99729162,0 L38.0027084,0 C39.1057821,0 40,0.897650985 40,1.99062252 L40,69 L0,69 L0,1.99062252 Z" id="Rectangle-21"></path>
+                                </g>
+                                <g id="Rectangle-21-+-3-Copy-2" transform="translate(0.000000, 127.000000)">
+                                    <rect id="Rectangle-21" fill="#795548" x="0" y="0" width="40" height="20"></rect>
+                                    <rect id="Rectangle-21-Copy-9" fill="#FF9801" x="0" y="0" width="40" height="10"></rect>
+                                </g>
+                            </g>
+                            <g id="Group-Copy-3" transform="translate(359.000000, 59.000000)">
+                                <g id="Rectangle-21-+-3-Copy-21" transform="translate(0.000000, 64.000000)" fill="#CDDC39">
+                                    <rect id="Rectangle-21" x="0" y="0" width="40" height="28"></rect>
+                                </g>
+                                <g id="Rectangle-21-+-3-Copy-23" transform="translate(0.000000, 34.000000)" fill="#673AB7">
+                                    <rect id="Rectangle-21" x="0" y="0" width="40" height="15"></rect>
+                                </g>
+                                <g id="Rectangle-21-+-3-Copy-20" transform="translate(0.000000, 49.000000)" fill="#2096F3">
+                                    <rect id="Rectangle-21" x="0" y="0" width="40" height="15"></rect>
+                                </g>
+                                <g id="Rectangle-21-+-3-Copy-22" fill="#F44336">
+                                    <path d="M0,1.9999204 C0,0.895394863 0.891539827,0 1.99729162,0 L38.0027084,0 C39.1057821,0 40,0.891941149 40,1.9999204 L40,34 L0,34 L0,1.9999204 Z" id="Rectangle-21"></path>
+                                </g>
+                                <g id="Rectangle-21-+-3-Copy-2" transform="translate(0.000000, 92.000000)">
+                                    <rect id="Rectangle-21" fill="#795548" x="0" y="0" width="40" height="20"></rect>
+                                    <rect id="Rectangle-21-Copy-7" fill="#FF9801" x="0" y="0" width="40" height="10"></rect>
+                                </g>
+                            </g>
+                            <g id="Group-Copy-6" transform="translate(540.000000, 59.000000)">
+                                <g id="Rectangle-21-+-3-Copy-21" transform="translate(0.000000, 64.000000)" fill="#CDDC39">
+                                    <rect id="Rectangle-21" x="0" y="0" width="40" height="28"></rect>
+                                </g>
+                                <g id="Rectangle-21-+-3-Copy-23" transform="translate(0.000000, 34.000000)" fill="#673AB7">
+                                    <rect id="Rectangle-21" x="0" y="0" width="40" height="15"></rect>
+                                </g>
+                                <g id="Rectangle-21-+-3-Copy-20" transform="translate(0.000000, 49.000000)" fill="#2096F3">
+                                    <rect id="Rectangle-21" x="0" y="0" width="40" height="15"></rect>
+                                </g>
+                                <g id="Rectangle-21-+-3-Copy-22" fill="#F44336">
+                                    <path d="M0,1.9999204 C0,0.895394863 0.891539827,0 1.99729162,0 L38.0027084,0 C39.1057821,0 40,0.891941149 40,1.9999204 L40,34 L0,34 L0,1.9999204 Z" id="Rectangle-21"></path>
+                                </g>
+                                <g id="Rectangle-21-+-3-Copy-2" transform="translate(0.000000, 92.000000)">
+                                    <rect id="Rectangle-21" fill="#795548" x="0" y="0" width="40" height="20"></rect>
+                                    <rect id="Rectangle-21-Copy-10" fill="#FF9801" x="0" y="0" width="40" height="10"></rect>
+                                </g>
+                            </g>
+                            <g id="Group-Copy-8" transform="translate(662.000000, 59.000000)">
+                                <g id="Rectangle-21-+-3-Copy-21" transform="translate(0.000000, 64.000000)" fill="#CDDC39">
+                                    <rect id="Rectangle-21" x="0" y="0" width="40" height="28"></rect>
+                                </g>
+                                <g id="Rectangle-21-+-3-Copy-23" transform="translate(0.000000, 34.000000)" fill="#673AB7">
+                                    <rect id="Rectangle-21" x="0" y="0" width="40" height="15"></rect>
+                                </g>
+                                <g id="Rectangle-21-+-3-Copy-20" transform="translate(0.000000, 49.000000)" fill="#2096F3">
+                                    <rect id="Rectangle-21" x="0" y="0" width="40" height="15"></rect>
+                                </g>
+                                <g id="Rectangle-21-+-3-Copy-22" fill="#F44336">
+                                    <path d="M0,1.9999204 C0,0.895394863 0.891539827,0 1.99729162,0 L38.0027084,0 C39.1057821,0 40,0.891941149 40,1.9999204 L40,34 L0,34 L0,1.9999204 Z" id="Rectangle-21"></path>
+                                </g>
+                                <g id="Rectangle-21-+-3-Copy-2" transform="translate(0.000000, 92.000000)">
+                                    <rect id="Rectangle-21" fill="#795548" x="0" y="0" width="40" height="20"></rect>
+                                    <rect id="Rectangle-21-Copy-12" fill="#FF9801" x="0" y="0" width="40" height="10"></rect>
+                                </g>
+                            </g>
+                            <g id="Group" transform="translate(180.000000, 0.000000)">
+                                <g id="Rectangle-21-+-3-Copy-26" transform="translate(0.000000, 12.000000)" fill="#673AB7">
+                                    <rect id="Rectangle-21" x="0" y="0" width="40" height="28"></rect>
+                                </g>
+                                <g id="Rectangle-21-+-3-Copy-27" fill="#F44336">
+                                    <path d="M0,1.99188419 C0,0.891796927 0.891539827,0 1.99729162,0 L38.0027084,0 C39.1057821,0 40,0.893397331 40,1.99188419 L40,15 L0,15 L0,1.99188419 Z" id="Rectangle-21"></path>
+                                </g>
+                                <g id="Rectangle-21-+-3-Copy-24" transform="translate(0.000000, 54.000000)" fill="#CDDC39">
+                                    <rect id="Rectangle-21" x="0" y="0" width="40" height="15"></rect>
+                                </g>
+                                <g id="Rectangle-21-+-3-Copy-3" transform="translate(0.000000, 69.000000)">
+                                    <rect id="Rectangle-21" fill="#795548" x="0" y="0" width="40" height="102"></rect>
+                                    <rect id="Rectangle-21-Copy-4" fill="#FF9801" x="0" y="0" width="40" height="50"></rect>
+                                </g>
+                            </g>
+                        </g>
+                    </g>
+                </g>
+            </svg>
+        </div>
+        <div class="col-one-half graph">
+            <h2>Ofsted readiness</h2>
+
+            <svg width="724" height="205" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd">
+            <g fill="#363B4E" font-family="Inter-Bold, Inter" font-size="12" font-weight="bold"><text transform="translate(-1 -2)"><tspan x="8.741" y="182">0</tspan></text><text transform="translate(-1 -2)"><tspan x="9.266" y="152">5</tspan></text><text transform="translate(-1 -2)"><tspan x="3.053" y="124">10</tspan></text><text transform="translate(-1 -2)"><tspan x="3.577" y="96">15</tspan></text><text transform="translate(-1 -2)"><tspan x="1.182" y="68">20</tspan></text><text transform="translate(-1 -2)"><tspan x="1.706" y="40">25</tspan></text><text transform="translate(-1 -2)"><tspan x=".828" y="12">30</tspan></text></g><g stroke="#EFEFEF" stroke-linecap="square"><path d="M50.664 175.5H711M50.664 117.5H711M50.664 89.5H711M50.664 61.5H711M50.664 33.5H711M50.664 5.5H711M50.664 145.5h660.333"/></g><g stroke-width="1.5"><path d="M51 117.5S82 146 112.5 146s51-11.5 59-15.5 33.5-41 60.5-41 26.5 2 59.5-14 31-42.5 61-42.5 22 28.5 58.5 28.5 30-11 61-11 26 39 59.5 39 35.5-18 60-18 29.5 74 60 74 60-14 60-14" stroke="#94DEA9"/><path d="M51 147.5S81 126 111.5 126s29 37 59.5 37 33.5-17 60.5-17 23.5-28 59.5-28 30 18.5 60 18.5 24-18.5 60.5-18.5S440 89.5 471 89.5s26.5 21 60 21 36-9 60.5-9 29 24.5 59.5 24.5 60 26 60 26" stroke="#F8AA27"/><path d="M51 100.5S81 79 111.5 79s29-18 59.5-18 33.5 11 60.5 11S255 61 291 61s30 14.5 60 14.5S375 21 411.5 21 440 33.5 471 33.5s26.5-10 60-10 36 22 60.5 22S620.5 69 651 69s58.5-13.5 58.5-13.5" stroke="#642BB6"/><path d="M51 50.5S85.5 6 116 6s27.5 6 58 6 31 30 58 30 23-22 59-22 29 85.5 59 85.5S372.5 82 409 82s27 62 58 62 25.5-17 59-17 34.5-42 59-42 27.5 14 58 14 67-64 67-64" stroke="#09F"/><path d="M53 61.5S81.5 66 112 66s30.5 12 61 12 31 33.5 58 33.5 24.5-8 60.5-8S322 88 352 88s22.5-55 59-55 30-28 61-28 26.5 50.5 60 50.5S566.5 27 591 27s30.5-12 61-12 60 8.5 60 8.5" stroke="#795548"/></g><g transform="translate(48 29)" fill="#FFF" stroke="#94DEA9" stroke-width="2.096"><circle cx="5" cy="87" r="3.952"/><circle cx="664" cy="103" r="3.952"/><circle cx="604" cy="117" r="3.952"/><circle cx="543" cy="43" r="3.952"/><circle cx="484" cy="61" r="3.952"/><circle cx="424" cy="22" r="3.952"/><circle cx="363" cy="33" r="3.952"/><circle cx="305" cy="5" r="3.952"/><circle cx="243" cy="47" r="3.952"/><circle cx="183" cy="61" r="3.952"/><circle cx="125" cy="102" r="3.952"/><circle cx="64" cy="117" r="3.952"/></g><g transform="translate(48 86)" fill="#FFF" stroke="#F8AA27" stroke-width="2.096"><circle cx="664" cy="67" r="3.952"/><circle cx="604" cy="41" r="3.952"/><circle cx="543" cy="17" r="3.952"/><circle cx="484" cy="25" r="3.952"/><circle cx="424" cy="5" r="3.952"/><circle cx="363" cy="33" r="3.952"/><circle cx="304" cy="51" r="3.952"/><circle cx="243" cy="33" r="3.952"/><circle cx="183" cy="61" r="3.952"/><circle cx="125" cy="78" r="3.952"/><circle cx="64" cy="41" r="3.952"/><circle cx="5" cy="61" r="3.952"/></g><g transform="translate(48 17)" fill="#FFF" stroke="#642BB6" stroke-width="2.096"><circle cx="664" cy="38" r="3.952"/><circle cx="604" cy="52" r="3.952"/><circle cx="543" cy="28" r="3.952"/><circle cx="484" cy="7" r="3.952"/><circle cx="424" cy="17" r="3.952"/><circle cx="363" cy="5" r="3.952"/><circle cx="304" cy="58" r="3.952"/><circle cx="243" cy="43" r="3.952"/><circle cx="183" cy="55" r="3.952"/><circle cx="126" cy="45" r="3.952"/><circle cx="64" cy="62" r="3.952"/><circle cx="5" cy="82" r="3.952"/></g><g transform="translate(48 1)" fill="#FFF" stroke="#09F" stroke-width="2.096"><circle cx="664" cy="34" r="3.952"/><circle cx="604" cy="98" r="3.952"/><circle cx="543" cy="84" r="3.952"/><circle cx="484" cy="126" r="3.952"/><circle cx="424" cy="143" r="3.952"/><circle cx="363" cy="81" r="3.952"/><circle cx="304" cy="104" r="3.952"/><circle cx="243" cy="19" r="3.952"/><circle cx="183" cy="41" r="3.952"/><circle cx="126" cy="11" r="3.952"/><circle cx="64" cy="5" r="3.952"/><circle cx="5" cy="48" r="3.952"/></g><g transform="translate(48)" fill="#FFF" stroke="#795548" stroke-width="2.096"><circle cx="664" cy="23" r="3.952"/><circle cx="604" cy="15" r="3.952"/><circle cx="543" cy="27" r="3.952"/><circle cx="484" cy="55" r="3.952"/><circle cx="424" cy="5" r="3.952"/><circle cx="363" cy="33" r="3.952"/><circle cx="304" cy="88" r="3.952"/><circle cx="243" cy="103" r="3.952"/><circle cx="183" cy="111" r="3.952"/><circle cx="125" cy="78" r="3.952"/><circle cx="64" cy="66" r="3.952"/><circle cx="5" cy="61" r="3.952"/></g><g fill="#ADADAD" font-family="Inter-Bold, Inter" font-size="12" font-weight="bold"><text transform="translate(38 192)"><tspan x="660.948" y="12">DEC</tspan></text><text transform="translate(38 192)"><tspan x="600.079" y="12">NOV</tspan></text><text transform="translate(38 192)"><tspan x="539.786" y="12">OCT</tspan></text><text transform="translate(38 192)"><tspan x="482.009" y="12">SEP</tspan></text><text transform="translate(38 192)"><tspan x="420.072" y="12">AUG</tspan></text><text transform="translate(38 192)"><tspan x="361.799" y="12">JUL</tspan></text><text transform="translate(38 192)"><tspan x="301.293" y="12">JUN</tspan></text><text transform="translate(38 192)"><tspan x="239.065" y="12">MAY</tspan></text><text transform="translate(38 192)"><tspan x="180.689" y="12">APR</tspan></text><text transform="translate(38 192)"><tspan x="119.031" y="12">MAR</tspan></text><text transform="translate(38 192)"><tspan x="62.35" y="12">FEB</tspan></text><text transform="translate(38 192)"><tspan x=".683" y="12">JAN</tspan></text></g></g>
+            </svg>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block pageScripts %}
+
+{% endblock %}

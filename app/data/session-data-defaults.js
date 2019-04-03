@@ -29,6 +29,19 @@ const totalNumberOfSchools = 21321
 
 const academiesTotal = totalNumberOfSchools - totalLASchools
 
+const misSchool = generate.school(
+	generate.schoolName(),
+	'420',
+	'maintained',
+	32
+)
+
+misSchool.queries = generate.queries(misSchool.noOfQueries)
+
+misSchool.noOfErrors = 68
+
+misSchool.errors = generate.errors(misSchool.noOfErrors)
+
 module.exports = {
 	// Insert values here
 
@@ -48,5 +61,7 @@ module.exports = {
 
 	isAllocated: false,
 
-	schools: generate.schools(35)
+	schools: generate.schools(35),
+
+	misSchool
 }

@@ -8,16 +8,24 @@
 
 <div class="govuk-grid-row">
 
+    <div class="govuk-grid-column-two-thirds">
+
+        {{ govukBackLink({
+            text: 'Back',
+            href: 'javascript:history.back()'
+        }) }}
+
+        <h1 class="govuk-heading-xl">Data provider hub simulation options</h1>
+
+    </div>
+
+</div>
+
+<div class="govuk-grid-row">
+
         <div class="govuk-grid-column-two-thirds">
 
-            {{ govukBackLink({
-                text: 'Back',
-                href: 'javascript:history.back()'
-            }) }}
-
             <form method="post">
-
-                <h1 class="govuk-heading-xl">Prototype options</h1>
 
                 {{ govukRadios({
                     idPrefix: 'user-type',
@@ -26,7 +34,7 @@
                         legend: {
                             text: 'User type',
                             isPageHeading: true,
-                            classes: 'govuk-fieldset__legend--l'
+                            classes: 'govuk-fieldset__legend--m'
                         }
                     },
                     items: [
@@ -42,6 +50,18 @@
                 }) }}
 
             </form>
+
+        </div>
+
+        <div class="govuk-grid-column-one-third">
+
+            <h2 class="govuk-heading-m">Other journeys</h2>
+            
+            <ul class="govuk-list">
+                <li>
+                    <a href="mis/home?connected=false">Authorisation journey</a>
+                </li>
+            </ul>
 
         </div>
 
