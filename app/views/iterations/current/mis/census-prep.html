@@ -9,7 +9,7 @@
     <div class="row">
         <div class="width-container">
             <div class="col-two-thirds">
-                <h1>Spring census submission</h1>
+                <h1>Send your spring census</h1>
             </div>
         </div>
     </div>
@@ -21,6 +21,8 @@
                 <p>You should fix these errors before you send your census to the Department for Education.</p>
                 <h2>There are {{ data.misSchool.queries | length }} queries about your data</h2>
                 <p>You should review these queries and consider if the data behind each one is correct.</p>
+                <a href="sent" class="button">Send census to DfE</a>
+                <br><br>
             </div>
         </div>
     </div>
@@ -31,12 +33,68 @@
         <div class="col-one-quarter">
             <h1 style="font-weight: 900;">{{ data.misSchool.errors | length }} errors</h1>
         </div>
+        <div class="col-three-quarters">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Error number</th>
+                        <th>Type</th>
+                        <th>Records affected</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for error in data.misSchool.errors %}
+                    <tr>
+                        <th>{{ error.number }}</th>
+                        <td>{{ error.type | sentenceCase }}</td>
+                        <td>
+                        {% if error.pupils %}
+                            <a href="#">
+                                {{ error.pupils | length if error.pupils }}
+                            </a>
+                        {% endif %}
+                        </td>
+                        <td>{{ error.description }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 <div class="row">
     <div class="width-container">
         <div class="col-one-quarter">
             <h1 style="font-weight: 900;">{{ data.misSchool.queries | length }} queries</h1>
+        </div>
+        <div class="col-three-quarters">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Error number</th>
+                        <th>Type</th>
+                        <th>Records affected</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for query in data.misSchool.queries %}
+                    <tr>
+                        <th>{{ query.number }}</th>
+                        <td>{{ query.type | sentenceCase }}</td>
+                        <td>
+                        {% if query.pupils %}
+                            <a href="#">
+                                {{ query.pupils | length if query.pupils }}
+                            </a>
+                        {% endif %}
+                        </td>
+                        <td>{{ query.description }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
