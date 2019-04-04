@@ -17,14 +17,21 @@
     <div class="row">
         <div class="width-container">
             <div class="col-one-half">
-                <h2>There are {{ data.misSchool.errors | length }} errors in your data</h2>
+                <h2>There are <span class="increment">{{ data.misSchool.errors | length }}</span> errors in your data</h2>
                 <p>You should fix these errors before you send your census to the Department for Education.</p>
-                <h2>There are {{ data.misSchool.queries | length }} queries about your data</h2>
+                <h2>There are <span class="increment">{{ data.misSchool.queries | length }}</span> queries about your data</h2>
                 <p>You should review these queries and consider if the data behind each one is correct.</p>
             </div>
         </div>
     </div>
 </div>
+
+<script>
+$('.increment').on('click', function () {
+    var original = parseInt($(this).text())
+    $(this).text(original-5)
+})
+</script>
 
 <div class="row">
     <div class="width-container">
