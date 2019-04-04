@@ -9,7 +9,7 @@
     <div class="row">
         <div class="width-container">
             <div class="col-two-thirds">
-                <h1>Spring census submission</h1>
+                <h1>Send your spring census</h1>
             </div>
         </div>
     </div>
@@ -29,7 +29,7 @@
 <script>
 $('.increment').on('click', function () {
     var original = parseInt($(this).text())
-    $(this).text(original-5)
+    $(this).text(Math.floor(original/2))
 })
 </script>
 
@@ -38,12 +38,68 @@ $('.increment').on('click', function () {
         <div class="col-one-quarter">
             <h1 style="font-weight: 900;">{{ data.misSchool.errors | length }} errors</h1>
         </div>
+        <div class="col-three-quarters">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Error number</th>
+                        <th>Type</th>
+                        <th>Records affected</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for error in data.misSchool.errors %}
+                    <tr>
+                        <th>{{ error.number }}</th>
+                        <td>{{ error.type | sentenceCase }}</td>
+                        <td>
+                        {% if error.pupils %}
+                            <a href="#">
+                                {{ error.pupils | length if error.pupils }}
+                            </a>
+                        {% endif %}
+                        </td>
+                        <td>{{ error.description }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 <div class="row">
     <div class="width-container">
         <div class="col-one-quarter">
             <h1 style="font-weight: 900;">{{ data.misSchool.queries | length }} queries</h1>
+        </div>
+        <div class="col-three-quarters">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Error number</th>
+                        <th>Type</th>
+                        <th>Records affected</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for query in data.misSchool.queries %}
+                    <tr>
+                        <th>{{ query.number }}</th>
+                        <td>{{ query.type | sentenceCase }}</td>
+                        <td>
+                        {% if query.pupils %}
+                            <a href="#">
+                                {{ query.pupils | length if query.pupils }}
+                            </a>
+                        {% endif %}
+                        </td>
+                        <td>{{ query.description }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
