@@ -298,13 +298,3 @@ header {
 	height: auto;
 	margin: 20px 0;
 }
-
-table {
-	text-align: left;
-	border-collapse: collapse;
-	th,
-	td {
-		padding: 10px;
-		border-bottom: 1px solid $col_text;
-	}
-}

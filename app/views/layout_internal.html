@@ -61,12 +61,12 @@
       label: 'Account navigation',
       items: [
         {
-          text: data['username'] if data['username'] else 'Ellie Sattler',
+          text: data['username'] if data['username'] else  '' | randomName,
           href: '#1'
         },
         {
           text: 'Sign out',
-          href: '#1'
+          href: '#root#/options'
         }
       ]
       }
