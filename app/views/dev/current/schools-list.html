@@ -1,7 +1,7 @@
-{% set external = data.isExternal == 'true' %}{% if external %}{% extends 'layout_la.html' %}{% else %}{% extends 'layout_internal.html' %}{% endif %}
+{% extends 'layout_la.html' %}
 
 {% block pageTitle %}
-    My work queue
+    My schools’ collections
 {% endblock %}
 
 {% set collector = data.collectors | getById(0) %}
@@ -22,7 +22,7 @@
 
     <div class="govuk-grid-column-full census-case-nav">
 
-        <h1 class="govuk-heading-l">{{ 'My schools’ collections' if external else 'My work queue' }}</h1>
+        <h1 class="govuk-heading-l">My schools’ collections</h1>
 
         {% set seeAllQueues = { 
                 html: 'See all queues',  
@@ -31,7 +31,7 @@
          %}
 
          {% set addMissingSchools  = { 
-                html: 'Add missing schools',  
+                html: 'Add a missing school',  
                 href: '#4'
             }
          %}
@@ -39,16 +39,16 @@
         {{ hmctsSubNavigation({
             label: 'Sub navigation',
             items: [{
-                html: ('Submitted' if external else 'Inbox') + ' <span class="type-tag count-tag">' + inboxCount + '</span>',
-                href: 'my-queue'
+                html: 'Submitted',
+                href: 'my-queue',
+                active: true
             },{
-                html: ('Awaiting re-submission' if external else 'Responded') + ' <span class="type-tag count-tag">' + respondedCount + '</span>',
+                html: 'Awaiting re-submission',
                 href: '#'
             },{
                 html: 'Not submitted <span class="type-tag count-tag">1,321</span>',
-                href: '#',
-                active: true
-            }, addMissingSchools if external else seeAllQueues
+                href: '#'
+            }, addMissingSchools
             ]
         }) }} 
 
@@ -177,6 +177,34 @@
         html: filtersHTML
         }) }}
 
+        {{ hmctsPagination({
+            results: {
+                from: 1,
+                to: 50,
+                count: 174
+            },
+            next: {
+                text: 'Next',
+                href: ''
+            },
+            items: [
+                {
+                    text: '1',
+                    href: '/page=1',
+                    selected: true
+                }, {
+                    text: '2',
+                    href: '#'
+                }, {
+                    text: '3',
+                    href: '#'
+                }, {
+                    text: '4',
+                    href: '#'
+                }
+            ]
+        }) }}
+
         <table id="queueTable" class="govuk-table internal-table collector-table">
             
             <caption class="govuk-table__caption">My work queue</caption>
@@ -187,13 +215,13 @@
                 
                 <th class="govuk-table__header" scope="col" aria-sort="none"><span class="no-wrap">Name</span></th>
 
-                <th class="govuk-table__header" scope="col" aria-sort="none"><span class="no-wrap">Type</span></th>
+                <th class="govuk-table__header" scope="col" aria-sort="ascending"><span class="no-wrap">Submitted</span></th>
 
                 <th class="govuk-table__header numeric" scope="col" aria-sort="none"><span class="no-wrap">LAESTAB</span></th>
 
-                <th class="govuk-table__header" scope="col" aria-sort="none"><span class="no-wrap">Contact name</span></th>
+                <th class="govuk-table__header numeric" scope="col" aria-sort="none"><span class="no-wrap">Queries</span></th>
 
-                <th class="govuk-table__header" scope="col"><span class="no-wrap">Contact number</span></th>
+                <th class="govuk-table__header numeric" scope="col" aria-sort="none"><span class="no-wrap">Errors</span></th>
                 
                 <th class="govuk-table__header numeric" scope="col"><span class="no-wrap"></span></th>
                 
@@ -202,44 +230,70 @@
             
             <tbody class="govuk-table__body">
 
-                {% for i in range(0, 31) -%}
+                {% for school in data.laSchools | sort(false, true, 'submittedDate')  -%}
 
-                {% set school = '' | randomSchool %}
+                {% if school.responsesSent != 'true' %}
 
                 <tr class="govuk-table__row">
                         <th class="govuk-table__header" scope="row">
                             <a href="queries/overview.html?selected-school={{ school.id }}">
-                                {{ school }}
+                                {{ school.name }}
                             </a>
                         </th>
-                        <td class="govuk-table__cell">
-                            {% set schoolType = ['maintained', 'maintained', 'academy'] | random %}
-                            {{ govukTag({
-                                text: schoolType,
-                                classes: schoolType
-                            }) }}
+                        <td class="govuk-table__cell govuk-table__cell--numeric" style="text-align: left" data-sort-value="{{ school.submittedDate }}">
+                            {{ school.submittedDate | formatColumnDate }}
                         </td>
                         <td class="govuk-table__cell govuk-table__cell--numeric">
-                            {{ [241,940,493,912,314] | random }}/{{ [1,2,3,4,5,6,7,8,9] | random }}{{ [1,2,3,4,5,6,7,8,9] | random }}{{ [1,2,3,4,5,6,7,8,9] | random }}{{ [1,2,3,4,5,6,7,8,9] | random }}
+                            {{ school.LAESTAB }}
                         </td>
-                        <td class="govuk-table__cell">
-                            {{ '' | randomName }}
+                        <td class="govuk-table__cell numeric govuk-table__cell--numeric">
+                            {{ school.noOfQueries }}
                         </td>
-                        <td class="govuk-table__cell">
-                            {{ '' | phoneNumber }}
+                        <td class="govuk-table__cell numeric govuk-table__cell--numeric">
+                            {{ school.noOfErrors }}
                         </td>
                         <td class="govuk-table__cell numeric">
-                            <a href="#" class="govuk-button govuk-button-blue govuk-button-small" data-notice="Link will navigate to census overview / query list view.">
-                                Add note
+                            <a href="queries/overview.html?selected-school={{ school.id }}" class="govuk-button govuk-button-blue govuk-button-small">
+                                Open
                             </a>
                         </td>
                         
                 </tr>
 
+                {% endif %}
+
                 {% endfor -%}
                 
             </tbody>
         </table>
+
+        {{ hmctsPagination({
+            results: {
+                from: 1,
+                to: 50,
+                count: 174
+            },
+            next: {
+                text: 'Next',
+                href: ''
+            },
+            items: [
+                {
+                    text: '1',
+                    href: '/page=1',
+                    selected: true
+                }, {
+                    text: '2',
+                    href: '#'
+                }, {
+                    text: '3',
+                    href: '#'
+                }, {
+                    text: '4',
+                    href: '#'
+                }
+            ]
+        }) }}
 
         {% endif %}
 

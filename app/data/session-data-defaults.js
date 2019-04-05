@@ -42,6 +42,17 @@ misSchool.noOfErrors = 68
 
 misSchool.errors = generate.errors(misSchool.noOfErrors)
 
+const laSchools = new Array(174).fill(null).map((_, i) => {
+	var school = generate.school(
+		generate.schoolName(),
+		'844',
+		'maintained',
+		generate.randomNumber(0, 20)
+	)
+	school.submittedDate = generate.randomDate(7, 0)
+	return school
+})
+
 module.exports = {
 	// Insert values here
 
@@ -63,5 +74,7 @@ module.exports = {
 
 	schools: generate.schools(35),
 
-	misSchool
+	misSchool,
+
+	laSchools
 }
