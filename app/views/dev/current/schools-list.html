@@ -36,22 +36,7 @@
             }
          %}
 
-        {{ hmctsSubNavigation({
-            label: 'Sub navigation',
-            items: [{
-                html: 'Submitted',
-                href: 'my-queue',
-                active: true
-            },{
-                html: 'Awaiting re-submission',
-                href: '#'
-            },{
-                html: 'Not submitted <span class="type-tag count-tag">1,321</span>',
-                href: '#'
-            }, addMissingSchools
-            ]
-        }) }} 
-
+       
 
         {% if inboxCount == 0 %}
 
