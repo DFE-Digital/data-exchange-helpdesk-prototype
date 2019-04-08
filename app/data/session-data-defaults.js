@@ -29,16 +29,11 @@ const totalNumberOfSchools = 21321
 
 const academiesTotal = totalNumberOfSchools - totalLASchools
 
-const misSchool = generate.school(
-	generate.schoolName(),
-	'420',
-	'maintained',
-	32
-)
+var misSchool = generate.school(generate.schoolName(), '420', 'maintained', 8)
 
 misSchool.queries = generate.queries(misSchool.noOfQueries)
 
-misSchool.noOfErrors = 68
+misSchool.noOfErrors = 2
 
 misSchool.errors = generate.errors(misSchool.noOfErrors)
 

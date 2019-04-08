@@ -1,10 +1,8 @@
-{% set external = data.isExternal == 'true' %}{% if external %}{% extends 'layout_la.html' %}{% else %}{% extends 'layout_internal.html' %}{% endif %}
+{% extends 'layout_la.html' %}
 
-{% set schoolIndex = data['selected-school'] %}
-{% set school = data['schools'][schoolIndex] %}
-{% set schoolName = school['name'] %}
-{% set laestab = school['LAESTAB'] %}
-{% set query = school['queries'] | getById(data['selected-query']) %}
+{% set school = data.misSchool %}
+
+{% set query = {"number":"1998","type":"pupil","description":"The pupil has  planned employability, enrichment and pastoral hours but no planned learning hours","guide":"As this information is used to calculate funding, confirmation alone is not acceptable. A reason should be provided why a student on a post 16 study programme does not have any qualification hours.","confirmationIsAcceptable":false,"pupils":[{"surname":"LEGROS","firstname":"Elfrieda","UPN":"X4678280453D","dob":"13 June 2013"},{"surname":"RUECKER","firstname":"Jasper","UPN":"X6611861644M","dob":"2 January 2011"},{"surname":"HIRTHE","firstname":"Chester","UPN":"W6511743311M","dob":"19 January 2009"},{"surname":"MURRAY","firstname":"Terrance","UPN":"W1000335061D","dob":"5 December 2011"},{"surname":"REILLY","firstname":"Baron","UPN":"X3235715451M","dob":"26 December 2011"},{"surname":"GERLACH","firstname":"Chadrick","UPN":"W0555674884M","dob":"15 December 2012"},{"surname":"MARQUARDT","firstname":"Johan","UPN":"P4862664021M","dob":"9 June 2011"},{"surname":"HUELS","firstname":"Krystel","UPN":"X4757474256M","dob":"6 July 2013"},{"surname":"PARKER","firstname":"Destiney","UPN":"X8666001008D","dob":"4 June 2014"},{"surname":"KUNDE","firstname":"Dillon","UPN":"P6661585553B","dob":"16 May 2009"},{"surname":"VANDERVORT","firstname":"Reed","UPN":"X0737747316D","dob":"7 July 2016"},{"surname":"HYATT","firstname":"Madalyn","UPN":"P4238221486M","dob":"28 September 2010"},{"surname":"BALISTRERI","firstname":"Casimer","UPN":"X5164211251B","dob":"21 September 2013"},{"surname":"DAVIS","firstname":"Marianne","UPN":"P8768067423M","dob":"19 September 2013"},{"surname":"KUPHAL","firstname":"Lavern","UPN":"P7244608581D","dob":"2 February 2010"},{"surname":"ORTIZ","firstname":"Melyna","UPN":"X1002421760B","dob":"10 June 2015"},{"surname":"O'CONNER","firstname":"Daphne","UPN":"W5210551635B","dob":"26 March 2013"},{"surname":"HARBER","firstname":"Sean","UPN":"P8226761625M","dob":"26 June 2015"},{"surname":"BEATTY","firstname":"Minnie","UPN":"P5102663850M","dob":"27 April 2013"},{"surname":"LINDGREN","firstname":"Evie","UPN":"W5267061747B","dob":"21 May 2010"},{"surname":"KUNDE","firstname":"Marisol","UPN":"P6212531422D","dob":"2 September 2015"},{"surname":"LEMKE","firstname":"Denis","UPN":"X7043633615B","dob":"11 November 2010"},{"surname":"WISOKY","firstname":"Amani","UPN":"W6187400674B","dob":"7 April 2010"}],"notes":[{"type":"school","author":"Sidney Rath","text":"Confirmed as correct","date":1554473963948.5632}],"id":25,"handled":"false"} %}
 
 {% block pageTitle %}
     {{ query.number }}
@@ -14,28 +12,14 @@
 <div class="hmcts-identity-bar">
   <div class="hmcts-identity-bar__container">
     <div class="hmcts-identity-bar__details">
-        <span class="hmcts-identity-bar__title"><b>{{ schoolName }}</b> {{ laestab }} <strong class="govuk-!-padding-right-4"></strong>{{ govukTag({text: school.type}) }}</span>
+        <span class="hmcts-identity-bar__title"><b>{{ school.name }}</b> {{ school.LAESTAB }} <strong class="govuk-!-padding-right-4"></strong>{{ govukTag({text: school.type}) }}</span>
     </div>
     <div style="float:right;">
-        {% if (school.responsesSent == 'true') %}
-            {{ govukButton({
-                text: 'Return to work queue',
-                href: '../my-responses',
-                classes: 'hmcts-menu-item hmcts-button--secondary'
-            }) }}
-        {% elseif (pendingCount == 0) %}
-            {{ govukButton({
-                text: 'Send responses to school',
-                href: '/send-responses',
-                classes: 'hmcts-menu-item'
-            }) }}
-        {% else %}
-            {{ govukButton({
-                text: 'Return to work queue',
-                href: '../my-queue',
-                classes: 'hmcts-menu-item hmcts-button--secondary'
-            }) }}
-        {% endif %}
+        {{ govukButton({
+            text: 'Return to my schools',
+            href: '#',
+            classes: 'hmcts-menu-item hmcts-button--secondary'
+        }) }}
     </div>
   </div>
 </div>
@@ -51,7 +35,7 @@
             items: [
                 {
                     text: 'Queries',
-                    href: 'overview'
+                    href: 'queries'
                 },
                 {
                     text: query.number
@@ -62,7 +46,6 @@
     </div>
 
 </div>
-
 
 <div class="govuk-grid-row">
 
@@ -145,52 +128,6 @@
         </tbody>
         </table>
 
-        {% if isMultiple %}
-
-        {{ govukButton({
-            text: 'Accept selected',
-            href: '#',
-            classes: 'selected-button',
-            disabled: true
-        }) }}
-
-        {{ govukButton({
-            text: 'Reject selected',
-            href: '#',
-            classes: 'selected-button govuk-button-red govuk-!-margin-left-2',
-            disabled: true
-        }) }}
-
-        <div style="float:right;">
-
-        {{ govukButton({
-            text: 'Accept all',
-            href: '#',
-            classes: ' '
-        }) }}
-
-        {{ govukButton({
-            text: 'Reject all',
-            href: '#',
-            classes: 'govuk-button-red govuk-!-margin-left-2'
-        }) }}
-
-        {% else %}
-
-        {{ govukButton({
-            text: 'Accept',
-            href: '#',
-            classes: ' '
-        }) }}
-
-        {{ govukButton({
-            text: 'Reject',
-            href: '#',
-            classes: 'govuk-button-red govuk-!-margin-left-2'
-        }) }}
-
-        {% endif %}
-
         </div>
 
         <script>
@@ -239,11 +176,21 @@
         rows: [
             {
                 key: {
-                    text: 'Possible sessions',
+                    text: 'Learning hours',
                     classes: 'queried-data'
                 },
                 value: {
                     text: 0 | friendlyNumber,
+                    classes: 'queried-data'
+                }
+            },
+            {
+                key: {
+                    text: 'Employability, enrichment and pastoral hours',
+                    classes: 'queried-data'
+                },
+                value: {
+                    text: 142 | friendlyNumber,
                     classes: 'queried-data'
                 }
             }
@@ -554,6 +501,26 @@
                         value: {
                             text: 'A'
                         }
+                    },
+                    {
+                        key: {
+                            text: 'Learning hours',
+                            classes: 'queried-data'
+                        },
+                        value: {
+                            text: 0 | friendlyNumber,
+                            classes: 'queried-data'
+                        }
+                    },
+                    {
+                        key: {
+                            text: 'Employability, enrichment and pastoral hours',
+                            classes: 'queried-data'
+                        },
+                        value: {
+                            text: 142 | friendlyNumber,
+                            classes: 'queried-data'
+                        }
                     }
                 ]
             }) }}
@@ -711,12 +678,10 @@
                 rows: [
                     {
                         key: {
-                            text: 'Possible sessions',
-                            classes: 'queried-data'
+                            text: 'Possible sessions'
                         },
                         value: {
-                            text: 0 | friendlyNumber,
-                            classes: 'queried-data'
+                            text: 0 | friendlyNumber
                         }
                     },
                     {
@@ -766,7 +731,7 @@
 <script>
 
     var table = document.getElementById('singleQueryTable')
-    new SortableTable(table)
+     new SortableTable(table)
 
     var navDialogEl = document.querySelector('.dialog');
     var dialogOverlay = document.querySelector('.dialog-overlay');

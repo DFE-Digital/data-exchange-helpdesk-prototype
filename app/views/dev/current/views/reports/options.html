@@ -1,0 +1,55 @@
+{% extends 'layout.html' %}
+
+{% block pageTitle %}
+    Prototype options
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+
+        <div class="govuk-grid-column-two-thirds">
+
+            {{ govukBackLink({
+                text: 'Back',
+                href: 'javascript:history.back()'
+            }) }}
+
+            <form action="absence-report">
+
+                <h1 class="govuk-heading-xl">Prototype options</h1>
+
+                {{ govukRadios({
+                    classes: 'govuk-radios--inline',
+                    idPrefix: 'report-is-within-window',
+                    name: 'report-is-within-window',
+                    fieldset: {
+                        legend: {
+                            text: 'Is it inside the reporting window?',
+                            isPageHeading: true,
+                            classes: 'govuk-fieldset__legend--m'
+                        }
+                            },
+                            items: [
+                        {
+                            text: 'Yes',
+                            value: 'yes'
+                        },
+                        {
+                            text: 'No',
+                            value: 'no'
+                        }
+                    ]
+                }) }}
+
+                {{ govukButton({
+                    html: 'Open prototype'
+                }) }}
+
+            </form>
+
+        </div>
+
+</div>
+
+{% endblock %}

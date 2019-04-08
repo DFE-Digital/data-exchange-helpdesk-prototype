@@ -1,0 +1,90 @@
+{% extends 'layout.html' %}
+
+{% block pageTitle %}
+    Development versions
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+
+        <div class="govuk-grid-column-two-thirds">
+
+            {{ govukBackLink({
+                text: 'Back',
+                href: 'javascript:history.back()'
+            }) }}
+
+            <h1 class="govuk-heading-xl">Development versions</h1>
+
+        </div>
+
+        <div class="govuk-grid-column-full">
+
+        {{ govukTable({
+            caption: 'Views for developer reference',
+            firstCellIsHeader: true,
+            head: [
+                {
+                    text: 'View'
+                },
+                {
+                    text: 'Users'
+                },
+                {
+                    text: 'Description'
+                }
+            ],
+            rows: [
+                [
+                    {
+                        html: '<a href="views/schools-list">List of schools</a>'
+                    },
+                    {
+                        html: 'All users except single school user types'
+                    },
+                    {
+                        html: 'View consists of a sortable list of schools with filter options. Each school links to the latest census submission, if present.'
+                    }
+                ],
+                [
+                    {
+                        html: '<a href="views/queries">List of queries</a>'
+                    },
+                    {
+                        html: 'All users'
+                    },
+                    {
+                        html: 'View consists of a sortable list of queries with a find option, allowing users to find a query by query number. Approve/reject actions will be rendered only for collectors and collection lead.'
+                    }
+                ],
+                [
+                    {
+                        html: '<a href="views/single-query">Single query</a>'
+                    },
+                    {
+                        html: 'All users'
+                    },
+                    {
+                        html: 'View consists of description of query and re-iteration of notes added to query. A list of pupils which are producing the query. Each pupil links to a modal dialogue which shows all data items, highlighting the data items relating to the selected query only. Approve/reject actions will be rendered only for collectors and collection lead.'
+                    }
+                ],
+                [
+                    {
+                        html: '<a href="views/reports/options.html">Absence report</a>'
+                    },
+                    {
+                        html: 'All users'
+                    },
+                    {
+                        html: 'View includes a readout of attendance figures for the school this term, the national average this term and for the school last year.'
+                    }
+                ]
+            ]
+        }) }}
+            
+        </div>
+
+</div>
+
+{% endblock %}
