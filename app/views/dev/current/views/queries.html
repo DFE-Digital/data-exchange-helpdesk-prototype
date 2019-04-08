@@ -5,9 +5,10 @@
 {% endblock %}
 
 {% set school = data.misSchool %}
-{% set schoolName = school['name'] %}
-{% set laestab = school['LAESTAB'] %}
-{% set queries = school['queries'] %}
+{% set schoolName = school.name %}
+{% set laestab = school.LAESTAB %}
+{% set queries = school.queries %}
+{% set errors = school.errors %}
 
 {% set handledCount = 0 %}
 {% for query in queries %}
@@ -48,6 +49,10 @@
                 text: queries | length + ' queries',
                 href: '#',
                 active: true
+            },
+            {
+                text: errors | length + ' errors',
+                href: 'errors'
             },
             {
                 text: 'View all census data',
