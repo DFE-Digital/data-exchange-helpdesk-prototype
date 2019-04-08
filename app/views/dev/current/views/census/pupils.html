@@ -1,0 +1,91 @@
+{{ hmctsPagination({
+    results: {
+        from: 1,
+        to: 50,
+        count: 1104
+    },
+    next: {
+        text: 'Next',
+        href: '#'
+    },
+    items: [
+        {
+            text: '1',
+            href: '#',
+            selected: true
+        }, {
+            text: '2',
+            href: '#'
+        }, {
+            text: '3',
+            href: '#'
+        }, {
+          type: 'dots'
+        }, {
+            text: '23',
+            href: '#'
+        }
+    ]
+}) }}
+
+<table class="govuk-table" id="pupilsTable">
+    <caption class="govuk-table__caption govuk-visually-hidden">Pupils in census data</caption>
+    <thead class="govuk-table__head">
+        <tr class="govuk-table__row">
+            <th class="govuk-table__header" scope="col" aria-sort="ascending">Last name</th>
+            <th class="govuk-table__header" scope="col" aria-sort="none">First name</th>
+            <th class="govuk-table__header" scope="col" aria-sort="none">UPN</th>
+            <th class="govuk-table__header" scope="col" aria-sort="none">Date of birth</th>
+            <th class="govuk-table__header" scope="col" aria-sort="none">Status</th>
+        </tr>
+    </thead>
+    <tbody class="govuk-table__body">
+        {% for pupil in data.misSchool.pupils | sort(false, true, 'surname') %}
+        <tr class="govuk-table__row">
+            <td class="govuk-table__cell">
+                {{ pupil.surname }}
+            </td>
+            <td class="govuk-table__cell">
+                {{ pupil.firstname }}
+            </td>
+            <th class="govuk-table__header" scope="row">
+                {{ pupil.UPN }}
+            </th>
+            <td class="govuk-table__cell"><span class="dob">{{pupil.dob}}</span></td>
+            <td class="govuk-table__cell">
+                {{ ['On roll', 'On roll', 'On roll', 'On roll', 'On roll', 'On roll', 'On roll', 'Off roll'] | random }}
+            </td>
+        </tr>
+        {% endfor -%}
+    </tbody>
+</table>
+
+{{ hmctsPagination({
+    results: {
+        from: 1,
+        to: 50,
+        count: 1104
+    },
+    next: {
+        text: 'Next',
+        href: '#'
+    },
+    items: [
+        {
+            text: '1',
+            href: '#',
+            selected: true
+        }, {
+            text: '2',
+            href: '#'
+        }, {
+            text: '3',
+            href: '#'
+        }, {
+          type: 'dots'
+        }, {
+            text: '23',
+            href: '#'
+        }
+    ]
+}) }}

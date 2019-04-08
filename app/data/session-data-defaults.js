@@ -37,6 +37,8 @@ misSchool.noOfErrors = 2
 
 misSchool.errors = generate.errors(misSchool.noOfErrors)
 
+misSchool.pupils = generate.pupils(50)
+
 const laSchools = new Array(174).fill(null).map((_, i) => {
 	var school = generate.school(
 		generate.schoolName(),

@@ -1,0 +1,113 @@
+{% extends 'layout_la.html' %}
+
+{% block pageTitle %}
+    Census data
+{% endblock %}
+
+{% set school = data.misSchool %}
+{% set schoolName = school['name'] %}
+{% set laestab = school['LAESTAB'] %}
+{% set queries = school['queries'] %}
+
+
+{% block postHeader %}
+<div class="hmcts-identity-bar">
+  <div class="hmcts-identity-bar__container">
+    <div class="hmcts-identity-bar__details">
+        <span class="hmcts-identity-bar__title"><b>{{ schoolName }}</b> {{ laestab }} <strong class="govuk-!-padding-right-4"></strong></span>
+    </div>
+    <div style="float:right;">
+        {{ govukButton({
+            text: 'Return to my schools',
+            href: '../my-responses',
+            classes: 'hmcts-menu-item hmcts-button--secondary'
+        }) }}
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+
+    <div class="govuk-grid-column-full census-case-nav govuk-!-padding-bottom-5">
+
+        {{ hmctsSubNavigation({
+        label: 'Sub navigation',
+        items: [
+            {
+                text: queries | length + ' queries',
+                href: 'queries'
+            },
+            {
+                text: 'View all census data',
+                href: '#',
+                active: true
+            }
+        ]
+    }) }}
+
+
+    </div>
+
+</div>
+
+<div class="govuk-grid-row">
+
+    <div class="govuk-grid-column-full">
+        
+        {% set summaryHTML  %}
+            {% include './census/census-summary.html' %}
+        {% endset -%}
+
+        {% set schoolHTML  %}
+            {% include './census/school.html' %}
+        {% endset -%}
+
+        {% set pupilsHTML  %}
+            {% include './census/pupils.html' %}
+        {% endset -%}
+
+
+        {{ govukTabs({
+            items: [
+                {
+                    label: 'Summary',
+                    id: 'summary',
+                    panel: {
+                        html: summaryHTML
+                    }
+                },
+                {
+                    label: 'School details',
+                    id: 'school',
+                    panel: {
+                        html: schoolHTML
+                    }
+                },
+                {
+                    label: 'Pupil details',
+                    id: 'pupil',
+                    panel: {
+                        html: pupilsHTML
+                    }
+                }
+            ]
+        }) }}
+    </div>
+
+</div>
+
+{% endblock %}
+
+{% block pageScripts %}
+
+<script>
+
+    var table = document.getElementById('pupilsTable')
+    new SortableTable(table)
+
+</script>
+
+{% endblock %}

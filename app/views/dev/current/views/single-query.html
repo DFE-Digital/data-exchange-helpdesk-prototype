@@ -96,9 +96,6 @@
         <caption class="govuk-table__caption">Pupil{{ 's' if isMultiple }} relating to query {{ query.number }}</caption>
         <thead class="govuk-table__head">
             <tr class="govuk-table__row">
-                {% if isMultiple %}
-                <th class="govuk-table__header table-checkbox-cell" scope="row"><input type="checkbox" id="select{{ loop.index }}"><label for="select{{ loop.index }}"></label></th>
-                {% endif %}
                 <th class="govuk-table__header" scope="col" aria-sort="ascending">UPN</th>
                 <th class="govuk-table__header" scope="col" aria-sort="none">Name</th>
                 <th class="govuk-table__header" scope="col" aria-sort="none">Date of birth</th>
@@ -107,11 +104,8 @@
         <tbody class="govuk-table__body">
             {% for pupil in query.pupils | sort(false, true, 'UPN') %}
             <tr class="govuk-table__row">
-                {% if isMultiple %}
-                <th class="govuk-table__header table-checkbox-cell" scope="row"><input type="checkbox" id="select{{ loop.index - 1 }}"><label for="select{{ loop.index - 1 }}"></label></th>
-                {% endif %}
                 <th class="govuk-table__header" scope="row">
-                    <a href="#" class="open-dialog" data-pupil="{{ loop.index - 1 }}"><span class="upn">{{ pupil.UPN }}</span></a>
+                    {{ pupil.UPN }}
                 </th>
                 <td class="govuk-table__cell">
                     {% set name = '<span class="last-name">' + pupil.surname + '</span>, <span class="first-name">' + pupil.firstname + '</span>' %}

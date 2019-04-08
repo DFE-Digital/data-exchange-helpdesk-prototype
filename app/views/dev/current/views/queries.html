@@ -41,7 +41,20 @@
 
     <div class="govuk-grid-column-full census-case-nav govuk-!-padding-bottom-5">
 
-    <h2 class="govuk-heading-l">{{ queries | length }} queries</h2>
+    {{ hmctsSubNavigation({
+        label: 'Sub navigation',
+        items: [
+            {
+                text: queries | length + ' queries',
+                href: '#',
+                active: true
+            },
+            {
+                text: 'View all census data',
+                href: 'census-data'
+            }
+        ]
+    }) }}
 
     </div>
 
