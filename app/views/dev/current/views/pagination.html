@@ -1,0 +1,242 @@
+{% extends 'layout_la.html' %}
+
+{% block pageTitle %}
+    Pagination rules
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+
+    <div class="govuk-grid-column-two-thirds">
+
+    <h1 class="govuk-heading-xl">Pagination rules</h1>
+
+    <h2 class="govuk-heading-l">If there is one page</h2>
+
+    <p>Do not show pagination, it may be helpful to still show a count.</p>
+
+    <h2 class="govuk-heading-l">If there are fewer than 5 pages</h2>
+
+    <p>Show all numbers with no separator dots.</p>
+
+    {{hmctsPagination({
+    results: {
+        from: 1,
+        to: 50,
+        count: 250
+    },
+    next: {
+        text: 'Next',
+        href: '#'
+    },
+    items: [{
+        text: '1',
+        href: '#',
+        selected: true
+    }, {
+        text: '2',
+        href: '#'
+    }, {
+        text: '3',
+        href: '#'
+    }, {
+        text: '4',
+        href: '#'
+    }, {
+        text: '5',
+        href: '#'
+    }]
+    })}} 
+
+    <div class="govuk-!-padding-bottom-5"></div>
+
+    {{hmctsPagination({
+    results: {
+        from: 101,
+        to: 150,
+        count: 250
+    },
+
+    previous: {
+        text: 'Previous',
+        href: '#'
+    },
+    next: {
+        text: 'Next',
+        href: '#'
+    },
+    items: [{
+        text: '1',
+        href: '#'
+    }, {
+        text: '2',
+        href: '#'
+    }, {
+        text: '3',
+        href: '#',
+        selected: true
+    }, {
+        text: '4',
+        href: '#'
+    }, {
+        text: '5',
+        href: '#'
+    }]
+    })}}
+
+    <div class="govuk-!-padding-bottom-5"></div>
+
+    {{hmctsPagination({
+    results: {
+        from: 201,
+        to: 250,
+        count: 250
+    },
+
+    previous: {
+        text: 'Previous',
+        href: '#'
+    },
+    items: [{
+        text: '1',
+        href: '#'
+    }, {
+        text: '2',
+        href: '#'
+    }, {
+        text: '3',
+        href: '#'
+    }, {
+        text: '4',
+        href: '#'
+    }, {
+        text: '5',
+        href: '#',
+        selected: true
+    }]
+    })}}
+
+    <div class="govuk-!-padding-bottom-5"></div>
+
+    <h2 class="govuk-heading-l">If there are more than 5 pages</h2>
+
+    <ul class="govuk-list govuk-list--bullet">
+        <li>Always show the first page number</li>
+        <li>Always show the last page number</li>
+        <li>Always show the current page number</li>
+        <li>Show the previous page number if applicable</li>
+        <li>Show the next page number if applicable</li>
+        <li>Always show at least five pages, show multiple next or previous pages if needed (see the first and last example)</li>
+        <li>Only show dots between numbers if they are non-successive</li>
+    </ul>
+
+    {{hmctsPagination({
+    results: {
+        from: 1,
+        to: 50,
+        count: 500
+    },
+    next: {
+        text: 'Next',
+        href: '#'
+    },
+    items: [{
+        text: '1',
+        href: '#',
+        selected: true
+    }, {
+        text: '2',
+        href: '#'
+    }, {
+        text: '3',
+        href: '#'
+    }, {
+        text: '4',
+        href: '#'
+    }, {
+        type: 'dots'
+    }, {
+        text: '10',
+        href: '#'
+    }]
+    })}} 
+
+    <div class="govuk-!-padding-bottom-5"></div>
+
+    {{hmctsPagination({
+    results: {
+        from: 351,
+        to: 400,
+        count: 500
+    },
+    previous: {
+        text: 'Previous',
+        href: '#'
+    },
+    next: {
+        text: 'Next',
+        href: '#'
+    },
+    items: [{
+        text: '1',
+        href: '#'
+    }, {
+        type: 'dots'
+    }, {
+        text: '6',
+        href: '#'
+    }, {
+        text: '7',
+        href: '#',
+        selected: true
+    }, {
+        text: '8',
+        href: '#'
+    }, {
+        type: 'dots'
+    }, {
+        text: '10',
+        href: '#'
+    }]
+    })}} 
+
+    <div class="govuk-!-padding-bottom-5"></div>
+
+    {{hmctsPagination({
+    results: {
+        from: 451,
+        to: 500,
+        count: 500
+    },
+    previous: {
+        text: 'Previous',
+        href: '#'
+    },
+    items: [{
+        text: '1',
+        href: '#'
+    }, {
+        type: 'dots'
+    }, {
+        text: '7',
+        href: '#'
+    }, {
+        text: '8',
+        href: '#'
+    }, {
+        text: '9',
+        href: '#'
+    }, {
+        text: '10',
+        href: '#',
+        selected: true
+    }]
+    })}} 
+
+    <div class="govuk-!-padding-bottom-5"></div>
+
+    </div>
+
+</div>
+{% endblock %}
