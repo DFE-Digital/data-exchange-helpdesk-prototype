@@ -4,11 +4,11 @@
     Queries
 {% endblock %}
 
-{% set schoolIndex = 0 %}
-{% set school = data['schools'][schoolIndex] %}
-{% set schoolName = school['name'] %}
-{% set laestab = school['LAESTAB'] %}
-{% set queries = school['queries'] %}
+{% set school = data.misSchool %}
+{% set schoolName = school.name %}
+{% set laestab = school.LAESTAB %}
+{% set queries = school.queries %}
+{% set errors = school.errors %}
 
 {% set handledCount = 0 %}
 {% for query in queries %}
@@ -20,9 +20,10 @@
 {% set pendingCount = (queries | length) - handledCount %}
 
 {% block postHeader %}
-{% if queries | length == 0 %}
+
+{% if errors | length != 0 and data.errorsHandled != 'true' %}
     <script>
-        window.location.href = '/select-school'
+        window.location.href = 'errors'
     </script>
 {% endif %}
 <div class="hmcts-identity-bar">
@@ -224,7 +225,7 @@
                             {% endif %}
                             
                             <br>
-                            <a href="/handle-query?selected-query={{query.id}}&response=approved" class="govuk-button govuk-button-red govuk-button-small approveButton">{{ 'Flag all as incorrect' if consolidatedQuery else 'Flag as incorrect' }}</a><br>
+                            <a href="/handle-query?selected-query={{query.id}}&response=approved" class="govuk-button govuk-button-red govuk-button-small approveButton">{{ 'These are all incorrect' if consolidatedQuery else 'This is incorrect' }}</a><br>
                             {% if query['type'] == 'pupil' and query['pupils'] | length != 0 %}
                             <a href="single-query" data-name="selected-query" data-value="{{ query.id }}" class="govuk-button govuk-button-blue govuk-button-small">
                                 View details

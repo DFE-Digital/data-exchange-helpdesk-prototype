@@ -1,0 +1,228 @@
+{% extends 'layout_la.html' %}
+
+{% block pageTitle %}
+    Errors
+{% endblock %}
+
+{% set school = data.misSchool %}
+{% set schoolName = school.name %}
+{% set laestab = school.LAESTAB %}
+{% set queries = school.queries %}
+{% set errors = school.errors %}
+
+{% set handledCount = 0 %}
+{% for query in queries %}
+    {% if query['handled'] == 'true' %}
+        {% set handledCount = handledCount + 1 %}
+    {% endif %}
+{% endfor %}
+
+{% set pendingCount = (queries | length) - handledCount %}
+
+{% block postHeader %}
+<div class="hmcts-identity-bar">
+  <div class="hmcts-identity-bar__container">
+    <div class="hmcts-identity-bar__details">
+        <span class="hmcts-identity-bar__title"><b>{{ schoolName }}</b> {{ laestab }} <strong class="govuk-!-padding-right-4"></strong></span>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block content %}
+
+{% if data.errorsHandled != 'true' %}
+
+<div class="govuk-grid-row govuk-body govuk-!-margin-bottom-7">
+    <div class="govuk-grid-column-one-half">
+        
+        <h2 class="govuk-heading-xl">
+            There are errors in your data
+        </h2>
+
+        <p>
+            We can only accept your data submission when your data is complete. The errors in your data are listed on this page.
+        </p>
+
+        <p>
+            Please amend the data items in your MIS and re-submit this collection.
+        </p>
+
+    </div>
+</div>
+
+{% else %}
+
+<div class="govuk-grid-row govuk-body govuk-!-margin-bottom-7">
+
+
+
+    <div class="govuk-grid-column-full census-case-nav govuk-!-padding-bottom-5">
+
+        {% set actionedQueries = {
+            text: handledCount + ' actioned queries' if handledCount != 1 else '1 actioned query',
+            href: 'handled'
+        } %}
+
+        {{ hmctsSubNavigation({
+            label: 'Sub navigation',
+            items: [
+                {
+                    text: pendingCount + ' queries' if pendingCount != 1 else '1 query',
+                    href: 'overview'
+                }, actionedQueries if not external,
+                {
+                    text: school.noOfErrors + ' errors' if school.noOfErrors != 1 else '1 error',
+                    href: 'errors',
+                    active: true
+                },
+                {
+                    text: 'Preserved notes',
+                    href: 'return-notes'
+                },
+                {
+                    text: 'View all census data',
+                    href: 'census-data'
+                }
+            ]
+        }) }}  
+
+    </div>
+
+</div>
+
+<div class="govuk-grid-row">
+
+    <div class="govuk-grid-column-one-half">
+        {% set findHTML %}
+        <div class="govuk-!-padding-bottom-5">
+            {{ hmctsSearch({
+                input: {
+                    id: 'search-error',
+                    name: 'search-error'
+                },
+                label: {
+                    text: 'Find an error',
+                    classes: 'govuk-visually-hidden'
+                },
+                hint: {
+                    text: 'Search by error number or keyword(s)'
+                },
+                button: {
+                    text: 'Find'
+                }
+            }) }}
+        </div>
+        {% endset -%}
+
+        
+        {{ govukDetails({
+            summaryText: "Find an error",
+            html: findHTML
+        }) }}
+
+        <br>
+
+    </div>
+
+</div>
+
+{% endif %}
+
+<div class="govuk-grid-row">
+
+    <div class="govuk-grid-column-full">
+
+        <table id="errorTable" class="govuk-table internal-table query-table">
+            
+            <caption class="govuk-table__caption">Queries</caption>
+            
+            
+            <thead class="govuk-table__head">
+                <tr class="govuk-table__row">
+                
+                <th class="govuk-table__header" scope="col"  aria-sort="ascending"><span class="no-wrap">Error</span></th>
+
+                <th class="govuk-table__header" scope="col"  aria-sort="none"><span class="no-wrap">Type</span></th>                
+                <th class="govuk-table__header" scope="col"  aria-sort="none"><span class="no-wrap">Records affected</span></th>                
+                <th class="govuk-table__header" scope="col"><span class="no-wrap">Description</span></th>
+                
+                </tr>
+            </thead>
+            
+            <tbody class="govuk-table__body">
+
+                {% for error in errors | sort(false, true, 'number') %}
+                    {% set consolidatedError = false %}
+                    <tr class="govuk-table__row">
+                        <th class="govuk-table__header query-description" scope="row" data-sort-value="{{ error.number }}">
+                            <h3 class="govuk-heading-m" style="margin-bottom: 5px;">
+                                {{ error.number }}
+                                <span class="govuk-visually-hidden">{{ error.description }}</span>
+                            </h3>
+                        </th>
+
+                        <td class="govuk-table__cell">
+                            <span class="type-tag {{ error.type }}">{{ error.type | sentenceCase }}</span>
+                        </td>
+
+                        <td class="govuk-table__cell" data-sort-value="{{ error.pupils | length if error.pupils else 0 }}">
+                            {{ error.pupils | length if error.pupils }}
+                        </td>
+
+                        <td class="govuk-table__cell">
+                            {{ error.description }}
+                        </td>
+
+                    </tr>
+
+                {% endfor -%}
+                
+            </tbody>
+        </table>
+
+    </div>
+
+</div>
+
+{% if data.errorsHandled != 'true' %}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-one-half">
+        
+        <p>
+            If, in exceptional circumstances, you cannot resolve any of the errors you must <a href="error-note">give us an explanation</a>.
+        </p>
+
+    </div>
+</div>
+
+{% endif %}
+
+
+{% endblock %}
+
+{% block pageScripts %}
+
+<script>
+
+    var table = document.getElementById('errorTable')
+    new SortableTable(table)
+
+    $('#search-error').on('input', function() {
+        var value = $(this).val();
+        $('.query-description').each(function() {
+            var queryDesc = $(this).html();
+            if (!queryDesc.toLowerCase().includes(value.toLowerCase())) {
+                $(this).closest('tr').hide();
+            } else {
+                $(this).closest('tr').show();
+            }
+        })
+    })
+
+    window.GOVUKFrontend.initAll()
+
+</script>
+
+{% endblock %}
