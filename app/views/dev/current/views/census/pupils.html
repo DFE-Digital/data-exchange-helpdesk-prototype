@@ -42,18 +42,23 @@
     <tbody class="govuk-table__body">
         {% for pupil in data.misSchool.pupils | sort(false, true, 'surname') %}
         <tr class="govuk-table__row">
-            <td class="govuk-table__cell">
-                {{ pupil.surname }}
+        {% set surname = [pupil.surname,pupil.surname,pupil.surname,pupil.surname,pupil.surname,pupil.surname,pupil.surname,pupil.surname,pupil.surname,pupil.surname,pupil.surname, '-'] | random %}
+            <td class="govuk-table__cell" data-sort-value="{{ surname if surname != '-' }}">
+                {{ surname }}
             </td>
-            <td class="govuk-table__cell">
-                {{ pupil.firstname }}
+
+            {% set firstname = [pupil.firstname,pupil.firstname,pupil.firstname,pupil.firstname,pupil.firstname,pupil.firstname,pupil.firstname,pupil.firstname,pupil.firstname,pupil.firstname,pupil.firstname, '-'] | random %}
+            <td class="govuk-table__cell" data-sort-value="{{ firstname if firstname != '-' }}">
+                {{ firstname }}
             </td>
-            <th class="govuk-table__header" scope="row">
-                {{ pupil.UPN }}
+            {% set UPN = [pupil.UPN,pupil.UPN,pupil.UPN,pupil.UPN,pupil.UPN,pupil.UPN,pupil.UPN,pupil.UPN,pupil.UPN,pupil.UPN,pupil.UPN, '-'] | random %}
+            <th class="govuk-table__header" scope="row" data-sort-value="{{ UPN if UPN != '-' }}">
+                {{ UPN }}
             </th>
-            <td class="govuk-table__cell"><span class="dob">{{pupil.dob}}</span></td>
+            {% set dob = [pupil.dob,pupil.dob,pupil.dob,pupil.dob,pupil.dob,pupil.dob,pupil.dob,pupil.dob,pupil.dob,pupil.dob,pupil.dob, '-'] | random %}
+            <td class="govuk-table__cell" data-sort-value="{{ dob if dob != '-' }}"><span class="dob">{{dob}}</span></td>
             <td class="govuk-table__cell">
-                {{ ['On roll', 'On roll', 'On roll', 'On roll', 'On roll', 'On roll', 'On roll', 'Off roll'] | random }}
+                {{ ['On roll', 'On roll', 'On roll', 'On roll', 'On roll', 'On roll', 'On roll', 'Off roll', '-'] | random }}
             </td>
         </tr>
         {% endfor -%}
