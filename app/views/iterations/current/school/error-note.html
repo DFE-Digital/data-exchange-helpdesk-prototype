@@ -107,14 +107,14 @@
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-one-half">
 
-        <form action="overview.html">
+        <form action="queries.html">
         
             {{ govukTextarea({
                 id: 'error-note',
                 name: 'error-note',
                 value: data['error-note'] if data['error-note'] else '',
                 attributes: {
-                    placeholder: 'For example: \nError 2500: Pupil was a boarder in the previous term... \nError 1570: The ULN service was unavailable...'
+                    placeholder: 'For example: \nError 2500: Explanation one... \nError 1570: Explanation two...'
                 },
                 label: {
                     text: 'Give an explanation for any outstanding errors'
