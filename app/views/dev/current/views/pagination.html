@@ -10,6 +10,11 @@
 
     <div class="govuk-grid-column-two-thirds">
 
+    {{ govukBackLink({
+        text: 'Back',
+        href: 'javascript:history.back()'
+    }) }}
+
     <h1 class="govuk-heading-xl">Pagination rules</h1>
 
     <h2 class="govuk-heading-l">If there is one page</h2>

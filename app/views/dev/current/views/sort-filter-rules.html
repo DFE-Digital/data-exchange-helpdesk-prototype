@@ -1,0 +1,44 @@
+{% extends 'layout_la.html' %}
+
+{% block pageTitle %}
+    Pagination rules
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+
+    <div class="govuk-grid-column-two-thirds">
+
+    {{ govukBackLink({
+        text: 'Back',
+        href: 'javascript:history.back()'
+    }) }}
+
+    <h1 class="govuk-heading-xl">Sorting and filtering rules</h1>
+
+    <h2 class="govuk-heading-l">In general</h2>
+
+    <p>The sorting, filters and pagination choices are saved in memory. When a user navigates back to a list the same rules shall be applied.</p>
+
+    <p>If the user has taken an action whilst outside of the list that decrements the number of results, leading to the selected page no longer existing, then the user should be redirected to the highest remaining page in the pagination set.</p>
+
+    <p>For example; As a user; I navigate to the page 5 of 5 and select the only school on that page. I process the return and send the responses.</p>
+
+    <ol class="govuk-list govuk-list--number">
+        <li>I go to my queue and filter the list to only show schools with query number 2500, producing 251 results</li>
+        <li>I navigate to the page 5 of 5 and select the only school on that page, school number 251 in those results</li>
+        <li>I process the return and send the responses</li>
+        <li>I return to the filters list, now showing 250 results, I am now looking at results page 4 of 4</li>
+    </ol>
+
+    <h2 class="govuk-heading-l">When a user sorts a table</h2>
+
+    <p>The sorting function is ran on the server, the page is re-rendered with the new sort criteria. The pagination is reset and reverts to the first page</p>
+
+    <h2 class="govuk-heading-l">When a user applies a filter</h2>
+
+    <p>The page is re-rendered with the filtered data, the pagination is reset and reverts to the first page.</p>
+
+</div>
+{% endblock %}
