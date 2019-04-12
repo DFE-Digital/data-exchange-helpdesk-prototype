@@ -4,6 +4,7 @@ $font: 'Inter', sans-serif;
 
 html {
 	font-family: $font;
+	line-height: 1.2;
 }
 @supports (font-variation-settings: normal) {
 	html {
@@ -174,6 +175,7 @@ header {
 			padding: 5px 10px;
 			background: black;
 			border-radius: 3px;
+			white-space: nowrap;
 			span.indicator {
 				display: block;
 				background-color: #ffcc00;
