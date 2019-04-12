@@ -20,43 +20,19 @@
 
                 <p>On completion of the trial we will contact you to confirm your data has been deleted. </p>
 
-                {{ govukRadios({
-                    idPrefix: 'authorise',
-                    name: 'authorise',
-                    fieldset: {
-                        legend: {
-                            text: 'Do you want to use Acme MIS to send us your school census data?',
-                            isPageHeading: true,
-                            classes: 'govuk-visually-hidden'
-                        }
-                            },
-                            items: [
-                        {
-                            text: 'Yes, I want to use Acme MIS',
-                            value: 'yes'
-                        },
-                        {
-                            text: 'Not now',
-                            value: 'no'
-                        }
-                    ]
+                {{ govukButton({
+                    text: 'Use Acme MIS to send your school census',
+                    href: 'confirmation'
                 }) }}
 
-                {{ govukButton({
-                    html: 'Save and continue'
-                }) }}
+                <p>
+                    <a href="not-authorised">I do not want to authorise Acme MIS to send my school census</a>
+                </p>
 
             </form>
 
         </div>
 
 </div>
-
-<script>
-var nextPageRoutes = {
-    yes: 'confirmation',
-    no: 'not-authorised'
-}
-</script>
 
 {% endblock %}
