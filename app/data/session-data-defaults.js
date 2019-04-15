@@ -39,6 +39,11 @@ misSchool.errors = generate.errors(misSchool.noOfErrors)
 
 misSchool.pupils = generate.pupils(50)
 
+misSchool.pupils.map(pupil => {
+	pupil.absences = generate.randomNumber(3, 23)
+	return pupil
+})
+
 const laSchools = new Array(174).fill(null).map((_, i) => {
 	var school = generate.school(
 		generate.schoolName(),

@@ -1,0 +1,86 @@
+{% extends 'layout_mis.html' %}
+
+{% block pageTitle %}
+    Spring census submission
+{% endblock %}
+
+{% block content %}
+
+<div class="row">
+    <div class="width-container">
+        <div class="col-one-half">
+            <h1>Absence insight report</h1>
+            <table class="govuk-table">
+                <thead class="govuk-table__head">
+                    <tr class="govuk-table__row">
+                    <th class="govuk-table__header" scope="col">&nbsp;</th>
+                    <th class="govuk-table__header govuk-table__header--numeric" scope="col">Overall absence rate</th>
+                    <th class="govuk-table__header govuk-table__header--numeric" scope="col">Authorised absence rate</th>
+                    <th class="govuk-table__header govuk-table__header--numeric" scope="col">Unauthorised absence rate</th>
+                    <th class="govuk-table__header govuk-table__header--numeric" scope="col">Persistent absence rate</th>
+                    </tr>
+                </thead>
+                <tbody class="govuk-table__body">
+                    <tr class="govuk-table__row">
+                    <th class="govuk-table__header" scope="row">School % this term</th>
+                    <td class="govuk-table__cell govuk-table__cell--numeric">8.5%</td>
+                    <td class="govuk-table__cell govuk-table__cell--numeric">7.3%</td>
+                    <td class="govuk-table__cell govuk-table__cell--numeric">1.2%</td>
+                    <td class="govuk-table__cell govuk-table__cell--numeric">2.0%</td>
+                    </tr>
+                    <tr class="govuk-table__row">
+                    <th class="govuk-table__header" scope="row">National average % this term</th>
+                    <td class="govuk-table__cell govuk-table__cell--numeric">9.0%</td>
+                    <td class="govuk-table__cell govuk-table__cell--numeric">8.0%</td>
+                    <td class="govuk-table__cell govuk-table__cell--numeric">1.0%</td>
+                    <td class="govuk-table__cell govuk-table__cell--numeric">3.0%</td>
+                    </tr>
+                    <tr class="govuk-table__row">
+                    <th class="govuk-table__header" scope="row">School % last year</th>
+                    <td class="govuk-table__cell govuk-table__cell--numeric">10.1%</td>
+                    <td class="govuk-table__cell govuk-table__cell--numeric">7.1%</td>
+                    <td class="govuk-table__cell govuk-table__cell--numeric">3.0%</td>
+                    <td class="govuk-table__cell govuk-table__cell--numeric">2.1%</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-one-third">
+            
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="width-container">
+        <div class="col-two-thirds">
+            <h1>Absentees this term</h1>
+            <table>
+                <thead>
+                    <tr>
+                        <th scope="col">Last name</th>
+                        <th scope="col">First name</th>
+                        <th scope="col">UPN</th>
+                        <th scope="col">Absences this term</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for pupil in data.misSchool.pupils | sort(true, true, 'absences') %}
+                        <tr>
+                            <th>{{ pupil.surname }}</th>
+                            <td>{{ pupil.firstname }}</td>
+                            <td>{{ pupil.UPN }}</td>
+                            <td>{{ pupil.absences }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block pageScripts %}
+
+{% endblock %}
+

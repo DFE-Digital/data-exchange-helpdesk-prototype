@@ -169,7 +169,13 @@ generators.school = (name, laCode, type, noOfQueries) => {
 		name,
 		type,
 		noOfQueries,
-		noOfErrors: generators.randomNumber(0, 20),
+		noOfErrors: generators.randomItemFrom([
+			0,
+			0,
+			0,
+			0,
+			generators.randomNumber(0, 5)
+		]),
 		LAESTAB: laCode.toString() + '/' + generators.randomCode(4),
 		queries: []
 	}
@@ -185,7 +191,7 @@ generators.schools = amount => {
 			generators.schoolName(),
 			generators.randomCode(3),
 			generators.randomItemFrom(['academy', 'maintained', 'maintained']),
-			generators.randomNumber(8, 75)
+			generators.randomNumber(1, 25)
 		)
 		school.id = i
 		school.submittedDate = generators.randomDate(5, 1)
