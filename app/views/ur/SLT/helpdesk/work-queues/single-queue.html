@@ -1,0 +1,87 @@
+{% set external = data.isExternal == 'true' %}{% if external %}{% extends 'layout_la.html' %}{% else %}{% extends 'layout_internal.html' %}{% endif %}
+
+{% block pageTitle %}
+    Workloads
+{% endblock %}
+
+{% set collector = data.collectors | getById(data['selected-user']) %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+
+    <div class="govuk-grid-column-full">
+
+        {{ govukBackLink({
+            text: 'Back',
+            href: 'javascript:history.back()'
+        }) }}
+
+        <h2 class="govuk-heading-l">{{ collector.firstName }} {{ collector.lastName }}’s work queue</h2>
+
+        <table class="govuk-table internal-table collector-table">
+            
+            <caption class="govuk-table__caption">{{ collector.firstName }} {{ collector.lastName }}’s local authorities</caption>
+            
+            
+            <thead class="govuk-table__head">
+                <tr class="govuk-table__row">
+                
+                <th class="govuk-table__header" scope="col"><span class="no-wrap">Name</span></th>
+
+                <th class="govuk-table__header numeric" scope="col"><span class="no-wrap">Code</span></th>
+
+                <th class="govuk-table__header numeric" scope="col"><span class="no-wrap">Number of schools</span></th>
+                
+                <th class="govuk-table__header numeric" scope="col"><span class="no-wrap">Complete</span></th>
+                
+                <th class="govuk-table__header width-medium numeric" scope="col"><span class="no-wrap">Schools waiting</span></th>
+                
+                <th class="govuk-table__header" scope="col"><span class="no-wrap">Actions</span></th>
+                
+                </tr>
+            </thead>
+            
+            <tbody class="govuk-table__body">
+
+                {% for la in collector.las %}
+
+                <tr class="govuk-table__row">
+                        <th class="govuk-table__header" scope="row">
+                            <a href="la-list" data-name="selected-la" data-value="{{ la.code }}">{{ la.name }}</a>
+                        </th>
+                        <td class="govuk-table__cell numeric">
+                            {{ la.code }}
+                        </td>
+                        <td class="govuk-table__cell numeric">
+                            {{ la.schoolCount  }}
+                        </td>
+                        <td class="govuk-table__cell numeric">
+                            0%
+                        </td>
+                        <td class="govuk-table__cell numeric">
+                            {{ ([3,9,8,3,2,8,1,0,0] | random) | friendlyNumber }}
+                        </td>
+                        <td class="govuk-table__cell">
+                            <a href="move-queue" data-name="selected-user" data-value="{{ la.code }}" class="govuk-button govuk-button-blue govuk-button-small">
+                                Move
+                            </a>
+                            <button type="button" class="govuk-button govuk-button-red govuk-button-small">
+                                Unallocate
+                            </button>
+                        </td>
+                        
+                </tr>
+
+                {% endfor -%}
+                
+            </tbody>
+        </table>
+
+    </div>
+
+</div>
+
+
+
+{% endblock %}

@@ -1,0 +1,132 @@
+{% extends 'layout_mis.html' %}
+
+{% block pageTitle %}
+    Spring census submission
+{% endblock %}
+
+{% block content %}
+<div class="submission">
+    <div class="row">
+        <div class="width-container">
+            <div class="col-two-thirds">
+                <h1>Get your spring census data ready</h1>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="width-container" style="justify-content: space-between;">
+            <div class="col-one-half">
+                <h2>There are <span class="increment">{{ data.misSchool.errors | length }}</span> errors in your data</h2>
+                <p>You should fix these errors before you send your census to the Department for Education. The Department for Education do not normally accept census data with errors.</p>
+                <h2>There are <span class="increment">{{ data.misSchool.queries | length }}</span> queries about your data</h2>
+                <p>You should review these queries and consider if the data behind each one is correct. If you submit this census with queries you will need to give an explanation on the Department for Education website.</p>
+                <a href="sent" class="button">Send census to DfE</a>
+                <br><br>
+            </div>
+            <div class="col-one-third">
+                <div class="census-preview">
+                    <h2>Your census preview is ready</h2>
+                    <p>You can view the data that will be sent to the Department for Education.</p>
+                    <p>
+                        <a href="census-preview" class="button transparent">
+                        <svg xmlns="http://www.w3.org/2000/svg" id="Layer_1" data-name="Layer 1" viewBox="0 0 64 64"><title>Icons 200</title><path d="M16.0208,54.0208a6,6,0,0,1-6-6v-37c0-.5524.8955-1,2-1s2,.4476,2,1,.8955,1,2,1,2-.4478,2-1,.8954-1,2-1,2,.4476,2,1,.8954,1,2,1,2-.4478,2-1,.8954-1,2-1,2,.4476,2,1,.8954,1,2,1,2-.4478,2-1,.8953-1,2-1,2,.4476,2,1,.8953,1,2,1,2-.4478,2-1,.8953-1,2-1,2,.4476,2,1,.8953,1,2,1,2-.4478,2-1,.8953-1,2-1,2,.4476,2,1v37a6,6,0,0,1-6,6Zm1-22a1,1,0,0,0-1,1v12a1,1,0,0,0,1,1h10a1,1,0,0,0,1-1v-12a1,1,0,0,0-1-1Zm27-11a1,1,0,0,0-1-1h-22a1,1,0,0,0-1,1v2a1,1,0,0,0,1,1h22a1,1,0,0,0,1-1Zm3,11h-14a1,1,0,0,0,0,2h14a1,1,0,1,0,0-2Zm0,6h-14a1,1,0,0,0,0,2h14a1,1,0,1,0,0-2Zm0,6h-14a1,1,0,0,0,0,2h14a1,1,0,1,0,0-2Z" fill-rule="evenodd"></path></svg>
+                        View census preview
+                        </a>
+                    </p>
+                    
+                </div>
+            </div>              
+        </div>
+    </div>
+</div>
+
+<script>
+$('.increment').on('click', function () {
+    var original = parseInt($(this).text())
+    $(this).text(Math.floor(original/2))
+})
+</script>
+
+<div class="row">
+    <div class="width-container">
+        <div class="col-one-quarter">
+            <h1 style="font-weight: 900;">{{ data.misSchool.errors | length }} errors</h1>
+        </div>
+        <div class="col-three-quarters">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Error number</th>
+                        <th>Type</th>
+                        <th>Records affected</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th>2335</th>
+                        <td>Pupil</td>
+                        <td>
+                        <a href="#">47</a>
+                        </td>
+                        <td>
+                            Permanent exclusion appears for pupil still on roll
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>1930</th>
+                        <td>Pupil</td>
+                        <td>
+                        <a href="#">1</a>
+                        </td>
+                        <td>
+                            Pupil part-time indicator is missing or invalid
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="width-container">
+        <div class="col-one-quarter">
+            <h1 style="font-weight: 900;">{{ data.misSchool.queries | length }} queries</h1>
+        </div>
+        <div class="col-three-quarters">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Error number</th>
+                        <th>Type</th>
+                        <th>Records affected</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for query in data.misSchool.queries %}
+                    <tr>
+                        <th>{{ query.number }}</th>
+                        <td>{{ query.type | sentenceCase }}</td>
+                        <td>
+                        {% if query.pupils %}
+                            <a href="#">
+                                {{ query.pupils | length if query.pupils }}
+                            </a>
+                        {% endif %}
+                        </td>
+                        <td>{{ query.description }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block pageScripts %}
+
+{% endblock %}

@@ -1,0 +1,75 @@
+{% set external = data.isExternal == 'true' %}{% if external %}{% extends 'layout_la.html' %}{% else %}{% extends 'layout_internal.html' %}{% endif %}
+
+{% block pageTitle %}
+    Workloads
+{% endblock %}
+
+{% set collector = data.collectors | getById(data['selected-user']) %}
+{% set la = collector.las | getByCode(data['selected-la']) %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+
+    <div class="govuk-grid-column-full">
+
+        {{ govukBackLink({
+            text: 'Back',
+            href: 'javascript:history.back()'
+        }) }}
+
+        <h2 class="govuk-heading-l">{{ la.name }}’s schools</h2>
+
+        <table class="govuk-table internal-table collector-table">
+            
+            <caption class="govuk-table__caption">{{ la.name }}’s schools</caption>
+            
+            
+            <thead class="govuk-table__head">
+                <tr class="govuk-table__row">
+                
+                <th class="govuk-table__header" scope="col"><span class="no-wrap">Name</span></th>
+
+                <th class="govuk-table__header numeric" scope="col"><span class="no-wrap">LAESTAB</span></th>
+
+                <th class="govuk-table__header numeric" scope="col"><span class="no-wrap">Status</span></th>
+                
+                <th class="govuk-table__header" scope="col"><span class="no-wrap">Actions</span></th>
+                
+                </tr>
+            </thead>
+            
+            <tbody class="govuk-table__body">
+
+                {% for i in range(0, la.schoolCount) -%}
+
+                <tr class="govuk-table__row">
+                        <th class="govuk-table__header" scope="row">
+                            {{ '' | randomSchool }}
+                        </th>
+                        <td class="govuk-table__cell numeric">
+                            {{ la.code }}/{{ [1,2,3,4,5,6,7,8,9] | random }}{{ [1,2,3,4,5,6,7,8,9] | random }}{{ [1,2,3,4,5,6,7,8,9] | random }}{{ [1,2,3,4,5,6,7,8,9] | random }}
+                        </td>
+                        <td class="govuk-table__cell numeric">
+                            Not started
+                        </td>
+                        <td class="govuk-table__cell">
+                            <a href="single-queue" data-name="selected-user" data-value="{{ collector.id }}" class="govuk-button govuk-button-blue govuk-button-small">
+                                Chase up
+                            </a>
+                        </td>
+                        
+                </tr>
+
+                {% endfor -%}
+                
+            </tbody>
+        </table>
+
+    </div>
+
+</div>
+
+
+
+{% endblock %}

@@ -1,0 +1,54 @@
+{% extends "layout.html" %}
+
+{% block pageTitle %}
+  Start page
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      <h1 class="govuk-heading-xl">
+        DfE Sign-in
+      </h1>
+
+      <p class="govuk-body-l">DfE Sign-in is the new way to access your DfE online services and has now replaced Secure Access.</p>
+
+      {{ govukInsetText({
+          text: 'There are 3 parts to this census. You must complete each part before the submission deadline on <b>15 February 2019</b>.' | safe
+      }) }}
+
+      <h2 class="govuk-heading-m">Before you start</h2>
+
+      <p>You’ll need:</p>
+      <ul class="govuk-list govuk-list--bullet">
+        <li><strong>An existing DfE Sign-in account.</strong> This will be the email address and password you created when you first accessed DfE Sign-in.</li>
+      </ul>
+
+      <a href="login" role="button" class="govuk-button govuk-button--start govuk-!-margin-top-2 govuk-!-margin-bottom-8">Start now</a>
+
+      {{ govukDetails({
+        summaryText: "Services accessed using DfE Sign-in",
+        html: '<p>These DfE services are now accessed using your DfE Sign-in account.</p>
+        <ul class="govuk-list govuk-list--bullet">         
+                <li>Analyse school performance</li>
+                <li>Collect</li>
+                <li>Get Information About Schools</li>
+                <li>Information Exchange</li>
+                <li>Key to Success (LAs)</li>
+                <li>Key to Success (Schools)</li>
+                <li>Post 16 Portal</li>
+                <li>Publish teacher training courses</li>
+                <li>School to School</li>
+                <li>Teacher Services - Appropriate Body</li>
+                <li>Teacher Services - Employer Access - Agent</li>
+                <li>Teacher Services - Employer Access - Schools</li>
+                <li>Teacher Services - ITT Provider</li>
+                <li>Teaching Vacancies</li>
+              </ul>'
+      }) }}
+
+    </div>
+
+  </div>
+{% endblock %}

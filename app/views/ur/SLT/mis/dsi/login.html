@@ -1,0 +1,65 @@
+{% extends 'layout.html' %}
+
+{% block pageTitle %}
+    DfE Sign-in
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+
+        <div class="govuk-grid-column-two-thirds">
+
+            <form action="authorise">
+
+                <h1 class="govuk-heading-xl">DfE Sign-in</h1>
+
+                <p>DfE Sign-in is the new way to sign-in to access some specific education sector services.</p>
+
+                <h3 class="govuk-heading-m">Sign-in</h3>
+
+                {{ govukInput({
+                    id: 'username',
+                    name: 'username',
+                    value: data['email'] if data['email'] else 'admin@prototypeschool.sch.uk',
+                    classes: 'govuk-input--width-20',
+                    label: {
+                        text: 'Email address',
+                        classes: 'govuk-input--width-20'
+                    }
+                }) }}
+
+                {{ govukInput({
+                    id: 'password',
+                    name: 'password',
+                    value: data['password'] if data['password'] else 'Prototype1234',
+                    classes: 'govuk-input--width-20',
+                    type: 'password',
+                    label: {
+                        text: 'Password',
+                        classes: 'govuk-input--width-20'
+                    }
+                }) }}
+
+                
+                <p>
+                  <a href="#" class="govuk-body-s">I’ve forgotten my password</a>
+                </p>
+
+                {{ govukInsetText({
+                  html: 'By continuing you accept the <a href="#">terms and conditions</a>.'
+                }) }}
+
+                {{ govukButton({
+                    html: 'Sign in'
+                }) }}
+
+                <p><a href="#">Having problems?</a></p>
+
+            </form>
+
+        </div>
+
+</div>
+
+{% endblock %}

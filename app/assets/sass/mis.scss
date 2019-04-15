@@ -118,6 +118,11 @@ submit[type='button'] {
 	&.blue {
 		background-color: $col_blue;
 	}
+	&.transparent {
+		background-color: transparent;
+		color: $col_text;
+		border: 2px solid $col-text;
+	}
 }
 
 input[type='text'],
@@ -309,4 +314,10 @@ table {
 		padding: 10px;
 		border-bottom: 1px solid $col_text;
 	}
+}
+
+.census-preview {
+	padding: 15px;
+	background-color: #ffdd77;
+	border-radius: 5px;
 }
