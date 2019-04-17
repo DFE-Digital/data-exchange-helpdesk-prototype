@@ -46,7 +46,7 @@
             </table>
         </div>
         <div class="col-one-third">
-            
+
         </div>
     </div>
 </div>
@@ -64,7 +64,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for pupil in data.misSchool.pupils | sort(true, true, 'absences') %}
+                    {% for pupil in data.sltSchool.pupils | sort(true, true, 'absences') %}
                         <tr>
                             <th>{{ pupil.surname }}</th>
                             <td>{{ pupil.firstname }}</td>

@@ -4,7 +4,7 @@
     Queries
 {% endblock %}
 
-{% set school = data.misSchool %}
+{% set school = data.sltSchool %}
 {% set schoolName = school.name %}
 {% set laestab = school.LAESTAB %}
 {% set queries = school.queries %}
@@ -21,21 +21,16 @@
 
 {% block postHeader %}
 
-{% if errors | length != 0 and data.errorsHandled != 'true' %}
-    <script>
-        window.location.href = 'errors'
-    </script>
-{% endif %}
 <div class="hmcts-identity-bar">
   <div class="hmcts-identity-bar__container">
     <div class="hmcts-identity-bar__details">
-        <span class="hmcts-identity-bar__title"><b>{{ schoolName }}</b> {{ laestab }} <strong class="govuk-!-padding-right-4"></strong>{{ govukTag({text: school.type, classes: school.type}) }}</span>
+        <span class="hmcts-identity-bar__title"><b>{{ schoolName }}</b> {{ laestab }} <strong class="govuk-!-padding-right-4"></strong></span>
     </div>
     <div style="float:right;">
         {% if (school.responsesSent != 'true') and (pendingCount == 0) %}
             {{ govukButton({
-                text: 'Save and send this data',
-                href: '/send-responses',
+                text: 'Submit census',
+                href: 'send-census',
                 classes: 'hmcts-menu-item'
             }) }}
         {% endif %}
@@ -48,10 +43,10 @@
 
 <div class="govuk-grid-row">
 
-    <div class="govuk-grid-column-full census-case-nav govuk-!-padding-bottom-5">
+    <div class="govuk-grid-column-full census-case-nav">
 
     {% set actionedQueries = {
-        text: handledCount + ' actioned queries' if handledCount != 1 else '1 actioned query',
+        text: handledCount + ' explained queries' if handledCount != 1 else '1 explained query',
         href: 'handled'
     } %}
 
@@ -59,7 +54,7 @@
             label: 'Sub navigation',
             items: [
                 {
-                    text: pendingCount + ' queries' if pendingCount != 1 else '1 query',
+                    text: pendingCount + ' unexplained queries' if pendingCount != 1 else '1 unexplained query',
                     href: 'overview',
                     active: true
                 }, actionedQueries,
@@ -99,11 +94,11 @@
     <div class="govuk-grid-row">
 
         <div class="govuk-grid-column-one-half">
-            <h2 class="govuk-heading-l">All queries have a response</h1>
-            <p>You can <a href="handled">review the responses</a> before they are sent. Once the responses are sent, the Department for Education will approve or reject the explanations provided. You will be notified if any further action is needed.</p>
+            <h2 class="govuk-heading-l">All queries have an explanation</h1>
+            <p>You can <a href="handled">review the explanations</a> before they are sent. Once this census is sent, the Department for Education will approve or reject the explanations provided. You will be notified if any further action is needed.</p>
             {{ govukButton({
-                text: 'Save and send this data',
-                href: '/send-responses#',
+                text: 'Submit census',
+                href: 'send-census',
                 classes: ''
             }) }}
         </div>
@@ -162,11 +157,9 @@
                 
                 <th class="govuk-table__header" scope="col"  aria-sort="none"><span class="no-wrap">Query</span></th>
                 
-                <th class="govuk-table__header" scope="col"><span class="no-wrap">Response</span></th>
+                <th class="govuk-table__header width-medium" scope="col"><span class="no-wrap">Acceptable explanation guidelines</span></th>
                 
-                <th class="govuk-table__header width-medium" scope="col"><span class="no-wrap">Acceptance criteria</span></th>
-                
-                <th class="govuk-table__header numeric" scope="col"><span class="no-wrap">Actions</span></th>
+                <th class="govuk-table__header numeric" scope="col"><span class="no-wrap"></span></th>
                 
                 </tr>
             </thead>
@@ -201,36 +194,18 @@
                             <p>{{ query.description }}</p>
                         </th>
 
-                        <td class="govuk-table__cell notes">
-                            {% for note in query.notes %}
-                                {% if loop.index < query.notes | length - 2 %}
-                                <div class="note {{ note.type }}">
-                                    <span class="title">{{ 'Approved by ' if note.type == 'approval' }}{{ 'Rejected by ' if note.type == 'reply' }}{{ 'Note added by ' if note.type == 'school' }} {{ note.author }}<br>{{ note.date | formatDate }}</span>
-                                    {{ note.text }}
-                                </div>
-                                {% endif %}
-                            {% endfor -%}
+                        <td class="govuk-table__cell width-medium">
+                            {{ query.guide }}
                             <div class="query-index" style="display: none;">{{query.id}}</div>
                         </td>
 
-                        <td class="govuk-table__cell width-medium">
-                            {{ query.guide }}
-                        </td>
-
                         <td class="govuk-table__cell numeric">
-                            {% if query.confirmationIsAcceptable %}
-                            <a href="/handle-query?selected-query={{query.id}}&response=rejected" class="govuk-button govuk-button-small approveButton">{{ 'Confirm all as correct' if consolidatedQuery else 'Confirm as correct' }}</a>
-                            {% else %}
-                            <button type="button" class="govuk-button govuk-button-small open-dialog">{{ 'Give an explanation for all' if consolidatedQuery else 'Give an explanation' }}</button>
-                            {% endif %}
-                            
-                            <br>
-                            <a href="/handle-query?selected-query={{query.id}}&response=approved" class="govuk-button govuk-button-red govuk-button-small approveButton">{{ 'These are all incorrect' if consolidatedQuery else 'This is incorrect' }}</a><br>
                             {% if query['type'] == 'pupil' and query['pupils'] | length != 0 %}
                             <a href="single-query" data-name="selected-query" data-value="{{ query.id }}" class="govuk-button govuk-button-blue govuk-button-small">
                                 View details
                                 </a>
                             {% endif %}
+                            <button type="button" class="govuk-button govuk-button-small open-dialog">Give an explanation</button>
                         </td>
 
                     </tr>
@@ -261,6 +236,8 @@
         <input type="hidden" id="selectedQuery" name="selected-query">
         <input type="hidden" id="responseNote" name="response-note" value="">
         <input type="hidden" name="response" value="rejected">
+        <input type="hidden" name="selected-school" value="static">
+        <input type="hidden" name="school-path" value="sltSchool">
         {{ govukButton({
             html: 'Save explanation',
             classes: 'send'
@@ -304,15 +281,7 @@
     var myDialog = new Dialog(navDialogEl, dialogOverlay);
     myDialog.addEventListeners('.open-dialog', '.close-dialog');
 
-    $('.dialog input.govuk-radios__input').on('change', function() {
-        if ($(this).val() === 'custom') {
-            updateNote($('.dialog .govuk-textarea').val());
-            customNote = true;
-        } else {
-            updateNote($(this).val());
-            customNote = false;
-        }
-    })
+    var customNote = true;
 
     $('.dialog .govuk-textarea').on('change', function() {
         if (customNote) {

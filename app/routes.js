@@ -21,10 +21,15 @@ router.all('*', (req, _, next) => {
 // Generic 'next page' rule
 router.all('/handle-query', (req, res) => {
 	const schoolIndex = req.session.data['selected-school']
+	var school = 'schools[' + schoolIndex + ']'
+	if (schoolIndex == 'static') {
+		school = req.session.data['school-path']
+	}
 	const queryIndex = req.session.data['selected-query']
 	const response = req.body.response || req.session.data.response
 	const responseNote = req.session.data['response-note']
-	const path = 'schools[' + schoolIndex + ']' + '.queries[' + queryIndex + ']'
+	const path = school + '.queries[' + queryIndex + ']'
+	console.log(path)
 	set(req.session.data, path + 'handled', 'true')
 	if (response === 'approved') {
 		set(req.session.data, path + 'approved', 'true')
@@ -38,8 +43,12 @@ router.all('/handle-query', (req, res) => {
 
 router.all('/delete-response', (req, res) => {
 	const schoolIndex = req.session.data['selected-school']
+	var school = 'schools[' + schoolIndex + ']'
+	if (schoolIndex == 'static') {
+		school = req.session.data['school-path']
+	}
 	const queryIndex = req.session.data['selected-query']
-	const path = 'schools[' + schoolIndex + ']' + '.queries[' + queryIndex + ']'
+	const path = school + '.queries[' + queryIndex + ']'
 	set(req.session.data, path + 'handled', 'false')
 	set(req.session.data, path + 'approved', '')
 	set(req.session.data, path + 'auto', 'false')

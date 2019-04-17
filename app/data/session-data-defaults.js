@@ -44,6 +44,21 @@ misSchool.pupils.map(pupil => {
 	return pupil
 })
 
+var sltSchool = generate.school(generate.schoolName(), '420', 'maintained', 4)
+
+sltSchool.queries = generate.queries(sltSchool.noOfQueries)
+
+sltSchool.noOfErrors = 0
+
+sltSchool.errors = [generate.errors(sltSchool.noOfErrors)]
+
+sltSchool.pupils = generate.pupils(50)
+
+sltSchool.pupils.map(pupil => {
+	pupil.absences = generate.randomNumber(3, 23)
+	return pupil
+})
+
 const laSchools = new Array(174).fill(null).map((_, i) => {
 	var school = generate.school(
 		generate.schoolName(),
@@ -77,6 +92,8 @@ module.exports = {
 	schools: generate.schools(35),
 
 	misSchool,
+
+	sltSchool,
 
 	laSchools
 }

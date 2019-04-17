@@ -21,6 +21,10 @@ $govuk-global-styles: true;
 
 @import 'custom/internal';
 
+html {
+	background-color: #dee0e2;
+}
+
 .block {
 	display: block;
 }

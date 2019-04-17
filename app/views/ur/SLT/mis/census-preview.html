@@ -39,7 +39,7 @@ $('.increment').on('click', function () {
 <div class="row">
     <div class="width-container">
         <div class="col-one-quarter">
-            <h1 style="font-weight: 900;">{{ data.misSchool.errors | length }} errors</h1>
+            <h1 style="font-weight: 900;">{{ data.sltSchool.errors | length }} errors</h1>
         </div>
         <div class="col-three-quarters">
             <table>
@@ -80,7 +80,7 @@ $('.increment').on('click', function () {
 <div class="row">
     <div class="width-container">
         <div class="col-one-quarter">
-            <h1 style="font-weight: 900;">{{ data.misSchool.queries | length }} queries</h1>
+            <h1 style="font-weight: 900;">{{ data.sltSchool.queries | length }} queries</h1>
         </div>
         <div class="col-three-quarters">
             <table>
@@ -93,7 +93,7 @@ $('.increment').on('click', function () {
                     </tr>
                 </thead>
                 <tbody>
-                    {% for query in data.misSchool.queries %}
+                    {% for query in data.sltSchool.queries %}
                     <tr>
                         <th>{{ query.number }}</th>
                         <td>{{ query.type | sentenceCase }}</td>
