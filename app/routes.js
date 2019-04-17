@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const set = require('lodash.set')
+const get = require('lodash.set')
 const generate = require('./data/generators')
 
 // Generic 'next page' rule
@@ -29,7 +30,6 @@ router.all('/handle-query', (req, res) => {
 	const response = req.body.response || req.session.data.response
 	const responseNote = req.session.data['response-note']
 	const path = school + '.queries[' + queryIndex + ']'
-	console.log(path)
 	set(req.session.data, path + 'handled', 'true')
 	if (response === 'approved') {
 		set(req.session.data, path + 'approved', 'true')
@@ -58,6 +58,24 @@ router.all('/delete-response', (req, res) => {
 		const schoolPath = 'schools[' + schoolIndex + '].responsesSent'
 		set(req.session.data, schoolPath, 'false')
 	}
+	res.redirect(req.headers.referer)
+})
+
+router.all('/add-school-explanation', (req, res) => {
+	const school = req.session.data['school-path']
+	const queryIndex = req.session.data['selected-query']
+	const responseNote = req.session.data['response-note']
+	const path = school + '.queries[' + queryIndex + '].notes'
+	const existingNotes = get(req.session.data, path)
+	const note = {
+		type: 'school',
+		author: generate.randomName(),
+		text: responseNote,
+		date: new Date().getTime()
+	}
+	const newNotes = existingNotes.push(note)
+	set(req.session.data, path, newNotes)
+	set(req.session.data, path + 'explainedOn', new Date().getTime())
 	res.redirect(req.headers.referer)
 })
 
@@ -160,6 +178,25 @@ router.all('/select-school', (req, res) => {
 router.all('/send-responses', (req, res) => {
 	const selectedSchoolIndex = req.session.data['selected-school']
 	const path = 'schools[' + selectedSchoolIndex + ']'
+	const queries = req.session.data.schools[selectedSchoolIndex].queries
+	var acceptedCount = 0
+	queries.forEach(query => {
+		if (query.approved == 'true') {
+			acceptedCount++
+		}
+	})
+	set(req.session.data, path + '.responsesSent', 'true')
+	set(req.session.data, path + '.approvedCount', acceptedCount)
+	set(req.session.data, path + '.respondedOn', new Date().getTime())
+	res.redirect(
+		req.headers.referer.substr(0, req.headers.referer.lastIndexOf('/') + 1) +
+			'return-sent'
+	)
+})
+
+router.all('/school-send', (req, res) => {
+	const school = req.session.data['school-path']
+	const path = school
 	const queries = req.session.data.schools[selectedSchoolIndex].queries
 	var acceptedCount = 0
 	queries.forEach(query => {

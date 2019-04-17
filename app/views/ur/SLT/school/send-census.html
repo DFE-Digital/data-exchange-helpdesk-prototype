@@ -45,13 +45,58 @@
     <div class="govuk-grid-row">
 
         <div class="govuk-grid-column-one-half">
-            <h2 class="govuk-heading-l">Submit school census?</h1>
-            <p>You can <a href="handled">review the responses</a> and change the responses if there has been an error.</p>
+            <h2 class="govuk-heading-l">Submit school census</h1>
+
+            <form action="/school-send">
+
+            {% set returnNoteEntry %}
+
+                {{ govukTextarea({
+                    id: 'return-note',
+                    name: 'return-note',
+                    value: data['return-note'] if data['return-note'] else '',
+                    label: {
+                        text: 'Additional information'
+                    }
+                }) }}
+
+            {% endset %}
+
+
+            {{ govukRadios({
+                idPrefix: 'add-return-note',
+                name: 'add-return-note',
+                fieldset: {
+                    legend: {
+                        text: 'Do you want to add any additional information to this census submission?',
+                        isPageHeading: true,
+                        classes: 'govuk-fieldset__legend--m'
+                    }
+                },
+                hint: {
+                    text: 'Provide any information that may help us process your census more quickly'
+                },
+                items: [
+                    {
+                        text: 'Yes',
+                        value: 'yes',
+                        conditional: {
+                            html: returnNoteEntry
+                        }
+                    },
+                    {
+                        text: 'No',
+                        value: 'no'
+                    }
+                ]
+            }) }}
             {{ govukButton({
-                text: 'Review responses',
-                href: 'handled',
+                text: 'Save and submit',
+                href: 'sent',
                 classes: ''
             }) }}
+
+            </form>
         </div>
 
     </div>

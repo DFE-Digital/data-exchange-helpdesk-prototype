@@ -12,6 +12,8 @@
 		"test": "npm run lint && gulp generate-assets && jest"
 	},
 	"dependencies": {
+		"@babel/core": "^7.4.0",
+		"@babel/preset-env": "^7.4.2",
 		"@hmcts/frontend": "0.0.28-alpha",
 		"acorn": "^6.0.5",
 		"ansi-colors": "^3.2.3",
@@ -43,6 +45,7 @@
 		"gulp-sourcemaps": "^2.6.0",
 		"https": "^1.0.0",
 		"keypather": "^3.0.0",
+		"lodash.get": "^4.4.2",
 		"lodash.set": "^4.3.2",
 		"marked": "^0.4.0",
 		"notifications-node-client": "^4.1.0",
@@ -52,9 +55,7 @@
 		"require-dir": "^1.0.0",
 		"sync-request": "^6.0.0",
 		"universal-analytics": "^0.4.16",
-		"uuid": "^3.2.1",
-		"@babel/core": "^7.4.0",
-		"@babel/preset-env": "^7.4.2"
+		"uuid": "^3.2.1"
 	},
 	"greenkeeper": {
 		"ignore": [

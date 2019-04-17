@@ -190,6 +190,7 @@
             </tbody>
         </table>
 
+    
     </div>
 
 </div>
@@ -215,14 +216,21 @@
 
     $('#search-query').on('input', function() {
         var value = $(this).val();
+        var resultsCount = 0;
+        $('.no-results-row').remove()
         $('.query-description').each(function() {
             var queryDesc = $(this).html();
             if (!queryDesc.toLowerCase().includes(value.toLowerCase())) {
                 $(this).closest('tr').hide();
             } else {
                 $(this).closest('tr').show();
+                resultsCount++
             }
         })
+        if (resultsCount === 0) {
+            var noResultsRow = $('<tr class="no-results-row"><th colspan="4"><span>No queries found for "' + value + '"</span></th><tr>')
+            $('.query-table .govuk-table__body').append(noResultsRow)
+        }
     })
 
     var navDialogEl = document.querySelector('.dialog');

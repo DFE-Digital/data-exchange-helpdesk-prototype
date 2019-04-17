@@ -320,10 +320,10 @@ a.type-tag,
 
 .govuk-tag {
 	&.maintained {
-		background-color: govuk-colour("purple");
+		background-color: govuk-colour('purple');
 	}
 	&.academy {
-		background-color:  govuk-colour("turquoise");
+		background-color: govuk-colour('turquoise');
 	}
 }
 
@@ -548,4 +548,10 @@ tr.highlight-row {
 	margin: -1px;
 	padding: 0;
 	border: 0;
+}
+
+tr.no-results-row span {
+	display: block;
+	padding: 25px;
+	font-size: 200%;
 }
