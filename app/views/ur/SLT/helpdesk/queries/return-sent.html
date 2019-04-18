@@ -4,8 +4,7 @@
     Queries
 {% endblock %}
 
-{% set schoolIndex = data['selected-school'] %}
-{% set school = data['schools'][schoolIndex] %}
+{% set school = data.sltSchool %}
 {% set schoolName = school['name'] %}
 {% set laestab = school['LAESTAB'] %}
 {% set queries = school['queries'] %}
@@ -20,6 +19,12 @@
 {% set pendingCount = (queries | length) - handledCount %}
 
 {% block postHeader %}
+{% if school.responsesSent == 'true' %}
+<script>
+    window.location.href = '../my-queue'
+</script>
+{% endif %}
+
 <div class="hmcts-identity-bar">
   <div class="hmcts-identity-bar__container">
     <div class="hmcts-identity-bar__details">
@@ -28,7 +33,7 @@
     <div style="float:right;">
         {{ govukButton({
             text: 'Return to work queue',
-            href: '../my-queue',
+            href: '/respond-slt-school',
             classes: 'hmcts-menu-item'
         }) }}
     </div>
@@ -45,7 +50,7 @@
             <p>The school will be notified of the responses through their MIS.</p>
             {{ govukButton({
                 text: 'Return to work queue',
-                href: '../my-queue',
+                href: '/respond-slt-school',
                 classes: ''
             }) }}
         </div>

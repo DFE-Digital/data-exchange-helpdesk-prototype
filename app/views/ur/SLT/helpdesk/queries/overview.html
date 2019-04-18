@@ -4,8 +4,7 @@
     Queries
 {% endblock %}
 
-{% set schoolIndex = data['selected-school'] %}
-{% set school = data['schools'][schoolIndex] %}
+{% set school = data.sltSchool %}
 {% set schoolName = school['name'] %}
 {% set laestab = school['LAESTAB'] %}
 {% set queries = school['queries'] %}
@@ -20,11 +19,6 @@
 {% set pendingCount = (queries | length) - handledCount %}
 
 {% block postHeader %}
-{% if queries | length == 0 %}
-    <script>
-        window.location.href = '/select-school'
-    </script>
-{% endif %}
 <div class="hmcts-identity-bar">
   <div class="hmcts-identity-bar__container">
     <div class="hmcts-identity-bar__details">
@@ -40,7 +34,7 @@
         {% elseif (pendingCount == 0) %}
             {{ govukButton({
                 text: 'Send responses to school',
-                href: '/send-responses',
+                href: 'return-sent',
                 classes: 'hmcts-menu-item'
             }) }}
         {% else %}
@@ -79,10 +73,6 @@
                     href: 'errors'
                 },
                 {
-                    text: 'Preserved notes',
-                    href: 'return-notes'
-                },
-                {
                     text: 'View all census data',
                     href: 'census-data'
                 }
@@ -118,7 +108,7 @@
             <p>You can <a href="handled">review the responses</a> before they are sent. Once the responses are sent the school can reply to rejected queries or amend data in their MIS.</p>
             {{ govukButton({
                 text: 'Send responses to school',
-                href: '/send-responses#',
+                href: 'return-sent',
                 classes: ''
             }) }}
         </div>
@@ -236,7 +226,7 @@
 
                         {% if not external %}
                         <td class="govuk-table__cell numeric">
-                            <a href="/handle-query?selected-query={{query.id}}&response=approved" class="govuk-button govuk-button-small approveButton">Accept{{ ' all' if consolidatedQuery }}</a>
+                            <a href="/handle-query?selected-query={{query.id}}&response=approved&selected-school=static&school-path=sltSchool" class="govuk-button govuk-button-small approveButton">Accept{{ ' all' if consolidatedQuery }}</a>
                             
                             <br>
                             <button type="button" class="govuk-button govuk-button-red govuk-button-small open-dialog">Reject{{ ' all' if consolidatedQuery }}</button><br>
@@ -307,6 +297,8 @@
         <input type="hidden" id="selectedQuery" name="selected-query">
         <input type="hidden" id="responseNote" name="response-note" value="">
         <input type="hidden" name="response" value="rejected">
+        <input type="hidden" name="selected-school" value="static">
+        <input type="hidden" name="school-path" value="sltSchool">
         {{ govukButton({
             html: 'Save response',
             classes: 'send'

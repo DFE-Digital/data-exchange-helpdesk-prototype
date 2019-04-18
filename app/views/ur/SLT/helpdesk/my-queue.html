@@ -52,7 +52,6 @@
             ]
         }) }} 
 
-
         {% if inboxCount == 0 %}
 
         <div class="govuk-grid-row">
@@ -233,7 +232,7 @@
                             {{ school.noOfErrors }}
                         </td>
                         <td class="govuk-table__cell numeric">
-                            <a href="queries/overview.html?selected-school={{ school.id }}" class="govuk-button govuk-button-blue govuk-button-small">
+                            <a href="queries/overview.html?selected-school=static&school-path=sltSchool" class="govuk-button govuk-button-blue govuk-button-small">
                                 Open
                             </a>
                         </td>
@@ -243,6 +242,7 @@
                 {% endif %}
 
                 {% endfor -%}
+
                 
             </tbody>
         </table>

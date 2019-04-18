@@ -1,7 +1,6 @@
 {% set external = data.isExternal == 'true' %}{% if external %}{% extends 'layout_la.html' %}{% else %}{% extends 'layout_internal.html' %}{% endif %}
 
-{% set schoolIndex = data['selected-school'] %}
-{% set school = data['schools'][schoolIndex] %}
+{% set school = data.sltSchool %}
 {% set schoolName = school['name'] %}
 {% set laestab = school['LAESTAB'] %}
 {% set query = school['queries'] | getById(data['selected-query']) %}

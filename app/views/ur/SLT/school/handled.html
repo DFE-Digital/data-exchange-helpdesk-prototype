@@ -11,7 +11,7 @@
 
 {% set handledCount = 0 %}
 {% for query in queries %}
-    {% if query['handled'] == 'true' %}
+    {% if query['explained'] == 'true' %}
         {% set handledCount = handledCount + 1 %}
     {% endif %}
 {% endfor %}
@@ -149,7 +149,7 @@
 
                 {% for query in queries | sort(false, true, 'handledOn') | reverse %}
                     {% set consolidatedQuery = false %}
-                    {% if query.handled == 'true' %}
+                    {% if query.explained == 'true' %}
                     <tr class="govuk-table__row">
                         <th class="govuk-table__header query-description" scope="row">
                             <h3 class="govuk-heading-m" style="margin-bottom: 5px;">
@@ -178,13 +178,17 @@
                         </td>
 
                         <td class="govuk-table__cell notes width-medium">
-                            <div class="note">
-                                {{ query.response }}
-                            </div>
+                            {% for note in query.notes %}
+                                {% if loop.index == query.notes | length %}
+                                    <div class="note">
+                                        {{ note.text }}
+                                    </div>
+                                {% endif %}
+                            {% endfor -%}
                         </td>
 
                         <td class="govuk-table__cell action numeric">
-                            <a href="/delete-response?selected-school=static&school-path=sltSchool&selected-query={{query.id}}" class="govuk-button govuk-button-small govuk-button-red">Undo explanation</a>
+                            <a href="/undo-school-explanation?selected-school=static&school-path=sltSchool&selected-query={{query.id}}" class="govuk-button govuk-button-small govuk-button-red">Undo explanation</a>
                         </td>
 
                     </tr>

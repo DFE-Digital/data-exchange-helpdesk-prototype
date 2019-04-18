@@ -6,7 +6,6 @@ const generate = require('./data/generators')
 
 // Generic 'next page' rule
 router.post('*', (req, res, next) => {
-	console.log(req.body)
 	if (req.body['next-page']) {
 		res.redirect(req.body['next-page'])
 	} else {
@@ -27,9 +26,12 @@ router.all('/handle-query', (req, res) => {
 		school = req.session.data['school-path']
 	}
 	const queryIndex = req.session.data['selected-query']
-	const response = req.body.response || req.session.data.response
+	const response = req.session.data['response']
 	const responseNote = req.session.data['response-note']
 	const path = school + '.queries[' + queryIndex + ']'
+	console.log(path)
+	console.log(response)
+	console.log(responseNote)
 	set(req.session.data, path + 'handled', 'true')
 	if (response === 'approved') {
 		set(req.session.data, path + 'approved', 'true')
@@ -65,17 +67,61 @@ router.all('/add-school-explanation', (req, res) => {
 	const school = req.session.data['school-path']
 	const queryIndex = req.session.data['selected-query']
 	const responseNote = req.session.data['response-note']
-	const path = school + '.queries[' + queryIndex + '].notes'
-	const existingNotes = get(req.session.data, path)
+	const queryPath = school + '.queries[' + queryIndex + ']'
+	const existingNotes = get(req.session.data, queryPath + '.notes')
 	const note = {
 		type: 'school',
-		author: generate.randomName(),
+		author: req.session.data['username'],
 		text: responseNote,
 		date: new Date().getTime()
 	}
-	const newNotes = existingNotes.push(note)
-	set(req.session.data, path, newNotes)
-	set(req.session.data, path + 'explainedOn', new Date().getTime())
+	var newNotes = [note]
+	if (Array.isArray(existingNotes)) {
+		newNotes = existingNotes.push(note)
+	}
+	set(req.session.data, queryPath + '.notes', newNotes)
+	set(req.session.data, queryPath + '.explainedOn', new Date().getTime())
+	set(req.session.data, queryPath + '.explained', 'true')
+	res.redirect(req.headers.referer)
+})
+
+router.all('/undo-school-explanation', (req, res) => {
+	const school = req.session.data['school-path']
+	const queryIndex = req.session.data['selected-query']
+	const queryPath = school + '.queries[' + queryIndex + ']'
+	const notesPath = queryPath + '.notes'
+	set(req.session.data, queryPath + '.notes', [])
+	set(req.session.data, queryPath + '.explainedOn', null)
+	set(req.session.data, queryPath + '.explained', 'false')
+	res.redirect(req.headers.referer)
+})
+
+router.all('/send-slt-school', (req, res) => {
+	const path = 'schools[0]'
+	var school = req.session.data.sltSchool
+	school.hasQueries = 'true'
+	school.submittedDate = new Date().getTime()
+	set(req.session.data, path, school)
+	set(req.session.data, 'sltSchoolSent', 'true')
+	res.redirect(req.headers.referer)
+})
+
+router.all('/respond-slt-school', (req, res) => {
+	const path1 = 'sltSchool'
+	const path2 = 'schools[0]'
+	const queries = req.session.data.schools[0].queries
+	var acceptedCount = 0
+	queries.forEach(query => {
+		if (query.approved == 'true') {
+			acceptedCount++
+		}
+	})
+	set(req.session.data, path1 + '.responsesSent', 'true')
+	set(req.session.data, path1 + '.approvedCount', acceptedCount)
+	set(req.session.data, path1 + '.respondedOn', new Date().getTime())
+	set(req.session.data, path2 + '.responsesSent', 'true')
+	set(req.session.data, path2 + '.approvedCount', acceptedCount)
+	set(req.session.data, path2 + '.respondedOn', new Date().getTime())
 	res.redirect(req.headers.referer)
 })
 
@@ -161,7 +207,6 @@ router.all('/select-school', (req, res) => {
 	const selectedSchoolIndex = req.session.data['selected-school']
 	const selectedSchool = req.session.data['schools'][selectedSchoolIndex]
 	const path = 'schools[' + selectedSchoolIndex + ']'
-	console.log(selectedSchoolIndex)
 	if (selectedSchool.hasQueries != 'true') {
 		const queries = generate.queries(selectedSchool.noOfQueries)
 		set(req.session.data, path + '.hasQueries', 'true')

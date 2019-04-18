@@ -12,7 +12,7 @@
 
 {% set handledCount = 0 %}
 {% for query in queries %}
-    {% if query['handled'] == 'true' %}
+    {% if query['explained'] == 'true' %}
         {% set handledCount = handledCount + 1 %}
     {% endif %}
 {% endfor %}
@@ -168,7 +168,7 @@
 
                 {% for query in queries | sort(false, true, 'number') %}
                     {% set consolidatedQuery = false %}
-                    {% if query['handled'] == 'false' %}
+                    {% if query['explained'] != 'true' %}
                     <tr class="govuk-table__row">
                         <th class="govuk-table__header query-description" scope="row" data-sort-value="{{ query['number'] }}">
                             <h3 class="govuk-heading-m" style="margin-bottom: 5px;">
@@ -224,7 +224,7 @@
             
     <div class="query-description"></div>
     <div class="notes"></div>
-    <form class="internal-form" action="/handle-query">
+    <form class="internal-form" action="/add-school-explanation">
         {{ govukTextarea({
             id: 'reject-reason',
             name: 'reject-reason',

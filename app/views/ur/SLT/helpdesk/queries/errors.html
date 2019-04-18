@@ -4,8 +4,7 @@
     Errors
 {% endblock %}
 
-{% set schoolIndex = data['selected-school'] %}
-{% set school = data['schools'][schoolIndex] %}
+{% set school = data.sltSchool %}
 {% set schoolName = school['name'] %}
 {% set laestab = school['LAESTAB'] %}
 {% set queries = school['queries'] %}
@@ -73,10 +72,6 @@
                     text: school.noOfErrors + ' errors' if school.noOfErrors != 1 else '1 error',
                     href: 'errors',
                     active: true
-                },
-                {
-                    text: 'Preserved notes',
-                    href: 'return-notes'
                 },
                 {
                     text: 'View all census data',

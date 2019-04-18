@@ -235,7 +235,7 @@ header {
 .row.banner-alert {
 	background-color: #ffcc00;
 	text-align: center;
-	animation: alert 350ms ease-out 1s both;
+	animation: alert 350ms ease-out 100ms both;
 	position: relative;
 	z-index: 998;
 	a.button {
@@ -309,10 +309,39 @@ header {
 table {
 	text-align: left;
 	border-collapse: collapse;
+	box-shadow: 0 10px 20px rgba(black, 0.1);
+	thead {
+		tr th {
+			background: $col_blue;
+			color: white;
+			overflow: hidden;
+			border-bottom: 1px solid darken($col_blue, 10%);
+			&:first-child {
+				border-radius: 5px 0 0 0;
+			}
+			&:last-child {
+				border-radius: 0 5px 0 0;
+			}
+		}
+	}
 	th,
 	td {
-		padding: 10px;
-		border-bottom: 1px solid $col_text;
+		padding: 15px;
+		border-bottom: 1px solid rgba($col_text, 0.25);
+		background: white;
+		overflow: hidden;
+	}
+	tbody tr:last-child {
+		th,
+		td {
+			border-bottom: 0 solid transparent;
+			&:first-child {
+				border-radius: 0 0 0 5px;
+			}
+			&:last-child {
+				border-radius: 0 0 5px 0;
+			}
+		}
 	}
 }
 
@@ -320,4 +349,8 @@ table {
 	padding: 15px;
 	background-color: #ffdd77;
 	border-radius: 5px;
+}
+
+.align-right {
+	text-align: right;
 }
