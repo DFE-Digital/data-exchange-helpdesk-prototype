@@ -25,9 +25,9 @@ router.all('/handle-query', (req, res) => {
 	if (schoolIndex == 'static') {
 		school = req.session.data['school-path']
 	}
-	const queryIndex = req.session.data['selected-query']
-	const response = req.session.data['response']
-	const responseNote = req.session.data['response-note']
+	const queryIndex = req.session.data['selected-query'].trim()
+	const response = req.session.data['response'].trim()
+	const responseNote = req.session.data['response-note'].trim()
 	const path = school + '.queries[' + queryIndex + ']'
 	console.log(path)
 	console.log(response)
@@ -44,12 +44,12 @@ router.all('/handle-query', (req, res) => {
 })
 
 router.all('/delete-response', (req, res) => {
-	const schoolIndex = req.session.data['selected-school']
+	const schoolIndex = req.session.data['selected-school'].trim()
 	var school = 'schools[' + schoolIndex + ']'
 	if (schoolIndex == 'static') {
 		school = req.session.data['school-path']
 	}
-	const queryIndex = req.session.data['selected-query']
+	const queryIndex = req.session.data['selected-query'].trim()
 	const path = school + '.queries[' + queryIndex + ']'
 	set(req.session.data, path + 'handled', 'false')
 	set(req.session.data, path + 'approved', '')
@@ -64,9 +64,9 @@ router.all('/delete-response', (req, res) => {
 })
 
 router.all('/add-school-explanation', (req, res) => {
-	const school = req.session.data['school-path']
-	const queryIndex = req.session.data['selected-query']
-	const responseNote = req.session.data['response-note']
+	const school = req.session.data['school-path'].trim()
+	const queryIndex = req.session.data['selected-query'].trim()
+	const responseNote = req.session.data['response-note'].trim()
 	const queryPath = school + '.queries[' + queryIndex + ']'
 	const existingNotes = get(req.session.data, queryPath + '.notes')
 	const note = {
@@ -82,6 +82,33 @@ router.all('/add-school-explanation', (req, res) => {
 	set(req.session.data, queryPath + '.notes', newNotes)
 	set(req.session.data, queryPath + '.explainedOn', new Date().getTime())
 	set(req.session.data, queryPath + '.explained', 'true')
+	res.redirect(req.headers.referer)
+})
+
+router.all('/edit-school-explanation', (req, res) => {
+	const school = req.session.data['school-path'].trim()
+	const queryIndex = req.session.data['selected-query'].trim()
+	const responseNote = req.session.data['response-note'].trim()
+	if (!(responseNote == null || responseNote == '')) {
+		const queryPath = school + '.queries[' + queryIndex + ']'
+		const existingNotes = get(req.session.data, queryPath + '.notes')
+		const note = {
+			type: 'school',
+			author: req.session.data['username'],
+			text: responseNote,
+			date: new Date().getTime()
+		}
+		console.log(responseNote)
+		console.log(queryPath)
+		var newNotes = [note]
+		if (Array.isArray(existingNotes)) {
+			existingNotes.pop()
+			newNotes = existingNotes.push(note)
+		}
+		set(req.session.data, queryPath + '.notes', newNotes)
+		set(req.session.data, queryPath + '.explainedOn', new Date().getTime())
+		set(req.session.data, queryPath + '.explained', 'true')
+	}
 	res.redirect(req.headers.referer)
 })
 
