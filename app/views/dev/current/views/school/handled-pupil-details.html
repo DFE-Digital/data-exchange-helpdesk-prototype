@@ -126,7 +126,7 @@
 
     <div class="govuk-grid-column-full">
 
-        <table class="govuk-table internal-table query-table" id="queryTable">
+        <table class="govuk-table internal-table query-table">
             
             <caption class="govuk-table__caption">Queries</caption>
             
@@ -136,7 +136,7 @@
                 
                 <th class="govuk-table__header" scope="col"><span class="no-wrap">Query</span></th>
 
-                <th class="govuk-table__header width-medium" scope="col"><span class="no-wrap">Previous notes</span></th>
+                <th class="govuk-table__header width-medium" scope="col"><span class="no-wrap">Record details</span></th>
                 
                 <th class="govuk-table__header width-medium" scope="col"><span class="no-wrap">Acceptable explanation guidelines</span></th>
 
@@ -152,6 +152,53 @@
                 {% for query in queries | sort(false, true, 'handledOn') | reverse %}
                     {% set consolidatedQuery = false %}
                     {% if query.explained == 'true' %}
+
+                        {% if query.pupils | length > 0 %}
+                            {% for pupil in query.pupils %}
+
+                                <tr class="govuk-table__row">
+                                    <th class="govuk-table__header query-description" scope="row">
+                                        <h3 class="govuk-heading-m" style="margin-bottom: 5px;">
+                                            {{ query.number }}
+                                        </h3>
+                                        <br>
+                                        <p>{{ query.description }}</p>
+                                    </th>
+
+                                    <td class="govuk-table__cell width-medium">
+                                        {% set pupil = query.pupils[loop.index-1] %}
+                                        {% if pupil != null %}
+                                            <strong>Name</strong> <br>
+                                            {{ pupil.surname }}, {{ pupil.firstname }} <br>
+                                            <strong>UPN</strong> <br>
+                                            {{ pupil.UPN }} <br>
+                                            <strong>Date of birth</strong> <br>
+                                            {{ pupil.dob }}
+                                        {% endif %}
+                                    </td>
+
+                                    <td class="govuk-table__cell width-medium">
+                                        {{ query.guide }}
+                                    </td>
+
+                                    <td class="govuk-table__cell notes width-medium">
+                                        {% for note in query.notes %}
+                                            {% if loop.index == query.notes | length %}
+                                                <div class="note">
+                                                    {{ note.text }}
+                                                </div>
+                                            {% endif %}
+                                        {% endfor -%}
+                                    </td>
+
+                                    <td class="govuk-table__cell action numeric">
+                                        <a href="/undo-school-explanation?selected-school=static&school-path=sltSchool&selected-query={{query.id}}" class="govuk-button govuk-button-small govuk-button-red">Undo explanation</a>
+                                    </td>
+
+                                </tr>
+
+                            {% endfor %}
+                        {% endif %}
                             
                         <tr class="govuk-table__row">
                             <th class="govuk-table__header query-description" scope="row">
@@ -163,8 +210,12 @@
                             </th>
 
                             <td class="govuk-table__cell width-medium">
-                                −
-                                <div class="query-index" style="display: none;">{{query.id}}</div>
+                                {% set pupil = query.pupils[0] %}
+                                {% if pupil != null %}
+                                {{ pupil.surname }}, {{ pupil.firstname }} <br>
+                                <strong>{{ pupil.UPN }}</strong> <br>
+                                {{ pupil.dob }} <br>
+                                {% endif %}
                             </td>
 
                             <td class="govuk-table__cell width-medium">
@@ -182,7 +233,7 @@
                             </td>
 
                             <td class="govuk-table__cell action numeric">
-                               <button type="button" class="govuk-button govuk-button-small open-dialog">Edit explanation</button>
+                                <a href="/undo-school-explanation?selected-school=static&school-path=sltSchool&selected-query={{query.id}}" class="govuk-button govuk-button-small govuk-button-red">Undo explanation</a>
                             </td>
 
                         </tr>
@@ -198,82 +249,20 @@
 
 </div>
 
-<div class="dialog" role="dialog" aria-labelledby="dialog-title" aria-describedby="dialog-description">
-            
-    <div class="query-description"></div>
-    <form class="internal-form" action="/add-school-explanation">
-        {{ govukTextarea({
-            id: 'reject-reason',
-            name: 'reject-reason',
-            label: {
-                text: 'Explanation'
-            }
-        }) }}
-    
-        <input type="hidden" id="selectedQuery" name="selected-query">
-        <input type="hidden" id="responseNote" name="response-note" value="">
-        <input type="hidden" name="response" value="rejected">
-        <input type="hidden" name="selected-school" value="static">
-        <input type="hidden" name="school-path" value="sltSchool">
-        {{ govukButton({
-            html: 'Save explanation',
-            classes: 'send'
-        }) }}
-    </form>
-    <p>
-        <a href="#" class="close-dialog">Cancel</a>
-    </p>
-        
-</div>
-
-<div class="dialog-overlay" tabindex="-1"></div>
-
-{% endif %}
-
-
-{% endblock %}
-
-{% block pageScripts %}
-
 <script>
-
-    var table = document.getElementById('queryTable')
-    new SortableTable(table)
-
     $('#search-query').on('input', function() {
-        var value = $(this).val();
+        var value = $(this).val()
         $('.query-description').each(function() {
-            var queryDesc = $(this).html();
+            var queryDesc = $(this).html()
             if (!queryDesc.toLowerCase().includes(value.toLowerCase())) {
-                $(this).closest('tr').hide();
+                $(this).closest('tr').hide()
             } else {
-                $(this).closest('tr').show();
+                $(this).closest('tr').show()
             }
         })
     })
-
-    var navDialogEl = document.querySelector('.dialog');
-    var dialogOverlay = document.querySelector('.dialog-overlay');
-    
-    var myDialog = new Dialog(navDialogEl, dialogOverlay);
-    myDialog.addEventListeners('.open-dialog', '.close-dialog');
-
-    $('.open-dialog').on('click', function() {
-        var existingNote = $(this).closest('tr').find('.note').text()
-        $('.dialog .govuk-textarea').val(existingNote.trim())
-    });
-
-    var customNote = true;
-
-    $('.dialog .govuk-textarea').on('change', function() {
-        if (customNote) {
-            updateNote($('.dialog .govuk-textarea').val());
-        }
-    })
-    function updateNote(input) {
-        newNoteValue = input;
-        $('#responseNote').val(newNoteValue);
-    }
 </script>
+
+{% endif %}
 
 {% endblock %}

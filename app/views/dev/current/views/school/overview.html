@@ -155,9 +155,9 @@
             <thead class="govuk-table__head">
                 <tr class="govuk-table__row">
                 
-                <th class="govuk-table__header" scope="col"  aria-sort="none"><span class="no-wrap">Query</span></th>
+                <th class="govuk-table__header" scope="col"><span class="no-wrap">Query</span></th>
 
-                <th class="govuk-table__header" scope="col"><span class="no-wrap">Record details</span></th>
+                <th class="govuk-table__header" scope="col"><span class="no-wrap">Notes</span></th>
                 
                 <th class="govuk-table__header width-medium" scope="col"><span class="no-wrap">Acceptable explanation guidelines</span></th>
                 
@@ -172,46 +172,6 @@
                     {% set consolidatedQuery = false %}
                     {% if query['explained'] != 'true' %}
 
-                        {% if query.pupils | length > 0 %}
-                            {% for pupil in query.pupils %}
-
-                                <tr class="govuk-table__row">
-                                    <th class="govuk-table__header query-description" scope="row" data-sort-value="{{ query['number'] }}">
-                                        <h3 class="govuk-heading-m" style="margin-bottom: 5px;">
-                                            {{ query['number'] }}
-                                        </h3>
-                                        <br>
-                                        <p>{{ query.description }}</p>
-                                    </th>
-
-                                    
-
-                                    <td class="govuk-table__cell width-medium">
-                                        {% set pupil = query.pupils[loop.index-1] %}
-                                        {% if pupil != null %}
-                                         <strong>Name</strong> <br>
-                                            {{ pupil.surname }}, {{ pupil.firstname }} <br>
-                                            <strong>UPN</strong> <br>
-                                            {{ pupil.UPN }} <br>
-                                            <strong>Date of birth</strong> <br>
-                                            {{ pupil.dob }}
-                                        {% endif %}
-                                    </td>
-                                    
-                                    <td class="govuk-table__cell width-medium">
-                                        {{ query.guide }}
-                                        <div class="query-index" style="display: none;">{{query.id}}</div>
-                                    </td>
-
-                                    <td class="govuk-table__cell numeric">
-                                        <button type="button" class="govuk-button govuk-button-small open-dialog">Give an explanation</button>
-                                    </td>
-
-                                </tr>
-
-                            {% endfor %}
-                        {% else %}
-
                         <tr class="govuk-table__row">
                             <th class="govuk-table__header query-description" scope="row" data-sort-value="{{ query['number'] }}">
                                 <h3 class="govuk-heading-m" style="margin-bottom: 5px;">
@@ -222,15 +182,7 @@
                             </th>
 
                             <td class="govuk-table__cell width-medium">
-                                {% set pupil = query.pupils[0] %}
-                                {% if pupil != null %}
-                                    <strong>Name</strong> <br>
-                                    {{ pupil.surname }}, {{ pupil.firstname }} <br>
-                                    <strong>UPN</strong> <br>
-                                    {{ pupil.UPN }} <br>
-                                    <strong>Date of birth</strong> <br>
-                                    {{ pupil.dob }}
-                                {% endif %}
+                                −
                             </td>
                             
                             <td class="govuk-table__cell width-medium">
@@ -243,7 +195,7 @@
                             </td>
 
                         </tr>
-                        {% endif %}
+
                     {% endif %}
 
                 {% endfor -%}

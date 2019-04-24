@@ -89,6 +89,26 @@
 
 </div>
 
+{% if errors == null or errors.length == 0 %}
+
+<div class="govuk-grid-row">
+
+    <div class="govuk-grid-column-one-half">
+
+        <h2 class="govuk-heading-l">
+            There are errors in this submission
+        </h2>
+
+        <p>
+            You will be asked to review these errors before you send the submission back to the school
+        </p>
+
+    </div>
+
+</div>
+
+{% else %}
+
 <div class="govuk-grid-row">
 
     <div class="govuk-grid-column-one-half">
@@ -180,6 +200,8 @@
     </div>
 
 </div>
+
+{% endif %}
 
 
 {% endblock %}

@@ -112,23 +112,51 @@
 
 {% elseif pendingCount == 0 %}
 
-    
+    {% set rejectedCount = 0 %}
+
+    {% for query in queries %}
+
+        {% if query.response == 'rejected' %}
+            {% set rejectedCount = rejectedCount + 1 %}
+        {% endif %}
+
+    {% endfor %}
 
     {% if errors == null or errors.length == 0 %}
 
-    <div class="govuk-grid-row">
+        {% if rejectedCount > 0 %}
 
-        <div class="govuk-grid-column-one-half">
-            <h2 class="govuk-heading-l">All queries have a response</h1>
-            <p>You can <a href="handled">review the responses</a> before they are sent. Once the responses are sent the school can reply to rejected queries or amend data in their MIS.</p>
-            {{ govukButton({
-                text: 'Send responses to school',
-                href: '/send-responses',
-                classes: ''
-            }) }}
+        <div class="govuk-grid-row">
+
+            <div class="govuk-grid-column-one-half">
+                <h2 class="govuk-heading-l">All queries have a response</h1>
+                <p>You can <a href="handled">review the responses</a> before they are sent. Once the responses are sent the school can reply to rejected queries or amend data in their MIS.</p>
+                {{ govukButton({
+                    text: 'Send responses to school',
+                    href: '/send-responses',
+                    classes: ''
+                }) }}
+            </div>
+
         </div>
 
-    </div>
+        {% else %}
+
+        <div class="govuk-grid-row">
+
+            <div class="govuk-grid-column-one-half">
+                <h2 class="govuk-heading-l">All queries have been approved</h1>
+                <p>You can <a href="handled">review the responses</a> before they are sent. Once the responses are sent the school can reply to rejected queries or amend data in their MIS.</p>
+                {{ govukButton({
+                    text: 'Send responses to school',
+                    href: '/send-responses',
+                    classes: ''
+                }) }}
+            </div>
+
+        </div>
+
+        {% endif %}
 
     {% else %}
 
