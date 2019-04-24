@@ -26,27 +26,6 @@
     <div class="hmcts-identity-bar__details">
         <span class="hmcts-identity-bar__title"><b>{{ schoolName }}</b> {{ laestab }} <strong class="govuk-!-padding-right-4"></strong>{{ govukTag({text: school.type, classes: school.type}) }}</span>
     </div>
-    <div style="float:right;">
-        {% if (school.responsesSent == 'true') %}
-            {{ govukButton({
-                text: 'Return to my schools' if external else 'Return to work queue',
-                href: '../my-responses',
-                classes: 'hmcts-menu-item hmcts-button--secondary'
-            }) }}
-        {% elseif (pendingCount == 0) %}
-            {{ govukButton({
-                text: 'Send responses to school',
-                href: '/send-responses',
-                classes: 'hmcts-menu-item'
-            }) }}
-        {% else %}
-            {{ govukButton({
-                text: 'Return to my schools' if external else 'Return to work queue',
-                href: '../my-queue',
-                classes: 'hmcts-menu-item hmcts-button--secondary'
-            }) }}
-        {% endif %}
-    </div>
   </div>
 </div>
 {% endblock %}
@@ -55,62 +34,26 @@
 
 <div class="govuk-grid-row">
 
-    <div class="govuk-grid-column-full census-case-nav govuk-!-padding-bottom-5">
-
-        {% set actionedQueries = {
-            text: handledCount + ' actioned queries' if handledCount != 1 else '1 actioned query',
-            href: 'handled'
-        } %}
-
-        {{ hmctsSubNavigation({
-            label: 'Sub navigation',
-            items: [
-                {
-                    text: pendingCount + ' queries' if pendingCount != 1 else '1 query',
-                    href: 'overview'
-                }, actionedQueries if not external,
-                {
-                    text: school.noOfErrors + ' errors' if school.noOfErrors != 1 else '1 error',
-                    href: 'errors',
-                    active: true
-                },
-                {
-                    text: 'Additional note',
-                    href: 'return-note'
-                },
-                {
-                    text: 'View all census data',
-                    href: 'census-data'
-                }
-            ]
-        }) }}  
-
-    </div>
-
-</div>
-
-<div class="govuk-grid-row">
-
     <div class="govuk-grid-column-one-half">
         {% set findHTML %}
-        <div class="govuk-!-padding-bottom-5">
-            {{ hmctsSearch({
-                input: {
-                    id: 'search-error',
-                    name: 'search-error'
-                },
-                label: {
-                    text: 'Find an error',
-                    classes: 'govuk-visually-hidden'
-                },
-                hint: {
-                    text: 'Search by error number or keyword(s)'
-                },
-                button: {
-                    text: 'Find'
-                }
-            }) }}
-        </div>
+            <div class="govuk-!-padding-bottom-5">
+                {{ hmctsSearch({
+                    input: {
+                        id: 'search-error',
+                        name: 'search-error'
+                    },
+                    label: {
+                        text: 'Find an error',
+                        classes: 'govuk-visually-hidden'
+                    },
+                    hint: {
+                        text: 'Search by error number or keyword(s)'
+                    },
+                    button: {
+                        text: 'Find'
+                    }
+                }) }}
+            </div>
         {% endset -%}
 
         
@@ -131,7 +74,7 @@
 
         <table id="errorTable" class="govuk-table internal-table query-table">
             
-            <caption class="govuk-table__caption">Queries</caption>
+            <caption class="govuk-table__caption">Errors</caption>
             
             
             <thead class="govuk-table__head">
@@ -176,6 +119,81 @@
                 
             </tbody>
         </table>
+
+    </div>
+
+</div>
+
+<div class="govuk-grid-row">
+
+    <div class="govuk-grid-column-one-half">
+    
+        <h2 class="govuk-heading-m">Note added by {{ queries[0].notes[0].author | orElse(randomName) }} on {{ school.submittedDate | friendlyDate }}</h2>
+
+        {{ govukInsetText({
+            html: '<p> I’ve done my best to get rid of the errors but the ones left I can’t do anything with.</p>'
+        }) }}
+
+    </div>
+
+</div>
+
+<div class="govuk-grid-row">
+
+    <div class="govuk-grid-column-one-half">
+
+        <form action="/send-responses">
+
+            {% set inputHTML %}
+                {{ govukTextarea({
+                    id: 'return-response',
+                    name: 'return-response',
+                    value: data['return-response'] if data['return-response'] else '',
+                    label: {
+                        text: 'Reason for your response'
+                    }
+                }) }}
+            {% endset %}
+
+            {{ govukWarningText({
+                text: 'If you approve this submission it will be reviewed by the Data Development Unit (DDU)',
+                iconFallbackText: 'Warning'
+            }) }}
+
+            {{ govukRadios({
+                idPrefix: 'accept-errors',
+                name: 'accept-errors',
+                fieldset: {
+                    legend: {
+                        text: 'Are these errors wholly unavoidable?',
+                        isPageHeading: true,
+                        classes: 'govuk-fieldset__legend--l'
+                    }
+                    },
+                        items: [
+                    {
+                        text: 'Yes, approve this submission',
+                        value: 'yes',
+                        conditional: {
+                            html: inputHTML
+                        }
+                    },
+                    {
+                        text: 'No, reject this submission',
+                        value: 'no',
+                        conditional: {
+                            html: inputHTML
+                        }
+                    }
+                ]
+            }) }}
+
+            {{ govukButton({
+                html: 'Save and send response'
+            }) }}
+
+        </form>
+
 
     </div>
 

@@ -1,0 +1,332 @@
+{% extends 'layout_la.html' %}
+
+{% block pageTitle %}
+    Queries
+{% endblock %}
+
+{% set school = data.sltSchool %}
+{% set schoolName = school.name %}
+{% set laestab = school.LAESTAB %}
+{% set queries = school.queries %}
+{% set errors = school.errors %}
+
+{% set handledCount = 0 %}
+{% for query in queries %}
+    {% if query['explained'] == 'true' %}
+        {% set handledCount = handledCount + 1 %}
+    {% endif %}
+{% endfor %}
+
+{% set pendingCount = (queries | length) - handledCount %}
+
+{% block postHeader %}
+
+<div class="hmcts-identity-bar">
+  <div class="hmcts-identity-bar__container">
+    <div class="hmcts-identity-bar__details">
+        <span class="hmcts-identity-bar__title"><b>{{ schoolName }}</b> {{ laestab }} <strong class="govuk-!-padding-right-4"></strong></span>
+    </div>
+    <div style="float:right;">
+        {% if (school.responsesSent != 'true') and (pendingCount == 0) %}
+            {{ govukButton({
+                text: 'Submit census',
+                href: 'send-census',
+                classes: 'hmcts-menu-item'
+            }) }}
+        {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+
+    <div class="govuk-grid-column-full census-case-nav">
+
+    {% set actionedQueries = {
+        text: handledCount + ' explained queries' if handledCount != 1 else '1 explained query',
+        href: 'handled'
+    } %}
+
+        {{ hmctsSubNavigation({
+            label: 'Sub navigation',
+            items: [
+                {
+                    text: pendingCount + ' unexplained queries' if pendingCount != 1 else '1 unexplained query',
+                    href: 'overview',
+                    active: true
+                }, actionedQueries,
+                {
+                    text: school.noOfErrors + ' errors' if school.noOfErrors != 1 else '1 error',
+                    href: 'errors'
+                },
+                {
+                    text: 'View all census data',
+                    href: 'census-data'
+                }
+            ]
+        }) }} 
+
+    </div>
+
+</div>
+
+{% if (pendingCount == 0) and (school.responsesSent == 'true') %}
+
+    <div class="govuk-grid-row">
+
+        <div class="govuk-grid-column-one-half">
+            <h2 class="govuk-heading-l">Responses have been sent to the Department for Education</h1>
+            <p>You can <a href="handled">review the responses</a> and change the responses if there has been an error.</p>
+            {{ govukButton({
+                text: 'Review responses',
+                href: 'handled',
+                classes: ''
+            }) }}
+        </div>
+
+    </div>
+
+{% elseif pendingCount == 0 %}
+
+    <div class="govuk-grid-row">
+
+        <div class="govuk-grid-column-one-half">
+            <h2 class="govuk-heading-l">All queries have an explanation</h1>
+            <p>You can <a href="handled">review the explanations</a> before they are sent. Once this census is sent, the Department for Education will approve or reject the explanations provided. You will be notified if any further action is needed.</p>
+            {{ govukButton({
+                text: 'Submit census',
+                href: 'send-census',
+                classes: ''
+            }) }}
+        </div>
+
+    </div>
+
+{% else %}
+
+<div class="govuk-grid-row">
+
+    <div class="govuk-grid-column-one-half">
+        {% set findHTML %}
+        <div class="govuk-!-padding-bottom-5">
+            {{ hmctsSearch({
+                input: {
+                    id: 'search-query',
+                    name: 'search-query'
+                },
+                label: {
+                    text: 'Find a query',
+                    classes: 'govuk-visually-hidden'
+                },
+                hint: {
+                    text: 'Search by query number or keyword(s)'
+                },
+                button: {
+                    text: 'Find'
+                }
+            }) }}
+        </div>
+        {% endset -%}
+
+        
+        {{ govukDetails({
+        summaryText: "Find a query",
+        html: findHTML
+        }) }}
+
+        <br>
+
+    </div>
+
+</div>
+
+<div class="govuk-grid-row">
+
+    <div class="govuk-grid-column-full">
+
+        <table id="queryTable" class="govuk-table internal-table query-table">
+            
+            <caption class="govuk-table__caption">Queries</caption>
+            
+            
+            <thead class="govuk-table__head">
+                <tr class="govuk-table__row">
+                
+                <th class="govuk-table__header" scope="col"  aria-sort="none"><span class="no-wrap">Query</span></th>
+
+                <th class="govuk-table__header" scope="col"><span class="no-wrap">Record details</span></th>
+                
+                <th class="govuk-table__header width-medium" scope="col"><span class="no-wrap">Acceptable explanation guidelines</span></th>
+                
+                <th class="govuk-table__header numeric" scope="col"><span class="no-wrap"></span></th>
+                
+                </tr>
+            </thead>
+            
+            <tbody class="govuk-table__body">
+
+                {% for query in queries | sort(false, true, 'number') %}
+                    {% set consolidatedQuery = false %}
+                    {% if query['explained'] != 'true' %}
+
+                        {% if query.pupils | length > 0 %}
+                            {% for pupil in query.pupils %}
+
+                                <tr class="govuk-table__row">
+                                    <th class="govuk-table__header query-description" scope="row" data-sort-value="{{ query['number'] }}">
+                                        <h3 class="govuk-heading-m" style="margin-bottom: 5px;">
+                                            {{ query['number'] }}
+                                        </h3>
+                                        <br>
+                                        <p>{{ query.description }}</p>
+                                    </th>
+
+                                    
+
+                                    <td class="govuk-table__cell width-medium">
+                                        {% set pupil = query.pupils[loop.index-1] %}
+                                        {% if pupil != null %}
+                                         <strong>Name</strong> <br>
+                                            {{ pupil.surname }}, {{ pupil.firstname }} <br>
+                                            <strong>UPN</strong> <br>
+                                            {{ pupil.UPN }} <br>
+                                            <strong>Date of birth</strong> <br>
+                                            {{ pupil.dob }}
+                                        {% endif %}
+                                    </td>
+                                    
+                                    <td class="govuk-table__cell width-medium">
+                                        {{ query.guide }}
+                                        <div class="query-index" style="display: none;">{{query.id}}</div>
+                                    </td>
+
+                                    <td class="govuk-table__cell numeric">
+                                        <button type="button" class="govuk-button govuk-button-small open-dialog">Give an explanation</button>
+                                    </td>
+
+                                </tr>
+
+                            {% endfor %}
+                        {% else %}
+
+                        <tr class="govuk-table__row">
+                            <th class="govuk-table__header query-description" scope="row" data-sort-value="{{ query['number'] }}">
+                                <h3 class="govuk-heading-m" style="margin-bottom: 5px;">
+                                    {{ query['number'] }}
+                                </h3>
+                                <br>
+                                <p>{{ query.description }}</p>
+                            </th>
+
+                            <td class="govuk-table__cell width-medium">
+                                {% set pupil = query.pupils[0] %}
+                                {% if pupil != null %}
+                                    <strong>Name</strong> <br>
+                                    {{ pupil.surname }}, {{ pupil.firstname }} <br>
+                                    <strong>UPN</strong> <br>
+                                    {{ pupil.UPN }} <br>
+                                    <strong>Date of birth</strong> <br>
+                                    {{ pupil.dob }}
+                                {% endif %}
+                            </td>
+                            
+                            <td class="govuk-table__cell width-medium">
+                                {{ query.guide }}
+                                <div class="query-index" style="display: none;">{{query.id}}</div>
+                            </td>
+
+                            <td class="govuk-table__cell numeric">
+                                <button type="button" class="govuk-button govuk-button-small open-dialog">Give an explanation</button>
+                            </td>
+
+                        </tr>
+                        {% endif %}
+                    {% endif %}
+
+                {% endfor -%}
+                
+            </tbody>
+        </table>
+
+    </div>
+
+</div>
+
+<div class="dialog" role="dialog" aria-labelledby="dialog-title" aria-describedby="dialog-description">
+            
+    <div class="query-description"></div>
+    <div class="notes"></div>
+    <form class="internal-form" action="/add-school-explanation">
+        {{ govukTextarea({
+            id: 'reject-reason',
+            name: 'reject-reason',
+            label: {
+                text: 'Explanation'
+            }
+        }) }}
+    
+        <input type="hidden" id="selectedQuery" name="selected-query">
+        <input type="hidden" id="responseNote" name="response-note" value="">
+        <input type="hidden" name="response" value="rejected">
+        <input type="hidden" name="selected-school" value="static">
+        <input type="hidden" name="school-path" value="sltSchool">
+        {{ govukButton({
+            html: 'Save explanation',
+            classes: 'send'
+        }) }}
+    </form>
+    <p>
+        <a href="#" class="close-dialog">Cancel</a>
+    </p>
+        
+</div>
+
+<div class="dialog-overlay" tabindex="-1"></div>
+
+{% endif %}
+
+
+{% endblock %}
+
+{% block pageScripts %}
+
+<script>
+
+    var table = document.getElementById('queryTable')
+    new SortableTable(table)
+
+    $('#search-query').on('input', function() {
+        var value = $(this).val();
+        $('.query-description').each(function() {
+            var queryDesc = $(this).html();
+            if (!queryDesc.toLowerCase().includes(value.toLowerCase())) {
+                $(this).closest('tr').hide();
+            } else {
+                $(this).closest('tr').show();
+            }
+        })
+    })
+
+    var navDialogEl = document.querySelector('.dialog');
+    var dialogOverlay = document.querySelector('.dialog-overlay');
+    
+    var myDialog = new Dialog(navDialogEl, dialogOverlay);
+    myDialog.addEventListeners('.open-dialog', '.close-dialog');
+
+    var customNote = true;
+
+    $('.dialog .govuk-textarea').on('change', function() {
+        if (customNote) {
+            updateNote($('.dialog .govuk-textarea').val());
+        }
+    })
+    function updateNote(input) {
+        newNoteValue = input;
+        $('#responseNote').val(newNoteValue);
+    }
+</script>
+
+{% endblock %}

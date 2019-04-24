@@ -9,6 +9,7 @@
 {% set schoolName = school['name'] %}
 {% set laestab = school['LAESTAB'] %}
 {% set queries = school['queries'] %}
+{% set errors = school['errors'] %}
 
 {% set handledCount = 0 %}
 {% for query in queries %}
@@ -79,8 +80,8 @@
                     href: 'errors'
                 },
                 {
-                    text: 'Preserved notes',
-                    href: 'return-notes'
+                    text: 'Additional note',
+                    href: 'return-note'
                 },
                 {
                     text: 'View all census data',
@@ -111,6 +112,10 @@
 
 {% elseif pendingCount == 0 %}
 
+    
+
+    {% if errors == null or errors.length == 0 %}
+
     <div class="govuk-grid-row">
 
         <div class="govuk-grid-column-one-half">
@@ -118,12 +123,30 @@
             <p>You can <a href="handled">review the responses</a> before they are sent. Once the responses are sent the school can reply to rejected queries or amend data in their MIS.</p>
             {{ govukButton({
                 text: 'Send responses to school',
-                href: '/send-responses#',
+                href: '/send-responses',
                 classes: ''
             }) }}
         </div>
 
     </div>
+
+    {% else %}
+
+    <div class="govuk-grid-row">
+
+        <div class="govuk-grid-column-one-half">
+            <h2 class="govuk-heading-l">All queries have a response</h1>
+            <p>You can <a href="handled">review the responses</a> before you continue. This return contains errors, the errors must be considered before the return is sent back to the school.</p>
+            {{ govukButton({
+                text: 'Review errors',
+                href: 'review-errors',
+                classes: ''
+            }) }}
+        </div>
+
+    </div>
+
+    {% endif %}
 
 {% else %}
 

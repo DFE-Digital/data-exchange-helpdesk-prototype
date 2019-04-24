@@ -223,13 +223,31 @@ router.all('/select-school', (req, res) => {
 router.all('/send-responses', (req, res) => {
 	const selectedSchoolIndex = req.session.data['selected-school']
 	const path = 'schools[' + selectedSchoolIndex + ']'
-	const queries = req.session.data.schools[selectedSchoolIndex].queries
+	const school = req.session.data.schools[selectedSchoolIndex]
+	const returnResponse = req.session.data['return-response']
+	const queries = school.queries
+	const errors = school.errors
 	var acceptedCount = 0
+	var isApproved = 'false'
 	queries.forEach(query => {
 		if (query.approved == 'true') {
 			acceptedCount++
 		}
 	})
+	if (errors == null || errors.length == 0) {
+		if (acceptedCount == queries.length) {
+			isApproved = 'true'
+		}
+	} else {
+		const returnAcceptance = req.session.data['accept-errors'] == 'yes'
+		if (returnAcceptance) {
+			isApproved = 'true'
+		}
+	}
+	if (isApproved) {
+		set(req.session.data, path + '.isApproved', 'true')
+	}
+	set(req.session.data, path + '.returnResponse', returnResponse)
 	set(req.session.data, path + '.responsesSent', 'true')
 	set(req.session.data, path + '.approvedCount', acceptedCount)
 	set(req.session.data, path + '.respondedOn', new Date().getTime())
