@@ -9,6 +9,7 @@
 {% set schoolName = school['name'] %}
 {% set laestab = school['LAESTAB'] %}
 {% set queries = school['queries'] %}
+{% set randomName = '' | randomName %}
 
 {% set handledCount = 0 %}
 {% for query in queries %}
@@ -79,12 +80,12 @@
                 },
                 {
                     text: 'Additional note',
-                    href: 'return-note'
+                    href: 'return-note',
+                    active: true
                 },
                 {
                     text: 'View all census data',
-                    href: 'census-data',
-                    active: true
+                    href: 'census-data'
                 }
             ]
         }) }}
@@ -95,82 +96,14 @@
 
 <div class="govuk-grid-row">
 
-    <div class="govuk-grid-column-full">
-        
-        {% set summaryHTML  %}
-            {% include './census/census-summary.html' %}
-        {% endset -%}
+    <div class="govuk-grid-column-one-half">
+    
+        <h2 class="govuk-heading-l">Note added by {{ queries[0].notes[0].author | orElse(randomName) }} on {{ school.submittedDate | friendlyDate }}</h2>
 
-        {% set schoolHTML  %}
-            {% include './census/school.html' %}
-        {% endset -%}
+        <p>
+            I’ve done my best to get rid of the errors but the ones left I can’t do anything with.
+        </p>
 
-        {% set classHTML  %}
-            {% include './census/class.html' %}
-        {% endset -%}
-
-        {% set pupilsHTML  %}
-            {% include './census/pupils.html' %}
-        {% endset -%}
-
-        {% set reportsHTML  %}
-            {% include './census/report.html' %}
-        {% endset -%}
-
-        {% set downloadHTML  %}
-            {% include './census/download.html' %}
-        {% endset -%}
-
-
-        {{ govukTabs({
-            items: [
-                {
-                    label: 'Summary',
-                    id: 'summary',
-                    panel: {
-                        html: summaryHTML
-                    }
-                },
-                {
-                    label: 'School details',
-                    id: 'school',
-                    panel: {
-                        html: schoolHTML
-                    }
-                },
-                {
-                    label: 'Class details',
-                    id: 'class',
-                    panel: {
-                        html: classHTML
-                    }
-                },
-                {
-                    label: 'Pupil details',
-                    id: 'pupil',
-                    panel: {
-                        html: pupilsHTML
-                    }
-                },
-                {
-                    label: 'Reports',
-                    id: 'reports',
-                    panel: {
-                        html: reportsHTML
-                    }
-                },
-                {
-                    label: 'Download data',
-                    id: 'download',
-                    attributes: {
-                        'style': 'float:right;'
-                    },
-                    panel: {
-                        html: downloadHTML
-                    }
-                }
-            ]
-        }) }}
     </div>
 
 </div>

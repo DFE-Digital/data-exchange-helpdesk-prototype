@@ -1,0 +1,112 @@
+{% extends 'layout.html' %}
+
+{% block pageTitle %}
+    Prototype options
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+
+    <div class="govuk-grid-column-two-thirds">
+
+        {{ govukBackLink({
+            text: 'Back',
+            href: 'javascript:history.back()'
+        }) }}
+
+        <h1 class="govuk-heading-xl">Data provider hub simulation options</h1>
+
+    </div>
+
+</div>
+
+<div class="govuk-grid-row">
+
+        <div class="govuk-grid-column-two-thirds">
+
+            <form method="post">
+
+                {{ govukRadios({
+                    idPrefix: 'user-type',
+                    name: 'user-type',
+                    fieldset: {
+                        legend: {
+                            text: 'User type',
+                            isPageHeading: true,
+                            classes: 'govuk-fieldset__legend--m'
+                        }
+                    },
+                    items: [
+                        {
+                            text: 'Collector',
+                            value: 'collector',
+                            checked: true
+                        },
+                        {
+                            text: 'Collection lead',
+                            value: 'lead'
+                        },
+                        {
+                            text: 'School',
+                            value: 'school'
+                        },
+                        {
+                            text: 'Local authority',
+                            value: 'la'
+                        },
+                        {
+                            text: 'MAT',
+                            value: 'mat'
+                        }
+                    ]
+                }) }}
+
+                {{ govukInput({
+                    id: 'username',
+                    name: 'username',
+                    value: data['username'] if data['username'] else '' | randomName,
+                    classes: 'govuk-input--width-20',
+                    label: {
+                        text: 'User’s name',
+                        classes: 'govuk-input--width-20'
+                    }
+                }) }}
+                
+                
+
+                {{ govukButton({
+                    html: 'Save and continue'
+                }) }}
+
+            </form>
+
+        </div>
+
+        <div class="govuk-grid-column-one-third">
+
+            <h2 class="govuk-heading-m">Other journeys</h2>
+            
+            <ul class="govuk-list">
+                <li>
+                    <a href="mis/home?connected=false">Authorisation journey</a>
+                </li>
+            </ul>
+
+        </div>
+
+</div>
+
+{% endblock %}
+
+{% block pageScripts %}
+<script>
+    nextPageRoutes = {
+        collector: 'helpdesk/my-queue',
+        lead: 'helpdesk/my-queue',
+        school: 'school/overview',
+        la: 'helpdesk/my-queue',
+        mat: 'helpdesk/my-queue'
+    }
+</script>
+{% endblock %}

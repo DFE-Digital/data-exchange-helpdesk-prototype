@@ -1,0 +1,100 @@
+
+
+<div class="govuk-grid-row govuk-body govuk-!-margin-top-5">
+    <div class="govuk-grid-column-three-quarters">
+        <form>
+            <div class="govuk-form-group govuk-!-width-two-thirds">
+                <label for="searchPupils" class="govuk-label govuk-!-font-weight-bold">Search pupils</label>
+                <span class="govuk-hint">Name or UPN</span>
+                <input id="searchPupils" type="search" class="govuk-input govuk-!-margin-bottom-1" />
+                <div class="suggestions">
+                    <ul class="govuk-list">
+                        <li class="govuk-!-padding-2"><a href="#">Termly exclusions</a><span class="govuk-hint">3 Pupils</span></li>
+                        <li class="govuk-!-padding-2"><a href="#">Termly session details</a><span class="govuk-hint">5 Pupils</span></li>
+                        <li class="govuk-!-padding-2"><a href="#">Learning aims</a><span class="govuk-hint">1 Pupil</span></li>
+                        <li class="govuk-!-padding-2"><a href="#">FSMperiod</a><span class="govuk-hint">1 Pupil</span></li>
+                        <li class="govuk-!-padding-2"><a href="#">Summer half term 2 session details</a><span class="govuk-hint">402 Pupils</span></li>
+                    </ul>
+                </div>
+                <input type="submit" value="Search" class="govuk-button" /> 
+            </div>
+        </form>
+        
+        
+        <h2 class="govuk-heading-m">
+            Displaying 10 of 411 pupils
+        </h2>
+        <table class="govuk-table">
+          <tbody class="govuk-table__body">
+              
+           <tr class="govuk-table__row">
+              <td class="govuk-table__header govuk-!-padding-top-3" scope="row"><a class="govuk-link govuk-!-font-weight-bold showLeftPane" href="#">GRECO, Arla</a> - 7/11/2002
+                <span class="govuk-hint  govuk-!-margin-bottom-1">W30433221895A &bull; On roll</span>
+                </td>
+            </tr>
+              
+            <tr class="govuk-table__row">
+              <td class="govuk-table__header govuk-!-padding-top-3" scope="row"><a class="govuk-link govuk-!-font-weight-bold showLeftPane" href="#">HASSAN, Orhan</a> - 12/9/2003
+                <span class="govuk-hint  govuk-!-margin-bottom-1">X11260033495B &bull; On roll</span>
+                </td>
+            </tr>
+              
+            <tr class="govuk-table__row">
+              <td class="govuk-table__header govuk-!-padding-top-3" scope="row"><a class="govuk-link govuk-!-font-weight-bold showLeftPane" href="#">HELGREN, Evelynn</a> - 8/9/2007
+                <span class="govuk-hint  govuk-!-margin-bottom-1">A30560031895A &bull; On roll</span>
+                </td>
+            </tr>
+              
+            <tr class="govuk-table__row">
+              <td class="govuk-table__header govuk-!-padding-top-3" scope="row"><a class="govuk-link govuk-!-font-weight-bold showLeftPane" href="#">KHOLS, Laurice</a> - 1/9/1998
+                <span class="govuk-hint  govuk-!-margin-bottom-1">A51521895255B &bull; On roll</span>
+                </td>
+            </tr>
+              
+            <tr class="govuk-table__row">
+              <td class="govuk-table__header govuk-!-padding-top-3" scope="row"><a class="govuk-link govuk-!-font-weight-bold showLeftPane" href="#">KIGER, Shaunte</a> - 4/5/2001
+                <span class="govuk-hint  govuk-!-margin-bottom-1">C11356312895A &bull; On roll</span>
+                </td>
+            </tr>
+              
+            <tr class="govuk-table__row">
+              <td class="govuk-table__header govuk-!-padding-top-3" scope="row"><a class="govuk-link govuk-!-font-weight-bold showLeftPane" href="#">OWEN, Georgia</a> - 15/8/2001
+                <span class="govuk-hint  govuk-!-margin-bottom-1">W30565431895B &bull; On roll</span>
+                </td>
+            </tr>
+
+            <tr class="govuk-table__row">
+              <td class="govuk-table__header govuk-!-padding-top-3" scope="row"><a class="govuk-link govuk-!-font-weight-bold showLeftPane" href="#">VERDUZCO, Rutha</a> - 6/2/2001
+                <span class="govuk-hint  govuk-!-margin-bottom-1">W30560031895B &bull; On roll</span>
+                </td>
+            </tr>
+              
+            <tr class="govuk-table__row">
+              <td class="govuk-table__header govuk-!-padding-top-3" scope="row"><a class="govuk-link govuk-!-font-weight-bold showLeftPane" href="#">ZABEK, Martin</a> - 22/7/2001
+                <span class="govuk-hint  govuk-!-margin-bottom-1">Y30560031895B &bull; On roll</span>
+                </td>
+            </tr>
+              
+
+
+          </tbody>
+        </table>
+        
+<!--
+        <div class="c-align govuk-!-margin-top-9 govuk-!-margin-bottom-9">
+            <a href="#">Previous 10 pupils</a>
+            <select class="govuk-select govuk-!-margin-left-2 govuk-!-margin-right-2">
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+            </select>
+            <a href="#">Next 10 pupils</a>
+        </div>
+-->
+        <a class="govuk-link" href="#">Load 10 more pupils</a>
+    </div>
+    
+    {% include "./pupil-data.html" %}
+    
+</div>
+

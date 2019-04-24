@@ -1,7 +1,7 @@
 {% set external = data.isExternal == 'true' %}{% if external %}{% extends 'layout_la.html' %}{% else %}{% extends 'layout_internal.html' %}{% endif %}
 
 {% block pageTitle %}
-    {{ 'My schools’ collections' if external else 'My work queue' }}
+    Not submitted
 {% endblock %}
 
 {% set collector = data.collectors | getById(0) %}
@@ -40,14 +40,14 @@
             label: 'Sub navigation',
             items: [{
                 html: ('Submitted' if external else 'Inbox') + ' <span class="type-tag count-tag">' + inboxCount + '</span>',
-                href: 'my-queue',
-                active: true
+                href: 'my-queue'
             },{
                 html: ('Awaiting re-submission' if external else 'Responded') + ' <span class="type-tag count-tag">' + respondedCount + '</span>',
                 href: 'my-responses'
             },{
                 html: 'Not submitted <span class="type-tag count-tag">1,321</span>',
-                href: 'not-submitted'
+                href: 'not-submitted',
+                active: true
             }, addMissingSchools if external else seeAllQueues
             ]
         }) }} 
@@ -187,15 +187,13 @@
                 
                 <th class="govuk-table__header" scope="col" aria-sort="none"><span class="no-wrap">Name</span></th>
 
-                <th class="govuk-table__header" scope="col" aria-sort="ascending"><span class="no-wrap">Submitted</span></th>
-
                 <th class="govuk-table__header" scope="col" aria-sort="none"><span class="no-wrap">Type</span></th>
 
                 <th class="govuk-table__header numeric" scope="col" aria-sort="none"><span class="no-wrap">LAESTAB</span></th>
 
-                <th class="govuk-table__header numeric" scope="col" aria-sort="none"><span class="no-wrap">Queries</span></th>
+                <th class="govuk-table__header" scope="col" aria-sort="none"><span class="no-wrap">Contact name</span></th>
 
-                <th class="govuk-table__header numeric" scope="col" aria-sort="none"><span class="no-wrap">Errors</span></th>
+                <th class="govuk-table__header" scope="col"><span class="no-wrap">Contact number</span></th>
                 
                 <th class="govuk-table__header numeric" scope="col"><span class="no-wrap"></span></th>
                 
@@ -204,43 +202,39 @@
             
             <tbody class="govuk-table__body">
 
-                {% for school in schools | sort(false, true, 'submittedDate')  -%}
+                {% for i in range(0, 31) -%}
 
-                {% if school.responsesSent != 'true' %}
+                {% set school = '' | randomSchool %}
 
                 <tr class="govuk-table__row">
                         <th class="govuk-table__header" scope="row">
                             <a href="queries/overview.html?selected-school={{ school.id }}">
-                                {{ school.name }}
+                                {{ school }}
                             </a>
                         </th>
-                        <td class="govuk-table__cell govuk-table__cell--numeric" style="text-align: left" data-sort-value="{{ school.submittedDate }}">
-                            {{ school.submittedDate | formatColumnDate }}
-                        </td>
                         <td class="govuk-table__cell">
+                            {% set schoolType = ['maintained', 'maintained', 'academy'] | random %}
                             {{ govukTag({
-                                text: school.type,
-                                classes: school.type
+                                text: schoolType,
+                                classes: schoolType
                             }) }}
                         </td>
                         <td class="govuk-table__cell govuk-table__cell--numeric">
-                            {{ school.LAESTAB }}
+                            {{ [241,940,493,912,314] | random }}/{{ [1,2,3,4,5,6,7,8,9] | random }}{{ [1,2,3,4,5,6,7,8,9] | random }}{{ [1,2,3,4,5,6,7,8,9] | random }}{{ [1,2,3,4,5,6,7,8,9] | random }}
                         </td>
-                        <td class="govuk-table__cell numeric govuk-table__cell--numeric">
-                            {{ school.noOfQueries }}
+                        <td class="govuk-table__cell">
+                            {{ '' | randomName }}
                         </td>
-                        <td class="govuk-table__cell numeric govuk-table__cell--numeric">
-                            {{ school.noOfErrors }}
+                        <td class="govuk-table__cell">
+                            {{ '' | phoneNumber }}
                         </td>
                         <td class="govuk-table__cell numeric">
                             <a href="queries/overview.html?selected-school={{ school.id }}" class="govuk-button govuk-button-blue govuk-button-small">
-                                Open
+                                Add note
                             </a>
                         </td>
                         
                 </tr>
-
-                {% endif %}
 
                 {% endfor -%}
                 

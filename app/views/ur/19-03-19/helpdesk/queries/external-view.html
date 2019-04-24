@@ -9,7 +9,6 @@
 {% set schoolName = school['name'] %}
 {% set laestab = school['LAESTAB'] %}
 {% set queries = school['queries'] %}
-{% set errors = school['errors'] %}
 
 {% set handledCount = 0 %}
 {% for query in queries %}
@@ -21,35 +20,24 @@
 {% set pendingCount = (queries | length) - handledCount %}
 
 {% block postHeader %}
-{% if queries | length == 0 %}
-    <script>
-        window.location.href = '/select-school'
-    </script>
-{% endif %}
 <div class="hmcts-identity-bar">
   <div class="hmcts-identity-bar__container">
     <div class="hmcts-identity-bar__details">
-        <span class="hmcts-identity-bar__title"><b>{{ schoolName }}</b> {{ laestab }} <strong class="govuk-!-padding-right-4"></strong>{{ govukTag({text: school.type, classes: school.type}) }}</span>
+        <span class="hmcts-identity-bar__title"><b>{{ schoolName }}</b> {{ laestab }} <strong class="govuk-!-padding-right-4"></strong>{{ govukTag({text: school.type}) }}</span>
     </div>
     <div style="float:right;">
-        {% if (school.responsesSent == 'true') %}
-            {{ govukButton({
-                text: 'Return to my schools' if external else 'Return to work queue',
-                href: '../my-responses',
-                classes: 'hmcts-menu-item hmcts-button--secondary'
-            }) }}
-        {% elseif (pendingCount == 0) %}
-            {{ govukButton({
-                text: 'Send responses to school',
-                href: '/send-responses',
-                classes: 'hmcts-menu-item'
-            }) }}
+        {% if pendingCount != 0 %}
+        {{ govukButton({
+            text: 'Return to work queue',
+            href: '#',
+            classes: 'hmcts-menu-item hmcts-button--secondary'
+        }) }}
         {% else %}
-            {{ govukButton({
-                text: 'Return to my schools' if external else 'Return to work queue',
-                href: '../my-queue',
-                classes: 'hmcts-menu-item hmcts-button--secondary'
-            }) }}
+        {{ govukButton({
+            text: 'Send responses to school',
+            href: '#',
+            classes: 'hmcts-menu-item'
+        }) }}
         {% endif %}
     </div>
   </div>
@@ -62,11 +50,6 @@
 
     <div class="govuk-grid-column-full census-case-nav govuk-!-padding-bottom-5">
 
-    {% set actionedQueries = {
-        text: handledCount + ' actioned queries' if handledCount != 1 else '1 actioned query',
-        href: 'handled'
-    } %}
-
         {{ hmctsSubNavigation({
             label: 'Sub navigation',
             items: [
@@ -74,18 +57,23 @@
                     text: pendingCount + ' queries' if pendingCount != 1 else '1 query',
                     href: 'overview',
                     active: true
-                }, actionedQueries if not external,
-                {
-                    text: school.noOfErrors + ' errors' if school.noOfErrors != 1 else '1 error',
-                    href: 'errors'
                 },
                 {
-                    text: 'Additional note',
-                    href: 'return-note'
+                    text: handledCount + ' queries actioned' if handledCount != 1 else '1 query actioned',
+                    href: 'handled'
                 },
                 {
-                    text: 'View all census data',
-                    href: 'census-data'
+                    text: '4 errors',
+                    href: '#'
+                },
+                {
+                    text: 'Census data',
+                    href: '#'
+                },
+                {
+                    html: 'View as LA <svg style="transform: translateY(3px);" xmlns="http://www.w3.org/2000/svg" id="Layer_1" data-name="Layer 1" width="19" height="19" viewBox="0 0 64 64"><title>Icons 400</title><path d="M51.9981,26.9756a2,2,0,0,1-2.002-1.9981V16.8364L33.3721,33.4139a1.9894,1.9894,0,0,1-2.8045-2.8224L47.21,13.9962h-8.232a1.9981,1.9981,0,1,1,0-3.9962h13.02A2,2,0,0,1,54,11.998V24.9775A2,2,0,0,1,51.9981,26.9756ZM28,21.9932H16a2.0024,2.0024,0,0,0-2,2.0006V48a2.0022,2.0022,0,0,0,2,2.0006H40A2.0027,2.0027,0,0,0,42,48V36a2,2,0,1,1,4,0V48a6.0077,6.0077,0,0,1-6,6.0021H16A6.0078,6.0078,0,0,1,10,48V23.9938a6.0075,6.0075,0,0,1,6-6.0019H28a2.0007,2.0007,0,0,1,0,4.0013Z" fill-rule="evenodd" fill="#005ea5"></path></svg>',
+                    href: '#',
+                    classes: 'test'
                 }
             ]
         }) }} 
@@ -94,87 +82,21 @@
 
 </div>
 
-{% if (pendingCount == 0) and (school.responsesSent == 'true') %}
-
-    <div class="govuk-grid-row">
-
-        <div class="govuk-grid-column-one-half">
-            <h2 class="govuk-heading-l">Responses have been sent to school</h1>
-            <p>You can <a href="handled">review the responses</a> and change the responses if there has been an error.</p>
-            {{ govukButton({
-                text: 'Review responses',
-                href: 'handled',
-                classes: ''
-            }) }}
-        </div>
-
-    </div>
-
-{% elseif pendingCount == 0 %}
-
-    {% set rejectedCount = 0 %}
-
-    {% for query in queries %}
-
-        {% if query.response == 'rejected' %}
-            {% set rejectedCount = rejectedCount + 1 %}
-        {% endif %}
-
-    {% endfor %}
-
-    {% if errors == null or errors.length == 0 %}
-
-        {% if rejectedCount > 0 %}
-
-        <div class="govuk-grid-row">
-
-            <div class="govuk-grid-column-one-half">
-                <h2 class="govuk-heading-l">All queries have a response</h1>
-                <p>You can <a href="handled">review the responses</a> before they are sent. Once the responses are sent the school can reply to rejected queries or amend data in their MIS.</p>
-                {{ govukButton({
-                    text: 'Send responses to school',
-                    href: '/send-responses',
-                    classes: ''
-                }) }}
-            </div>
-
-        </div>
-
-        {% else %}
-
-        <div class="govuk-grid-row">
-
-            <div class="govuk-grid-column-one-half">
-                <h2 class="govuk-heading-l">All queries have been approved</h1>
-                <p>You can <a href="handled">review the responses</a> before they are sent. Once the responses are sent the school can reply to rejected queries or amend data in their MIS.</p>
-                {{ govukButton({
-                    text: 'Send responses to school',
-                    href: '/send-responses',
-                    classes: ''
-                }) }}
-            </div>
-
-        </div>
-
-        {% endif %}
-
-    {% else %}
+{% if pendingCount == 0 %}
 
     <div class="govuk-grid-row">
 
         <div class="govuk-grid-column-one-half">
             <h2 class="govuk-heading-l">All queries have a response</h1>
-            <p>You can <a href="handled">review the responses</a> before you continue. This return contains errors, the errors must be considered before the return is sent back to the school.</p>
+            <p>You can <a href="handled">review the responses</a> before they are sent. Once the responses are sent the school can reply to rejected queries or amend data in their MIS.</p>
             {{ govukButton({
-                text: 'Review errors',
-                href: 'review-errors',
+                text: 'Send responses to school',
+                href: '#',
                 classes: ''
             }) }}
         </div>
 
     </div>
-
-    {% endif %}
 
 {% else %}
 
@@ -189,11 +111,10 @@
                     name: 'search-query'
                 },
                 label: {
-                    text: 'Find a query',
-                    classes: 'govuk-visually-hidden'
+                    text: 'Find a query'
                 },
                 hint: {
-                    text: 'Search by query number or keyword(s)'
+                    text: 'You can find a query by number or keywords'
                 },
                 button: {
                     text: 'Find'
@@ -210,6 +131,8 @@
 
         <br>
 
+        {{ data.fakeNames.firstNames[2] }} {{ data.fakeNames.lastNames[9] }}
+
     </div>
 
 </div>
@@ -218,7 +141,7 @@
 
     <div class="govuk-grid-column-full">
 
-        <table id="queryTable" class="govuk-table internal-table query-table">
+        <table class="govuk-table internal-table query-table">
             
             <caption class="govuk-table__caption">Queries</caption>
             
@@ -226,34 +149,30 @@
             <thead class="govuk-table__head">
                 <tr class="govuk-table__row">
                 
-                <th class="govuk-table__header" scope="col"  aria-sort="none"><span class="no-wrap">Query</span></th>
+                <th class="govuk-table__header" scope="col"><span class="no-wrap">Query</span></th>
                 
                 <th class="govuk-table__header" scope="col"><span class="no-wrap">Notes</span></th>
                 
-                <th class="govuk-table__header width-medium" scope="col"><span class="no-wrap">Acceptance criteria</span></th>
-                
-                {% if not external %}
-                <th class="govuk-table__header numeric" scope="col"><span class="no-wrap">Actions</span></th>
-                {% endif %}
+                <th class="govuk-table__header width-medium" scope="col"><span class="no-wrap">Accepting guide</span></th>
                 
                 </tr>
             </thead>
             
             <tbody class="govuk-table__body">
 
-                {% for query in queries | sort(false, true, 'number') %}
+                {% for query in queries | sort(false, true, 'id') %}
                     {% set consolidatedQuery = false %}
                     {% if query['handled'] == 'false' %}
                     <tr class="govuk-table__row">
-                        <th class="govuk-table__header query-description" scope="row" data-sort-value="{{ query['number'] }}">
+                        <th class="govuk-table__header query-description" scope="row">
                             <h3 class="govuk-heading-m" style="margin-bottom: 5px;">
-                                {{ query['number'] }}
+                                {{ query['id'] }}
                             </h3>
                             {% if query['type'] == 'pupil' %}
                                 {% if query['pupils'] | length == 0 %}
                                     <span class="type-tag {{ query['type'] }}">{{ query['type'] | titleCase }} query</span>
                                 {% else %}
-                                <a href="single-query" class="no-wrap type-tag {{ query['type'] }}"  data-name="selected-query" data-value="{{ query.id }}">
+                                <a href="single-query" class="no-wrap type-tag {{ query['type'] }}"  data-name="selected-query" data-value="{{ query.ref }}">
                                     {% if query['pupils'] | length != 1 %}
                                         {{ query['pupils'] | length }} pupils
                                         {% set consolidatedQuery = true %}
@@ -270,34 +189,19 @@
                         </th>
 
                         <td class="govuk-table__cell notes">
-                            {% for note in query.notes %}
-                            {% if loop.index == query.notes | length %}
+                            {% for note in query['notes'] %}
                             <div class="note {{ note.type }}">
-                                <span class="title">{{ 'Approved by ' if note.type == 'approval' }}{{ 'Rejected by ' if note.type == 'reply' }}{{ 'Note added by ' if note.type == 'school' }} {{ note.author }}<br>{{ note.date | formatDate }}</span>
+                                <span class="title">{{ 'Approved by ' if note.type == 'approval' }}{{ 'Rejected by ' if note.type == 'reply' }}{{ 'Note added by ' if note.type == 'school' }} {{ 'MIS user' if note.type == 'school' else 'DfE helpdesk' }} <br>{{ note.date | formatDate }}</span>
                                 {{ note.text }}
                             </div>
-                            {% endif -%}
                             {% endfor -%}
-                            <div class="query-index" style="display: none;">{{query.id}}</div>
+                            <div class="query-index" style="display: none;">{{query.ref}}</div>
                         </td>
 
                         <td class="govuk-table__cell width-medium">
                             {{ query.guide }}
                         </td>
 
-                        {% if not external %}
-                        <td class="govuk-table__cell numeric">
-                            <a href="/handle-query?selected-query={{query.id}}&response=approved" class="govuk-button govuk-button-small approveButton">Accept{{ ' all' if consolidatedQuery }}</a>
-                            
-                            <br>
-                            <button type="button" class="govuk-button govuk-button-red govuk-button-small open-dialog">Reject{{ ' all' if consolidatedQuery }}</button><br>
-                            {% if query['type'] == 'pupil' and query['pupils'] | length != 0 %}
-                            <a href="single-query" data-name="selected-query" data-value="{{ query.id }}" class="govuk-button govuk-button-blue govuk-button-small">
-                                View details
-                                </a>
-                            {% endif %}
-                        </td>
-                        {% endif %}
 
                     </tr>
                     {% endif %}
@@ -311,11 +215,14 @@
 
 </div>
 
+{% endif %}
+
 <div class="dialog" role="dialog" aria-labelledby="dialog-title" aria-describedby="dialog-description">
             
     <div class="query-description"></div>
     <div class="notes"></div>
-    {% set responseHTML %}
+
+    <form class="internal-form" action="/handle-query">
         {{ govukTextarea({
             id: 'reject-reason',
             name: 'reject-reason',
@@ -324,12 +231,10 @@
                 text: 'Response'
             }
         }) }}
-    {% endset -%}
-
-    <form class="internal-form" action="/handle-query">
         {{ govukRadios({
             idPrefix: 'reject-response',
             name: 'reject-response',
+            classes: 'govuk-visually-hidden',
             fieldset: {
                 legend: {
                     text: 'Note to send to school',
@@ -343,12 +248,13 @@
                     value: 'You must confirm that the information is correct.'
                 },
                 {
-                text: '“Please provide more information.”',
+                    text: '“Please provide more information.”',
                     value: 'Please provide more information.'
                 },
                 {
                     text: 'Custom response',
                     value: 'custom',
+                    checked: true,
                     conditional: {
                         html: responseHTML
                     }
@@ -371,17 +277,12 @@
 
 <div class="dialog-overlay" tabindex="-1"></div>
 
-{% endif %}
-
 
 {% endblock %}
 
 {% block pageScripts %}
 
 <script>
-
-    var table = document.getElementById('queryTable')
-    new SortableTable(table)
 
     $('#search-query').on('input', function() {
         var value = $(this).val();
@@ -411,7 +312,12 @@
         }
     })
 
-    $('.dialog .govuk-textarea').on('change', function() {
+    $('.dialog .govuk-textarea').on('input', function() {
+        if ($('.dialog input.govuk-radios__input[checked]').val() === 'custom') {
+            customNote = true;
+        } else {
+            customNote = false;
+        }
         if (customNote) {
             updateNote($('.dialog .govuk-textarea').val());
         }

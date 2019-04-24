@@ -1,0 +1,165 @@
+{% extends 'layout_la.html' %}
+
+{% block pageTitle %}
+    Give an explanation for your errors
+{% endblock %}
+
+{% set school = data.misSchool %}
+{% set schoolName = school.name %}
+{% set laestab = school.LAESTAB %}
+{% set queries = school.queries %}
+{% set errors = school.errors %}
+
+{% set handledCount = 0 %}
+{% for query in queries %}
+    {% if query['handled'] == 'true' %}
+        {% set handledCount = handledCount + 1 %}
+    {% endif %}
+{% endfor %}
+
+{% set pendingCount = (queries | length) - handledCount %}
+
+{% block postHeader %}
+<div class="hmcts-identity-bar">
+  <div class="hmcts-identity-bar__container">
+    <div class="hmcts-identity-bar__details">
+        <span class="hmcts-identity-bar__title"><b>{{ schoolName }}</b> {{ laestab }} <strong class="govuk-!-padding-right-4"></strong></span>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block content %}
+
+
+<div class="govuk-grid-row govuk-body govuk-!-margin-bottom-7">
+    <div class="govuk-grid-column-one-half">
+        
+        <h2 class="govuk-heading-xl">
+            Give an explanation for the errors in your data
+        </h2>
+
+        {{ govukWarningText({
+            text: 'We do not normally accept errors of any kind, if the explanation given is insufficient you will be required to submit a new return.',
+            iconFallbackText: 'Warning'
+        }) }}
+
+    </div>
+</div>
+
+<div class="govuk-grid-row">
+
+    <div class="govuk-grid-column-full">
+
+        <table id="errorTable" class="govuk-table internal-table query-table">
+            
+            <caption class="govuk-table__caption">Queries</caption>
+            
+            
+            <thead class="govuk-table__head">
+                <tr class="govuk-table__row">
+                
+                <th class="govuk-table__header" scope="col"  aria-sort="ascending"><span class="no-wrap">Error</span></th>
+
+                <th class="govuk-table__header" scope="col"  aria-sort="none"><span class="no-wrap">Type</span></th>                
+                <th class="govuk-table__header" scope="col"  aria-sort="none"><span class="no-wrap">Records affected</span></th>                
+                <th class="govuk-table__header" scope="col"><span class="no-wrap">Description</span></th>
+                
+                </tr>
+            </thead>
+            
+            <tbody class="govuk-table__body">
+
+                {% for error in errors | sort(false, true, 'number') %}
+                    {% set consolidatedError = false %}
+                    <tr class="govuk-table__row">
+                        <th class="govuk-table__header query-description" scope="row" data-sort-value="{{ error.number }}">
+                            <h3 class="govuk-heading-m" style="margin-bottom: 5px;">
+                                {{ error.number }}
+                                <span class="govuk-visually-hidden">{{ error.description }}</span>
+                            </h3>
+                        </th>
+
+                        <td class="govuk-table__cell">
+                            <span class="type-tag {{ error.type }}">{{ error.type | sentenceCase }}</span>
+                        </td>
+
+                        <td class="govuk-table__cell" data-sort-value="{{ error.pupils | length if error.pupils else 0 }}">
+                            {{ error.pupils | length if error.pupils }}
+                        </td>
+
+                        <td class="govuk-table__cell">
+                            {{ error.description }}
+                        </td>
+
+                    </tr>
+
+                {% endfor -%}
+                
+            </tbody>
+        </table>
+
+    </div>
+
+</div>
+
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-one-half">
+
+        <form action="queries.html">
+        
+            {{ govukTextarea({
+                id: 'error-note',
+                name: 'error-note',
+                value: data['error-note'] if data['error-note'] else '',
+                attributes: {
+                    placeholder: 'For example: \nError 2500: Explanation one... \nError 1570: Explanation two...'
+                },
+                label: {
+                    text: 'Give an explanation for any outstanding errors'
+                },
+                hint: {
+                    text: 'You must give as much information as possible for each error'
+                }
+            }) }}
+
+            <input type="hidden" name="errorsHandled" value="true">
+
+            {{ govukButton({
+                html: 'Save and continue'
+            }) }}
+
+        </form>
+
+    </div>
+</div>
+
+
+
+{% endblock %}
+
+{% block pageScripts %}
+
+<script>
+
+    var table = document.getElementById('errorTable')
+    new SortableTable(table)
+
+    $('#search-error').on('input', function() {
+        var value = $(this).val();
+        $('.query-description').each(function() {
+            var queryDesc = $(this).html();
+            if (!queryDesc.toLowerCase().includes(value.toLowerCase())) {
+                $(this).closest('tr').hide();
+            } else {
+                $(this).closest('tr').show();
+            }
+        })
+    })
+
+    window.GOVUKFrontend.initAll()
+
+</script>
+
+{% endblock %}

@@ -1,15 +1,14 @@
-{% set external = data.isExternal == 'true' %}{% if external %}{% extends 'layout_la.html' %}{% else %}{% extends 'layout_internal.html' %}{% endif %}
+{% extends 'layout_la.html' %}
 
 {% block pageTitle %}
     Errors
 {% endblock %}
 
-{% set schoolIndex = data['selected-school'] %}
-{% set school = data['schools'][schoolIndex] %}
-{% set schoolName = school['name'] %}
-{% set laestab = school['LAESTAB'] %}
-{% set queries = school['queries'] %}
-{% set errors = school['errors'] %}
+{% set school = data.misSchool %}
+{% set schoolName = school.name %}
+{% set laestab = school.LAESTAB %}
+{% set queries = school.queries %}
+{% set errors = school.errors %}
 
 {% set handledCount = 0 %}
 {% for query in queries %}
@@ -24,28 +23,7 @@
 <div class="hmcts-identity-bar">
   <div class="hmcts-identity-bar__container">
     <div class="hmcts-identity-bar__details">
-        <span class="hmcts-identity-bar__title"><b>{{ schoolName }}</b> {{ laestab }} <strong class="govuk-!-padding-right-4"></strong>{{ govukTag({text: school.type, classes: school.type}) }}</span>
-    </div>
-    <div style="float:right;">
-        {% if (school.responsesSent == 'true') %}
-            {{ govukButton({
-                text: 'Return to my schools' if external else 'Return to work queue',
-                href: '../my-responses',
-                classes: 'hmcts-menu-item hmcts-button--secondary'
-            }) }}
-        {% elseif (pendingCount == 0) %}
-            {{ govukButton({
-                text: 'Send responses to school',
-                href: '/send-responses',
-                classes: 'hmcts-menu-item'
-            }) }}
-        {% else %}
-            {{ govukButton({
-                text: 'Return to my schools' if external else 'Return to work queue',
-                href: '../my-queue',
-                classes: 'hmcts-menu-item hmcts-button--secondary'
-            }) }}
-        {% endif %}
+        <span class="hmcts-identity-bar__title"><b>{{ schoolName }}</b> {{ laestab }} <strong class="govuk-!-padding-right-4"></strong></span>
     </div>
   </div>
 </div>
@@ -53,7 +31,35 @@
 
 {% block content %}
 
-<div class="govuk-grid-row">
+{% if data.errorsHandled != 'true' %}
+
+<div class="govuk-grid-row govuk-body govuk-!-margin-bottom-7">
+    <div class="govuk-grid-column-one-half">
+        
+        <h2 class="govuk-heading-xl">
+            There are errors in your data
+        </h2>
+
+        <p>
+            We can only accept your census data when there are no errors.
+        </p>
+
+        <p>
+            Errors are usually caused by missing or incorrect data.
+        </p>
+
+        <p>
+            Return to your MIS and update your data to fix these errors. You must then resend us your data.
+        </p>
+
+    </div>
+</div>
+
+{% else %}
+
+<div class="govuk-grid-row govuk-body govuk-!-margin-bottom-7">
+
+
 
     <div class="govuk-grid-column-full census-case-nav govuk-!-padding-bottom-5">
 
@@ -75,8 +81,8 @@
                     active: true
                 },
                 {
-                    text: 'Additional note',
-                    href: 'return-note'
+                    text: 'Preserved notes',
+                    href: 'return-notes'
                 },
                 {
                     text: 'View all census data',
@@ -88,26 +94,6 @@
     </div>
 
 </div>
-
-{% if errors == null or errors.length == 0 %}
-
-<div class="govuk-grid-row">
-
-    <div class="govuk-grid-column-one-half">
-
-        <h2 class="govuk-heading-l">
-            There are errors in this submission
-        </h2>
-
-        <p>
-            You will be asked to review these errors before you send the submission back to the school
-        </p>
-
-    </div>
-
-</div>
-
-{% else %}
 
 <div class="govuk-grid-row">
 
@@ -135,8 +121,8 @@
 
         
         {{ govukDetails({
-        summaryText: "Find an error",
-        html: findHTML
+            summaryText: "Find an error",
+            html: findHTML
         }) }}
 
         <br>
@@ -144,6 +130,8 @@
     </div>
 
 </div>
+
+{% endif %}
 
 <div class="govuk-grid-row">
 
@@ -199,6 +187,18 @@
 
     </div>
 
+</div>
+
+{% if data.errorsHandled != 'true' %}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-one-half">
+        
+        <p>
+            If you encounter a problem and are unable to fix an error, you must <a href="error-note">give us an explanation</a>.
+        </p>
+
+    </div>
 </div>
 
 {% endif %}

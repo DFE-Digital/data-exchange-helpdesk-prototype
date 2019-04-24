@@ -1,0 +1,83 @@
+{% set external = data.isExternal == 'true' %}{% if external %}{% extends 'layout_la.html' %}{% else %}{% extends 'layout_internal.html' %}{% endif %}
+
+{% block pageTitle %}
+    Workloads
+{% endblock %}
+
+{% set collector = data.collectors | getById(data['selected-user']) %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+
+    <div class="govuk-grid-column-full">
+
+        {{ govukBackLink({
+            text: 'Back',
+            href: 'javascript:history.back()'
+        }) }}
+
+        <h2 class="govuk-heading-l">Collector: {{ collector.firstName }} {{ collector.lastName }}</h2>
+
+        <form action="/amend-collector">
+
+            {{ govukInput({
+                id: 'first-name',
+                name: 'first-name',
+                value: collector.firstName if collector.firstName else '',
+                classes: 'govuk-input--width-20',
+                label: {
+                    text: 'First name',
+                    classes: 'govuk-input--width-20'
+                }
+            }) }}
+
+            {{ govukInput({
+                id: 'last-name',
+                name: 'last-name',
+                value: collector.lastName if collector.lastName else '',
+                classes: 'govuk-input--width-20',
+                label: {
+                    text: 'Last name',
+                    classes: 'govuk-input--width-20'
+                }
+            }) }}
+
+            {{ govukInput({
+                id: 'email',
+                name: 'email',
+                value: collector.email if collector.email else '',
+                type: 'email',
+                classes: 'govuk-input--width-30',
+                label: {
+                    text: 'Email address',
+                    classes: 'govuk-input--width-30'
+                }
+            }) }}
+
+            {{ govukInput({
+                id: 'hours-per-week',
+                name: 'hours-per-week',
+                value: (collector.weighting | float * 37 if collector.weighting else '37') | round if collector.weighting else '37',
+                classes: 'govuk-input--width-5',
+                label: {
+                    text: 'Hours per week',
+                    classes: 'govuk-input--width-10'
+                }
+            }) }}
+
+            {{ govukButton({
+                html: 'Save changes'
+            }) }}
+
+            <p><a href="manage">Cancel</a></p>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+
+{% endblock %}

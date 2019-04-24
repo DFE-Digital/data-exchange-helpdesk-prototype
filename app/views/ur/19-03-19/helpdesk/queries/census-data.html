@@ -33,7 +33,7 @@
     <div style="float:right;">
         {% if (school.responsesSent == 'true') %}
             {{ govukButton({
-                text: 'Return to my schools' if external else 'Return to work queue',
+                text: 'Return to work queue',
                 href: '../my-responses',
                 classes: 'hmcts-menu-item hmcts-button--secondary'
             }) }}
@@ -45,7 +45,7 @@
             }) }}
         {% else %}
             {{ govukButton({
-                text: 'Return to my schools' if external else 'Return to work queue',
+                text: 'Return to work queue',
                 href: '../my-queue',
                 classes: 'hmcts-menu-item hmcts-button--secondary'
             }) }}
@@ -61,25 +61,20 @@
 
     <div class="govuk-grid-column-full census-case-nav govuk-!-padding-bottom-5">
 
-        {% set actionedQueries = {
-            text: handledCount + ' actioned queries' if handledCount != 1 else '1 actioned query',
-            href: 'handled'
-        } %}
-
         {{ hmctsSubNavigation({
             label: 'Sub navigation',
             items: [
                 {
                     text: pendingCount + ' queries' if pendingCount != 1 else '1 query',
                     href: 'overview'
-                }, actionedQueries if not external,
-                {
-                    text: school.noOfErrors + ' errors' if school.noOfErrors != 1 else '1 error',
-                    href: 'errors'
                 },
                 {
-                    text: 'Additional note',
-                    href: 'return-note'
+                    text: handledCount + ' resolved queries' if handledCount != 1 else '1 resolved query',
+                    href: 'handled'
+                },
+                {
+                    text: school.noOfErrors + ' errors',
+                    href: 'errors'
                 },
                 {
                     text: 'View all census data',
@@ -87,7 +82,7 @@
                     active: true
                 }
             ]
-        }) }}
+        }) }} 
 
     </div>
 

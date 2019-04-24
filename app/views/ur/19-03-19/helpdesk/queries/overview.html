@@ -9,7 +9,6 @@
 {% set schoolName = school['name'] %}
 {% set laestab = school['LAESTAB'] %}
 {% set queries = school['queries'] %}
-{% set errors = school['errors'] %}
 
 {% set handledCount = 0 %}
 {% for query in queries %}
@@ -29,12 +28,21 @@
 <div class="hmcts-identity-bar">
   <div class="hmcts-identity-bar__container">
     <div class="hmcts-identity-bar__details">
-        <span class="hmcts-identity-bar__title"><b>{{ schoolName }}</b> {{ laestab }} <strong class="govuk-!-padding-right-4"></strong>{{ govukTag({text: school.type, classes: school.type}) }}</span>
+        <span class="hmcts-identity-bar__title"><b>{{ schoolName }}</b> {{ laestab }} <strong class="govuk-!-padding-right-4"></strong>
+        {{ govukTag({
+            text: school.type, 
+            classes: school.type,
+            attributes : { 
+                style: 'background-color: #28a197' if school.type == 'academy'
+            }
+        }
+        ) }}
+        </span>
     </div>
     <div style="float:right;">
         {% if (school.responsesSent == 'true') %}
             {{ govukButton({
-                text: 'Return to my schools' if external else 'Return to work queue',
+                text: 'Return to work queue',
                 href: '../my-responses',
                 classes: 'hmcts-menu-item hmcts-button--secondary'
             }) }}
@@ -46,7 +54,7 @@
             }) }}
         {% else %}
             {{ govukButton({
-                text: 'Return to my schools' if external else 'Return to work queue',
+                text: 'Return to work queue',
                 href: '../my-queue',
                 classes: 'hmcts-menu-item hmcts-button--secondary'
             }) }}
@@ -62,11 +70,6 @@
 
     <div class="govuk-grid-column-full census-case-nav govuk-!-padding-bottom-5">
 
-    {% set actionedQueries = {
-        text: handledCount + ' actioned queries' if handledCount != 1 else '1 actioned query',
-        href: 'handled'
-    } %}
-
         {{ hmctsSubNavigation({
             label: 'Sub navigation',
             items: [
@@ -74,14 +77,14 @@
                     text: pendingCount + ' queries' if pendingCount != 1 else '1 query',
                     href: 'overview',
                     active: true
-                }, actionedQueries if not external,
-                {
-                    text: school.noOfErrors + ' errors' if school.noOfErrors != 1 else '1 error',
-                    href: 'errors'
                 },
                 {
-                    text: 'Additional note',
-                    href: 'return-note'
+                    text: handledCount + ' resolved queries' if handledCount != 1 else '1 resolved query',
+                    href: 'handled'
+                },
+                {
+                    text: school.noOfErrors + ' errors',
+                    href: 'errors'
                 },
                 {
                     text: 'View all census data',
@@ -112,69 +115,19 @@
 
 {% elseif pendingCount == 0 %}
 
-    {% set rejectedCount = 0 %}
-
-    {% for query in queries %}
-
-        {% if query.response == 'rejected' %}
-            {% set rejectedCount = rejectedCount + 1 %}
-        {% endif %}
-
-    {% endfor %}
-
-    {% if errors == null or errors.length == 0 %}
-
-        {% if rejectedCount > 0 %}
-
-        <div class="govuk-grid-row">
-
-            <div class="govuk-grid-column-one-half">
-                <h2 class="govuk-heading-l">All queries have a response</h1>
-                <p>You can <a href="handled">review the responses</a> before they are sent. Once the responses are sent the school can reply to rejected queries or amend data in their MIS.</p>
-                {{ govukButton({
-                    text: 'Send responses to school',
-                    href: '/send-responses',
-                    classes: ''
-                }) }}
-            </div>
-
-        </div>
-
-        {% else %}
-
-        <div class="govuk-grid-row">
-
-            <div class="govuk-grid-column-one-half">
-                <h2 class="govuk-heading-l">All queries have been approved</h1>
-                <p>You can <a href="handled">review the responses</a> before they are sent. Once the responses are sent the school can reply to rejected queries or amend data in their MIS.</p>
-                {{ govukButton({
-                    text: 'Send responses to school',
-                    href: '/send-responses',
-                    classes: ''
-                }) }}
-            </div>
-
-        </div>
-
-        {% endif %}
-
-    {% else %}
-
     <div class="govuk-grid-row">
 
         <div class="govuk-grid-column-one-half">
             <h2 class="govuk-heading-l">All queries have a response</h1>
-            <p>You can <a href="handled">review the responses</a> before you continue. This return contains errors, the errors must be considered before the return is sent back to the school.</p>
+            <p>You can <a href="handled">review the responses</a> before they are sent. Once the responses are sent the school can reply to rejected queries or amend data in their MIS.</p>
             {{ govukButton({
-                text: 'Review errors',
-                href: 'review-errors',
+                text: 'Send responses to school',
+                href: '/send-responses#',
                 classes: ''
             }) }}
         </div>
 
     </div>
-
-    {% endif %}
 
 {% else %}
 
@@ -232,9 +185,7 @@
                 
                 <th class="govuk-table__header width-medium" scope="col"><span class="no-wrap">Acceptance criteria</span></th>
                 
-                {% if not external %}
                 <th class="govuk-table__header numeric" scope="col"><span class="no-wrap">Actions</span></th>
-                {% endif %}
                 
                 </tr>
             </thead>
@@ -270,13 +221,11 @@
                         </th>
 
                         <td class="govuk-table__cell notes">
-                            {% for note in query.notes %}
-                            {% if loop.index == query.notes | length %}
+                            {% for note in query['notes'] %}
                             <div class="note {{ note.type }}">
                                 <span class="title">{{ 'Approved by ' if note.type == 'approval' }}{{ 'Rejected by ' if note.type == 'reply' }}{{ 'Note added by ' if note.type == 'school' }} {{ note.author }}<br>{{ note.date | formatDate }}</span>
                                 {{ note.text }}
                             </div>
-                            {% endif -%}
                             {% endfor -%}
                             <div class="query-index" style="display: none;">{{query.id}}</div>
                         </td>
@@ -285,7 +234,6 @@
                             {{ query.guide }}
                         </td>
 
-                        {% if not external %}
                         <td class="govuk-table__cell numeric">
                             <a href="/handle-query?selected-query={{query.id}}&response=approved" class="govuk-button govuk-button-small approveButton">Accept{{ ' all' if consolidatedQuery }}</a>
                             
@@ -297,7 +245,6 @@
                                 </a>
                             {% endif %}
                         </td>
-                        {% endif %}
 
                     </tr>
                     {% endif %}

@@ -63,17 +63,14 @@
 
 </div>
 
-
 <div class="govuk-grid-row">
 
     <div class="govuk-grid-column-one-half">
         
         <h1 class="govuk-heading-xl query-heading">{{ query.number }}</h1>
 
-        {% set single = query['type'] | length == 0 %}
-
         {% if query['type'] == 'pupil' %}
-            {% if single %}
+            {% if query['pupils'] | length == 0 %}
                 <span class="type-tag {{ query['type'] }}">{{ query['type'] | titleCase }} query</span>
             {% else %}
             <span class="no-wrap type-tag {{ query['type'] }}"  data-name="selected-query" data-value="{{ loop.index }}">
@@ -112,26 +109,26 @@
 
         {% set isMultiple = query.pupils | length != 1 %}
 
-        <table class="govuk-table" id="singleQueryTable">
+        <table class="govuk-table">
         <caption class="govuk-table__caption">Pupil{{ 's' if isMultiple }} relating to query {{ query.number }}</caption>
         <thead class="govuk-table__head">
             <tr class="govuk-table__row">
                 {% if isMultiple %}
                 <th class="govuk-table__header table-checkbox-cell" scope="row"><input type="checkbox" id="select{{ loop.index }}"><label for="select{{ loop.index }}"></label></th>
                 {% endif %}
-                <th class="govuk-table__header" scope="col" aria-sort="ascending">UPN</th>
-                <th class="govuk-table__header" scope="col" aria-sort="none">Name</th>
-                <th class="govuk-table__header" scope="col" aria-sort="none">Date of birth</th>
+                <th class="govuk-table__header" scope="col">UPN</th>
+                <th class="govuk-table__header" scope="col">Name</th>
+                <th class="govuk-table__header" scope="col">Date of birth</th>
             </tr>
         </thead>
         <tbody class="govuk-table__body">
-            {% for pupil in query.pupils | sort(false, true, 'UPN') %}
+            {% for pupil in query.pupils %}
             <tr class="govuk-table__row">
                 {% if isMultiple %}
                 <th class="govuk-table__header table-checkbox-cell" scope="row"><input type="checkbox" id="select{{ loop.index - 1 }}"><label for="select{{ loop.index - 1 }}"></label></th>
                 {% endif %}
                 <th class="govuk-table__header" scope="row">
-                    <a href="#" class="open-dialog" data-pupil="{{ loop.index - 1 }}"><span class="upn">{{ pupil.UPN }}</span></a>
+                    <a href="#" class="open-dialog" data-pupil="{{ loop.index - 1 }}"><span class="upn">{{ [pupil.UPN, pupil.UPN, pupil.UPN, pupil.UPN, pupil.UPN, 'UPN missing'] | random }}</span></a>
                 </th>
                 <td class="govuk-table__cell">
                     {% set name = '<span class="last-name">' + pupil.surname + '</span>, <span class="first-name">' + pupil.firstname + '</span>' %}
@@ -194,7 +191,6 @@
         </div>
 
         <script>
-
             $('.govuk-table__head .table-checkbox-cell input[type=checkbox]').on('change', function() {
                 $(this).closest('table').find('.table-checkbox-cell input[type=checkbox]').prop('checked', $(this).prop('checked'));
                 $(this).closest('table').find('.govuk-table__body tr').removeClass('highlight-row');
@@ -764,9 +760,6 @@
 
 {% block pageScripts %}
 <script>
-
-    var table = document.getElementById('singleQueryTable')
-    new SortableTable(table)
 
     var navDialogEl = document.querySelector('.dialog');
     var dialogOverlay = document.querySelector('.dialog-overlay');

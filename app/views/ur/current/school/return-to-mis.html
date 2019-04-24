@@ -1,0 +1,57 @@
+{% extends 'layout_la.html' %}
+
+{% block pageTitle %}
+    Errors
+{% endblock %}
+
+{% set school = data.misSchool %}
+{% set schoolName = school.name %}
+{% set laestab = school.LAESTAB %}
+{% set queries = school.queries %}
+{% set errors = school.errors %}
+
+{% set handledCount = 0 %}
+{% for query in queries %}
+    {% if query['handled'] == 'true' %}
+        {% set handledCount = handledCount + 1 %}
+    {% endif %}
+{% endfor %}
+
+{% set pendingCount = (queries | length) - handledCount %}
+
+{% block postHeader %}
+<div class="hmcts-identity-bar">
+  <div class="hmcts-identity-bar__container">
+    <div class="hmcts-identity-bar__details">
+        <span class="hmcts-identity-bar__title"><b>{{ schoolName }}</b> {{ laestab }} <strong class="govuk-!-padding-right-4"></strong></span>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row govuk-body govuk-!-margin-bottom-7">
+    <div class="govuk-grid-column-one-half">
+        
+        <h2 class="govuk-heading-xl">
+            Return to your MIS
+        </h2>
+
+        <p>
+            You have told us that some of your data is not correct. You will need to correct the data in your MIS and send it again.
+        </p>
+
+        <p>
+            You will only be able to submit your census when all of the data is correct.
+        </p>
+
+        {{ govukButton({
+            text: 'Sign out',
+            href: '#'
+        }) }}
+
+    </div>
+</div>
+
+{% endblock %}
