@@ -25,9 +25,9 @@ router.all('/handle-query', (req, res) => {
 	if (schoolIndex == 'static') {
 		school = req.session.data['school-path']
 	}
-	const queryIndex = req.session.data['selected-query'].trim()
-	const response = req.session.data['response'].trim()
-	const responseNote = req.session.data['response-note'].trim()
+	const queryIndex = req.session.data['selected-query']
+	const response = req.session.data['response']
+	const responseNote = req.session.data['response-note']
 	const path = school + '.queries[' + queryIndex + ']'
 	console.log(path)
 	console.log(response)
@@ -44,12 +44,12 @@ router.all('/handle-query', (req, res) => {
 })
 
 router.all('/delete-response', (req, res) => {
-	const schoolIndex = req.session.data['selected-school'].trim()
+	const schoolIndex = req.session.data['selected-school']
 	var school = 'schools[' + schoolIndex + ']'
 	if (schoolIndex == 'static') {
 		school = req.session.data['school-path']
 	}
-	const queryIndex = req.session.data['selected-query'].trim()
+	const queryIndex = req.session.data['selected-query']
 	const path = school + '.queries[' + queryIndex + ']'
 	set(req.session.data, path + 'handled', 'false')
 	set(req.session.data, path + 'approved', '')
@@ -64,9 +64,9 @@ router.all('/delete-response', (req, res) => {
 })
 
 router.all('/add-school-explanation', (req, res) => {
-	const school = req.session.data['school-path'].trim()
-	const queryIndex = req.session.data['selected-query'].trim()
-	const responseNote = req.session.data['response-note'].trim()
+	const school = req.session.data['school-path']
+	const queryIndex = req.session.data['selected-query']
+	const responseNote = req.session.data['response-note']
 	const queryPath = school + '.queries[' + queryIndex + ']'
 	const existingNotes = get(req.session.data, queryPath + '.notes')
 	const note = {
@@ -86,9 +86,9 @@ router.all('/add-school-explanation', (req, res) => {
 })
 
 router.all('/edit-school-explanation', (req, res) => {
-	const school = req.session.data['school-path'].trim()
-	const queryIndex = req.session.data['selected-query'].trim()
-	const responseNote = req.session.data['response-note'].trim()
+	const school = req.session.data['school-path']
+	const queryIndex = req.session.data['selected-query']
+	const responseNote = req.session.data['response-note']
 	if (!(responseNote == null || responseNote == '')) {
 		const queryPath = school + '.queries[' + queryIndex + ']'
 		const existingNotes = get(req.session.data, queryPath + '.notes')

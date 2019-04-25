@@ -39,6 +39,7 @@
 </div>
 {% endblock %}
 
+
 {% block content %}
 
 <div class="govuk-grid-row">
@@ -155,7 +156,9 @@
             <thead class="govuk-table__head">
                 <tr class="govuk-table__row">
                 
-                <th class="govuk-table__header" scope="col"  aria-sort="none"><span class="no-wrap">Query</span></th>
+                <th class="govuk-table__header" scope="col"><span class="no-wrap">Query</span></th>
+
+                <th class="govuk-table__header" scope="col"><span class="no-wrap">Notes</span></th>
                 
                 <th class="govuk-table__header width-medium" scope="col"><span class="no-wrap">Acceptable explanation guidelines</span></th>
                 
@@ -169,46 +172,31 @@
                 {% for query in queries | sort(false, true, 'number') %}
                     {% set consolidatedQuery = false %}
                     {% if query['explained'] != 'true' %}
-                    <tr class="govuk-table__row">
-                        <th class="govuk-table__header query-description" scope="row" data-sort-value="{{ query['number'] }}">
-                            <h3 class="govuk-heading-m" style="margin-bottom: 5px;">
-                                {{ query['number'] }}
-                            </h3>
-                            {% if query['type'] == 'pupil' %}
-                                {% if query['pupils'] | length == 0 %}
-                                    <span class="type-tag {{ query['type'] }}">{{ query['type'] | titleCase }} query</span>
-                                {% else %}
-                                <a href="single-query" class="no-wrap type-tag {{ query['type'] }}"  data-name="selected-query" data-value="{{ query.id }}">
-                                    {% if query['pupils'] | length != 1 %}
-                                        {{ query['pupils'] | length }} pupils
-                                        {% set consolidatedQuery = true %}
-                                    {% else %}
-                                        1 pupil
-                                    {% endif %}
-                                </a>
-                                {% endif %}
-                            {% else %}
-                                <span class="type-tag {{ query['type'] }}">{{ query['type'] | titleCase }}</span>
-                            {% endif %}
-                            <br>
-                            <p>{{ query.description }}</p>
-                        </th>
 
-                        <td class="govuk-table__cell width-medium">
-                            {{ query.guide }}
-                            <div class="query-index" style="display: none;">{{query.id}}</div>
-                        </td>
+                        <tr class="govuk-table__row">
+                            <th class="govuk-table__header query-description" scope="row" data-sort-value="{{ query['number'] }}">
+                                <h3 class="govuk-heading-m" style="margin-bottom: 5px;">
+                                    {{ query['number'] }}
+                                </h3>
+                                <br>
+                                <p>{{ query.description }}</p>
+                            </th>
 
-                        <td class="govuk-table__cell numeric">
-                            {% if query['type'] == 'pupil' and query['pupils'] | length != 0 %}
-                            <a href="single-query" data-name="selected-query" data-value="{{ query.id }}" class="govuk-button govuk-button-blue govuk-button-small">
-                                View details
-                                </a>
-                            {% endif %}
-                            <button type="button" class="govuk-button govuk-button-small open-dialog">Give an explanation</button>
-                        </td>
+                            <td class="govuk-table__cell width-medium">
+                                −
+                            </td>
+                            
+                            <td class="govuk-table__cell width-medium">
+                                {{ query.guide }}
+                                <div class="query-index" style="display: none;">{{query.id}}</div>
+                            </td>
 
-                    </tr>
+                            <td class="govuk-table__cell numeric">
+                                <button type="button" class="govuk-button govuk-button-small open-dialog">Give an explanation</button>
+                            </td>
+
+                        </tr>
+
                     {% endif %}
 
                 {% endfor -%}
