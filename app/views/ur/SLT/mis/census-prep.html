@@ -19,7 +19,7 @@
             <div class="col-one-half">
                 <h2>There are <span class="increment">2</span> errors in your data</h2>
                 <p>You should fix these errors before you send your census to the Department for Education. The Department for Education do not normally accept census data with errors.</p>
-                <h2>There are <span class="increment">{{ data.sltSchool.queries | length }}</span> queries about your data</h2>
+                <h2>There are <span class="increment">{{ data.sltSchool.queries | length + 4 }}</span> queries about your data</h2>
                 <p>You should review these queries and consider if the data behind each one is correct. If you submit this census with queries you will need to give an explanation on the Department for Education website.</p>
                 <a href="sent" class="button">Send census to DfE</a>
                 <br><br>

@@ -354,3 +354,44 @@ table {
 .align-right {
 	text-align: right;
 }
+
+.tabs {
+	float: left;
+	> a.button {
+		transform: none;
+		margin: 0;
+		border-radius: 0;
+		margin-right: -5px;
+		padding: 6px 20px;
+		border-right: 1px solid white;
+		&:first-child {
+			border-radius: 5px 0 0 5px;
+		}
+		&:last-child {
+			border-radius: 0 5px 5px 0;
+			border-right: transparent;
+		}
+		&.active {
+			background-color: lighten($col_green, 5%);
+			pointer-events: none;
+		}
+	}
+}
+
+details {
+	background: white;
+	box-shadow: 0 10px 20px rgba(black, 0.1);
+	border-radius: 5px;
+	overflow: hidden;
+	margin-bottom: 25px;
+	summary {
+		background: $col_blue;
+		color: white;
+		font-weight: 600;
+		font-size: 1.25em;
+		padding: 7.5px 15px;
+	}
+	table {
+		box-shadow: none;
+	}
+}

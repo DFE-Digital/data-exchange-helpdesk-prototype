@@ -1,0 +1,178 @@
+{% extends 'layout_la.html' %}
+
+{% block pageTitle %}
+    Errors
+{% endblock %}
+
+{% set school = data.sltSchool %}
+{% set schoolName = school.name %}
+{% set laestab = school.LAESTAB %}
+{% set queries = school.queries %}
+{% set errors = school.errors %}
+
+{% set handledCount = 0 %}
+{% for query in queries %}
+    {% if query['handled'] == 'true' %}
+        {% set handledCount = handledCount + 1 %}
+    {% endif %}
+{% endfor %}
+
+{% set pendingCount = (queries | length) - handledCount %}
+
+{% block postHeader %}
+<div class="hmcts-identity-bar">
+  <div class="hmcts-identity-bar__container">
+    <div class="hmcts-identity-bar__details">
+        <span class="hmcts-identity-bar__title"><b>{{ schoolName }}</b> {{ laestab }} <strong class="govuk-!-padding-right-4"></strong></span>
+    </div>
+    <div style="float:right;">
+        {% if (school.responsesSent != 'true') and (pendingCount == 0) %}
+            {{ govukButton({
+                text: 'Submit census',
+                href: 'send-census',
+                classes: 'hmcts-menu-item'
+            }) }}
+        {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block content %}
+
+
+<div class="govuk-grid-row govuk-body">
+
+
+
+    <div class="govuk-grid-column-full census-case-nav">
+
+        {% set actionedQueries = {
+            text: handledCount + ' actioned queries' if handledCount != 1 else '1 actioned query',
+            href: 'handled'
+        } %}
+
+        {% set actionedQueries = {
+            text: handledCount + ' explained queries' if handledCount != 1 else '1 explained query',
+            href: 'handled'
+        } %}
+
+        {{ hmctsSubNavigation({
+            label: 'Sub navigation',
+            items: [
+                {
+                    text: pendingCount + ' unexplained queries' if pendingCount != 1 else '1 unexplained query',
+                    href: 'overview'
+                }, actionedQueries,
+                {
+                    text: school.noOfErrors + ' errors' if school.noOfErrors != 1 else '1 error',
+                    href: 'errors'
+                },
+                {
+                    text: 'View all census data',
+                    href: 'census-data',
+                    active: true
+                }
+            ]
+        }) }} 
+
+    </div>
+
+</div>
+
+
+<div class="govuk-grid-row">
+
+    <div class="govuk-grid-column-full">
+        
+        {% set summaryHTML  %}
+            {% include './census/census-summary.html' %}
+        {% endset -%}
+
+        {% set schoolHTML  %}
+            {% include './census/school.html' %}
+        {% endset -%}
+
+        {% set classHTML  %}
+            {% include './census/class.html' %}
+        {% endset -%}
+
+        {% set pupilsHTML  %}
+            {% include './census/pupils.html' %}
+        {% endset -%}
+
+        {% set reportsHTML  %}
+            {% include './census/report.html' %}
+        {% endset -%}
+
+        {% set downloadHTML  %}
+            {% include './census/download.html' %}
+        {% endset -%}
+
+
+        {{ govukTabs({
+            items: [
+                {
+                    label: 'Summary',
+                    id: 'summary',
+                    panel: {
+                        html: summaryHTML
+                    }
+                },
+                {
+                    label: 'School details',
+                    id: 'school',
+                    panel: {
+                        html: schoolHTML
+                    }
+                },
+                {
+                    label: 'Pupil details',
+                    id: 'pupil',
+                    panel: {
+                        html: pupilsHTML
+                    }
+                },
+                {
+                    label: 'Download data',
+                    id: 'download',
+                    attributes: {
+                        'style': 'float:right;'
+                    },
+                    panel: {
+                        html: downloadHTML
+                    }
+                }
+            ]
+        }) }}
+    </div>
+
+</div>
+
+
+{% endblock %}
+
+{% block pageScripts %}
+
+<script>
+
+    var table = document.getElementById('errorTable')
+    new SortableTable(table)
+
+    $('#search-error').on('input', function() {
+        var value = $(this).val();
+        $('.query-description').each(function() {
+            var queryDesc = $(this).html();
+            if (!queryDesc.toLowerCase().includes(value.toLowerCase())) {
+                $(this).closest('tr').hide();
+            } else {
+                $(this).closest('tr').show();
+            }
+        })
+    })
+
+    window.GOVUKFrontend.initAll()
+
+</script>
+
+{% endblock %}
