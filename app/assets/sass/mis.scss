@@ -37,10 +37,18 @@ $col_green: #00a533;
 $col_text: #24292e;
 $col_bg: #f6f8fa;
 $col_darkbg: #23292f;
+$col_yellow: #ffcc00;
 
 html {
 	background-color: $col_bg;
 	color: $col_text;
+}
+
+a {
+	color: $col_blue;
+	&:hover {
+		color: $col_blue;
+	}
 }
 
 * {
@@ -254,11 +262,11 @@ header {
 @keyframes alert {
 	from {
 		transform: translateY(-100%);
-		background-color: rgba(#ffcc00, 0);
+		background-color: rgba($col_yellow, 0);
 	}
 	to {
 		transform: translateY(0);
-		background-color: rgba(#ffcc00, 1);
+		background-color: rgba($col_yellow, 1);
 	}
 }
 
@@ -347,7 +355,7 @@ table {
 
 .census-preview {
 	padding: 15px;
-	background-color: #ffdd77;
+	background-color: $col_yellow;
 	border-radius: 5px;
 }
 
@@ -394,4 +402,21 @@ details {
 	table {
 		box-shadow: none;
 	}
+}
+
+nav ul {
+	list-style: none;
+	display: inline-flex;
+	padding: 15px 0;
+	li {
+		margin-right: 10px;
+	}
+}
+
+.govuk-visually-hidden {
+	display: none;
+}
+
+.hmcts-pagination__results {
+	display: inline-block;
 }

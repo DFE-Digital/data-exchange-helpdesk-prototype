@@ -17,9 +17,7 @@
     <div class="row">
         <div class="width-container" style="justify-content: space-between;">
             <div class="col-one-half">
-                <h2>There are <span class="increment">2</span> errors in your data</h2>
-                <p>You should fix these errors before you send your census to the Department for Education. The Department for Education do not normally accept census data with errors.</p>
-                <h2>There are <span class="increment">{{ data.sltSchool.queries | length + 4 }}</span> queries about your data</h2>
+                <h2>There are <span class="increment">{{ data.sltSchool.queries | length }}</span> queries about your data</h2>
                 <p>You should review these queries and consider if the data behind each one is correct. If you submit this census with queries you will need to give an explanation on the Department for Education website.</p>
                 <a href="sent" class="button large">
                     <svg xmlns="http://www.w3.org/2000/svg" id="Layer_1" data-name="Layer 1" viewBox="0 0 64 64"><title>Icons 300</title><path d="M50.09,8.2082a1.3053,1.3053,0,0,1,1.9361,1.3752L44.5142,48.7267A1.5761,1.5761,0,0,1,42.4466,49.91L30.7588,45.5335l-4.9822,9.9626a.9269.9269,0,0,1-1.7561-.4144V44.4238a4.1441,4.1441,0,0,1,.8881-2.513c.6483-.7407,19.1018-24.89,19.1018-24.89S19.2938,39.108,18.3217,39.8953a3.0427,3.0427,0,0,1-2.9231.5609L4.891,36.863A1.2977,1.2977,0,0,1,4.6638,34.51Z" fill-rule="evenodd"></path></svg>
@@ -47,49 +45,7 @@
 <div class="row">
     <div class="width-container">
         <div class="col-one-quarter align-right">
-            <h1 style="font-weight: 900;">2 errors</h1>
-            <p>You need to fix this data. If you’re experiencing issues you can <a href="#">get help</a>.</p>
-        </div>
-        <div class="col-three-quarters">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Error number</th>
-                        <th>Type</th>
-                        <th>Records affected</th>
-                        <th>Description</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <th>2335</th>
-                        <td>Pupil</td>
-                        <td>
-                        <a href="census-prep-2">47</a>
-                        </td>
-                        <td>
-                            Permanent exclusion appears for pupil still on roll
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>1930</th>
-                        <td>Pupil</td>
-                        <td>
-                        <a href="census-prep-2">1</a>
-                        </td>
-                        <td>
-                            Pupil part-time indicator is missing or invalid
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-</div>
-<div class="row">
-    <div class="width-container">
-        <div class="col-one-quarter align-right">
-            <h1 style="font-weight: 900;">{{ data.sltSchool.queries | length + 4 }} queries</h1>
+            <h1 style="font-weight: 900;">{{ data.sltSchool.queries | length }} queries</h1>
             <p>You need to fix this data or tell the Department for Education the reason for it after you send the data to them.</p>
         </div>
         <div class="col-three-quarters">
@@ -117,50 +73,6 @@
                         <td>{{ query.description }}</td>
                     </tr>
                     {% endfor %}
-                    <tr>
-                        <th>330</th>
-                        <td>School</td>
-                        <td>
-                       
-                        </td>
-                        <td>
-                            More day pupils on roll than the approved maximum
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>1998</th>
-                        <td>Pupil</td>
-                        <td>
-                            <a href="#">
-                                1
-                            </a>
-                        </td>
-                        <td>
-                            The pupil has  planned employability, enrichment and pastoral hours but no planned learning hours
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>TonT9B</th>
-                        <td>Term-on-term</td>
-                        <td>
-                            <a href="#">
-                                1
-                            </a>
-                        </td>
-                        <td>
-                            There are significantly more pupils whose ethnicity is not obtained than last collection (this collection xx, last collection xx).’
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>1877</th>
-                        <td>Pupil</td>
-                        <td>
-                            
-                        </td>
-                        <td>
-                            Take up of school lunches for pupils in reception, year 1 and year 2 (plus pupils aged 4 to 6 in year X) greater than 95%. Please confirm more than 95% of infant pupils took a school lunch on census day
-                        </td>
-                    </tr>
                 </tbody>
             </table>
         </div>

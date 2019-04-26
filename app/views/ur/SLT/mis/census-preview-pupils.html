@@ -9,6 +9,7 @@
     <div class="row">
         <div class="width-container">
             <div class="col-two-thirds">
+                <a href="census-prep">← Back</a>
                 <h1>Spring census preview</h1>
             </div>
         </div>
@@ -17,7 +18,7 @@
     <div class="row">
         <div class="width-container" style="justify-content: space-between;">
             <div class="col-full">
-               
+
                 <div class="tabs">
                     <a href="census-preview" class="button">
                         <svg xmlns="http://www.w3.org/2000/svg" id="Layer_1" data-name="Layer 1" viewBox="0 0 64 64"><title>Icons 200</title><path d="M56.0115,28.1742,54.388,49.2509a3.0024,3.0024,0,0,1-2.9951,2.77H12.6486a3.0025,3.0025,0,0,1-2.9951-2.77L8.03,28.1742a2.0012,2.0012,0,0,1,1.9968-2.1535H54.0146A2.0014,2.0014,0,0,1,56.0115,28.1742Zm-1.9908-8.1534v3a1,1,0,0,1-1,1h-42a1,1,0,0,1-1-1v-9a2,2,0,0,1,2-2h11.343a4,4,0,0,1,2.8286,1.1717l3.6567,3.6569a4.0007,4.0007,0,0,0,2.8286,1.1715h19.343A2,2,0,0,1,54.0207,20.0208Z" fill-rule="evenodd"></path></svg>
@@ -37,9 +38,7 @@
                     <?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" id="Layer_1" data-name="Layer 1" viewBox="0 0 64 64"><title>Icons 100</title><path d="M50.01,30.0152V50.0214a6.0077,6.0077,0,0,1-6,6.0021h-24a6.0077,6.0077,0,0,1-6-6.0021V30.0152a6.0076,6.0076,0,0,1,6-6.0022h4a2.0008,2.0008,0,0,1,0,4.0015h-4a2.0023,2.0023,0,0,0-2,2.0007V50.0214a2.0023,2.0023,0,0,0,2,2.0006h24a2.0027,2.0027,0,0,0,2-2.0006V30.0152a2.0027,2.0027,0,0,0-2-2.0007h-4a2.0008,2.0008,0,0,1,0-4.0015h4A6.0076,6.0076,0,0,1,50.01,30.0152Zm-18,10.0057a2,2,0,0,1-2-2V18.0317H25.0152a1.0273,1.0273,0,0,1-.819-1.6224L31.185,6.435a.9955.9955,0,0,1,1.6381,0l6.9888,9.9743a1.0273,1.0273,0,0,1-.8192,1.6224H34.01V38.0208A2,2,0,0,1,32.01,40.0209Z" fill-rule="evenodd"></path></svg>
                     Export data
                 </a>
-                    
-                
-                <br>
+
             </div>            
         </div>
     </div>
@@ -49,51 +48,142 @@
     <div class="width-container">
         <div class="col-two-thirds">
             
-            <details class="govuk-details">
-            <summary class="govuk-details__summary">
-                <span class="govuk-details__summary-text">
-                Pupils on roll by age and gender
-                </span>
-            </summary>
-            <div class="govuk-details__text">
-                {% include("./summary-tables/pupils-by-age.html") %}
-            </div>
-            </details>
+           <nav class="hmcts-pagination" id="pagination-label">
 
+  <p class="govuk-visually-hidden" aria-labelledby="pagination-label">Pagination navigation</p>
 
-            <details class="govuk-details">
-            <summary class="govuk-details__summary">
-                <span class="govuk-details__summary-text">
-                Pupils on roll in each national curriculum year group
-                </span>
-            </summary>
-            <div class="govuk-details__text">
-                {% include("./summary-tables/pupils-each-curriculum-group.html") %}
-            </div>
-            </details>
+  <ul class="hmcts-pagination__list">
+    
 
+    
+      
+        
+          <li class="hmcts-pagination__item hmcts-pagination__item--active">1</li>
+        
+      
+    
+      
+        
+          <li class="hmcts-pagination__item"><a class="hmcts-pagination__link govuk-link--no-visited-state" href="#">2</a></li>
+        
+      
+    
+      
+        
+          <li class="hmcts-pagination__item"><a class="hmcts-pagination__link govuk-link--no-visited-state" href="#">3</a></li>
+        
+      
+    
+      
+        <li class="hmcts-pagination__item hmcts-pagination__item--dots">...</li>
+      
+    
+      
+        
+          <li class="hmcts-pagination__item"><a class="hmcts-pagination__link govuk-link--no-visited-state" href="#">23</a></li>
+        
+      
+    
 
-            <details class="govuk-details">
-            <summary class="govuk-details__summary">
-                <span class="govuk-details__summary-text">
-                Proficiency in English
-                </span>
-            </summary>
-            <div class="govuk-details__text">
-                {% include("./summary-tables/proficiency-in-english.html") %}
-            </div>
-            </details>
+    
+      <li class="hmcts-pagination__item  hmcts-pagination__item--next">
+        <a class="hmcts-pagination__link govuk-link--no-visited-state" href="#">Next<span class="govuk-visually-hidden"> set of pages</span></a>
+      </li>
+    
+  </ul>
 
-            <details class="govuk-details">
-            <summary class="govuk-details__summary">
-                <span class="govuk-details__summary-text">
-                Pupils on roll with SEN provision
-                </span>
-            </summary>
-            <div class="govuk-details__text">
-                {% include("./summary-tables/pupils-with-sen.html") %}
-            </div>
-            </details>
+  
+    <p class="hmcts-pagination__results">Showing <b>1</b> to <b>50</b> of <b>1104</b> results</p>
+  
+
+</nav>
+
+<table class="govuk-table" id="pupilsTable">
+    <caption class="govuk-table__caption govuk-visually-hidden">Pupils in census data</caption>
+    <thead class="govuk-table__head">
+        <tr class="govuk-table__row">
+            <th class="govuk-table__header" scope="col" aria-sort="ascending">Last name</th>
+            <th class="govuk-table__header" scope="col" aria-sort="none">First name</th>
+            <th class="govuk-table__header" scope="col" aria-sort="none">UPN</th>
+            <th class="govuk-table__header" scope="col" aria-sort="none">Date of birth</th>
+            <th class="govuk-table__header" scope="col" aria-sort="none">Status</th>
+        </tr>
+    </thead>
+    <tbody class="govuk-table__body">
+        {% for pupil in data.misSchool.pupils | sort(false, true, 'surname') %}
+        <tr class="govuk-table__row">
+        {% set surname = [pupil.surname,pupil.surname,pupil.surname,pupil.surname,pupil.surname,pupil.surname,pupil.surname,pupil.surname,pupil.surname,pupil.surname,pupil.surname, '-'] | random %}
+            <td class="govuk-table__cell" data-sort-value="{{ surname if surname != '-' }}">
+                {{ surname }}
+            </td>
+
+            {% set firstname = [pupil.firstname,pupil.firstname,pupil.firstname,pupil.firstname,pupil.firstname,pupil.firstname,pupil.firstname,pupil.firstname,pupil.firstname,pupil.firstname,pupil.firstname, '-'] | random %}
+            <td class="govuk-table__cell" data-sort-value="{{ firstname if firstname != '-' }}">
+                {{ firstname }}
+            </td>
+            {% set UPN = [pupil.UPN,pupil.UPN,pupil.UPN,pupil.UPN,pupil.UPN,pupil.UPN,pupil.UPN,pupil.UPN,pupil.UPN,pupil.UPN,pupil.UPN, '-'] | random %}
+            <th class="govuk-table__header" scope="row" data-sort-value="{{ UPN if UPN != '-' }}">
+                {{ UPN }}
+            </th>
+            {% set dob = pupil.dobrandom %}
+            <td class="govuk-table__cell" data-sort-value="{{ dob if dob != '-' }}"><span class="dob">{{dob}}</span></td>
+            <td class="govuk-table__cell">
+                {{ ['On roll', 'On roll', 'On roll', 'On roll', 'On roll', 'On roll', 'On roll', 'Off roll'] | random }}
+            </td>
+        </tr>
+        {% endfor -%}
+    </tbody>
+</table>
+
+<nav class="hmcts-pagination" id="pagination-label">
+
+  <p class="govuk-visually-hidden" aria-labelledby="pagination-label">Pagination navigation</p>
+
+  <ul class="hmcts-pagination__list">
+    
+
+    
+      
+        
+          <li class="hmcts-pagination__item hmcts-pagination__item--active">1</li>
+        
+      
+    
+      
+        
+          <li class="hmcts-pagination__item"><a class="hmcts-pagination__link govuk-link--no-visited-state" href="#">2</a></li>
+        
+      
+    
+      
+        
+          <li class="hmcts-pagination__item"><a class="hmcts-pagination__link govuk-link--no-visited-state" href="#">3</a></li>
+        
+      
+    
+      
+        <li class="hmcts-pagination__item hmcts-pagination__item--dots">...</li>
+      
+    
+      
+        
+          <li class="hmcts-pagination__item"><a class="hmcts-pagination__link govuk-link--no-visited-state" href="#">23</a></li>
+        
+      
+    
+
+    
+      <li class="hmcts-pagination__item  hmcts-pagination__item--next">
+        <a class="hmcts-pagination__link govuk-link--no-visited-state" href="#">Next<span class="govuk-visually-hidden"> set of pages</span></a>
+      </li>
+    
+  </ul>
+
+  
+    <p class="hmcts-pagination__results">Showing <b>1</b> to <b>50</b> of <b>1104</b> results</p>
+  
+
+</nav>
 
         </div>
     </div>
