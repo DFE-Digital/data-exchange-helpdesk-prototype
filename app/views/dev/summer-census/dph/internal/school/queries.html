@@ -33,7 +33,7 @@
         {% if (school.responsesSent == 'true') %}
             {{ govukButton({
                 text: 'Return to my schools' if external else 'Return to work queue',
-                href: '../my-responses',
+                href: '../responded',
                 classes: 'hmcts-menu-item hmcts-button--secondary'
             }) }}
         {% elseif (pendingCount == 0) %}
@@ -45,7 +45,7 @@
         {% else %}
             {{ govukButton({
                 text: 'Return to my schools' if external else 'Return to work queue',
-                href: '../my-queue',
+                href: '../school-list',
                 classes: 'hmcts-menu-item hmcts-button--secondary'
             }) }}
         {% endif %}
@@ -70,19 +70,27 @@
             items: [
                 {
                     text: pendingCount + ' queries' if pendingCount != 1 else '1 query',
-                    href: 'overview',
+                    href: 'queries',
                     active: true
-                }, actionedQueries if not external,
+                },
                 {
-                    text: school.noOfErrors + ' errors' if school.noOfErrors != 1 else '1 error',
+                    text: handledCount + ' actioned queries' if handledCount != 1 else '1 actioned query',
+                    href: 'handled'
+                },
+                {
+                    text: school.noOfErrors + ' errors',
                     href: 'errors'
+                },
+                {
+                    text: 'Additional notes',
+                    href: 'return-note'
                 },
                 {
                     text: 'View all census data',
                     href: 'census-data'
                 }
             ]
-        }) }} 
+        }) }}    
 
     </div>
 
@@ -229,7 +237,7 @@
 
                         {% if not external %}
                         <td class="govuk-table__cell numeric">
-                            <a href="/handle-query?selected-query={{query.id}}&response=approved&selected-school=static&school-path=sltSchool" class="govuk-button govuk-button-small approveButton">Accept</a>
+                            <a href="/handle-query?selected-query={{query.id}}&response=approved&selected-school={{ data['selected-school'] }}" class="govuk-button govuk-button-small approveButton">Accept</a>
                             
                             <br>
                             <button type="button" class="govuk-button govuk-button-red govuk-button-small open-dialog">Reject</button><br>
@@ -300,8 +308,7 @@
         <input type="hidden" id="selectedQuery" name="selected-query">
         <input type="hidden" id="responseNote" name="response-note" value="">
         <input type="hidden" name="response" value="rejected">
-        <input type="hidden" name="selected-school" value="static">
-        <input type="hidden" name="school-path" value="sltSchool">
+        <input type="hidden" name="selected-school" value="{{ data['selected-school'] }}">
         {{ govukButton({
             html: 'Save response',
             classes: 'send'
