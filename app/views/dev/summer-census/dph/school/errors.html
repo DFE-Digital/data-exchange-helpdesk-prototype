@@ -12,7 +12,7 @@
 
 {% set handledCount = 0 %}
 {% for query in queries %}
-    {% if query['handled'] == 'true' %}
+    {% if query['explained'] == 'true' %}
         {% set handledCount = handledCount + 1 %}
     {% endif %}
 {% endfor %}
