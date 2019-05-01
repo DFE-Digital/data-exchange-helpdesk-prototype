@@ -95,7 +95,7 @@ router.all('/add-explanation', (req, res) => {
 	const existingNotes = get(req.session.data, queryPath + '.notes')
 	const note = {
 		type: 'school',
-		author: req.session.data['username'],
+		author: req.session.data['set-school-user-name'],
 		text: responseNote,
 		date: new Date().getTime()
 	}
@@ -177,7 +177,20 @@ router.all('/send-slt-school', (req, res) => {
 
 router.all('/school-send-census', (req, res) => {
 	const path = 'schools[' + parseInt(req.session.data['selected-school']) + ']'
+	const existingNotes = get(req.session.data, path + '.returnNotes')
+	const note = {
+		type: 'school',
+		author: req.session.data['username'],
+		text: req.session.data['additional-note'],
+		date: new Date().getTime()
+	}
+	var newNotes = [note]
+	if (Array.isArray(existingNotes)) {
+		newNotes = existingNotes.push(note)
+	}
+	set(req.session.data, path + '.returnNotes', newNotes)
 	set(req.session.data, path + '.hasQueries', 'true')
+	set(req.session.data, path + '.hasBuilt', 'true')
 	set(req.session.data, path + '.schoolSent', 'true')
 	set(req.session.data, path + '.submittedDate', new Date().getTime())
 	res.redirect(req.headers.referer)
@@ -282,18 +295,15 @@ router.all('/allocate-work', (req, res) => {
 
 router.all('/select-school', (req, res) => {
 	const selectedSchoolIndex = req.session.data['selected-school']
-	const selectedSchool = req.session.data['schools'][selectedSchoolIndex]
+	const selectedSchool = req.session.data.schools[selectedSchoolIndex]
 	const path = 'schools[' + selectedSchoolIndex + ']'
-	if (selectedSchool.hasQueries != 'true') {
-		const queries = generate.queries(selectedSchool.noOfQueries)
-		set(req.session.data, path + '.hasQueries', 'true')
-		set(req.session.data, path + '.queries', queries)
-	}
-	if (selectedSchool.hasErrors != 'true') {
-		const errors = generate.errors(selectedSchool.noOfErrors)
-		set(req.session.data, path + '.hasErrors', 'true')
-		set(req.session.data, path + '.errors', errors)
-	}
+
+	const queries = generate.queries(selectedSchool.noOfQueries)
+	set(req.session.data, path + '.queries', queries)
+	const errors = generate.errors(selectedSchool.noOfErrors)
+	set(req.session.data, path + '.errors', errors)
+	set(req.session.data, path + '.hasBuilt', 'true')
+
 	res.redirect(req.headers.referer)
 })
 

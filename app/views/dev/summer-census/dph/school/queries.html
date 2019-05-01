@@ -36,7 +36,7 @@
         {% if (school.responsesSent != 'true') and (pendingCount == 0) %}
             {{ govukButton({
                 text: 'Submit census',
-                href: 'sent',
+                href: 'return-note',
                 classes: 'hmcts-menu-item'
             }) }}
         {% endif %}
@@ -89,7 +89,7 @@
             <p>You can <a href="handled">review the responses</a> and change the responses if there has been an error.</p>
             {{ govukButton({
                 text: 'Review responses',
-                href: 'handled',
+                href: 'return-note',
                 classes: ''
             }) }}
         </div>
@@ -105,7 +105,7 @@
             <p>You can <a href="handled">review the explanations</a> before they are sent. Once this census is sent, the Department for Education will approve or reject the explanations provided. You will be notified if any further action is needed.</p>
             {{ govukButton({
                 text: 'Submit census',
-                href: 'sent',
+                href: 'return-note',
                 classes: ''
             }) }}
         </div>
@@ -199,7 +199,16 @@
                             </th>
 
                             <td class="govuk-table__cell width-medium">
-                                −
+                                {% if query.notes | length == 0 %}
+                                    −
+                                {% else %}
+                                    {% for note in query.notes %}
+                                        <div class="note {{ note.type }}">
+                                            <span class="title">{{ 'Approved by ' if note.type == 'approval' }}{{ 'Rejected by ' if note.type == 'reply' }}{{ 'Note added by ' if note.type == 'school' }} {{ note.author }}<br>{{ note.date | formatDate }}</span>
+                                            {{ note.text }}
+                                        </div>
+                                    {% endfor -%}
+                                {% endif %}
                             </td>
                             
                             <td class="govuk-table__cell width-medium">

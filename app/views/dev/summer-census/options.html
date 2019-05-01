@@ -61,74 +61,6 @@
 
                 {% endset %}
 
-                {% set helpdeskSetupHTML %}
-
-                    {{ govukInput({
-                        id: 'set-helpdesk-user-name',
-                        name: 'set-helpdesk-user-name',
-                        value: data['set-helpdesk-user-name'] if data['set-helpdesk-user-name'] else '' | randomName,
-                        label: {
-                            text: 'Helpdesk agent’s name'
-                        }
-                    }) }}
-
-
-                    {{ govukInput({
-                        id: 'set-inbox-count',
-                        name: 'set-inbox-count',
-                        value: data['set-inbox-count'] if data['set-inbox-count'] else '35',
-                        classes: 'govuk-input--width-3',
-                        label: {
-                            text: 'Number of schools in inbox'
-                        }
-                    }) }}
-
-                    {{ govukInput({
-                        id: 'set-not-submitted-count',
-                        name: 'set-not-submitted-count',
-                        value: data['set-not-submitted-count'] if data['set-not-submitted-count'] else '1264',
-                        classes: 'govuk-input--width-4',
-                        label: {
-                            text: 'Number of schools not submitted'
-                        }
-                    }) }}
-
-                {% endset %}
-
-                {% set laMatSetupHTML %}
-
-                    {{ govukInput({
-                        id: 'set-helpdesk-user-name',
-                        name: 'set-helpdesk-user-name',
-                        value: data['set-helpdesk-user-name'] if data['set-helpdesk-user-name'] else '' | randomName,
-                        label: {
-                            text: 'LA/MAT agent’s name'
-                        }
-                    }) }}
-
-
-                    {{ govukInput({
-                        id: 'set-inbox-count',
-                        name: 'set-inbox-count',
-                        value: data['set-inbox-count'] if data['set-inbox-count'] else '35',
-                        classes: 'govuk-input--width-3',
-                        label: {
-                            text: 'Number of schools awaiting a response'
-                        }
-                    }) }}
-
-                    {{ govukInput({
-                        id: 'set-not-submitted-count',
-                        name: 'set-not-submitted-count',
-                        value: data['set-not-submitted-count'] if data['set-not-submitted-count'] else '1264',
-                        classes: 'govuk-input--width-4',
-                        label: {
-                            text: 'Number of schools not submitted'
-                        }
-                    }) }}
-
-                {% endset %}
-
                 {{ govukRadios({
                     idPrefix: 'set-user-type',
                     name: 'set-user-type',
@@ -149,17 +81,11 @@
                         },
                         {
                             text: 'Helpdesk user',
-                            value: 'helpdesk',
-                            conditional: {
-                                html: helpdeskSetupHTML
-                            }
+                            value: 'helpdesk'
                         },
                         {
                             text: 'Local authority',
-                            value: 'laMat',
-                            conditional: {
-                                html: laMatSetupHTML
-                            }
+                            value: 'laMat'
                         }
                     ]
                 }) }}
@@ -182,8 +108,8 @@
 
     var nextPageRoutes = {
         school: '/load-school',
-        helpdesk: 'dph/school-list',
-        laMat: 'dph/school-list'
+        helpdesk: 'dph/internal/school-list',
+        laMat: 'dph/internal/school-list'
     }
 
 </script>

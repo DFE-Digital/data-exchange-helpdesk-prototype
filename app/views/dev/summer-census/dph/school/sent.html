@@ -41,12 +41,6 @@
 
 {% block content %}
 
-{% if school.schoolSent == 'true' %}
-<script>
-    window.location.href = '../../options'
-</script>
-{% endif %}
-
     <div class="govuk-grid-row">
 
         <div class="govuk-grid-column-one-half">
@@ -66,7 +60,7 @@
 
             {{ govukButton({
                 text: 'Sign out',
-                href: '/school-send-census',
+                href: '../../options',
                 classes: ' '
             }) }}
 

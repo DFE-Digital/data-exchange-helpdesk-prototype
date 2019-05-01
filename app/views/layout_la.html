@@ -67,31 +67,18 @@
       ]
       }
     }) }}
-    {% set inlineSearchHtml %}
-      {{ hmctsSearch({
-        classes: 'hmcts-search--ondark hmcts-search--inline',
-        input: {
-          id: 'search',
-          name: 'search'
-        },
-        label: {
-          text: 'Search for a school',
-          classes: 'govuk-visually-hidden'
-        },
-        button: {
-          text: 'Search'
-        }
-      }) }}
-    {% endset %}
+
+    {% set navItems = [
+      {
+      text: 'My schools' if data['set-user-type'] == 'laMat' else 'My Queue',
+      href: '#root#/helpdesk/my-queue',
+      active: true
+      }
+    ] %}
 
     {{ hmctsPrimaryNavigation({
       label: 'Primary navigation',
-      items: [{
-      text: 'My schools',
-      href: '#root#/helpdesk/my-queue',
-      active: true
-      }],
-      searchHtml: null
+      items:  navItems if data['set-user-type'] != 'school' else 'My Queue'
     }) }} 
     {% block postHeader %}
     {% endblock %}
