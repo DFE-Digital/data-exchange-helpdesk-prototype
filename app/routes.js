@@ -294,8 +294,10 @@ router.all('/allocate-work', (req, res) => {
 })
 
 router.all('/select-school', (req, res) => {
-	const selectedSchoolIndex = req.session.data['selected-school']
-	const selectedSchool = req.session.data.schools[selectedSchoolIndex]
+	const selectedSchoolIndex = parseInt(req.session.data['selected-school'])
+	const selectedSchool = req.session.data.schools.find(school => {
+		return school.id == selectedSchoolIndex
+	})
 	const path = 'schools[' + selectedSchoolIndex + ']'
 
 	const queries = generate.queries(selectedSchool.noOfQueries)
