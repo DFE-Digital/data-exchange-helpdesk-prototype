@@ -21,6 +21,12 @@
 
 {% block postHeader %}
 
+{% if queries | length == 0 %}
+<script>
+    window.location.href = 'errors'
+</script>
+{% endif %}
+
 <div class="hmcts-identity-bar">
   <div class="hmcts-identity-bar__container">
     <div class="hmcts-identity-bar__details">
@@ -30,7 +36,7 @@
         {% if (school.responsesSent != 'true') and (pendingCount == 0) %}
             {{ govukButton({
                 text: 'Submit census',
-                href: 'send-census',
+                href: 'sent',
                 classes: 'hmcts-menu-item'
             }) }}
         {% endif %}
@@ -46,6 +52,11 @@
 
     <div class="govuk-grid-column-full census-case-nav">
 
+        {% set errorsMenuItem = {
+            text: school.noOfErrors + ' errors' if school.noOfErrors != 1 else '1 error',
+            href: 'errors'
+        } %}
+
         {{ hmctsSubNavigation({
             label: 'Sub navigation',
             items: [
@@ -57,11 +68,7 @@
                 {
                     text: handledCount + ' explained queries' if handledCount != 1 else '1 explained query',
                     href: 'handled'
-                },
-                {
-                    text: school.noOfErrors + ' errors' if school.noOfErrors != 1 else '1 error',
-                    href: 'errors'
-                },
+                }, errorsMenuItem if errors | length != 0,
                 {
                     text: 'View all census data',
                     href: 'census-data'
@@ -98,7 +105,7 @@
             <p>You can <a href="handled">review the explanations</a> before they are sent. Once this census is sent, the Department for Education will approve or reject the explanations provided. You will be notified if any further action is needed.</p>
             {{ govukButton({
                 text: 'Submit census',
-                href: 'send-census',
+                href: 'sent',
                 classes: ''
             }) }}
         </div>
@@ -177,6 +184,16 @@
                                 <h3 class="govuk-heading-m" style="margin-bottom: 5px;">
                                     {{ query['number'] }}
                                 </h3>
+                                {% if query['pupils'] | length != 0 %}
+                                    <a href="single-query" class="no-wrap type-tag {{ query['type'] }}"  data-name="selected-query" data-value="{{ query.id }}">
+                                    {% if query['pupils'] | length != 1 %}
+                                        {{ query['pupils'] | length }} pupils
+                                        {% set consolidatedQuery = true %}
+                                    {% else %}
+                                        1 pupil
+                                    {% endif %}
+                                </a>
+                                {% endif %}
                                 <br>
                                 <p>{{ query.description }}</p>
                             </th>
@@ -195,13 +212,7 @@
                                 {% if query['type'] == 'pupil' and query['pupils'] | length != 0 %}
                                     <br>
                                     <a href="single-query" data-name="selected-query" data-value="{{ query.id }}" class="govuk-button govuk-button-blue govuk-button-small">
-                                        View 
-                                        {% if query['pupils'] | length != 1 %}
-                                            {{ query['pupils'] | length }} records
-                                            {% set consolidatedQuery = true %}
-                                        {% else %}
-                                            record
-                                        {% endif %}
+                                        View details
                                     </a>
                                 {% endif %}
                             </td>

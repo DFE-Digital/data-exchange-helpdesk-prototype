@@ -29,9 +29,6 @@ router.all('/handle-query', (req, res) => {
 	const response = req.session.data['response']
 	const responseNote = req.session.data['response-note']
 	const path = school + '.queries[' + queryIndex + ']'
-	console.log(path)
-	console.log(response)
-	console.log(responseNote)
 	set(req.session.data, path + 'handled', 'true')
 	if (response === 'approved') {
 		set(req.session.data, path + 'approved', 'true')
@@ -145,8 +142,6 @@ router.all('/edit-school-explanation', (req, res) => {
 			text: responseNote,
 			date: new Date().getTime()
 		}
-		console.log(responseNote)
-		console.log(queryPath)
 		var newNotes = [note]
 		if (Array.isArray(existingNotes)) {
 			existingNotes.pop()
@@ -177,6 +172,14 @@ router.all('/send-slt-school', (req, res) => {
 	school.submittedDate = new Date().getTime()
 	set(req.session.data, path, school)
 	set(req.session.data, 'sltSchoolSent', 'true')
+	res.redirect(req.headers.referer)
+})
+
+router.all('/school-send-census', (req, res) => {
+	const path = 'schools[' + parseInt(req.session.data['selected-school']) + ']'
+	set(req.session.data, path + '.hasQueries', 'true')
+	set(req.session.data, path + '.schoolSent', 'true')
+	set(req.session.data, path + '.submittedDate', new Date().getTime())
 	res.redirect(req.headers.referer)
 })
 
@@ -364,7 +367,6 @@ router.all('/load-school', (req, res) => {
 	school.noOfErrors = parseInt(setNoOfErrors)
 	school.errors = generate.errors(school.noOfErrors)
 	school.queries = generate.schoolQueries(school.noOfQueries)
-	console.log(school)
 	set(req.session.data, schoolPath, school)
 	set(req.session.data, 'selected-school', 0)
 	res.redirect(

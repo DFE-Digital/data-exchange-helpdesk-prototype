@@ -20,6 +20,11 @@
 {% set pendingCount = (queries | length) - handledCount %}
 
 {% block postHeader %}
+{% if queries | length == 0 %}
+<script>
+    window.location.href = 'errors'
+</script>
+{% endif %}
 <div class="hmcts-identity-bar">
   <div class="hmcts-identity-bar__container">
     <div class="hmcts-identity-bar__details">
@@ -29,7 +34,7 @@
         {% if (school.responsesSent != 'true') and (pendingCount == 0) %}
             {{ govukButton({
                 text: 'Submit census',
-                href: 'send-census',
+                href: 'sent',
                 classes: 'hmcts-menu-item'
             }) }}
         {% endif %}
@@ -45,6 +50,11 @@
     <div class="govuk-grid-column-full census-case-nav">
 
         {% set pendingCount = (queries | length) - handledCount %}
+
+        {% set errorsMenuItem = {
+            text: school.noOfErrors + ' errors' if school.noOfErrors != 1 else '1 error',
+            href: 'errors'
+        } %}
         
         {{ hmctsSubNavigation({
             label: 'Sub navigation',
@@ -57,11 +67,7 @@
                     text: handledCount + ' explained queries' if handledCount != 1 else '1 explained query',
                     href: 'handled',
                     active: true
-                },
-                {
-                    text: school.noOfErrors + ' errors' if school.noOfErrors != 1 else '1 error',
-                    href: 'errors'
-                },
+                }, errorsMenuItem if errors | length != 0,
                 {
                     text: 'View all census data',
                     href: 'census-data'
@@ -158,6 +164,16 @@
                                 <h3 class="govuk-heading-m" style="margin-bottom: 5px;">
                                     {{ query.number }}
                                 </h3>
+                                {% if query['pupils'] | length != 0 %}
+                                    <a href="single-query" class="no-wrap type-tag {{ query['type'] }}"  data-name="selected-query" data-value="{{ query.id }}">
+                                    {% if query['pupils'] | length != 1 %}
+                                        {{ query['pupils'] | length }} pupils
+                                        {% set consolidatedQuery = true %}
+                                    {% else %}
+                                        1 pupil
+                                    {% endif %}
+                                </a>
+                                {% endif %}
                                 <br>
                                 <p>{{ query.description }}</p>
                             </th>
@@ -183,6 +199,12 @@
 
                             <td class="govuk-table__cell action numeric">
                                <a href="/undo-explanation?selected-query={{query.id}}" class="govuk-button govuk-button-small govuk-button-red open-dialog">Undo explanation</button>
+                               {% if query['type'] == 'pupil' and query['pupils'] | length != 0 %}
+                                    <br>
+                                    <a href="single-query" data-name="selected-query" data-value="{{ query.id }}" class="govuk-button govuk-button-blue govuk-button-small">
+                                        View details
+                                    </a>
+                                {% endif %}
                             </td>
 
                         </tr>

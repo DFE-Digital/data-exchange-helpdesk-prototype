@@ -20,7 +20,7 @@
         {% if (school.responsesSent != 'true') and (pendingCount == 0) %}
             {{ govukButton({
                 text: 'Submit census',
-                href: 'send-census',
+                href: 'sent',
                 classes: 'hmcts-menu-item'
             }) }}
         {% endif %}

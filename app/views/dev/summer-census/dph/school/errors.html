@@ -20,6 +20,12 @@
 {% set pendingCount = (queries | length) - handledCount %}
 
 {% block postHeader %}
+{% if errors | length == 0 %}
+<script>
+    window.location.href = 'census-data'
+</script>
+{% endif %}
+
 <div class="hmcts-identity-bar">
   <div class="hmcts-identity-bar__container">
     <div class="hmcts-identity-bar__details">
@@ -29,7 +35,7 @@
         {% if (school.responsesSent != 'true') and (pendingCount == 0) %}
             {{ govukButton({
                 text: 'Submit census',
-                href: 'send-census',
+                href: 'sent',
                 classes: 'hmcts-menu-item'
             }) }}
         {% endif %}
@@ -44,28 +50,49 @@
 
     <div class="govuk-grid-column-full census-case-nav govuk-!-padding-bottom-5">
 
-    {{ hmctsSubNavigation({
-        label: 'Sub navigation',
-        items: [
-            {
-                text: pendingCount + ' unexplained queries' if pendingCount != 1 else '1 unexplained query',
-                href: 'queries'
-            }, 
-            {
-                text: handledCount + ' explained queries' if handledCount != 1 else '1 explained query',
-                href: 'handled'
-            },
-            {
-                text: school.noOfErrors + ' errors' if school.noOfErrors != 1 else '1 error',
-                href: 'errors',
-                active: true
-            },
-            {
-                text: 'View all census data',
-                href: 'census-data'
-            }
-        ]
-    }) }} 
+    {% if queries | length == 0 %}
+
+        {{ hmctsSubNavigation({
+            label: 'Sub navigation',
+            items: [
+                {
+                    text: school.noOfErrors + ' errors' if school.noOfErrors != 1 else '1 error',
+                    href: 'errors',
+                    active: true
+                },
+                {
+                    text: 'View all census data',
+                    href: 'census-data'
+                }
+            ]
+        }) }}
+    
+    {% else %}
+
+        {{ hmctsSubNavigation({
+            label: 'Sub navigation',
+            items: [
+                {
+                    text: pendingCount + ' unexplained queries' if pendingCount != 1 else '1 unexplained query',
+                    href: 'queries'
+                }, 
+                {
+                    text: handledCount + ' explained queries' if handledCount != 1 else '1 explained query',
+                    href: 'handled'
+                },
+                {
+                    text: school.noOfErrors + ' errors' if school.noOfErrors != 1 else '1 error',
+                    href: 'errors',
+                    active: true
+                },
+                {
+                    text: 'View all census data',
+                    href: 'census-data'
+                }
+            ]
+        }) }} 
+
+    {% endif %}
 
     </div>
 

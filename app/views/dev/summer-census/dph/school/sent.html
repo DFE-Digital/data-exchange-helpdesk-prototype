@@ -1,0 +1,80 @@
+{% extends 'layout_la.html' %}
+
+{% block pageTitle %}
+    Queries
+{% endblock %}
+
+{% set school = data.schools[data['selected-school']] %}
+{% set schoolName = school.name %}
+{% set laestab = school.LAESTAB %}
+{% set queries = school.queries %}
+{% set errors = school.errors %}
+
+{% set handledCount = 0 %}
+{% for query in queries %}
+    {% if query['handled'] == 'true' %}
+        {% set handledCount = handledCount + 1 %}
+    {% endif %}
+{% endfor %}
+
+{% set pendingCount = (queries | length) - handledCount %}
+
+{% block postHeader %}
+
+<div class="hmcts-identity-bar">
+  <div class="hmcts-identity-bar__container">
+    <div class="hmcts-identity-bar__details">
+        <span class="hmcts-identity-bar__title"><b>{{ schoolName }}</b> {{ laestab }} <strong class="govuk-!-padding-right-4"></strong></span>
+    </div>
+    <div style="float:right;">
+        {% if (school.responsesSent != 'true') and (pendingCount == 0) %}
+            {{ govukButton({
+                text: 'Go back',
+                href: 'javascript:history.back()',
+                classes: 'hmcts-menu-item hmcts-button--secondary'
+            }) }}
+        {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block content %}
+
+{% if school.schoolSent == 'true' %}
+<script>
+    window.location.href = '../../options'
+</script>
+{% endif %}
+
+    <div class="govuk-grid-row">
+
+        <div class="govuk-grid-column-one-half">
+            
+            <div class="govuk-!-padding-bottom-7">
+                {{ govukPanel({
+                    titleText: "Census submitted",
+                    html: null
+                }) }}
+            </div>
+
+            <h2 class="govuk-heading-m">What happens next</h2>
+
+            <p>Your census was submitted successfully, we will review your data and let you know if any further action is required.</p>
+
+            <p>If your census is not accepted you will need to come back to this service to provide some more information.</p>
+
+            {{ govukButton({
+                text: 'Sign out',
+                href: '/school-send-census',
+                classes: ' '
+            }) }}
+
+        </div>
+
+    </div>
+
+
+
+{% endblock %}
+
