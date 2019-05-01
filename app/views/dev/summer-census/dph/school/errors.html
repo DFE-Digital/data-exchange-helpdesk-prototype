@@ -26,11 +26,13 @@
         <span class="hmcts-identity-bar__title"><b>{{ schoolName }}</b> {{ laestab }} <strong class="govuk-!-padding-right-4"></strong>
     </div>
     <div style="float:right;">
-        {{ govukButton({
-            text: 'Return to my schools',
-            href: '#',
-            classes: 'hmcts-menu-item hmcts-button--secondary'
-        }) }}
+        {% if (school.responsesSent != 'true') and (pendingCount == 0) %}
+            {{ govukButton({
+                text: 'Submit census',
+                href: 'send-census',
+                classes: 'hmcts-menu-item'
+            }) }}
+        {% endif %}
     </div>
   </div>
 </div>
@@ -46,11 +48,15 @@
         label: 'Sub navigation',
         items: [
             {
-                text: queries | length + ' queries',
+                text: pendingCount + ' unexplained queries' if pendingCount != 1 else '1 unexplained query',
                 href: 'queries'
+            }, 
+            {
+                text: handledCount + ' explained queries' if handledCount != 1 else '1 explained query',
+                href: 'handled'
             },
             {
-                text: errors | length + ' errors',
+                text: school.noOfErrors + ' errors' if school.noOfErrors != 1 else '1 error',
                 href: 'errors',
                 active: true
             },
@@ -59,7 +65,7 @@
                 href: 'census-data'
             }
         ]
-    }) }}
+    }) }} 
 
     </div>
 
@@ -114,8 +120,7 @@
                 <tr class="govuk-table__row">
                 
                 <th class="govuk-table__header" scope="col"  aria-sort="ascending"><span class="no-wrap">Error</span></th>
-
-                <th class="govuk-table__header" scope="col"  aria-sort="none"><span class="no-wrap">Type</span></th>                
+              
                 <th class="govuk-table__header" scope="col"  aria-sort="none"><span class="no-wrap">Records affected</span></th>                
                 <th class="govuk-table__header" scope="col"><span class="no-wrap">Description</span></th>
                 
@@ -133,10 +138,6 @@
                                 <span class="govuk-visually-hidden">{{ error.description }}</span>
                             </h3>
                         </th>
-
-                        <td class="govuk-table__cell">
-                            <span class="type-tag {{ error.type }}">{{ error.type | sentenceCase }}</span>
-                        </td>
 
                         <td class="govuk-table__cell" data-sort-value="{{ error.pupils | length if error.pupils else 0 }}">
                             {{ error.pupils | length if error.pupils }}
