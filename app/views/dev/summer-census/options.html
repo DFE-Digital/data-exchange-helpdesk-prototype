@@ -1,0 +1,192 @@
+{% extends 'layout.html' %}
+
+{% block pageTitle %}
+    Configure prototype
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+
+        <div class="govuk-grid-column-two-thirds">
+
+            {{ govukBackLink({
+                text: 'Back',
+                href: 'javascript:history.back()'
+            }) }}
+
+            <form method="post">
+
+                <h1 class="govuk-heading-xl">Configure prototype</h1>
+
+                {% set schoolSetupHTML %}
+
+                    {{ govukInput({
+                        id: 'set-school-name',
+                        name: 'set-school-name',
+                        value: data['set-school-name'] if data['set-school-name'] else '' | randomSchool,
+                        label: {
+                            text: 'School name'
+                        }
+                    }) }}
+
+                    {{ govukInput({
+                        id: 'set-school-user-name',
+                        name: 'set-school-user-name',
+                        value: data['set-school-user-name'] if data['set-school-user-name'] else '' | randomName,
+                        label: {
+                            text: 'School data provider’s name'
+                        }
+                    }) }}
+
+                    {{ govukInput({
+                        id: 'set-no-of-queries',
+                        name: 'set-no-of-queries',
+                        value: data['set-no-of-queries'] if data['set-no-of-queries'] else '4',
+                        classes: 'govuk-input--width-3',
+                        label: {
+                            text: 'Number of simulated queries'
+                        }
+                    }) }}
+
+                    {{ govukInput({
+                        id: 'set-no-of-errors',
+                        name: 'set-no-of-errors',
+                        value: data['set-no-of-errors'] if data['set-no-of-queries'] else '2',
+                        classes: 'govuk-input--width-3',
+                        label: {
+                            text: 'Number of simulated errors'
+                        }
+                    }) }}
+
+                {% endset %}
+
+                {% set helpdeskSetupHTML %}
+
+                    {{ govukInput({
+                        id: 'set-helpdesk-user-name',
+                        name: 'set-helpdesk-user-name',
+                        value: data['set-helpdesk-user-name'] if data['set-helpdesk-user-name'] else '' | randomName,
+                        label: {
+                            text: 'Helpdesk agent’s name'
+                        }
+                    }) }}
+
+
+                    {{ govukInput({
+                        id: 'set-inbox-count',
+                        name: 'set-inbox-count',
+                        value: data['set-inbox-count'] if data['set-inbox-count'] else '35',
+                        classes: 'govuk-input--width-3',
+                        label: {
+                            text: 'Number of schools in inbox'
+                        }
+                    }) }}
+
+                    {{ govukInput({
+                        id: 'set-not-submitted-count',
+                        name: 'set-not-submitted-count',
+                        value: data['set-not-submitted-count'] if data['set-not-submitted-count'] else '1264',
+                        classes: 'govuk-input--width-4',
+                        label: {
+                            text: 'Number of schools not submitted'
+                        }
+                    }) }}
+
+                {% endset %}
+
+                {% set laMatSetupHTML %}
+
+                    {{ govukInput({
+                        id: 'set-helpdesk-user-name',
+                        name: 'set-helpdesk-user-name',
+                        value: data['set-helpdesk-user-name'] if data['set-helpdesk-user-name'] else '' | randomName,
+                        label: {
+                            text: 'LA/MAT agent’s name'
+                        }
+                    }) }}
+
+
+                    {{ govukInput({
+                        id: 'set-inbox-count',
+                        name: 'set-inbox-count',
+                        value: data['set-inbox-count'] if data['set-inbox-count'] else '35',
+                        classes: 'govuk-input--width-3',
+                        label: {
+                            text: 'Number of schools awaiting a response'
+                        }
+                    }) }}
+
+                    {{ govukInput({
+                        id: 'set-not-submitted-count',
+                        name: 'set-not-submitted-count',
+                        value: data['set-not-submitted-count'] if data['set-not-submitted-count'] else '1264',
+                        classes: 'govuk-input--width-4',
+                        label: {
+                            text: 'Number of schools not submitted'
+                        }
+                    }) }}
+
+                {% endset %}
+
+                {{ govukRadios({
+                    idPrefix: 'set-user-type',
+                    name: 'set-user-type',
+                    fieldset: {
+                        legend: {
+                            text: 'User type',
+                            isPageHeading: true,
+                            classes: 'govuk-fieldset__legend--l'
+                        }
+                    },
+                    items: [
+                        {
+                            text: 'School user',
+                            value: 'school',
+                            conditional: {
+                                html: schoolSetupHTML
+                            }
+                        },
+                        {
+                            text: 'Helpdesk user',
+                            value: 'helpdesk',
+                            conditional: {
+                                html: helpdeskSetupHTML
+                            }
+                        },
+                        {
+                            text: 'Local authority or multi-academy trust user',
+                            value: 'laMat',
+                            conditional: {
+                                html: laMatSetupHTML
+                            }
+                        }
+                    ]
+                }) }}
+
+                {{ govukButton({
+                    html: 'Save and continue'
+                }) }}
+
+            </form>
+
+        </div>
+
+</div>
+
+{% endblock %}
+
+{% block pageScripts %}
+
+<script>
+
+    var nextPageRoutes = {
+        school: '/load-school',
+        helpdesk: 'dph/school-list',
+        laMat: 'dph/school-list'
+    }
+
+</script>
+
+{% endblock %}
+

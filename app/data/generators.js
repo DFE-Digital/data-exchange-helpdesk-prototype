@@ -1017,6 +1017,26 @@ generators.queries = amount => {
  * @param {number} amount
  */
 
+generators.schoolQueries = amount => {
+	var output = []
+	var i = 0
+	for (i; i < amount; i++) {
+		var query = generators.randomItemFrom(generators.queryArray)
+		while (output.find(obj => obj.number === query.number)) {
+			query = generators.randomItemFrom(generators.queryArray)
+		}
+		query.id = i
+		query.handled = 'false'
+		query.notes = []
+		output.push(query)
+	}
+	return output
+}
+
+/**
+ * @param {number} amount
+ */
+
 generators.errors = amount => {
 	var output = []
 	var i = 0

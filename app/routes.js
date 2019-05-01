@@ -85,6 +85,53 @@ router.all('/add-school-explanation', (req, res) => {
 	res.redirect(req.headers.referer)
 })
 
+router.all('/add-explanation', (req, res) => {
+	const queryIndex = req.session.data['selected-query']
+	const responseNote = req.session.data['response-note']
+	const queryPath =
+		'schools[' +
+		req.session.data['selected-school'] +
+		']' +
+		'.queries[' +
+		queryIndex +
+		']'
+	const existingNotes = get(req.session.data, queryPath + '.notes')
+	const note = {
+		type: 'school',
+		author: req.session.data['username'],
+		text: responseNote,
+		date: new Date().getTime()
+	}
+	var newNotes = [note]
+	if (Array.isArray(existingNotes)) {
+		newNotes = existingNotes.push(note)
+	}
+	set(req.session.data, queryPath + '.notes', newNotes)
+	set(req.session.data, queryPath + '.explainedOn', new Date().getTime())
+	set(req.session.data, queryPath + '.explained', 'true')
+	res.redirect(req.headers.referer)
+})
+
+router.all('/undo-explanation', (req, res) => {
+	const queryIndex = req.session.data['selected-query']
+	const queryPath =
+		'schools[' +
+		req.session.data['selected-school'] +
+		']' +
+		'.queries[' +
+		queryIndex +
+		']'
+	const existingNotes = get(req.session.data, queryPath + '.notes')
+	var newNotes = []
+	if (Array.isArray(existingNotes)) {
+		newNotes = existingNotes.pop()
+	}
+	set(req.session.data, queryPath + '.notes', newNotes)
+	set(req.session.data, queryPath + '.explainedOn', null)
+	set(req.session.data, queryPath + '.explained', 'false')
+	res.redirect(req.headers.referer)
+})
+
 router.all('/edit-school-explanation', (req, res) => {
 	const school = req.session.data['school-path']
 	const queryIndex = req.session.data['selected-query']
@@ -300,6 +347,29 @@ router.all('/school-send', (req, res) => {
 	res.redirect(
 		req.headers.referer.substr(0, req.headers.referer.lastIndexOf('/') + 1) +
 			'return-sent'
+	)
+})
+
+router.all('/load-school', (req, res) => {
+	const schoolName = req.session.data['set-school-name']
+	const setNoOfQueries = req.session.data['set-no-of-queries']
+	const setNoOfErrors = req.session.data['set-no-of-errors']
+	const schoolPath = 'schools[0]'
+	var school = generate.school(
+		schoolName,
+		generate.randomCode(3),
+		generate.randomItemFrom(['academy', 'maintained', 'maintained']),
+		setNoOfQueries
+	)
+	school.noOfErrors = parseInt(setNoOfErrors)
+	school.errors = generate.errors(school.noOfErrors)
+	school.queries = generate.schoolQueries(school.noOfQueries)
+	console.log(school)
+	set(req.session.data, schoolPath, school)
+	set(req.session.data, 'selected-school', 0)
+	res.redirect(
+		req.headers.referer.substr(0, req.headers.referer.lastIndexOf('/') + 1) +
+			'dph/school/queries'
 	)
 })
 
