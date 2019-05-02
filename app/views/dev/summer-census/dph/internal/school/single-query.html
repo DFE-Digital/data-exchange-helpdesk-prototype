@@ -14,14 +14,26 @@
 <div class="hmcts-identity-bar">
   <div class="hmcts-identity-bar__container">
     <div class="hmcts-identity-bar__details">
-        <span class="hmcts-identity-bar__title"><b>{{ schoolName }}</b> {{ laestab }} <strong class="govuk-!-padding-right-4"></strong>{{ govukTag({text: school.type}) }}</span>
+        <span class="hmcts-identity-bar__title"><b>{{ schoolName }}</b> {{ laestab }} <strong class="govuk-!-padding-right-4"></strong>{% if not external %}{{ govukTag({text: school.type, classes: school.type}) }}{% endif %}</span>
     </div>
     <div style="float:right;">
-        {% if (school.responsesSent != 'true') and (pendingCount == 0) %}
+        {% if (school.responsesSent == 'true') %}
             {{ govukButton({
-                text: 'Submit census',
-                href: 'return-note',
+                text: 'Return to my schools' if external else 'Return to work queue',
+                href: '../responded',
+                classes: 'hmcts-menu-item hmcts-button--secondary'
+            }) }}
+        {% elseif (pendingCount == 0) %}
+            {{ govukButton({
+                text: 'Send responses to school',
+                href: 'send-responses',
                 classes: 'hmcts-menu-item'
+            }) }}
+        {% else %}
+            {{ govukButton({
+                text: 'Return to my schools' if external else 'Return to work queue',
+                href: '../school-list',
+                classes: 'hmcts-menu-item hmcts-button--secondary'
             }) }}
         {% endif %}
     </div>

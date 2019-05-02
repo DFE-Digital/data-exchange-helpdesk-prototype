@@ -8,13 +8,19 @@
 {% set schools = data['schools'] %}
 
 {% set respondedCount = 0 %}
+{% set approvedCount = 0 %}
+
 {% for school in schools %}
     {% if school.responsesSent == 'true' %}
-        {% set respondedCount = respondedCount + 1 %}
+        {% if school.isApproved == 'true' %}
+            {% set approvedCount = approvedCount + 1 %}
+        {% else %}
+            {% set respondedCount = respondedCount + 1 %}
+        {% endif %}
     {% endif %}
 {% endfor %}
 
-{% set inboxCount = (schools | length) - respondedCount %}
+{% set inboxCount = (schools | length) - respondedCount - approvedCount %}
 
 {% block content %}
 
@@ -26,14 +32,20 @@
 
         {{ hmctsSubNavigation({
             label: 'Sub navigation',
-            items: [{
+            items: [
+            {
                 html: 'Inbox <span class="type-tag count-tag">' + inboxCount + '</span>' if not external else 'Awaiting a response <span class="type-tag count-tag">' + inboxCount + '</span>',
                 href: 'school-list'
             }, {
                 html: 'Responded <span class="type-tag count-tag">' + respondedCount + '</span>',
                 href: 'responded',
                 active: true
-            }]
+            },
+            {
+                html: 'Approved <span class="type-tag count-tag">' + approvedCount + '</span>',
+                href: 'approved'
+            }
+            ]
         }) }} 
 
         {% if respondedCount == 0 %}
@@ -193,7 +205,7 @@
 
                 {% for school in schools | sort(false, true, 'respondedOn')  -%}
 
-                {% if school.responsesSent == 'true' %}
+                {% if school.responsesSent == 'true' and school.isApproved != 'true' %}
 
                 <tr class="govuk-table__row">
                         <th class="govuk-table__header" scope="row">

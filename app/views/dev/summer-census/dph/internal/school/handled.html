@@ -22,7 +22,7 @@
 <div class="hmcts-identity-bar">
   <div class="hmcts-identity-bar__container">
     <div class="hmcts-identity-bar__details">
-        <span class="hmcts-identity-bar__title"><b>{{ schoolName }}</b> {{ laestab }} <strong class="govuk-!-padding-right-4"></strong>{{ govukTag({text: school.type, classes: school.type}) }}</span>
+        <span class="hmcts-identity-bar__title"><b>{{ schoolName }}</b> {{ laestab }} <strong class="govuk-!-padding-right-4"></strong>{% if not external %}{{ govukTag({text: school.type, classes: school.type}) }}{% endif %}</span>
     </div>
     <div style="float:right;">
         {% if (school.responsesSent == 'true') %}
@@ -34,7 +34,7 @@
         {% elseif (pendingCount == 0) %}
             {{ govukButton({
                 text: 'Send responses to school',
-                href: '/send-responses',
+                href: 'send-responses',
                 classes: 'hmcts-menu-item'
             }) }}
         {% else %}
@@ -87,6 +87,19 @@
     </div>
 
 </div>
+
+{% if (handledCount == 0) %}
+
+    <div class="govuk-grid-row">
+
+        <div class="govuk-grid-column-one-half">
+            <h2 class="govuk-heading-l">There are no responses to explanations</h1>
+            <p>You must <a href="queries">review the queries</a> and provide a response by either accepting or rejecting the explanation given by the school.</p>
+        </div>
+
+    </div>
+
+{% else %}
 
 <div class="govuk-grid-row">
 
@@ -221,6 +234,8 @@
     </div>
 
 </div>
+
+{% endif %}
 
 <script>
     $('#search-query').on('input', function() {

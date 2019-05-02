@@ -51,54 +51,56 @@
 
         <div class="govuk-grid-column-one-half">
 
-            <h1 class="govuk-heading-xl">Do you want to add any additional notes?</h1>
+            <form action="/school-send-census">
 
-            <p>Give any additional information which may help us approve your school census</p>
+                <h1 class="govuk-heading-xl">Do you want to add any additional notes?</h1>
 
-            {% set addNoteHTML %}
+                <p>Give any additional information which may help us approve your school census</p>
 
-            {{ govukTextarea({
-                id: 'additional-note',
-                name: 'additional-note',
-                value: data['additional-note'] if data['additional-note'] else '',
-                label: {
-                    text: 'Additional note',
-                    classes: 'govuk-visually-hidden'
-                }
-            }) }}
+                {% set addNoteHTML %}
 
-            {% endset %}
-
-            {{ govukRadios({
-                idPrefix: 'add-additional-note',
-                name: 'add-additional-note',
-                fieldset: {
-                    legend: {
-                        text: 'Do you want to add any additional notes?',
-                        isPageHeading: true,
+                {{ govukTextarea({
+                    id: 'additional-note',
+                    name: 'additional-note',
+                    value: data['additional-note'] if data['additional-note'] else '',
+                    label: {
+                        text: 'Additional notes',
                         classes: 'govuk-visually-hidden'
                     }
-                },
-                items: [
-                    {
-                        text: 'Yes',
-                        value: 'yes',
-                        conditional: {
-                            html: addNoteHTML
+                }) }}
+
+                {% endset %}
+
+                {{ govukRadios({
+                    idPrefix: 'add-additional-note',
+                    name: 'add-additional-note',
+                    fieldset: {
+                        legend: {
+                            text: 'Do you want to add any additional notes?',
+                            isPageHeading: true,
+                            classes: 'govuk-visually-hidden'
                         }
                     },
-                    {
-                        text: 'No, submit without additional notes',
-                        value: 'no'
-                    }
-                ]
-            }) }}
+                    items: [
+                        {
+                            text: 'Yes',
+                            value: 'yes',
+                            conditional: {
+                                html: addNoteHTML
+                            }
+                        },
+                        {
+                            text: 'No, send without additional notes',
+                            value: 'no'
+                        }
+                    ]
+                }) }}
+                
+                {{ govukButton({
+                    html: 'Send responses'
+                }) }}
 
-            {{ govukButton({
-                text: 'Submit census',
-                href: '/school-send-census',
-                classes: ' '
-            }) }}
+            </form>
 
         </div>
 

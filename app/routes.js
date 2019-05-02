@@ -298,13 +298,14 @@ router.all('/select-school', (req, res) => {
 	const selectedSchool = req.session.data.schools.find(school => {
 		return school.id == selectedSchoolIndex
 	})
-	const path = 'schools[' + selectedSchoolIndex + ']'
-
-	const queries = generate.queries(selectedSchool.noOfQueries)
-	set(req.session.data, path + '.queries', queries)
-	const errors = generate.errors(selectedSchool.noOfErrors)
-	set(req.session.data, path + '.errors', errors)
-	set(req.session.data, path + '.hasBuilt', 'true')
+	if (selectedSchool.hasBuilt !== 'true') {
+		const path = 'schools[' + selectedSchoolIndex + ']'
+		const queries = generate.queries(selectedSchool.noOfQueries)
+		set(req.session.data, path + '.queries', queries)
+		const errors = generate.errors(selectedSchool.noOfErrors)
+		set(req.session.data, path + '.errors', errors)
+		set(req.session.data, path + '.hasBuilt', 'true')
+	}
 
 	res.redirect(req.headers.referer)
 })
@@ -323,17 +324,10 @@ router.all('/send-responses', (req, res) => {
 			acceptedCount++
 		}
 	})
-	if (errors == null || errors.length == 0) {
-		if (acceptedCount == queries.length) {
-			isApproved = 'true'
-		}
-	} else {
-		const returnAcceptance = req.session.data['accept-errors'] == 'yes'
-		if (returnAcceptance) {
-			isApproved = 'true'
-		}
+	if (acceptedCount == queries.length) {
+		isApproved = 'true'
 	}
-	if (isApproved) {
+	if (isApproved == 'true') {
 		set(req.session.data, path + '.isApproved', 'true')
 	}
 	set(req.session.data, path + '.returnResponse', returnResponse)
@@ -379,8 +373,11 @@ router.all('/load-school', (req, res) => {
 	school.noOfErrors = parseInt(setNoOfErrors)
 	school.errors = generate.errors(school.noOfErrors)
 	school.queries = generate.schoolQueries(school.noOfQueries)
+	school.id = 0
 	set(req.session.data, schoolPath, school)
 	set(req.session.data, 'selected-school', 0)
+	set(req.session.data, schoolPath + '.hasQueries', 'true')
+	set(req.session.data, schoolPath + '.hasBuilt', 'true')
 	res.redirect(
 		req.headers.referer.substr(0, req.headers.referer.lastIndexOf('/') + 1) +
 			'dph/school/queries'

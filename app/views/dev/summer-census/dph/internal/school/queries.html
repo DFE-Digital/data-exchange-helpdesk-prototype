@@ -39,7 +39,7 @@
         {% elseif (pendingCount == 0) %}
             {{ govukButton({
                 text: 'Send responses to school',
-                href: 'return-sent',
+                href: 'send-responses',
                 classes: 'hmcts-menu-item'
             }) }}
         {% else %}
@@ -121,7 +121,7 @@
             <p>You can <a href="handled">review the responses</a> before they are sent. Once the responses are sent the school can reply to rejected queries or amend data in their MIS.</p>
             {{ govukButton({
                 text: 'Send responses to school',
-                href: 'return-sent',
+                href: 'send-responses',
                 classes: ''
             }) }}
         </div>
