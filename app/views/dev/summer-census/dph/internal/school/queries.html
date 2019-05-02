@@ -218,6 +218,7 @@
                         </th>
 
                         <td class="govuk-table__cell notes">
+                            {{ query | debug }}
                             {% if query.notes | length == 0 %}
                                 −
                             {% else %}
