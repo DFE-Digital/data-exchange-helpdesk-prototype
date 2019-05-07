@@ -184,17 +184,18 @@
                             </th>
 
                             <td class="govuk-table__cell width-medium">
-                                {% if query.notes | length == 0 %}
+                                {% set shownNotes = 0 %}
+                                {% for note in query.notes | sort(false, true, 'date') %}
+                                    {% if loop.index != query.notes | length %}
+                                    <div class="note {{ note.type }}">
+                                        <span class="title">{{ 'Approved by ' if note.type == 'approval' }}{{ 'Rejected by ' if note.type == 'reply' }}{{ 'Note added by ' if note.type == 'school' }} {{ note.author }}<br>{{ note.date | formatDate }}</span>
+                                        {{ note.text }}
+                                    </div>
+                                    {% set shownNotes = shownNotes + 1 %}
+                                    {% endif %}
+                                {% endfor -%}
+                                {% if shownNotes == 0 %}
                                     −
-                                {% else %}
-                                    {% for note in query.notes %}
-                                        {% if loop.index != queries | length %}
-                                        <div class="note {{ note.type }}">
-                                            <span class="title">{{ 'Approved by ' if note.type == 'approval' }}{{ 'Rejected by ' if note.type == 'reply' }}{{ 'Note added by ' if note.type == 'school' }} {{ note.author }}<br>{{ note.date | formatDate }}</span>
-                                            {{ note.text }}
-                                        </div>
-                                        {% endif %}
-                                    {% endfor -%}
                                 {% endif %}
                                 <div class="query-index" style="display: none;">{{query.id}}</div>
                             </td>

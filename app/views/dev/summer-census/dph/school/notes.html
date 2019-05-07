@@ -21,6 +21,11 @@
 {% set isReplying = (school.isReplying == 'true') %}
 
 {% block postHeader %}
+{% if school.needsTrimming == 'true' %}
+<script>
+    window.location.href = '/trim-approved'
+</script>
+{% endif %}
 <div class="hmcts-identity-bar">
   <div class="hmcts-identity-bar__container">
     <div class="hmcts-identity-bar__details">
