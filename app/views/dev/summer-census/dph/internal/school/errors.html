@@ -67,11 +67,7 @@
                 {
                     text: pendingCount + ' queries' if pendingCount != 1 else '1 query',
                     href: 'queries'
-                },
-                {
-                    text: handledCount + ' actioned queries' if handledCount != 1 else '1 actioned query',
-                    href: 'handled'
-                },
+                }, actionedQueries if not external,
                 {
                     text: school.noOfErrors + ' errors',
                     href: 'errors',

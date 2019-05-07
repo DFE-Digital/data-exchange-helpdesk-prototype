@@ -71,15 +71,15 @@
 
     {% set navItems = [
       {
-      text: 'My schools' if data['set-user-type'] == 'laMat' else 'My Queue',
-      href: '#root#/helpdesk/my-queue',
+      text: 'My schools' if data['set-user-type'] == 'laMat' else 'My queue',
+      href: '#root#/dph/internal/school-list',
       active: true
       }
     ] %}
 
     {{ hmctsPrimaryNavigation({
       label: 'Primary navigation',
-      items:  navItems if data['set-user-type'] != 'school' else 'My Queue'
+      items:  navItems if data['set-user-type'] != 'school' else 'My queue'
     }) }} 
     {% block postHeader %}
     {% endblock %}
