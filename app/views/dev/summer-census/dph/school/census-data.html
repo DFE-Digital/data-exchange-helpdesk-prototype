@@ -56,11 +56,18 @@
                 classes: ''
             }) }}
 
+
+        {% set notesMenuItem = {
+        text: 'Notes',
+        href: 'notes'
+    } %}
+
         {% elseif queries | length == 0 %}
 
             {{ hmctsSubNavigation({
                 label: 'Sub navigation',
                 items: [
+                    notesMenuItem if school.newNote == 'true',
                     {
                         text: school.noOfErrors + ' errors' if school.noOfErrors != 1 else '1 error',
                         href: 'errors'
@@ -78,6 +85,7 @@
             {{ hmctsSubNavigation({
                 label: 'Sub navigation',
                 items: [
+                    notesMenuItem if school.newNote == 'true',
                     {
                         text: pendingCount + ' unexplained queries' if pendingCount != 1 else '1 unexplained query',
                         href: 'queries'

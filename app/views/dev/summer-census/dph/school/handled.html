@@ -18,6 +18,7 @@
 {% endfor %}
 
 {% set pendingCount = (queries | length) - handledCount %}
+{% set isReplying = (school.isReplying == 'true') %}
 
 {% block postHeader %}
 {% if queries | length == 0 %}
@@ -49,7 +50,10 @@
 
     <div class="govuk-grid-column-full census-case-nav">
 
-        {% set pendingCount = (queries | length) - handledCount %}
+        {% set notesMenuItem = {
+            text: 'Notes',
+            href: 'notes'
+        } %}
 
         {% set errorsMenuItem = {
             text: school.noOfErrors + ' errors' if school.noOfErrors != 1 else '1 error',
@@ -59,12 +63,13 @@
         {{ hmctsSubNavigation({
             label: 'Sub navigation',
             items: [
+                notesMenuItem if school.newNote == 'true',
                 {
-                    text: pendingCount + ' unexplained queries' if pendingCount != 1 else '1 unexplained query',
+                    text: (pendingCount + ' replies needed' if pendingCount != 1 else '1 reply needed') if isReplying else (pendingCount + ' unexplained queries' if pendingCount != 1 else '1 unexplained query'),
                     href: 'queries'
                 }, 
                 {
-                    text: handledCount + ' explained queries' if handledCount != 1 else '1 explained query',
+                    text: (handledCount + ' replies given' if handledCount != 1 else '1 reply given') if isReplying else (handledCount + ' explained queries' if handledCount != 1 else '1 explained query'),
                     href: 'handled',
                     active: true
                 }, errorsMenuItem if errors | length != 0,
@@ -146,7 +151,7 @@
                 
                 <th class="govuk-table__header width-medium" scope="col"><span class="no-wrap">Acceptable explanation guidelines</span></th>
 
-                <th class="govuk-table__header width-medium" scope="col"><span class="no-wrap">Explanation</span></th>
+                <th class="govuk-table__header width-medium" scope="col"><span class="no-wrap">{{ 'Reply' if isReplying else 'Explanation' }}</span></th>
                 
                 <th class="govuk-table__header numeric" scope="col"><span class="no-wrap"></span></th>
                 
@@ -179,7 +184,18 @@
                             </th>
 
                             <td class="govuk-table__cell width-medium">
-                                −
+                                {% if query.notes | length == 0 %}
+                                    −
+                                {% else %}
+                                    {% for note in query.notes %}
+                                        {% if loop.index != queries | length %}
+                                        <div class="note {{ note.type }}">
+                                            <span class="title">{{ 'Approved by ' if note.type == 'approval' }}{{ 'Rejected by ' if note.type == 'reply' }}{{ 'Note added by ' if note.type == 'school' }} {{ note.author }}<br>{{ note.date | formatDate }}</span>
+                                            {{ note.text }}
+                                        </div>
+                                        {% endif %}
+                                    {% endfor -%}
+                                {% endif %}
                                 <div class="query-index" style="display: none;">{{query.id}}</div>
                             </td>
 
@@ -198,7 +214,9 @@
                             </td>
 
                             <td class="govuk-table__cell action numeric">
-                               <a href="/undo-explanation?selected-query={{query.id}}" class="govuk-button govuk-button-small govuk-button-red open-dialog">Undo explanation</button>
+                               <a href="/undo-explanation?selected-query={{query.id}}" class="govuk-button govuk-button-small govuk-button-red open-dialog">
+                                {{ 'Undo reply' if isReplying else 'Undo explanation' }}
+                               </button>
                                {% if query['type'] == 'pupil' and query['pupils'] | length != 0 %}
                                     <br>
                                     <a href="single-query" data-name="selected-query" data-value="{{ query.id }}" class="govuk-button govuk-button-blue govuk-button-small">

@@ -50,11 +50,17 @@
 
     <div class="govuk-grid-column-full census-case-nav govuk-!-padding-bottom-5">
 
+    {% set notesMenuItem = {
+        text: 'Notes',
+        href: 'notes'
+    } %}
+
     {% if queries | length == 0 %}
 
         {{ hmctsSubNavigation({
             label: 'Sub navigation',
             items: [
+                notesMenuItem if school.newNote == 'true',
                 {
                     text: school.noOfErrors + ' errors' if school.noOfErrors != 1 else '1 error',
                     href: 'errors',
@@ -72,6 +78,7 @@
         {{ hmctsSubNavigation({
             label: 'Sub navigation',
             items: [
+                notesMenuItem if school.newNote == 'true',
                 {
                     text: pendingCount + ' unexplained queries' if pendingCount != 1 else '1 unexplained query',
                     href: 'queries'

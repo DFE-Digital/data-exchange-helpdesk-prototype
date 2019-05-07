@@ -74,7 +74,8 @@ router.all('/add-school-explanation', (req, res) => {
 	}
 	var newNotes = [note]
 	if (Array.isArray(existingNotes)) {
-		newNotes = existingNotes.push(note)
+		existingNotes.push(note)
+		newNotes = existingNotes
 	}
 	set(req.session.data, queryPath + '.notes', newNotes)
 	set(req.session.data, queryPath + '.explainedOn', new Date().getTime())
@@ -83,49 +84,42 @@ router.all('/add-school-explanation', (req, res) => {
 })
 
 router.all('/add-explanation', (req, res) => {
-	const queryIndex = req.session.data['selected-query']
+	const schoolIndex = parseInt(req.session.data['selected-school'])
 	const responseNote = req.session.data['response-note']
-	const queryPath =
-		'schools[' +
-		req.session.data['selected-school'] +
-		']' +
-		'.queries[' +
-		queryIndex +
-		']'
-	const existingNotes = get(req.session.data, queryPath + '.notes')
-	const note = {
-		type: 'school',
-		author: req.session.data['set-school-user-name'],
-		text: responseNote,
-		date: new Date().getTime()
-	}
-	var newNotes = [note]
-	if (Array.isArray(existingNotes)) {
-		newNotes = existingNotes.push(note)
-	}
-	set(req.session.data, queryPath + '.notes', newNotes)
-	set(req.session.data, queryPath + '.explainedOn', new Date().getTime())
-	set(req.session.data, queryPath + '.explained', 'true')
+	const queriesPath = 'schools[' + schoolIndex + '].queries'
+	var queries = req.session.data.schools[schoolIndex].queries
+	const queryIndex = parseInt(req.session.data['selected-query'])
+	queries.map(query => {
+		if (query.id === queryIndex) {
+			query.notes.push({
+				type: 'school',
+				author: req.session.data['set-school-user-name'],
+				text: responseNote,
+				date: new Date().getTime()
+			})
+			query.explainedOn = new Date().getTime()
+			query.explained = 'true'
+		}
+	})
+
+	set(req.session.data, queriesPath, queries)
 	res.redirect(req.headers.referer)
 })
 
 router.all('/undo-explanation', (req, res) => {
-	const queryIndex = req.session.data['selected-query']
-	const queryPath =
-		'schools[' +
-		req.session.data['selected-school'] +
-		']' +
-		'.queries[' +
-		queryIndex +
-		']'
-	const existingNotes = get(req.session.data, queryPath + '.notes')
-	var newNotes = []
-	if (Array.isArray(existingNotes)) {
-		newNotes = existingNotes.pop()
-	}
-	set(req.session.data, queryPath + '.notes', newNotes)
-	set(req.session.data, queryPath + '.explainedOn', null)
-	set(req.session.data, queryPath + '.explained', 'false')
+	const schoolIndex = parseInt(req.session.data['selected-school'])
+	const queriesPath = 'schools[' + schoolIndex + '].queries'
+	var queries = req.session.data.schools[schoolIndex].queries
+	const queryIndex = parseInt(req.session.data['selected-query'])
+	queries.map(query => {
+		if (query.id === queryIndex) {
+			query.notes.pop()
+			query.explainedOn = null
+			query.explained = 'false'
+		}
+	})
+
+	set(req.session.data, queriesPath, queries)
 	res.redirect(req.headers.referer)
 })
 
@@ -145,7 +139,8 @@ router.all('/edit-school-explanation', (req, res) => {
 		var newNotes = [note]
 		if (Array.isArray(existingNotes)) {
 			existingNotes.pop()
-			newNotes = existingNotes.push(note)
+			existingNotes.push(note)
+			newNotes = existingNotes
 		}
 		set(req.session.data, queryPath + '.notes', newNotes)
 		set(req.session.data, queryPath + '.explainedOn', new Date().getTime())
@@ -176,17 +171,25 @@ router.all('/send-slt-school', (req, res) => {
 })
 
 router.all('/school-send-census', (req, res) => {
-	const path = 'schools[' + parseInt(req.session.data['selected-school']) + ']'
-	const existingNotes = get(req.session.data, path + '.returnNotes')
-	const note = {
-		type: 'school',
-		author: req.session.data['username'],
-		text: req.session.data['additional-note'],
-		date: new Date().getTime()
-	}
-	var newNotes = [note]
-	if (Array.isArray(existingNotes)) {
-		newNotes = existingNotes.push(note)
+	const selectedSchoolIndex = parseInt(req.session.data['selected-school'])
+	const path = 'schools[' + selectedSchoolIndex + ']'
+
+	const existingNotes =
+		req.session.data.schools[selectedSchoolIndex].returnNotes
+	var newNotes = []
+	if (req.session.data['add-additional-note'] == 'yes') {
+		const note = {
+			type: 'school',
+			author: req.session.data['username'],
+			text: req.session.data['additional-note'],
+			date: new Date().getTime()
+		}
+		if (Array.isArray(existingNotes)) {
+			existingNotes.push(note)
+			newNotes = existingNotes
+		} else {
+			newNotes = [note]
+		}
 	}
 	set(req.session.data, path + '.returnNotes', newNotes)
 	set(req.session.data, path + '.hasQueries', 'true')
@@ -313,7 +316,7 @@ router.all('/select-school', (req, res) => {
 })
 
 router.all('/send-responses', (req, res) => {
-	const selectedSchoolIndex = req.session.data['selected-school']
+	const selectedSchoolIndex = parseInt(req.session.data['selected-school'])
 	const path = 'schools[' + selectedSchoolIndex + ']'
 	const school = req.session.data.schools[selectedSchoolIndex]
 	const returnResponse = req.session.data['return-response']
@@ -333,7 +336,8 @@ router.all('/send-responses', (req, res) => {
 				' ' +
 				req.session.data.collectors[0].lastName,
 			text: query.response,
-			date: query.handledOn
+			date: query.handledOn,
+			type: query.approved == 'false' ? 'reply' : 'approval'
 		})
 		query.explained = 'false'
 		query.explainedOn = null
@@ -344,28 +348,53 @@ router.all('/send-responses', (req, res) => {
 	if (isApproved == 'true') {
 		set(req.session.data, path + '.isApproved', 'true')
 	}
-	const existingNotes = get(req.session.data, path + '.returnNotes')
-	const note = {
-		type: 'reply',
-		author: req.session.data['username'],
-		text: req.session.data['additional-note'],
-		date: new Date().getTime()
+	const existingNotes =
+		req.session.data.schools[selectedSchoolIndex].returnNotes
+	var newNotes = []
+	if (req.session.data['add-additional-note'] == 'yes') {
+		const note = {
+			type: 'reply',
+			author: req.session.data['username'],
+			text: req.session.data['additional-note'],
+			date: new Date().getTime()
+		}
+		if (Array.isArray(existingNotes)) {
+			existingNotes.push(note)
+			newNotes = existingNotes
+		} else {
+			newNotes = [note]
+		}
+		set(req.session.data, path + '.newNote', 'true')
 	}
-	var newNotes = [note]
-	if (Array.isArray(existingNotes)) {
-		newNotes = existingNotes.push(note)
-	}
-	set(req.session.data, path + '.queries', queries)
 	set(req.session.data, path + '.returnNotes', newNotes)
+	set(req.session.data, path + '.queries', queries)
 	set(req.session.data, path + '.returnResponse', returnResponse)
 	set(req.session.data, path + '.responsesSent', 'true')
 	set(req.session.data, path + '.explanationsSent', 'false')
 	set(req.session.data, path + '.approvedCount', acceptedCount)
 	set(req.session.data, path + '.respondedOn', new Date().getTime())
+	set(req.session.data, path + '.needsTrimming', 'true')
 	res.redirect(
 		req.headers.referer.substr(0, req.headers.referer.lastIndexOf('/') + 1) +
 			'return-sent'
 	)
+})
+
+router.all('/trim-approved', (req, res) => {
+	const selectedSchoolIndex = req.session.data['selected-school']
+	const path = 'schools[' + selectedSchoolIndex + ']'
+	const school = req.session.data.schools[selectedSchoolIndex]
+	const queries = school.queries
+	const rejectedQueries = []
+	queries.forEach(query => {
+		if (query.approved != 'true') {
+			rejectedQueries.push(query)
+		}
+	})
+	set(req.session.data, path + '.queries', rejectedQueries)
+	set(req.session.data, path + '.isReplying', 'true')
+	set(req.session.data, path + '.needsTrimming', 'false')
+	res.redirect(req.headers.referer)
 })
 
 router.all('/school-send', (req, res) => {
