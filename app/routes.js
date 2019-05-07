@@ -191,6 +191,8 @@ router.all('/school-send-census', (req, res) => {
 	set(req.session.data, path + '.returnNotes', newNotes)
 	set(req.session.data, path + '.hasQueries', 'true')
 	set(req.session.data, path + '.hasBuilt', 'true')
+	set(req.session.data, path + '.explanationsSent', 'true')
+	set(req.session.data, path + '.responsesSent', 'false')
 	set(req.session.data, path + '.schoolSent', 'true')
 	set(req.session.data, path + '.submittedDate', new Date().getTime())
 	res.redirect(req.headers.referer)
@@ -324,14 +326,40 @@ router.all('/send-responses', (req, res) => {
 			acceptedCount++
 		}
 	})
+	queries.map(query => {
+		query.notes.push({
+			author:
+				req.session.data.collectors[0].firstName +
+				' ' +
+				req.session.data.collectors[0].lastName,
+			text: query.response,
+			date: query.handledOn
+		})
+		query.explained = 'false'
+		query.explainedOn = null
+	})
 	if (acceptedCount == queries.length) {
 		isApproved = 'true'
 	}
 	if (isApproved == 'true') {
 		set(req.session.data, path + '.isApproved', 'true')
 	}
+	const existingNotes = get(req.session.data, path + '.returnNotes')
+	const note = {
+		type: 'reply',
+		author: req.session.data['username'],
+		text: req.session.data['additional-note'],
+		date: new Date().getTime()
+	}
+	var newNotes = [note]
+	if (Array.isArray(existingNotes)) {
+		newNotes = existingNotes.push(note)
+	}
+	set(req.session.data, path + '.queries', queries)
+	set(req.session.data, path + '.returnNotes', newNotes)
 	set(req.session.data, path + '.returnResponse', returnResponse)
 	set(req.session.data, path + '.responsesSent', 'true')
+	set(req.session.data, path + '.explanationsSent', 'false')
 	set(req.session.data, path + '.approvedCount', acceptedCount)
 	set(req.session.data, path + '.respondedOn', new Date().getTime())
 	res.redirect(
@@ -350,7 +378,7 @@ router.all('/school-send', (req, res) => {
 			acceptedCount++
 		}
 	})
-	set(req.session.data, path + '.responsesSent', 'true')
+	set(req.session.data, path + '.explanationsSent', 'true')
 	set(req.session.data, path + '.approvedCount', acceptedCount)
 	set(req.session.data, path + '.respondedOn', new Date().getTime())
 	res.redirect(

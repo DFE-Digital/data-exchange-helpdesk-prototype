@@ -27,7 +27,7 @@
         <span class="hmcts-identity-bar__title"><b>{{ schoolName }}</b> {{ laestab }} <strong class="govuk-!-padding-right-4"></strong></span>
     </div>
     <div style="float:right;">
-        {% if (school.responsesSent != 'true') and (pendingCount == 0) %}
+        {% if (school.explanationsSent != 'true') and (pendingCount == 0) %}
             {{ govukButton({
                 text: 'Go back',
                 href: 'javascript:history.back()',
@@ -62,7 +62,6 @@
                 {{ govukTextarea({
                     id: 'additional-note',
                     name: 'additional-note',
-                    value: data['additional-note'] if data['additional-note'] else '',
                     label: {
                         text: 'Additional notes',
                         classes: 'govuk-visually-hidden'
@@ -97,7 +96,7 @@
                 }) }}
                 
                 {{ govukButton({
-                    html: 'Send responses'
+                    html: 'Submit census'
                 }) }}
 
             </form>

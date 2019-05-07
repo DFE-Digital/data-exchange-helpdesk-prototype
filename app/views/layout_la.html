@@ -63,7 +63,7 @@
       items: [
         {
           text: 'Sign out',
-          href: '#root#/options'
+          href: '#root#/dph/internal/school-list?set-user-type=helpdesk' if data['set-user-type'] == 'school' else '#root#/dph/school/queries?set-user-type=school'
         }
       ]
       }

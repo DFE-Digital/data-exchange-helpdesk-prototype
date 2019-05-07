@@ -265,45 +265,14 @@
             
     <div class="query-description"></div>
     <div class="notes"></div>
-    {% set responseHTML %}
+
+    <form class="internal-form" action="/handle-query">
         {{ govukTextarea({
             id: 'reject-reason',
             name: 'reject-reason',
-            value: data['reject-reason'] if data['reject-reason'] else '',
             label: {
                 text: 'Response'
             }
-        }) }}
-    {% endset -%}
-
-    <form class="internal-form" action="/handle-query">
-        {{ govukRadios({
-            idPrefix: 'reject-response',
-            name: 'reject-response',
-            fieldset: {
-                legend: {
-                    text: 'Note to send to school',
-                    isPageHeading: true,
-                    classes: 'govuk-fieldset__legend--m govuk-visually-hidden'
-                }
-            },
-            items: [
-                {
-                    text: '“You must confirm that the information is correct.”',
-                    value: 'You must confirm that the information is correct.'
-                },
-                {
-                text: '“Please provide more information.”',
-                    value: 'Please provide more information.'
-                },
-                {
-                    text: 'Custom response',
-                    value: 'custom',
-                    conditional: {
-                        html: responseHTML
-                    }
-                }
-            ]
         }) }}
         <input type="hidden" id="selectedQuery" name="selected-query">
         <input type="hidden" id="responseNote" name="response-note" value="">
@@ -361,6 +330,8 @@
             customNote = false;
         }
     })
+
+    customNote = true;
 
     $('.dialog .govuk-textarea').on('change', function() {
         if (customNote) {
