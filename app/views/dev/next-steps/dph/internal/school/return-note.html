@@ -1,0 +1,143 @@
+{% set external = data['set-user-type'] == 'laMat' %}{% extends 'layout_la.html' %}
+
+{% block pageTitle %}
+    Errors
+{% endblock %}
+
+{% set school = data.schools[data['selected-school']] %}
+{% set schoolName = school['name'] %}
+{% set laestab = school['LAESTAB'] %}
+{% set queries = school['queries'] %}
+{% set errors = school['errors'] %}
+
+{% set handledCount = 0 %}
+{% for query in queries %}
+    {% if query['handled'] == 'true' %}
+        {% set handledCount = handledCount + 1 %}
+    {% endif %}
+{% endfor %}
+
+{% set pendingCount = (queries | length) - handledCount %}
+
+{% block postHeader %}
+<div class="hmcts-identity-bar">
+  <div class="hmcts-identity-bar__container">
+    <div class="hmcts-identity-bar__details">
+        <span class="hmcts-identity-bar__title"><b>{{ schoolName }}</b> {{ laestab }} <strong class="govuk-!-padding-right-4"></strong>{% if not external %}{{ govukTag({text: school.type, classes: school.type}) }}{% endif %}</span>
+    </div>
+    <div style="float:right;">
+        {% if (school.responsesSent == 'true') %}
+            {{ govukButton({
+                text: 'Return to my schools' if external else 'Return to work queue',
+                href: '../my-responses',
+                classes: 'hmcts-menu-item hmcts-button--secondary'
+            }) }}
+        {% elseif (pendingCount == 0) %}
+            {{ govukButton({
+                text: 'Send responses to school',
+                href: 'send-responses',
+                classes: 'hmcts-menu-item'
+            }) }}
+        {% else %}
+            {{ govukButton({
+                text: 'Return to my schools' if external else 'Return to work queue',
+                href: '../my-queue',
+                classes: 'hmcts-menu-item hmcts-button--secondary'
+            }) }}
+        {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+
+    <div class="govuk-grid-column-full census-case-nav govuk-!-padding-bottom-5">
+
+        {% set actionedQueries = {
+            text: handledCount + ' actioned queries' if handledCount != 1 else '1 actioned query',
+            href: 'handled'
+        } %}
+
+        {{ hmctsSubNavigation({
+            label: 'Sub navigation',
+            items: [
+                {
+                    text: pendingCount + ' queries' if pendingCount != 1 else '1 query',
+                    href: 'queries'
+                },
+                {
+                    text: handledCount + ' actioned queries' if handledCount != 1 else '1 actioned query',
+                    href: 'handled'
+                },
+                {
+                    text: school.noOfErrors + ' errors',
+                    href: 'errors'
+                },
+                {
+                    text: 'Additional notes',
+                    href: 'return-note',
+                    active: true
+                },
+                {
+                    text: 'View all census data',
+                    href: 'census-data'
+                }
+            ]
+        }) }}  
+
+    </div>
+
+</div>
+
+<div class="govuk-grid-row">
+
+    <div class="govuk-grid-column-one-half">
+
+        {% if school.returnNotes == null or school.returnNotes | length == 0 %}
+        <h2 class="govuk-heading-l">
+            There are no additional notes
+        </h2>
+        {% else %}
+        <div class="notes">
+            {% for note in school.returnNotes %}
+            <div class="note {{ note.type }}">
+                <span class="title">{{ 'Census responded to by ' if note.type == 'reply' }}{{ 'Additional notes added by ' if note.type == 'school' }} {{ note.author }}<br>{{ note.date | formatDate }}</span>
+                {{ note.text }}
+            </div>
+            {% endfor -%}
+        </div>
+        {% endif %}
+
+    </div>
+
+</div>
+
+{% endblock %}
+
+{% block pageScripts %}
+
+<script>
+
+    var table = document.getElementById('errorTable')
+    new SortableTable(table)
+
+    $('#search-error').on('input', function() {
+        var value = $(this).val();
+        $('.query-description').each(function() {
+            var queryDesc = $(this).html();
+            if (!queryDesc.toLowerCase().includes(value.toLowerCase())) {
+                $(this).closest('tr').hide();
+            } else {
+                $(this).closest('tr').show();
+            }
+        })
+    })
+
+    window.GOVUKFrontend.initAll()
+
+</script>
+
+{% endblock %}

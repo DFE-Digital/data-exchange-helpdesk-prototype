@@ -27,13 +27,13 @@
 <div class="hmcts-identity-bar">
   <div class="hmcts-identity-bar__container">
     <div class="hmcts-identity-bar__details">
-        <span class="hmcts-identity-bar__title"><b>{{ schoolName }}</b> {{ laestab }}</span>
+        <span class="hmcts-identity-bar__title"><b>{{ schoolName }}</b> {{ laestab }} <strong class="govuk-!-padding-right-4"></strong>{% if not external %}{{ govukTag({text: school.type, classes: school.type}) }}{% endif %}</span>
     </div>
     <div style="float:right;">
         {% if (school.responsesSent == 'true') %}
             {{ govukButton({
-                text: 'Return to schools',
-                href: '../school-list',
+                text: 'Return to my schools' if external else 'Return to work queue',
+                href: '../responded',
                 classes: 'hmcts-menu-item hmcts-button--secondary'
             }) }}
         {% elseif (pendingCount == 0) %}
@@ -44,7 +44,7 @@
             }) }}
         {% else %}
             {{ govukButton({
-                text: 'Return to schools',
+                text: 'Return to my schools' if external else 'Return to work queue',
                 href: '../school-list',
                 classes: 'hmcts-menu-item hmcts-button--secondary'
             }) }}
@@ -76,6 +76,10 @@
                 {
                     text: school.noOfErrors + ' errors',
                     href: 'errors'
+                },
+                {
+                    text: 'Additional notes',
+                    href: 'return-note'
                 },
                 {
                     text: 'View all census data',
@@ -172,9 +176,13 @@
                 
                 <th class="govuk-table__header" scope="col"  aria-sort="none"><span class="no-wrap">Query</span></th>
                 
+                <th class="govuk-table__header" scope="col"><span class="no-wrap">Notes</span></th>
+                
                 <th class="govuk-table__header width-medium" scope="col"><span class="no-wrap">Acceptance criteria</span></th>
                 
-                <th class="govuk-table__header numeric" scope="col"><span class="no-wrap"></span></th>
+                {% if not external %}
+                <th class="govuk-table__header numeric" scope="col"><span class="no-wrap">Actions</span></th>
+                {% endif %}
                 
                 </tr>
             </thead>
@@ -205,17 +213,37 @@
                             <p>{{ query.description }}</p>
                         </th>
 
+                        <td class="govuk-table__cell notes">
+                            {% if query.notes | length == 0 %}
+                                −
+                            {% else %}
+                                {% for note in query.notes %}
+                                    <div class="note {{ note.type }}">
+                                        <span class="title">{{ 'Approved by ' if note.type == 'approval' }}{{ 'Rejected by ' if note.type == 'reply' }}{{ 'Note added by ' if note.type == 'school' }} {{ note.author }}<br>{{ note.date | formatDate }}</span>
+                                        {{ note.text }}
+                                    </div>
+                                {% endfor -%}
+                            {% endif %}
+                            <div class="query-index" style="display: none;">{{query.id}}</div>
+                        </td>
+
                         <td class="govuk-table__cell width-medium">
                             {{ query.guide }}
                         </td>
 
+                        {% if not external %}
                         <td class="govuk-table__cell numeric">
+                            <a href="/handle-query?selected-query={{query.id}}&response=approved&selected-school={{ data['selected-school'] }}" class="govuk-button govuk-button-small approveButton">Accept</a>
+                            
+                            <br>
+                            <button type="button" class="govuk-button govuk-button-red govuk-button-small open-dialog">Reject</button><br>
                             {% if query['type'] == 'pupil' and query['pupils'] | length != 0 %}
                             <a href="single-query" data-name="selected-query" data-value="{{ query.id }}" class="govuk-button govuk-button-blue govuk-button-small">
                                 View details
                                 </a>
                             {% endif %}
                         </td>
+                        {% endif %}
 
                     </tr>
                     {% endif %}

@@ -55,37 +55,13 @@
         href: 'notes'
     } %}
 
-    {% if queries | length == 0 %}
-
         {{ hmctsSubNavigation({
             label: 'Sub navigation',
             items: [
                 notesMenuItem if school.newNote == 'true',
                 {
-                    text: school.noOfErrors + ' errors' if school.noOfErrors != 1 else '1 error',
-                    href: 'errors',
-                    active: true
-                },
-                {
-                    text: 'View all census data',
-                    href: 'census-data'
-                }
-            ]
-        }) }}
-    
-    {% else %}
-
-        {{ hmctsSubNavigation({
-            label: 'Sub navigation',
-            items: [
-                notesMenuItem if school.newNote == 'true',
-                {
-                    text: pendingCount + ' unexplained queries' if pendingCount != 1 else '1 unexplained query',
+                    text: pendingCount + ' queries' if pendingCount != 1 else '1 query',
                     href: 'queries'
-                }, 
-                {
-                    text: handledCount + ' explained queries' if handledCount != 1 else '1 explained query',
-                    href: 'handled'
                 },
                 {
                     text: school.noOfErrors + ' errors' if school.noOfErrors != 1 else '1 error',
@@ -98,8 +74,6 @@
                 }
             ]
         }) }} 
-
-    {% endif %}
 
     </div>
 

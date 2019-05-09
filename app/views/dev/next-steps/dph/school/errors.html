@@ -1,18 +1,18 @@
-{% set external = data['set-user-type'] == 'laMat' %}{% extends 'layout_la.html' %}
+{% extends 'layout_la.html' %}
 
 {% block pageTitle %}
-    Errors
+    Collection submission
 {% endblock %}
 
 {% set school = data.schools[data['selected-school']] %}
-{% set schoolName = school['name'] %}
-{% set laestab = school['LAESTAB'] %}
-{% set queries = school['queries'] %}
-{% set errors = school['errors'] %}
+{% set schoolName = school.name %}
+{% set laestab = school.LAESTAB %}
+{% set queries = school.queries %}
+{% set errors = school.errors %}
 
 {% set handledCount = 0 %}
 {% for query in queries %}
-    {% if query['handled'] == 'true' %}
+    {% if query['explained'] == 'true' %}
         {% set handledCount = handledCount + 1 %}
     {% endif %}
 {% endfor %}
@@ -20,29 +20,23 @@
 {% set pendingCount = (queries | length) - handledCount %}
 
 {% block postHeader %}
+{% if errors | length == 0 %}
+<script>
+    window.location.href = 'census-data'
+</script>
+{% endif %}
+
 <div class="hmcts-identity-bar">
   <div class="hmcts-identity-bar__container">
     <div class="hmcts-identity-bar__details">
-        <span class="hmcts-identity-bar__title"><b>{{ schoolName }}</b> {{ laestab }}</span>
+        <span class="hmcts-identity-bar__title"><b>{{ schoolName }}</b> {{ laestab }} <strong class="govuk-!-padding-right-4"></strong>
     </div>
     <div style="float:right;">
-        {% if (school.responsesSent == 'true') %}
+        {% if (school.responsesSent != 'true') and (pendingCount == 0) %}
             {{ govukButton({
-                text: 'Return to schools',
-                href: '../school-list',
-                classes: 'hmcts-menu-item hmcts-button--secondary'
-            }) }}
-        {% elseif (pendingCount == 0) %}
-            {{ govukButton({
-                text: 'Send responses to school',
-                href: 'send-responses',
+                text: 'Submit census',
+                href: 'return-note',
                 classes: 'hmcts-menu-item'
-            }) }}
-        {% else %}
-            {{ govukButton({
-                text: 'Return to schools',
-                href: '../school-list',
-                classes: 'hmcts-menu-item hmcts-button--secondary'
             }) }}
         {% endif %}
     </div>
@@ -56,20 +50,19 @@
 
     <div class="govuk-grid-column-full census-case-nav govuk-!-padding-bottom-5">
 
-        {% set actionedQueries = {
-            text: handledCount + ' actioned queries' if handledCount != 1 else '1 actioned query',
-            href: 'handled'
-        } %}
+    {% set notesMenuItem = {
+        text: 'Notes',
+        href: 'notes'
+    } %}
+
+    {% if queries | length == 0 %}
 
         {{ hmctsSubNavigation({
             label: 'Sub navigation',
             items: [
+                notesMenuItem if school.newNote == 'true',
                 {
-                    text: pendingCount + ' queries' if pendingCount != 1 else '1 query',
-                    href: 'queries'
-                },
-                {
-                    text: school.noOfErrors + ' errors',
+                    text: school.noOfErrors + ' errors' if school.noOfErrors != 1 else '1 error',
                     href: 'errors',
                     active: true
                 },
@@ -78,29 +71,39 @@
                     href: 'census-data'
                 }
             ]
-        }) }}  
+        }) }}
+    
+    {% else %}
+
+        {{ hmctsSubNavigation({
+            label: 'Sub navigation',
+            items: [
+                notesMenuItem if school.newNote == 'true',
+                {
+                    text: pendingCount + ' unexplained queries' if pendingCount != 1 else '1 unexplained query',
+                    href: 'queries'
+                }, 
+                {
+                    text: handledCount + ' explained queries' if handledCount != 1 else '1 explained query',
+                    href: 'handled'
+                },
+                {
+                    text: school.noOfErrors + ' errors' if school.noOfErrors != 1 else '1 error',
+                    href: 'errors',
+                    active: true
+                },
+                {
+                    text: 'View all census data',
+                    href: 'census-data'
+                }
+            ]
+        }) }} 
+
+    {% endif %}
 
     </div>
 
 </div>
-
-{% if errors == null or errors.length == 0 %}
-
-<div class="govuk-grid-row">
-
-    <div class="govuk-grid-column-one-half">
-
-        <h2 class="govuk-heading-l">
-            There are no errors in this submission
-        </h2>
-
-        <p>You must <a href="queries">review the queries</a> in this submission before you send the responses to the school.</p>
-
-    </div>
-
-</div>
-
-{% else %}
 
 <div class="govuk-grid-row">
 
@@ -142,7 +145,7 @@
 
     <div class="govuk-grid-column-full">
 
-        <table id="errorTable" class="govuk-table internal-table query-table">
+         <table id="errorTable" class="govuk-table internal-table query-table">
             
             <caption class="govuk-table__caption">Queries</caption>
             
@@ -151,8 +154,7 @@
                 <tr class="govuk-table__row">
                 
                 <th class="govuk-table__header" scope="col"  aria-sort="ascending"><span class="no-wrap">Error</span></th>
-
-                <th class="govuk-table__header" scope="col"  aria-sort="none"><span class="no-wrap">Type</span></th>                
+              
                 <th class="govuk-table__header" scope="col"  aria-sort="none"><span class="no-wrap">Records affected</span></th>                
                 <th class="govuk-table__header" scope="col"><span class="no-wrap">Description</span></th>
                 
@@ -170,10 +172,6 @@
                                 <span class="govuk-visually-hidden">{{ error.description }}</span>
                             </h3>
                         </th>
-
-                        <td class="govuk-table__cell">
-                            <span class="type-tag {{ error.type }}">{{ error.type | sentenceCase }}</span>
-                        </td>
 
                         <td class="govuk-table__cell" data-sort-value="{{ error.pupils | length if error.pupils else 0 }}">
                             {{ error.pupils | length if error.pupils }}
@@ -194,32 +192,24 @@
 
 </div>
 
-{% endif %}
-
-
 {% endblock %}
 
 {% block pageScripts %}
+
+<script>
+    $('[href*="#"]').on('click', function() {
+        var str = 'This view is for developer reference only, to simulate processes please use the current iteration.'
+        if ($(this).attr('data-notice')) {
+            str += '\n\nNOTE:  ' + $(this).attr('data-notice')
+        }
+        alert(str)
+    })
+</script>
 
 <script>
 
     var table = document.getElementById('errorTable')
     new SortableTable(table)
 
-    $('#search-error').on('input', function() {
-        var value = $(this).val();
-        $('.query-description').each(function() {
-            var queryDesc = $(this).html();
-            if (!queryDesc.toLowerCase().includes(value.toLowerCase())) {
-                $(this).closest('tr').hide();
-            } else {
-                $(this).closest('tr').show();
-            }
-        })
-    })
-
-    window.GOVUKFrontend.initAll()
-
 </script>
-
 {% endblock %}

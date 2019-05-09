@@ -45,13 +45,75 @@
 
     <div class="govuk-grid-column-full census-case-nav govuk-!-padding-bottom-5">
 
+        {% if errors | length == 0 and queries | length == 0 %}
+
+            <h2 class="govuk-heading-l">Your census is ready to submit</h1>
+            <p>Your data has no queries or errors. You can review the data below before you submit it.</p>
+
+            {{ govukButton({
+                text: 'Submit census',
+                href: 'return-note',
+                classes: ''
+            }) }}
+
+
+        {% set notesMenuItem = {
+        text: 'Notes',
+        href: 'notes'
+    } %}
+
+        {% elseif queries | length == 0 %}
+
+            {{ hmctsSubNavigation({
+                label: 'Sub navigation',
+                items: [
+                    notesMenuItem if school.newNote == 'true',
+                    {
+                        text: school.noOfErrors + ' errors' if school.noOfErrors != 1 else '1 error',
+                        href: 'errors'
+                    },
+                    {
+                        text: 'View all census data',
+                        href: 'census-data',
+                        active: true
+                    }
+                ]
+            }) }} 
+
+        {% elseif errors | length == 0 %}
+
+            {{ hmctsSubNavigation({
+                label: 'Sub navigation',
+                items: [
+                    notesMenuItem if school.newNote == 'true',
+                    {
+                        text: pendingCount + ' unexplained queries' if pendingCount != 1 else '1 unexplained query',
+                        href: 'queries'
+                    }, 
+                    {
+                        text: handledCount + ' explained queries' if handledCount != 1 else '1 explained query',
+                        href: 'handled'
+                    },
+                    {
+                        text: 'View all census data',
+                        href: 'census-data',
+                        active: true
+                    }
+                ]
+            }) }} 
+
+        {% else %}
+
         {{ hmctsSubNavigation({
             label: 'Sub navigation',
             items: [
-                notesMenuItem if school.newNote == 'true',
                 {
-                    text: pendingCount + ' queries' if pendingCount != 1 else '1 query',
+                    text: pendingCount + ' unexplained queries' if pendingCount != 1 else '1 unexplained query',
                     href: 'queries'
+                }, 
+                {
+                    text: handledCount + ' explained queries' if handledCount != 1 else '1 explained query',
+                    href: 'handled'
                 },
                 {
                     text: school.noOfErrors + ' errors' if school.noOfErrors != 1 else '1 error',
@@ -65,7 +127,8 @@
             ]
         }) }} 
 
-      
+        {% endif %}
+
 
     </div>
 

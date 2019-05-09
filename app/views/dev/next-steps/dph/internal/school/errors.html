@@ -23,13 +23,13 @@
 <div class="hmcts-identity-bar">
   <div class="hmcts-identity-bar__container">
     <div class="hmcts-identity-bar__details">
-        <span class="hmcts-identity-bar__title"><b>{{ schoolName }}</b> {{ laestab }}</span>
+        <span class="hmcts-identity-bar__title"><b>{{ schoolName }}</b> {{ laestab }} <strong class="govuk-!-padding-right-4"></strong>{% if not external %}{{ govukTag({text: school.type, classes: school.type}) }}{% endif %}</span>
     </div>
     <div style="float:right;">
         {% if (school.responsesSent == 'true') %}
             {{ govukButton({
-                text: 'Return to schools',
-                href: '../school-list',
+                text: 'Return to my schools' if external else 'Return to work queue',
+                href: '../my-responses',
                 classes: 'hmcts-menu-item hmcts-button--secondary'
             }) }}
         {% elseif (pendingCount == 0) %}
@@ -40,8 +40,8 @@
             }) }}
         {% else %}
             {{ govukButton({
-                text: 'Return to schools',
-                href: '../school-list',
+                text: 'Return to my schools' if external else 'Return to work queue',
+                href: '../my-queue',
                 classes: 'hmcts-menu-item hmcts-button--secondary'
             }) }}
         {% endif %}
@@ -67,11 +67,15 @@
                 {
                     text: pendingCount + ' queries' if pendingCount != 1 else '1 query',
                     href: 'queries'
-                },
+                }, actionedQueries if not external,
                 {
                     text: school.noOfErrors + ' errors',
                     href: 'errors',
                     active: true
+                },
+                {
+                    text: 'Additional notes',
+                    href: 'return-note'
                 },
                 {
                     text: 'View all census data',

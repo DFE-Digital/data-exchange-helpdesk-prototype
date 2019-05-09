@@ -29,7 +29,25 @@
 
     <div class="govuk-grid-column-full census-case-nav">
 
-        <h1 class="govuk-heading-l">{{ 'Summer census submissions' if external else 'My work queue' }}</h1>
+        <h1 class="govuk-heading-l">{{ 'My schools’ collections' if external else 'My work queue' }}</h1>
+
+        {{ hmctsSubNavigation({
+            label: 'Sub navigation',
+            items: [
+            {
+                html: 'Inbox <span class="type-tag count-tag">' + inboxCount + '</span>' if not external else 'Ready for DfE action <span class="type-tag count-tag">' + inboxCount + '</span>',
+                href: 'school-list',
+                active: true
+            }, {
+                html: 'Responded <span class="type-tag count-tag">' + respondedCount + '</span>' if not external else 'Ready for school action <span class="type-tag count-tag">' + respondedCount + '</span>',
+                href: 'responded'
+            },
+            {
+                html: 'Approved <span class="type-tag count-tag">' + approvedCount + '</span>',
+                href: 'approved'
+            }
+            ]
+        }) }} 
 
         {% if inboxCount == 0 %}
 
