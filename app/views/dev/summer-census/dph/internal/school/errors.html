@@ -183,7 +183,7 @@
                         </th>
                         <td class="govuk-table__cell numeric">
                             {% if error['type'] == 'pupil' and error['pupils'] | length != 0 %}
-                            <a href="single-query" data-name="selected-query" data-value="{{ error.id }}" class="govuk-button govuk-button-blue govuk-button-small">
+                            <a href="single-error" data-name="selected-error" data-value="{{ error.id }}" class="govuk-button govuk-button-blue govuk-button-small">
                                 View details
                                 </a>
                             {% endif %}

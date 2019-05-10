@@ -133,11 +133,26 @@
 {% endblock %}
 
 {% block pageScripts %}
-
 <script>
 
+    var navDialogEl = document.querySelector('.dialog');
+    var dialogOverlay = document.querySelector('.dialog-overlay');
     
+    var myDialog = new Dialog(navDialogEl, dialogOverlay);
+    myDialog.addEventListeners('.open-dialog', '.close-dialog');
+
+    $('.open-dialog').on('click', function() {
+        var upn = $(this).closest('tr').find('.upn').text()
+        var name = $(this).closest('tr').find('.name').text()
+        var lname = $(this).closest('tr').find('.last-name').text()
+        var fname = $(this).closest('tr').find('.first-name').text()
+        var dob = $(this).closest('tr').find('.dob').text()
+        $('.dialog .upn-container').html(upn)
+        $('.dialog .name-container').html(name)
+        $('.dialog .lname-container').html(lname)
+        $('.dialog .fname-container').html(fname)
+        $('.dialog .dob-container').html(dob)
+    })
 
 </script>
-
 {% endblock %}

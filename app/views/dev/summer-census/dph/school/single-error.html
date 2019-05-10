@@ -1,139 +1,125 @@
+{% set external = data['set-user-type'] == 'laMat' %}{% extends 'layout_la.html' %}
+
+{% set schoolIndex = data['selected-school'] %}
+{% set school = data['schools'][schoolIndex] %}
+{% set schoolName = school['name'] %}
+{% set laestab = school['LAESTAB'] %}
+{% set error = school['errors'] | getById(data['selected-error']) %}
+
+{% block pageTitle %}
+    {{ error.number }}
+{% endblock %}
+
+{% block postHeader %}
+<div class="hmcts-identity-bar">
+  <div class="hmcts-identity-bar__container">
+    <div class="hmcts-identity-bar__details">
+        <span class="hmcts-identity-bar__title"><b>{{ schoolName }}</b> {{ laestab }}</span>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block content %}
+
 <div class="govuk-grid-row">
 
-    <div class="govuk-grid-column-one-half">
-        {% set findHTML %}
-        <div class="govuk-!-padding-bottom-5">
-            {{ hmctsSearch({
-                input: {
-                    id: 'search-pupils',
-                    name: 'search-pupils'
-                },
-                label: {
-                    text: 'Find a pupil',
-                    classes: 'govuk-visually-hidden'
-                },
-                hint: {
-                    text: 'Search by pupil UPN or name'
-                },
-                button: {
-                    text: 'Find'
-                }
-            }) }}
-        </div>
-        {% endset -%}
+    <div class="govuk-grid-column-full census-case-nav">
 
-        
-        {{ govukDetails({
-        summaryText: 'Find a pupil',
-        html: findHTML
+        {{ govukBackLink({
+            text: 'Back',
+            href: 'javascript:history.back()'
         }) }}
-
-        <br>
 
     </div>
 
 </div>
 
-{{ hmctsPagination({
-    results: {
-        from: 1,
-        to: 50,
-        count: 1104
-    },
-    next: {
-        text: 'Next',
-        href: '#'
-    },
-    items: [
-        {
-            text: '1',
-            href: '#',
-            selected: true
-        }, {
-            text: '2',
-            href: '#'
-        }, {
-            text: '3',
-            href: '#'
-        }, {
-          type: 'dots'
-        }, {
-            text: '23',
-            href: '#'
-        }
-    ]
-}) }}
 
-<table class="govuk-table" id="pupilsTable">
-    <caption class="govuk-table__caption govuk-visually-hidden">Pupils in census data</caption>
-    <thead class="govuk-table__head">
-        <tr class="govuk-table__row">
-            <th class="govuk-table__header" scope="col" aria-sort="none">UPN</th>
-            <th class="govuk-table__header" scope="col" aria-sort="ascending">Last name</th>
-            <th class="govuk-table__header" scope="col" aria-sort="none">First name</th>
-            <th class="govuk-table__header" scope="col" aria-sort="none">Date of birth</th>
-            <th class="govuk-table__header" scope="col" aria-sort="none">Status</th>
-        </tr>
-    </thead>
-    <tbody class="govuk-table__body">
-        {% for pupil in data.misSchool.pupils | sort(false, true, 'UPN') %}
-        <tr class="govuk-table__row">
-            {% set UPN = [pupil.UPN,pupil.UPN,pupil.UPN,pupil.UPN,pupil.UPN,pupil.UPN,pupil.UPN,pupil.UPN,pupil.UPN,pupil.UPN,pupil.UPN, ' '] | random %}
-            <th class="govuk-table__header" scope="row">
-                <a href="#" class="open-dialog" data-pupil="{{ loop.index - 1 }}"><span class="upn">{{ 'No UPN' if UPN == ' ' else UPN }}</span></a>
-            </th>
-        {% set surname = [pupil.surname,pupil.surname,pupil.surname,pupil.surname,pupil.surname,pupil.surname,pupil.surname,pupil.surname,pupil.surname,pupil.surname,pupil.surname, '-'] | random %}
-            <td class="govuk-table__cell" data-sort-value="{{ surname if surname != '-' }}">
-                <span class="last-name">{{ surname }}</span>
-            </td>
+<div class="govuk-grid-row">
 
-            {% set firstname = [pupil.firstname,pupil.firstname,pupil.firstname,pupil.firstname,pupil.firstname,pupil.firstname,pupil.firstname,pupil.firstname,pupil.firstname,pupil.firstname,pupil.firstname, '-'] | random %}
-            <td class="govuk-table__cell" data-sort-value="{{ firstname if firstname != '-' }}">
-                <span class="first-name">{{ firstname }}</span>
-                <span class="name govuk-visually-hidden">{{ surname }}, {{ firstname }}</span>
-            </td>
-            
-            {% set dob = [pupil.dob,pupil.dob,pupil.dob,pupil.dob,pupil.dob,pupil.dob,pupil.dob,pupil.dob,pupil.dob,pupil.dob,pupil.dob, '-'] | random %}
-            <td class="govuk-table__cell" data-sort-value="{{ dob if dob != '-' }}"><span class="dob">{{dob}}</span></td>
-            <td class="govuk-table__cell">
-                {{ ['On roll', 'On roll', 'On roll', 'On roll', 'On roll', 'On roll', 'On roll', 'Off roll', '-'] | random }}
-                <span class="govuk-visually-hidden pupil-terms">{{ UPN }} {{ firstname }} {{ surname }}</span>
-            </td>
-        </tr>
-        {% endfor -%}
-    </tbody>
-</table>
+    <div class="govuk-grid-column-one-half">
+        
+        <h1 class="govuk-heading-xl query-heading govuk-!-margin-bottom-2">{{ error.number }}</h1>
 
-{{ hmctsPagination({
-    results: {
-        from: 1,
-        to: 50,
-        count: 1104
-    },
-    next: {
-        text: 'Next',
-        href: '#'
-    },
-    items: [
-        {
-            text: '1',
-            href: '#',
-            selected: true
-        }, {
-            text: '2',
-            href: '#'
-        }, {
-            text: '3',
-            href: '#'
-        }, {
-          type: 'dots'
-        }, {
-            text: '23',
-            href: '#'
-        }
-    ]
-}) }}
+        {% set single = error['type'] | length == 0 %}
 
+        <p class="govuk-!-padding-bottom-5">{{ error.description }}</p>
+
+    </div>
+
+</div>
+
+<div class="govuk-grid-row">
+
+    <div class="govuk-grid-column-full">
+
+        {% set isMultiple = error.pupils | length != 1 %}
+
+        <table class="govuk-table" id="singleQueryTable">
+        <caption class="govuk-table__caption">Pupil{{ 's' if isMultiple }} relating to error {{ query.number }}</caption>
+        <thead class="govuk-table__head">
+            <tr class="govuk-table__row">
+                <th class="govuk-table__header" scope="col">UPN</th>
+                <th class="govuk-table__header" scope="col">Name</th>
+                <th class="govuk-table__header" scope="col">Date of birth</th>
+            </tr>
+        </thead>
+        <tbody class="govuk-table__body">
+            {% for pupil in error.pupils | sort(false, true, 'UPN') %}
+            <tr class="govuk-table__row">
+                <th class="govuk-table__header" scope="row">
+                    <a href="#" class="open-dialog" data-pupil="{{ loop.index - 1 }}"><span class="upn">{{ pupil.UPN }}</span></a>
+                </th>
+                <td class="govuk-table__cell">
+                    {% set name = '<span class="last-name">' + pupil.surname + '</span>, <span class="first-name">' + pupil.firstname + '</span>' %}
+                    <span class="name">
+                    {{ [name, name, name, name, name, name, name, '<span class="last-name govuk-visually-hidden"></span><span class="first-name govuk-visually-hidden"></span>Name missing'] | random | safe }}
+                    </span>
+                </td>
+                <td class="govuk-table__cell"><span class="dob">{{pupil.dob}}</span></td>
+            </tr>
+            {% endfor -%}
+        </tbody>
+        </table>
+
+ 
+
+        </div>
+
+        <script>
+
+            $('.govuk-table__head .table-checkbox-cell input[type=checkbox]').on('change', function() {
+                $(this).closest('table').find('.table-checkbox-cell input[type=checkbox]').prop('checked', $(this).prop('checked'));
+                $(this).closest('table').find('.govuk-table__body tr').removeClass('highlight-row');
+                if ($(this).prop('checked')) {
+                    $(this).closest('table').find('.govuk-table__body tr').addClass('highlight-row');
+                }
+                validateSelected()
+            })
+            $('.govuk-table__body .table-checkbox-cell input[type=checkbox]').on('change', function() {
+                var row = $(this).closest('tr');
+                row.removeClass('highlight-row');
+                if ($(this).prop('checked')) {
+                    row.addClass('highlight-row');
+                }
+                validateSelected();
+            })
+
+            function validateSelected() {
+                if ($('.govuk-table__body .table-checkbox-cell input[type=checkbox]:checked').length != 0) {
+                    $('.selected-button').removeClass('govuk-button--disabled');
+                } else {
+                    $('.selected-button').addClass('govuk-button--disabled');
+                }
+            }
+        </script>
+
+
+
+    </div>
+
+</div>
 
 <div class="dialog query-data" role="dialog" aria-labelledby="dialog-title" aria-describedby="dialog-description">
 
@@ -668,16 +654,32 @@
 
 <div class="dialog-overlay" tabindex="-1"></div>
 
+{% endblock %}
+
+{% block pageScripts %}
 <script>
-$('#search-pupils').on('input', function() {
-    var value = $(this).val();
-    $('.pupil-terms').each(function() {
-        var queryDesc = $(this).html();
-        if (!queryDesc.toLowerCase().includes(value.toLowerCase())) {
-            $(this).closest('tr').hide();
-        } else {
-            $(this).closest('tr').show();
-        }
+
+    var table = document.getElementById('singleQueryTable')
+    new SortableTable(table)
+
+    var navDialogEl = document.querySelector('.dialog');
+    var dialogOverlay = document.querySelector('.dialog-overlay');
+    
+    var myDialog = new Dialog(navDialogEl, dialogOverlay);
+    myDialog.addEventListeners('.open-dialog', '.close-dialog');
+
+    $('.open-dialog').on('click', function() {
+        var upn = $(this).closest('tr').find('.upn').text()
+        var name = $(this).closest('tr').find('.name').text()
+        var lname = $(this).closest('tr').find('.last-name').text()
+        var fname = $(this).closest('tr').find('.first-name').text()
+        var dob = $(this).closest('tr').find('.dob').text()
+        $('.dialog .upn-container').html(upn)
+        $('.dialog .name-container').html(name)
+        $('.dialog .lname-container').html(lname)
+        $('.dialog .fname-container').html(fname)
+        $('.dialog .dob-container').html(dob)
     })
-})
+
 </script>
+{% endblock %}

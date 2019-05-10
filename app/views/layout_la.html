@@ -77,10 +77,7 @@
       }
     ] %}
 
-    {{ hmctsPrimaryNavigation({
-      label: 'Primary navigation',
-      items:  navItems if data['set-user-type'] != 'school' else 'My queue'
-    }) }} 
+   
     {% block postHeader %}
     {% endblock %}
     <div class="govuk-width-container">
