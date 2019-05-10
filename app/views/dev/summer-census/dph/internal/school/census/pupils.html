@@ -42,6 +42,9 @@
     <tbody class="govuk-table__body">
         {% for pupil in data.misSchool.pupils | sort(false, true, 'surname') %}
         <tr class="govuk-table__row">
+            <th class="govuk-table__header" scope="row" data-sort-value="{{ UPN if UPN != 'UPN missing' }}">
+                {{ UPN }}
+            </th>
         {% set surname = [pupil.surname,pupil.surname,pupil.surname,pupil.surname,pupil.surname,pupil.surname,pupil.surname,pupil.surname,pupil.surname,pupil.surname,pupil.surname, '-'] | random %}
             <td class="govuk-table__cell" data-sort-value="{{ surname if surname != '-' }}">
                 {{ surname }}
@@ -52,9 +55,7 @@
                 {{ firstname }}
             </td>
             {% set UPN = [pupil.UPN,pupil.UPN,pupil.UPN,pupil.UPN,pupil.UPN,pupil.UPN,pupil.UPN,pupil.UPN,pupil.UPN,pupil.UPN,pupil.UPN, '-'] | random %}
-            <th class="govuk-table__header" scope="row" data-sort-value="{{ UPN if UPN != '-' }}">
-                {{ UPN }}
-            </th>
+            
             {% set dob = [pupil.dob,pupil.dob,pupil.dob,pupil.dob,pupil.dob,pupil.dob,pupil.dob,pupil.dob,pupil.dob,pupil.dob,pupil.dob, '-'] | random %}
             <td class="govuk-table__cell" data-sort-value="{{ dob if dob != '-' }}"><span class="dob">{{dob}}</span></td>
             <td class="govuk-table__cell">

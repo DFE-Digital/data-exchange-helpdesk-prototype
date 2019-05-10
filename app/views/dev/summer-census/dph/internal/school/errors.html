@@ -140,21 +140,19 @@
 
 <div class="govuk-grid-row">
 
-    <div class="govuk-grid-column-full">
+    <div class="govuk-grid-column-two-thirds">
 
         <table id="errorTable" class="govuk-table internal-table query-table">
             
-            <caption class="govuk-table__caption">Queries</caption>
+            <caption class="govuk-table__caption">Errors</caption>
             
             
             <thead class="govuk-table__head">
                 <tr class="govuk-table__row">
                 
-                <th class="govuk-table__header" scope="col"  aria-sort="ascending"><span class="no-wrap">Error</span></th>
-
-                <th class="govuk-table__header" scope="col"  aria-sort="none"><span class="no-wrap">Type</span></th>                
-                <th class="govuk-table__header" scope="col"  aria-sort="none"><span class="no-wrap">Records affected</span></th>                
-                <th class="govuk-table__header" scope="col"><span class="no-wrap">Description</span></th>
+                <th class="govuk-table__header" scope="col"><span class="no-wrap">Error</span></th>
+           
+                <th class="govuk-table__header" scope="col"><span class="no-wrap"></span></th>
                 
                 </tr>
             </thead>
@@ -164,23 +162,31 @@
                 {% for error in errors | sort(false, true, 'number') %}
                     {% set consolidatedError = false %}
                     <tr class="govuk-table__row">
-                        <th class="govuk-table__header query-description" scope="row" data-sort-value="{{ error.number }}">
+                        <th class="govuk-table__header query-description" scope="row" data-sort-value="{{ error['number'] }}">
                             <h3 class="govuk-heading-m" style="margin-bottom: 5px;">
-                                {{ error.number }}
-                                <span class="govuk-visually-hidden">{{ error.description }}</span>
+                                {{ error['number'] }}
                             </h3>
+                            {% if error['type'] == 'pupil' %}
+                                {% if error['pupils'] | length != 0 %}
+                                <a href="single-query" class="no-wrap type-tag {{ error['type'] }}"  data-name="selected-query" data-value="{{ error.id }}">
+                                    {% if error['pupils'] | length != 1 %}
+                                        {{ error['pupils'] | length }} pupils
+                                        {% set consolidatedError = true %}
+                                    {% else %}
+                                        1 pupil
+                                    {% endif %}
+                                </a>
+                                {% endif %}
+                            {% endif %}
+                            <br>
+                            <p>{{ error.description }}</p>
                         </th>
-
-                        <td class="govuk-table__cell">
-                            <span class="type-tag {{ error.type }}">{{ error.type | sentenceCase }}</span>
-                        </td>
-
-                        <td class="govuk-table__cell" data-sort-value="{{ error.pupils | length if error.pupils else 0 }}">
-                            {{ error.pupils | length if error.pupils }}
-                        </td>
-
-                        <td class="govuk-table__cell">
-                            {{ error.description }}
+                        <td class="govuk-table__cell numeric">
+                            {% if error['type'] == 'pupil' and error['pupils'] | length != 0 %}
+                            <a href="single-query" data-name="selected-query" data-value="{{ error.id }}" class="govuk-button govuk-button-blue govuk-button-small">
+                                View details
+                                </a>
+                            {% endif %}
                         </td>
 
                     </tr>
