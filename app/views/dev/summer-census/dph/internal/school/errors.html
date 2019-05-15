@@ -26,25 +26,11 @@
         <span class="hmcts-identity-bar__title"><b>{{ schoolName }}</b> {{ laestab }}</span>
     </div>
     <div style="float:right;">
-        {% if (school.responsesSent == 'true') %}
-            {{ govukButton({
-                text: 'Return to schools',
-                href: '../school-list',
-                classes: 'hmcts-menu-item hmcts-button--secondary'
-            }) }}
-        {% elseif (pendingCount == 0) %}
-            {{ govukButton({
-                text: 'Send responses to school',
-                href: 'send-responses',
-                classes: 'hmcts-menu-item'
-            }) }}
-        {% else %}
-            {{ govukButton({
-                text: 'Return to schools',
-                href: '../school-list',
-                classes: 'hmcts-menu-item hmcts-button--secondary'
-            }) }}
-        {% endif %}
+        {{ govukButton({
+            text: 'Return to list of schools',
+            href: '../school-list',
+            classes: 'hmcts-menu-item hmcts-button--secondary'
+        }) }}
     </div>
   </div>
 </div>
@@ -84,21 +70,7 @@
 
 </div>
 
-{% if errors == null or errors.length == 0 %}
 
-<div class="govuk-grid-row">
-
-    <div class="govuk-grid-column-one-half">
-
-        <h2 class="govuk-heading-l">
-            There are no errors in this submission
-        </h2>
-
-    </div>
-
-</div>
-
-{% else %}
 
 <div class="govuk-grid-row">
 
@@ -198,7 +170,6 @@
 
 </div>
 
-{% endif %}
 
 
 {% endblock %}

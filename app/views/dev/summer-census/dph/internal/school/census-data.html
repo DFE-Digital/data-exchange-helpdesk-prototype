@@ -20,11 +20,6 @@
 {% set pendingCount = (queries | length) - handledCount %}
 
 {% block postHeader %}
-{% if queries | length == 0 %}
-    <script>
-        window.location.href = '/select-school'
-    </script>
-{% endif %}
 <div class="hmcts-identity-bar">
   <div class="hmcts-identity-bar__container">
     <div class="hmcts-identity-bar__details">
@@ -33,7 +28,7 @@
     <div style="float:right;">
         {% if (school.responsesSent == 'true') %}
             {{ govukButton({
-                text: 'Return to schools',
+                text: 'Return to list of schools',
                 href: '../school-list',
                 classes: 'hmcts-menu-item hmcts-button--secondary'
             }) }}
@@ -45,7 +40,7 @@
             }) }}
         {% else %}
             {{ govukButton({
-                text: 'Return to schools',
+                text: 'Return to list of schools',
                 href: '../school-list',
                 classes: 'hmcts-menu-item hmcts-button--secondary'
             }) }}

@@ -23,9 +23,7 @@ generators.randomCode = length => {
 	var output = ''
 	var i = 0
 	for (i; i < length; i++) {
-		output += generators
-			.randomItemFrom([0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
-			.toString()
+		output += generators.randomNumber(0, 9).toString()
 	}
 	return output
 }
@@ -191,7 +189,7 @@ generators.schools = amount => {
 			generators.schoolName(),
 			generators.randomCode(3),
 			generators.randomItemFrom(['academy', 'maintained', 'maintained']),
-			generators.randomNumber(1, 25)
+			generators.randomNumber(0, 25)
 		)
 		school.id = i
 		school.submittedDate = generators.randomDate(5, 1)

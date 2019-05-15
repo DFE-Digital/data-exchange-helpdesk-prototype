@@ -30,25 +30,11 @@
         <span class="hmcts-identity-bar__title"><b>{{ schoolName }}</b> {{ laestab }}</span>
     </div>
     <div style="float:right;">
-        {% if (school.responsesSent == 'true') %}
-            {{ govukButton({
-                text: 'Return to list of schools',
-                href: '../school-list',
-                classes: 'hmcts-menu-item hmcts-button--secondary'
-            }) }}
-        {% elseif (pendingCount == 0) %}
-            {{ govukButton({
-                text: 'Send responses to school',
-                href: 'send-responses',
-                classes: 'hmcts-menu-item'
-            }) }}
-        {% else %}
-            {{ govukButton({
-                text: 'Return to list of schools',
-                href: '../school-list',
-                classes: 'hmcts-menu-item hmcts-button--secondary'
-            }) }}
-        {% endif %}
+        {{ govukButton({
+            text: 'Return to list of schools',
+            href: '../school-list',
+            classes: 'hmcts-menu-item hmcts-button--secondary'
+        }) }}
     </div>
   </div>
 </div>
@@ -60,10 +46,6 @@
 
     <div class="govuk-grid-column-full census-case-nav govuk-!-padding-bottom-5">
 
-    {% set actionedQueries = {
-        text: handledCount + ' actioned queries' if handledCount != 1 else '1 actioned query',
-        href: 'handled'
-    } %}
 
         {{ hmctsSubNavigation({
             label: 'Sub navigation',
@@ -72,7 +54,7 @@
                     text: pendingCount + ' queries' if pendingCount != 1 else '1 query',
                     href: 'queries',
                     active: true
-                }, actionedQueries if not external,
+                },
                 {
                     text: school.noOfErrors + ' errors',
                     href: 'errors'
@@ -87,40 +69,6 @@
     </div>
 
 </div>
-
-{% if (pendingCount == 0) and (school.responsesSent == 'true') %}
-
-    <div class="govuk-grid-row">
-
-        <div class="govuk-grid-column-one-half">
-            <h2 class="govuk-heading-l">Responses have been sent to school</h1>
-            <p>You can <a href="handled">review the responses</a> and change the responses if there has been an error.</p>
-            {{ govukButton({
-                text: 'Review responses',
-                href: 'handled',
-                classes: ''
-            }) }}
-        </div>
-
-    </div>
-
-{% elseif pendingCount == 0 %}
-
-    <div class="govuk-grid-row">
-
-        <div class="govuk-grid-column-one-half">
-            <h2 class="govuk-heading-l">All queries have a response</h1>
-            <p>You can <a href="handled">review the responses</a> before they are sent. Once the responses are sent the school can reply to rejected queries or amend data in their MIS.</p>
-            {{ govukButton({
-                text: 'Send responses to school',
-                href: 'send-responses',
-                classes: ''
-            }) }}
-        </div>
-
-    </div>
-
-{% else %}
 
 <div class="govuk-grid-row">
 
@@ -258,8 +206,6 @@
 </div>
 
 <div class="dialog-overlay" tabindex="-1"></div>
-
-{% endif %}
 
 
 {% endblock %}

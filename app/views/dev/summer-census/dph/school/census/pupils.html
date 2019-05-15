@@ -80,7 +80,7 @@
         <tr class="govuk-table__row">
             {% set UPN = [pupil.UPN,pupil.UPN,pupil.UPN,pupil.UPN,pupil.UPN,pupil.UPN,pupil.UPN,pupil.UPN,pupil.UPN,pupil.UPN,pupil.UPN, ' '] | random %}
             <th class="govuk-table__header" scope="row">
-                <a href="#" class="open-dialog" data-pupil="{{ loop.index - 1 }}"><span class="upn">{{ 'No UPN' if UPN == ' ' else UPN }}</span></a>
+                <a href="#" class="open-dialog" data-pupil="{{ loop.index - 1 }}"><span class="upn">{{ 'Missing UPN' if UPN == ' ' else UPN }}</span></a>
             </th>
         {% set surname = [pupil.surname,pupil.surname,pupil.surname,pupil.surname,pupil.surname,pupil.surname,pupil.surname,pupil.surname,pupil.surname,pupil.surname,pupil.surname, '-'] | random %}
             <td class="govuk-table__cell" data-sort-value="{{ surname if surname != '-' }}">

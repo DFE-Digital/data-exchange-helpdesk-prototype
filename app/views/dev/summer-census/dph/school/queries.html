@@ -22,16 +22,6 @@
 
 {% block postHeader %}
 
-{% if school.needsTrimming == 'true' %}
-<script>
-    window.location.href = '/trim-approved'
-</script>
-{% elseif queries | length == 0 %}
-<script>
-    window.location.href = 'errors'
-</script>
-{% endif %}
-
 <div class="hmcts-identity-bar">
   <div class="hmcts-identity-bar__container">
     <div class="hmcts-identity-bar__details">
@@ -87,39 +77,6 @@
 
 </div>
 
-{% if (pendingCount == 0) and (school.responsesSent == 'true') %}
-
-    <div class="govuk-grid-row">
-
-        <div class="govuk-grid-column-one-half">
-            <h2 class="govuk-heading-l">Responses have been sent to the Department for Education</h1>
-            <p>You can <a href="handled">review the responses</a> and change the responses if there has been an error.</p>
-            {{ govukButton({
-                text: 'Review responses',
-                href: 'return-note',
-                classes: ''
-            }) }}
-        </div>
-
-    </div>
-
-{% elseif pendingCount == 0 %}
-
-    <div class="govuk-grid-row">
-
-        <div class="govuk-grid-column-one-half">
-            <h2 class="govuk-heading-l">All queries have an explanation</h1>
-            <p>You can <a href="handled">review the explanations</a> before they are sent. Once this census is sent, the Department for Education will approve or reject the explanations provided. You will be notified if any further action is needed.</p>
-            {{ govukButton({
-                text: 'Submit census',
-                href: 'return-note',
-                classes: ''
-            }) }}
-        </div>
-
-    </div>
-
-{% else %}
 
 <div class="govuk-grid-row">
 
@@ -171,7 +128,7 @@
                 
                 <th class="govuk-table__header" scope="col"><span class="no-wrap">Query</span></th>
                 
-                <th class="govuk-table__header width-medium" scope="col"><span class="no-wrap">Acceptable explanation guidelines</span></th>
+                <th class="govuk-table__header width-medium" scope="col"><span class="no-wrap">Acceptance criteria</span></th>
                 
                 <th class="govuk-table__header numeric" scope="col"><span class="no-wrap"></span></th>
                 
@@ -258,7 +215,6 @@
 
 <div class="dialog-overlay" tabindex="-1"></div>
 
-{% endif %}
 
 
 {% endblock %}
