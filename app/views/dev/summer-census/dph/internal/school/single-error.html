@@ -78,7 +78,7 @@
         {% set isMultiple = error.pupils | length != 1 %}
 
         <table class="govuk-table" id="singleQueryTable">
-        <caption class="govuk-table__caption">Pupil{{ 's' if isMultiple }} relating to error {{ query.number }}</caption>
+        <caption class="govuk-table__caption">Pupil record{{ 's' if isMultiple }} with this error</caption>
         <thead class="govuk-table__head">
             <tr class="govuk-table__row">
                 <th class="govuk-table__header" scope="col">UPN</th>
