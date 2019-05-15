@@ -547,3 +547,14 @@ tr.no-results-row span {
 	padding: 25px;
 	font-size: 200%;
 }
+
+.download-box {
+	background-color: #005ea5;
+	color: white;
+	padding-top: 20px;
+	.govuk-heading-m,
+	p[class*='govuk-body'],
+	p[class*='govuk-body'] a {
+		color: white;
+	}
+}
