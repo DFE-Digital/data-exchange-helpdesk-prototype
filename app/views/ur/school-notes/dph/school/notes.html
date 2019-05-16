@@ -1,0 +1,128 @@
+{% set external = data['set-user-type'] == 'laMat' %}{% extends 'layout_la.html' %}
+
+{% block pageTitle %}
+    Errors
+{% endblock %}
+
+{% set school = data.schools[data['selected-school']] %}
+{% set schoolName = school.name %}
+{% set laestab = school.LAESTAB %}
+{% set queries = school.queries %}
+{% set errors = school.errors %}
+
+{% set handledCount = 0 %}
+{% for query in queries %}
+    {% if query['explained'] == 'true' %}
+        {% set handledCount = handledCount + 1 %}
+    {% endif %}
+{% endfor %}
+
+{% set pendingCount = (queries | length) - handledCount %}
+{% set isReplying = (school.isReplying == 'true') %}
+
+{% block postHeader %}
+{% if school.needsTrimming == 'true' %}
+<script>
+    window.location.href = '/trim-approved'
+</script>
+{% endif %}
+<div class="hmcts-identity-bar">
+  <div class="hmcts-identity-bar__container">
+    <div class="hmcts-identity-bar__details">
+        <span class="hmcts-identity-bar__title"><b>{{ schoolName }}</b> {{ laestab }} </span>
+    </div>
+    <div style="float:right;">
+        {% if (school.responsesSent == 'true') %}
+            {{ govukButton({
+                text: 'Return to my schools' if external else 'Return to work queue',
+                href: '../my-responses',
+                classes: 'hmcts-menu-item hmcts-button--secondary'
+            }) }}
+        {% elseif (pendingCount == 0) %}
+            {{ govukButton({
+                text: 'Send responses to school',
+                href: 'send-responses',
+                classes: 'hmcts-menu-item'
+            }) }}
+        {% else %}
+            {{ govukButton({
+                text: 'Return to my schools' if external else 'Return to work queue',
+                href: '../my-queue',
+                classes: 'hmcts-menu-item hmcts-button--secondary'
+            }) }}
+        {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+
+    <div class="govuk-grid-column-full census-case-nav govuk-!-padding-bottom-5">
+
+        {% set errorsMenuItem = {
+            text: school.noOfErrors + ' errors' if school.noOfErrors != 1 else '1 error',
+            href: 'errors'
+        } %}
+
+        {{ hmctsSubNavigation({
+            label: 'Sub navigation',
+            items: [
+                {
+                    text: 'Notes',
+                    href: 'notes',
+                    active: true
+                },
+                {
+                    text: (pendingCount + ' replies needed' if pendingCount != 1 else '1 reply needed') if isReplying else (pendingCount + ' unexplained queries' if pendingCount != 1 else '1 unexplained query'),
+                    href: 'queries'
+                }, 
+                {
+                    text: (handledCount + ' replies given' if handledCount != 1 else '1 reply given') if isReplying else (handledCount + ' explained queries' if handledCount != 1 else '1 explained query'),
+                    href: 'handled'
+                }, errorsMenuItem if errors | length != 0,
+                {
+                    text: 'View all census data',
+                    href: 'census-data'
+                }
+            ]
+        }) }} 
+
+    </div>
+
+</div>
+
+<div class="govuk-grid-row">
+
+    <div class="govuk-grid-column-one-half">
+
+        {% if school.returnNotes == null or school.returnNotes | length == 0 %}
+        <h2 class="govuk-heading-l">
+            There are no additional notes
+        </h2>
+        {% else %}
+
+        <h2 class="govuk-heading-l">A note has been added to this submission</h2>
+
+        <div class="notes">
+            {% for note in school.returnNotes %}
+            <div class="note {{ note.type }}">
+                <span class="title">{{ 'Submission rejected by ' if note.type == 'reply' }}{{ 'Additional notes added by ' if note.type == 'school' }} {{ note.author }}<br>{{ note.date | formatDate }}</span>
+                {{ note.text }}
+            </div>
+            {% endfor -%}
+        </div>
+        {% endif %}
+
+    </div>
+
+</div>
+
+{% endblock %}
+
+{% block pageScripts %}
+
+
+{% endblock %}

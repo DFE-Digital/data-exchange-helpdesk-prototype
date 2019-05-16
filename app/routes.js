@@ -4,6 +4,97 @@ const set = require('lodash.set')
 const get = require('lodash.set')
 const generate = require('./data/generators')
 
+const definedQueries = [
+	{
+		id: 0,
+		number: 1940,
+		category: 'error',
+		type: 'pupil',
+		description: 'Pupils aged 5-15 cannot be shown as having part-time status',
+		guide: 'Full-time attendance is mandatory for pupils aged 5-15',
+		pupils: generate.pupils(
+			generate.randomItemFrom([
+				generate.randomNumber(1, 10),
+				generate.randomNumber(1, 10),
+				generate.randomNumber(10, 20),
+				generate.randomNumber(20, 50),
+				1,
+				1,
+				1,
+				1,
+				1
+			])
+		)
+	},
+	{
+		id: 1,
+		number: 2350,
+		category: 'error',
+		type: 'pupil',
+		description: 'Some address details are missing.',
+		guide:
+			'Correct records need to be kept for each pupil due for safeguarding reasons as well as parent/guardian contact',
+		pupils: generate.pupils(
+			generate.randomItemFrom([
+				generate.randomNumber(1, 10),
+				generate.randomNumber(1, 10),
+				generate.randomNumber(10, 20),
+				generate.randomNumber(20, 50),
+				1,
+				1,
+				1,
+				1,
+				1
+			])
+		)
+	},
+	{
+		id: 2,
+		number: 'TonT1B',
+		category: 'query',
+		type: 'term-on-term',
+		description:
+			'The number of pupils at your school is much higher than during the last census',
+		guide:
+			'You need to explain why the number of pupils at your school is much higher than during the last census.',
+		confirmationIsAcceptable: false
+	},
+	{
+		id: 3,
+		number: '1601Q',
+		category: 'query',
+		type: 'pupil',
+		description: 'The pupil’s age is out of range for this type of school',
+		guide:
+			'You need to explain why the pupil’s age is out of range for this type of school',
+		confirmationIsAcceptable: false,
+		pupils: generate.pupils(3)
+	},
+	{
+		id: 4,
+		number: '1760Q',
+		category: 'query',
+		type: 'pupil',
+		description:
+			'No pupils were eligible for free school meals since the last census.',
+		guide:
+			'You need to confirm that no pupils were eligible for free school meals since the last census. If this is not accurate you must update the data in your MIS.',
+		confirmationIsAcceptable: true
+	},
+	{
+		id: 5,
+		number: '1881Q',
+		category: 'query',
+		type: 'pupil',
+		description:
+			'The number of possible sessions entered, would mean the pupil started school in a previous term and not on the date shown in your data',
+		guide:
+			'	You need to explain why there are possible sessions from a previous term. For example, if the pupil left school and was later readmitted this would be acceptable.',
+		confirmationIsAcceptable: false,
+		pupils: generate.pupils(1)
+	}
+]
+
 // Generic 'next page' rule
 router.post('*', (req, res, next) => {
 	if (req.body['next-page']) {
@@ -431,6 +522,11 @@ router.all('/load-school', (req, res) => {
 	school.errors = generate.errors(school.noOfErrors)
 	school.queries = generate.schoolQueries(school.noOfQueries)
 	school.id = 0
+	if (req.session.data['set-use-defined-queries']) {
+		school.errors = null
+		school.queries = definedQueries
+		set(req.session.data, 'set-use-defined-queries', false)
+	}
 	set(req.session.data, schoolPath, school)
 	set(req.session.data, 'selected-school', 0)
 	set(req.session.data, schoolPath + '.hasQueries', 'true')
