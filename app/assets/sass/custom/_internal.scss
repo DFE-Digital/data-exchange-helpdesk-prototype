@@ -568,3 +568,10 @@ tr.no-results-row span {
 .error-note {
 	color: $govuk-error-colour;
 }
+
+.action-buttons {
+	display: inline-block;
+	> * {
+		margin-right: 0;
+	}
+}

@@ -222,16 +222,17 @@
                             </td>
 
                             <td class="govuk-table__cell numeric">
-                                <button type="button" class="govuk-button govuk-button-small open-dialog">
-                                    {{ 'Reply' if isReplying else 'Give an explanation' }}
-                                </button>
-                                {% if query['type'] == 'pupil' and query['pupils'] | length != 0 %}
-                                    <br>
-                                    <a href="single-query" data-name="selected-query" data-value="{{ query.id }}" class="govuk-button govuk-button-blue govuk-button-small">
-                                        
-                                        View pupil{{ 's' if query['pupils'] | length > 1 }}
-                                    </a>
-                                {% endif %}
+                                <div class="action-buttons">
+                                    <button type="button" class="govuk-button govuk-button-small open-dialog">
+                                        {{ 'Reply' if isReplying else 'Give an explanation' }}
+                                    </button><br>
+                                    {% if query['type'] == 'pupil' and query['pupils'] | length != 0 %}
+                                        <a href="single-query" data-name="selected-query" data-value="{{ query.id }}" class="govuk-button govuk-button-blue govuk-button-small">
+                                            
+                                            View pupil{{ 's' if query['pupils'] | length > 1 }}
+                                        </a>
+                                    {% endif %}
+                                </div>
                             </td>
 
                         </tr>

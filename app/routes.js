@@ -78,7 +78,7 @@ const definedQueries = [
 		description:
 			'No pupils were eligible for free school meals since the last census.',
 		guide:
-			'You need to confirm that no pupils were eligible for free school meals since the last census. If this is not accurate you must update the data in your MIS.',
+			'You need to confirm that no pupils were eligible for free school meals since the last census.',
 		confirmationIsAcceptable: true
 	},
 	{
