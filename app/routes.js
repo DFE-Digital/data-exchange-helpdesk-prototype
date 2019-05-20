@@ -33,7 +33,7 @@ const definedQueries = [
 		type: 'pupil',
 		description: 'Some address details are missing.',
 		guide:
-			'Correct records need to be kept for each pupil due for safeguarding reasons as well as parent/guardian contact',
+			'Correct records need to be kept for each pupil for safeguarding reasons and parent/guardian contact',
 		pupils: generate.pupils(
 			generate.randomItemFrom([
 				generate.randomNumber(1, 10),

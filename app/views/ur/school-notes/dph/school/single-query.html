@@ -42,19 +42,19 @@ getById(data['selected-query']) %} {% block pageTitle %}
 	</div>
 </div>
 
+{% if not isExplained %}
+
+	{% if isMultiple %}
+	<form action="/add-selected-explanation" class="pupil-select-form">
+	{% else %}
+	<form action="/add-explanation" class="pupil-select-form">
+	{% endif %}
+
+{% endif %}
+
 <div class="govuk-grid-row">
 	<div class="govuk-grid-column-full">
 		{% set isMultiple = query.pupils | length != 1 %}
-
-		{% if not isExplained %}
-
-			{% if isMultiple %}
-			<form action="/add-selected-explanation" class="pupil-select-form">
-			{% else %}
-			<form action="/add-explanation" class="pupil-select-form">
-			{% endif %}
-
-		{% endif %}
 
 		<table class="govuk-table" id="singleQueryTable">
 			<caption class="govuk-table__caption">
@@ -111,8 +111,34 @@ getById(data['selected-query']) %} {% block pageTitle %}
 				{% endfor -%}
 			</tbody>
 		</table>
+	</div>
+</div>
+
+<div class="govuk-grid-row">
+	<div class="govuk-grid-column-one-half">
+		
+		<p>
+			{% if query.category != 'error' %}
+				{% if query['type'] == 'pupil' and query['pupils'] | length != 0 %}
+					<strong>You should check that the data for {{ 'each pupil' if query['pupils'] | length > 1 else 'the pupil' }} is correct in your MIS, if so:</strong><br>
+				{% else %}
+				<strong>You should check that the data is
+					correct in your MIS, if so:</strong><br>
+				{% endif %}
+			{% endif %}
+			{{ query.guide }}
+		</p>
 
 		{% if not isExplained %}
+
+		{% if query.category == 'error' %}
+
+			{{ govukWarningText({
+				text: 'We do not normally accept explanations for this type of query, you must amend this data in your MIS if possible',
+				iconFallbackText: 'Warning'
+			}) }}
+
+		{% endif %}
 
 			{% if isMultiple %}
 
@@ -122,13 +148,13 @@ getById(data['selected-query']) %} {% block pageTitle %}
 						name: 'response-note',
 						classes: 'govuk-input--width-30',
 						label: {
-							text: 'Explanation'
+							text: 'Explanation' if query.category == 'query' else 'Explain why you cannot fix this data in your MIS'
 						}
 					}) }}
 				</div>
 
 				{{ govukButton({
-					html: 'Give an explanation for selected pupils',
+					html: 'Save explanation for selected pupils',
 					classes: 'selected-button',
 					disabled: true
 				}) }}
@@ -141,27 +167,29 @@ getById(data['selected-query']) %} {% block pageTitle %}
 					name: 'response-note',
 					classes: 'govuk-input--width-30',
 					label: {
-						text: 'Explanation'
+						text: 'Explanation' if query.category == 'query' else 'Explain why you cannot fix this data in your MIS'
 					}
 				}) }}
 
 
 				{{ govukButton({
-					html: 'Give an explanation'
+					html: 'Save explanation'
 				}) }}
 
 			{% endif %}
 
 		{% endif %}
 
-
-		</form>
 	</div>
 </div>
+
+{% if not isExplained %}
+</form>
+{% endif %}
 <div class="govuk-grid-row">
 	<div class="govuk-grid-column-one-half">
 
-		{% if not isExplained %}
+		{% if isMultiple and not isExplained %}
 
 			<p>
 				You can give different separate explanations for pupils by selecting them
