@@ -6,7 +6,7 @@ const generate = require('./data/generators')
 
 const definedQueries = [
 	{
-		id: 0,
+		id: generate.uuid(),
 		number: 1940,
 		category: 'error',
 		type: 'pupil',
@@ -27,7 +27,7 @@ const definedQueries = [
 		)
 	},
 	{
-		id: 1,
+		id: generate.uuid(),
 		number: 2350,
 		category: 'error',
 		type: 'pupil',
@@ -49,7 +49,7 @@ const definedQueries = [
 		)
 	},
 	{
-		id: 2,
+		id: generate.uuid(),
 		number: 'TonT1B',
 		category: 'query',
 		type: 'term-on-term',
@@ -60,7 +60,7 @@ const definedQueries = [
 		confirmationIsAcceptable: false
 	},
 	{
-		id: 3,
+		id: generate.uuid(),
 		number: '1601Q',
 		category: 'query',
 		type: 'pupil',
@@ -71,7 +71,7 @@ const definedQueries = [
 		pupils: generate.pupils(3)
 	},
 	{
-		id: 4,
+		id: generate.uuid(),
 		number: '1760Q',
 		category: 'query',
 		type: 'pupil',
@@ -82,7 +82,7 @@ const definedQueries = [
 		confirmationIsAcceptable: true
 	},
 	{
-		id: 5,
+		id: generate.uuid(),
 		number: '1881Q',
 		category: 'query',
 		type: 'pupil',
@@ -179,19 +179,99 @@ router.all('/add-explanation', (req, res) => {
 	const responseNote = req.session.data['response-note']
 	const queriesPath = 'schools[' + schoolIndex + '].queries'
 	var queries = req.session.data.schools[schoolIndex].queries
-	const queryIndex = parseInt(req.session.data['selected-query'])
+	const queryId = req.session.data['selected-query']
+	const existingQuery = req.session.data.schools[schoolIndex].queries.find(
+		query => {
+			return query.id == queryId
+		}
+	)
+
+	const note = {
+		type: 'school',
+		author: req.session.data['set-school-user-name'],
+		text: responseNote,
+		date: new Date().getTime()
+	}
+
+	var newNotes = [note]
+	if (Array.isArray(existingQuery.notes)) {
+		existingQuery.notes.push(note)
+		newNotes = existingQuery.notes
+	}
+
 	queries.map(query => {
-		if (query.id === queryIndex) {
-			query.notes.push({
-				type: 'school',
-				author: req.session.data['set-school-user-name'],
-				text: responseNote,
-				date: new Date().getTime()
-			})
+		if (query.id === queryId) {
+			query.notes = newNotes
 			query.explainedOn = new Date().getTime()
 			query.explained = 'true'
 		}
 	})
+
+	set(req.session.data, queriesPath, queries)
+	if (req.headers.referer.includes('single-query')) {
+		res.redirect(
+			req.headers.referer.substr(0, req.headers.referer.lastIndexOf('/') + 1) +
+				'queries'
+		)
+	} else {
+		res.redirect(req.headers.referer)
+	}
+})
+
+router.all('/add-selected-explanation', (req, res) => {
+	const schoolIndex = parseInt(req.session.data['selected-school'])
+	const responseNote = req.session.data['response-note']
+	const queriesPath = 'schools[' + schoolIndex + '].queries'
+	var queries = req.session.data.schools[schoolIndex].queries
+	const queryId = req.session.data['selected-query']
+	const existingQuery = req.session.data.schools[schoolIndex].queries.find(
+		query => {
+			return query.id == queryId
+		}
+	)
+	console.log(req.session.data['selected-pupils'])
+	var remainingPupils = []
+	var leavingPupils = []
+	existingQuery.pupils.forEach(pupil => {
+		if (req.session.data['selected-pupils'].includes(pupil.id)) {
+			leavingPupils.push(pupil)
+		} else {
+			remainingPupils.push(pupil)
+		}
+	})
+	queries.map(query => {
+		if (query.id === queryId) {
+			query.pupils = remainingPupils
+		}
+	})
+
+	const note = {
+		type: 'school',
+		author: req.session.data['set-school-user-name'],
+		text: responseNote,
+		date: new Date().getTime()
+	}
+
+	var newNotes = [note]
+	if (Array.isArray(existingQuery.notes)) {
+		existingQuery.notes.push(note)
+		newNotes = existingQuery.notes
+	}
+
+	var newQuery = {
+		id: generate.uuid(),
+		number: existingQuery.number,
+		category: existingQuery.category,
+		type: existingQuery.type,
+		description: existingQuery.description,
+		guide: existingQuery.guide,
+		pupils: leavingPupils,
+		notes: newNotes,
+		explainedOn: new Date().getTime(),
+		explained: 'true'
+	}
+
+	queries.push(newQuery)
 
 	set(req.session.data, queriesPath, queries)
 	res.redirect(req.headers.referer)

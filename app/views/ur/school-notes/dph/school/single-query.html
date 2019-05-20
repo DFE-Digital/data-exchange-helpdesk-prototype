@@ -16,6 +16,8 @@ getById(data['selected-query']) %} {% block pageTitle %}
 </div>
 {% endblock %} {% block content %}
 
+{% set isExplained = query.explained == 'true' %}
+
 <div class="govuk-grid-row">
 	<div class="govuk-grid-column-full census-case-nav">
 		{{
@@ -36,12 +38,23 @@ getById(data['selected-query']) %} {% block pageTitle %}
 		{% set single = query['type'] | length == 0 %}
 
 		<p class="govuk-!-padding-bottom-5">{{ query.description }}</p>
+
 	</div>
 </div>
 
 <div class="govuk-grid-row">
 	<div class="govuk-grid-column-full">
 		{% set isMultiple = query.pupils | length != 1 %}
+
+		{% if not isExplained %}
+
+			{% if isMultiple %}
+			<form action="/add-selected-explanation" class="pupil-select-form">
+			{% else %}
+			<form action="/add-explanation" class="pupil-select-form">
+			{% endif %}
+
+		{% endif %}
 
 		<table class="govuk-table" id="singleQueryTable">
 			<caption class="govuk-table__caption">
@@ -53,9 +66,9 @@ getById(data['selected-query']) %} {% block pageTitle %}
 			</caption>
 			<thead class="govuk-table__head">
 				<tr class="govuk-table__row">
-					{% if isMultiple %}
+					{% if isMultiple and not isExplained %}
 					<th class="govuk-table__header table-checkbox-cell" scope="row">
-						<input type="checkbox" id="select{{ loop.index }}" /><label
+						<input type="checkbox" name="selected-pupils" id="select{{ loop.index }}" /><label
 							for="select{{ loop.index }}"
 						></label>
 					</th>
@@ -72,10 +85,10 @@ getById(data['selected-query']) %} {% block pageTitle %}
 			<tbody class="govuk-table__body">
 				{% for pupil in query.pupils | sort(false, true, 'UPN') %}
 				<tr class="govuk-table__row">
-					{% if isMultiple %}
+					{% if isMultiple and not isExplained %}
 					<th class="govuk-table__header table-checkbox-cell" scope="row">
-						<input type="checkbox" id="select{{ loop.index - 1 }}" /><label
-							for="select{{ loop.index - 1 }}"
+						<input type="checkbox" name="selected-pupils" id="pupil-{{ loop.index - 1 }}" value="{{ pupil.id }}"/><label
+							for="pupil-{{ loop.index - 1 }}" name="selected-pupils"
 						></label>
 					</th>
 					{% endif %}
@@ -99,36 +112,64 @@ getById(data['selected-query']) %} {% block pageTitle %}
 			</tbody>
 		</table>
 
-		{% if isMultiple %}
+		{% if not isExplained %}
 
-		{{
-			govukButton({
-				text: 'Give an explanation for selected pupils',
-				href: '#',
-				classes: 'selected-button',
-				disabled: true
-			})
-		}}
+			{% if isMultiple %}
 
-		{% else %}
+				<div class="explanation-field" style="display: none;">
+					{{ govukTextarea({
+						id: 'explanation-content',
+						name: 'response-note',
+						classes: 'govuk-input--width-30',
+						label: {
+							text: 'Explanation'
+						}
+					}) }}
+				</div>
 
-		{{
-			govukButton({
-				text: 'Give an explanation',
-				href: '#'
-			})
-		}}
+				{{ govukButton({
+					html: 'Give an explanation for selected pupils',
+					classes: 'selected-button',
+					disabled: true
+				}) }}
+
+			{% else %}
+
+
+				{{ govukTextarea({
+					id: 'explanation-content',
+					name: 'response-note',
+					classes: 'govuk-input--width-30',
+					label: {
+						text: 'Explanation'
+					}
+				}) }}
+
+
+				{{ govukButton({
+					html: 'Give an explanation'
+				}) }}
+
+			{% endif %}
 
 		{% endif %}
+
+
+		</form>
 	</div>
 </div>
 <div class="govuk-grid-row">
 	<div class="govuk-grid-column-one-half">
-		<p>
-			You can give different separate explanations for pupils by selecting them
-			and pressing ’Give an explanation for selected pupils’. Repeat these steps
-			to give an explanation for all pupils.
-		</p>
+
+		{% if not isExplained %}
+
+			<p>
+				You can give different separate explanations for pupils by selecting them
+				and pressing ’Give an explanation for selected pupils’. Repeat these steps
+				to give an explanation for all pupils.
+			</p>
+
+		{% endif %}
 
 		<script>
 			$('.govuk-table__head .table-checkbox-cell input[type=checkbox]').on(
@@ -164,13 +205,23 @@ getById(data['selected-query']) %} {% block pageTitle %}
 			)
 
 			function validateSelected() {
+				var maximumCount = $(
+					'.govuk-table__body .table-checkbox-cell input[type=checkbox]'
+				).length
 				var selectedCount = $(
 					'.govuk-table__body .table-checkbox-cell input[type=checkbox]:checked'
 				).length
+
+				$('.pupil-select-form').attr('action', selectedCount == maximumCount ? '/add-explanation' : '/add-selected-explanation')
+				
 				if (selectedCount != 0) {
 					$('.selected-button').removeClass('govuk-button--disabled')
+					$('button.selected-button').prop('disabled', false)
+					$('.explanation-field').show()
 				} else {
 					$('.selected-button').addClass('govuk-button--disabled')
+					$('button.selected-button').prop('disabled', true)
+					$('.explanation-field').hide()
 				}
 			}
 		</script>

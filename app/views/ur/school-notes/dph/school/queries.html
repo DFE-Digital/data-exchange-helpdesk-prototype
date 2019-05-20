@@ -13,11 +13,11 @@
 {% set handledCount = 0 %}
 {% set notesCount = 0 %}
 {% for query in queries %}
-    {% if query.notes | length %}
-        {% set notesCount = notesCount + 1 %}
-    {% endif %}
     {% if query['explained'] == 'true' %}
         {% set handledCount = handledCount + 1 %}
+        {% if query.notes | length %}
+            {% set notesCount = notesCount + 1 %}
+        {% endif %}
     {% endif %}
 {% endfor %}
 
@@ -205,9 +205,9 @@
                             <td class="govuk-table__cell width-medium">
                             {% if query.category == 'error' %}
                                 {% if query['type'] == 'pupil' and query['pupils'] | length != 0 %}
-                                    <strong class="error-note">You must correct the data for {{ 'each pupil' if query['pupils'] | length > 1 else 'this pupil' }} in your MIS wherever possible</strong><br>
+                                    <strong class="error-note">You must correct the data for {{ 'each pupil' if query['pupils'] | length > 1 else 'this pupil' }} in your MIS</strong><br>
                                 {% else %}
-                                    <strong class="error-note">You must correct the data in your MIS wherever possible</strong><br>
+                                    <strong class="error-note">You must correct the data in your MIS</strong><br>
                                 {% endif %}
                             {% else %}
                                 {% if query['type'] == 'pupil' and query['pupils'] | length != 0 %}
@@ -223,9 +223,15 @@
 
                             <td class="govuk-table__cell numeric">
                                 <div class="action-buttons">
-                                    <button type="button" class="govuk-button govuk-button-small open-dialog">
-                                        {{ 'Reply' if isReplying else 'Give an explanation' }}
-                                    </button><br>
+                                    {% if query['category'] == 'error' %}
+                                        <button type="button" class="govuk-button govuk-button-small govuk-button-red open-dialog">
+                                            {{ 'Reply' if isReplying else 'Unable to resolve' }}
+                                        </button><br>
+                                    {% else %}
+                                        <button type="button" class="govuk-button govuk-button-small open-dialog">
+                                            {{ 'Reply' if isReplying else 'Give an explanation' }}
+                                        </button><br>
+                                    {% endif %}
                                     {% if query['type'] == 'pupil' and query['pupils'] | length != 0 %}
                                         <a href="single-query" data-name="selected-query" data-value="{{ query.id }}" class="govuk-button govuk-button-blue govuk-button-small">
                                             

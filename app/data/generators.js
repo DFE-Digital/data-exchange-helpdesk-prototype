@@ -7,6 +7,18 @@ const generators = {}
 
 // Generic helpers
 
+generators.uuid = () => {
+	var dt = new Date().getTime()
+	var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(
+		c
+	) {
+		var r = (dt + Math.random() * 16) % 16 | 0
+		dt = Math.floor(dt / 16)
+		return (c == 'x' ? r : (r & 0x3) | 0x8).toString(16)
+	})
+	return uuid
+}
+
 /**
  * @param {any[]} array
  */
@@ -57,11 +69,11 @@ generators.name = () => {
  */
 
 generators.collectors = amount => {
-	return new Array(amount).fill(null).map((_, i) => {
+	return new Array(amount).fill(null).map(_ => {
 		let firstName = generators.firstName()
 		let lastName = generators.lastName()
 		return {
-			id: i,
+			id: generators.uuid(),
 			firstName: firstName,
 			lastName: lastName,
 			email:
@@ -111,6 +123,7 @@ generators.pupils = amount => {
 	}
 	return new Array(amount).fill(null).map(_ => {
 		return {
+			id: generators.uuid(),
 			surname: generators.lastName().toUpperCase(),
 			firstname: generators.firstName(),
 			UPN:
@@ -1004,7 +1017,7 @@ generators.queries = amount => {
 		while (output.find(obj => obj.number === query.number)) {
 			query = generators.randomItemFrom(generators.queryArray)
 		}
-		query.id = i
+		query.id = generators.uuid()
 		query.handled = 'false'
 		output.push(query)
 	}
@@ -1023,7 +1036,7 @@ generators.schoolQueries = amount => {
 		while (output.find(obj => obj.number === query.number)) {
 			query = generators.randomItemFrom(generators.queryArray)
 		}
-		query.id = i
+		query.id = generators.uuid()
 		query.handled = 'false'
 		query.notes = []
 		output.push(query)
@@ -1043,7 +1056,7 @@ generators.errors = amount => {
 		while (output.find(obj => obj.number === error.number)) {
 			error = generators.randomItemFrom(generators.errorArray)
 		}
-		error.id = i
+		error.id = generators.uuid()
 		output.push(error)
 	}
 	return output

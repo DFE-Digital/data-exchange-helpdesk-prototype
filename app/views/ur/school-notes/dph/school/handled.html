@@ -11,9 +11,14 @@
 {% set errors = school.errors %}
 
 {% set handledCount = 0 %}
+{% set notesCount = 0 %}
 {% for query in queries %}
     {% if query['explained'] == 'true' %}
         {% set handledCount = handledCount + 1 %}
+    {% else %}
+        {% if query.notes | length %}
+            {% set notesCount = notesCount + 1 %}
+        {% endif %}
     {% endif %}
 {% endfor %}
 
