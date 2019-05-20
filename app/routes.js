@@ -281,14 +281,43 @@ router.all('/undo-explanation', (req, res) => {
 	const schoolIndex = parseInt(req.session.data['selected-school'])
 	const queriesPath = 'schools[' + schoolIndex + '].queries'
 	var queries = req.session.data.schools[schoolIndex].queries
-	const queryIndex = parseInt(req.session.data['selected-query'])
-	queries.map(query => {
-		if (query.id === queryIndex) {
-			query.notes.pop()
-			query.explainedOn = null
-			query.explained = 'false'
+	const queryId = req.session.data['selected-query']
+	const existingQuery = req.session.data.schools[schoolIndex].queries.find(
+		query => {
+			return query.id == queryId
 		}
+	)
+	var unexplainedQueryExists = false
+	queries.forEach(query => {
+		unexplainedQueryExists =
+			query.explained == 'false' && query.number == existingQuery.number
 	})
+	if (unexplainedQueryExists) {
+		queries.map(query => {
+			if (query.explained == 'false' && query.number == existingQuery.number) {
+				if (Array.isArray(query.pupils)) {
+					query.pupils.concat(existingQuery.pupils)
+				}
+			}
+			query.notes.pop()
+		})
+	} else {
+		existingQuery.notes.pop()
+		var newQuery = {
+			id: generate.uuid(),
+			number: existingQuery.number,
+			category: existingQuery.category,
+			type: existingQuery.type,
+			description: existingQuery.description,
+			guide: existingQuery.guide,
+			pupils: existingQuery.pupils,
+			notes: existingQuery,
+			explainedOn: null,
+			explained: 'false'
+		}
+
+		queries.push(newQuery)
+	}
 
 	set(req.session.data, queriesPath, queries)
 	res.redirect(req.headers.referer)

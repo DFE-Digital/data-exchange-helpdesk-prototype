@@ -21,7 +21,7 @@
     {% endif %}
 {% endfor %}
 
-{% set hasNotes = notesCount > 0 %}
+{% set hasNotes = false %}
 
 {% set pendingCount = (queries | length) - handledCount %}
 {% set isReplying = (school.isReplying == 'true') %}
@@ -87,7 +87,7 @@
                     active: true
                 }, 
                 {
-                    text: (handledCount + ' replies given' if handledCount != 1 else '1 reply given') if isReplying else (handledCount + ' queries explained ' if handledCount != 1 else '1 query explained '),
+                    text: (handledCount + ' replies given' if handledCount != 1 else '1 reply given') if isReplying else (handledCount + ' saved explanations ' if handledCount != 1 else '1 saved explanation '),
                     href: 'handled'
                 },
                 {
@@ -217,15 +217,16 @@
                                     correct in your MIS, if so:</strong><br>
                                 {% endif %}
                             {% endif %}
-                                {{ query.guide }}
+                                <span class="query-guide">{{ query.guide }}</span>
                                 <div class="query-index" style="display: none;">{{query.id}}</div>
+                                <div class="query-category" style="display: none;">{{query.category}}</div>
                             </td>
 
                             <td class="govuk-table__cell numeric">
                                 <div class="action-buttons">
                                     {% if query['category'] == 'error' %}
                                         <button type="button" class="govuk-button govuk-button-small govuk-button-red open-dialog">
-                                            {{ 'Reply' if isReplying else 'Unable to resolve' }}
+                                            {{ 'Reply' if isReplying else 'I can’t resolve this' }}
                                         </button><br>
                                     {% else %}
                                         <button type="button" class="govuk-button govuk-button-small open-dialog">
@@ -234,7 +235,6 @@
                                     {% endif %}
                                     {% if query['type'] == 'pupil' and query['pupils'] | length != 0 %}
                                         <a href="single-query" data-name="selected-query" data-value="{{ query.id }}" class="govuk-button govuk-button-blue govuk-button-small">
-                                            
                                             View pupil{{ 's' if query['pupils'] | length > 1 }}
                                         </a>
                                     {% endif %}
@@ -257,7 +257,15 @@
 <div class="dialog" role="dialog" aria-labelledby="dialog-title" aria-describedby="dialog-description">
             
     <div class="query-description"></div>
-    <div class="notes"></div>
+    <div class="error-warning">
+        {{ govukWarningText({
+            text: 'We do not normally accept explanations for this type of query, you must amend this data in your MIS if possible',
+            iconFallbackText: 'Warning'
+        }) }}
+    </div>
+
+    <p class="guide"></p>
+
     <form class="internal-form" action="/add-explanation">
         {{ govukTextarea({
             id: 'reject-reason',

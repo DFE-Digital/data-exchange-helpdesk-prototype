@@ -247,9 +247,21 @@ Dialog.prototype.addEventListeners = function(openDialogSel, closeDialogSel) {
 			var queryDescription = queryRow.find('.query-description').html()
 			var notes = queryRow.find('td.notes').html()
 			var selectedQuery = queryRow.find('.query-index').html()
+			var selectedQueryType = queryRow.find('.query-category').text()
+			var selectedQueryGuide = queryRow.find('.query-guide').text()
+			if (selectedQueryType == 'error') {
+				$('.dialog label[for="reject-reason"]').html(
+					'Explain why you cannot fix this data in your MIS'
+				)
+				$('.dialog .error-warning').show()
+			} else {
+				$('.dialog label[for="reject-reason"]').html('Explanation')
+				$('.dialog .error-warning').hide()
+			}
 			$('#selectedQuery').val(selectedQuery)
 			$('.dialog .query-description').html(queryDescription)
 			$('.dialog .notes').html(notes)
+			$('.dialog .guide').html(selectedQueryGuide)
 
 			Dialog.open()
 		})

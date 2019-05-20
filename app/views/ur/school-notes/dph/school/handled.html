@@ -52,6 +52,15 @@
 {% block content %}
 
 <div class="govuk-grid-row">
+    <div class="govuk-grid-column-one-half">
+        <h1 class="govuk-heading-l">Summer census 2019</h1>
+    </div>
+    <div class="govuk-grid-column-one-half" style="text-align: right;">
+        <span class="govuk-caption-l">Data sent on 11:21 16 May 2019</span>
+    </div>
+</div>
+
+<div class="govuk-grid-row">
 
     <div class="govuk-grid-column-full census-case-nav">
 
@@ -74,7 +83,7 @@
                     href: 'queries'
                 }, 
                 {
-                    text: (handledCount + ' replies given' if handledCount != 1 else '1 reply given') if isReplying else (handledCount + ' queries explained ' if handledCount != 1 else '1 query explained '),
+                    text: (handledCount + ' replies given' if handledCount != 1 else '1 reply given') if isReplying else (handledCount + ' saved explanations ' if handledCount != 1 else '1 saved explanation '),
                     href: 'handled',
                     active: true
                 },
@@ -151,12 +160,10 @@
                 <tr class="govuk-table__row">
                 
                 <th class="govuk-table__header" scope="col"><span class="no-wrap">Query</span></th>
-
-                <th class="govuk-table__header width-medium" scope="col"><span class="no-wrap">Previous notes</span></th>
                 
-                <th class="govuk-table__header width-medium" scope="col"><span class="no-wrap">Acceptable explanation guidelines</span></th>
+                <th class="govuk-table__header width-medium" scope="col"><span class="no-wrap">How to resolve query</span></th>
 
-                <th class="govuk-table__header width-medium" scope="col"><span class="no-wrap">{{ 'Reply' if isReplying else 'Explanation' }}</span></th>
+                <th class="govuk-table__header width-medium" scope="col"><span class="no-wrap">{{ 'Reply' if isReplying else 'Saved explanation' }}</span></th>
                 
                 <th class="govuk-table__header numeric" scope="col"><span class="no-wrap"></span></th>
                 
@@ -189,24 +196,23 @@
                             </th>
 
                             <td class="govuk-table__cell width-medium">
-                                {% set shownNotes = 0 %}
-                                {% for note in query.notes | sort(false, true, 'date') %}
-                                    {% if loop.index != query.notes | length %}
-                                    <div class="note {{ note.type }}">
-                                        <span class="title">{{ 'Approved by ' if note.type == 'approval' }}{{ 'Rejected by ' if note.type == 'reply' }}{{ 'Note added by ' if note.type == 'school' }} {{ note.author }}<br>{{ note.date | formatDate }}</span>
-                                        {{ note.text }}
-                                    </div>
-                                    {% set shownNotes = shownNotes + 1 %}
-                                    {% endif %}
-                                {% endfor -%}
-                                {% if shownNotes == 0 %}
-                                    −
+                            {% if query.category == 'error' %}
+                                {% if query['type'] == 'pupil' and query['pupils'] | length != 0 %}
+                                    <strong class="error-note">You must correct the data for {{ 'each pupil' if query['pupils'] | length > 1 else 'this pupil' }} in your MIS</strong><br>
+                                {% else %}
+                                    <strong class="error-note">You must correct the data in your MIS</strong><br>
                                 {% endif %}
+                            {% else %}
+                                {% if query['type'] == 'pupil' and query['pupils'] | length != 0 %}
+                                    <strong>You should check that the data for {{ 'each pupil' if query['pupils'] | length > 1 else 'the pupil' }} is correct in your MIS, if so:</strong><br>
+                                {% else %}
+                                <strong>You should check that the data is
+                                    correct in your MIS, if so:</strong><br>
+                                {% endif %}
+                            {% endif %}
+                                <span class="query-guide">{{ query.guide }}</span>
                                 <div class="query-index" style="display: none;">{{query.id}}</div>
-                            </td>
-
-                            <td class="govuk-table__cell width-medium">
-                                {{ query.guide }}
+                                <div class="query-category" style="display: none;">{{query.category}}</div>
                             </td>
 
                             <td class="govuk-table__cell notes width-medium">
@@ -222,7 +228,7 @@
                             <td class="govuk-table__cell action numeric">
                                <a href="/undo-explanation?selected-query={{query.id}}" class="govuk-button govuk-button-small govuk-button-red open-dialog">
                                 {{ 'Undo reply' if isReplying else 'Undo explanation' }}
-                               </button>
+                               </a>
                                {% if query['type'] == 'pupil' and query['pupils'] | length != 0 %}
                                     <br>
                                     <a href="single-query" data-name="selected-query" data-value="{{ query.id }}" class="govuk-button govuk-button-blue govuk-button-small">
