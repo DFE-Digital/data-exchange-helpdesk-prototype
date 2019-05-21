@@ -230,7 +230,7 @@
                                         </button><br>
                                     {% endif %}
                                     {% if query['type'] == 'pupil' and query['pupils'] | length != 0 %}
-                                        <a href="single-query?selected-query={{ query.id }}" class="govuk-button govuk-button-blue govuk-button-small">
+                                        <a href="single-query?selected-query={{ query.id }}&numberOfPupilsMoved=0" class="govuk-button govuk-button-blue govuk-button-small">
                                             View pupil{{ 's' if query['pupils'] | length > 1 }}
                                         </a>
                                     {% endif %}

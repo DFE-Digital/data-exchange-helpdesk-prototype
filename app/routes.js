@@ -4,6 +4,48 @@ const set = require('lodash.set')
 const get = require('lodash.set')
 const generate = require('./data/generators')
 
+function setUrlParameter(url, key, value) {
+	var key = encodeURIComponent(key),
+		value = encodeURIComponent(value)
+
+	var baseUrl = url.split('?')[0],
+		newParam = key + '=' + value,
+		params = '?' + newParam
+
+	if (url.split('?')[1] == undefined) {
+		// if there are no query strings, make urlQueryString empty
+		urlQueryString = ''
+	} else {
+		urlQueryString = '?' + url.split('?')[1]
+	}
+
+	// If the "search" string exists, then build params from it
+	if (urlQueryString) {
+		var updateRegex = new RegExp('([?&])' + key + '[^&]*')
+		var removeRegex = new RegExp('([?&])' + key + '=[^&;]+[&;]?')
+
+		if (typeof value === 'undefined' || value === null || value === '') {
+			// Remove param if value is empty
+			params = urlQueryString.replace(removeRegex, '$1')
+			params = params.replace(/[&;]$/, '')
+		} else if (urlQueryString.match(updateRegex) !== null) {
+			// If param exists already, update it
+			params = urlQueryString.replace(updateRegex, '$1' + newParam)
+		} else if (urlQueryString == '') {
+			// If there are no query strings
+			params = '?' + newParam
+		} else {
+			// Otherwise, add it to end of query string
+			params = urlQueryString + '&' + newParam
+		}
+	}
+
+	// no parameter was set so we don't need the question mark
+	params = params === '?' ? '' : params
+
+	return baseUrl + params
+}
+
 const definedQueries = [
 	{
 		id: generate.uuid(),
@@ -12,6 +54,16 @@ const definedQueries = [
 		type: 'pupil',
 		description: 'Pupils aged 5-15 cannot be shown as having part-time status',
 		guide: 'All pupils aged 5-15 should be registered as full-time.',
+		highlights: [
+			{
+				item: 'Part-time indicator',
+				content: 'True'
+			},
+			{
+				item: 'Date of birth',
+				content: '23 February 2011'
+			}
+		],
 		pupils: generate.pupils(
 			generate.randomItemFrom([
 				generate.randomNumber(1, 10),
@@ -33,16 +85,18 @@ const definedQueries = [
 		type: 'pupil',
 		description: 'Some address details are missing.',
 		guide: 'Address records need to be complete for safeguarding reasons.',
+		highlights: [
+			{
+				item: 'Address line 1',
+				content: '-'
+			}
+		],
 		pupils: generate.pupils(
 			generate.randomItemFrom([
 				generate.randomNumber(1, 10),
 				generate.randomNumber(1, 10),
 				generate.randomNumber(10, 20),
 				generate.randomNumber(20, 50),
-				1,
-				1,
-				1,
-				1,
 				1
 			])
 		)
@@ -66,6 +120,16 @@ const definedQueries = [
 		description: 'The pupil’s age is out of range for this type of school',
 		guide:
 			'You need to explain why the pupil’s age is out of range for this type of school.',
+		highlights: [
+			{
+				item: 'Date of birth',
+				content: '10 April 1994'
+			},
+			{
+				item: 'School type',
+				content: '49 - Academies'
+			}
+		],
 		confirmationIsAcceptable: false,
 		pupils: generate.pupils(3)
 	},
@@ -88,7 +152,13 @@ const definedQueries = [
 		description:
 			'The number of possible sessions entered, would mean the pupil started school in a previous term and not on the date shown in your data',
 		guide:
-			'	You need to explain why there are possible sessions from a previous term. For example, if the pupil left school and was later readmitted this would be acceptable.',
+			'You need to explain why there are possible sessions from a previous term. For example, if the pupil left school and was later readmitted this would be acceptable.',
+		highlights: [
+			{
+				item: 'Possible sessions',
+				content: '49'
+			}
+		],
 		confirmationIsAcceptable: false,
 		pupils: generate.pupils(1)
 	}
@@ -272,8 +342,13 @@ router.all('/add-selected-explanation', (req, res) => {
 	queries.push(newQuery)
 
 	set(req.session.data, queriesPath, queries)
+
 	res.redirect(
-		req.headers.referer + '&numberOfPupilsMoved=' + leavingPupils.length
+		setUrlParameter(
+			req.headers.referer,
+			'numberOfPupilsMoved',
+			leavingPupils.length
+		)
 	)
 })
 
@@ -282,58 +357,47 @@ router.all('/undo-explanation', (req, res) => {
 	const queriesPath = 'schools[' + schoolIndex + '].queries'
 	var queries = req.session.data.schools[schoolIndex].queries
 	const queryId = req.session.data['selected-query']
-	var outputQueries = []
 	const currentQuery = queries.find(query => {
 		return query.id == queryId
 	})
 	const currentQueryPupils = currentQuery.pupils
-
+	var outputQueries = []
 	var unexplainedQueryExists = false
 	queries.forEach(query => {
-		if (query.explained != true && query.number == currentQuery.number) {
+		if (query.explained != 'true' && query.number == currentQuery.number) {
 			unexplainedQueryExists = true
 			return
 		}
 	})
 
 	if (unexplainedQueryExists) {
-		queries.map(query => {
+		queries.forEach(query => {
 			if (query.explained != true && query.number == currentQuery.number) {
 				if (Array.isArray(query.pupils)) {
-					query.pupils.concat(currentQueryPupils)
+					query.pupils = query.pupils.concat(currentQueryPupils)
 				} else {
 					query.pupils = currentQueryPupils
 				}
 			}
-			console.log(query.pupils)
 			if (query.id != currentQuery.id) {
 				outputQueries.push(query)
 			}
 		})
 	} else {
-		queries.map(query => {
-			if (query.id != currentQuery.id) {
+		queries.forEach(query => {
+			if (query.id == currentQuery.id) {
+				var outputNotes = currentQuery.notes
+				if (Array.isArray(outputNotes)) {
+					outputNotes.pop()
+				}
+				query.explained = false
+				query.explainedOn = null
+				query.notes = outputNotes
+				outputQueries.push(query)
+			} else {
 				outputQueries.push(query)
 			}
 		})
-		var outputNotes = currentQuery.notes
-		if (Array.isArray(outputNotes)) {
-			outputNotes.pop()
-		}
-		var newQuery = {
-			id: generate.uuid(),
-			number: currentQuery.number,
-			category: currentQuery.category,
-			type: currentQuery.type,
-			description: currentQuery.description,
-			guide: currentQuery.guide,
-			pupils: currentQuery.pupils,
-			notes: outputNotes,
-			explainedOn: null,
-			explained: 'false'
-		}
-
-		outputQueries.push(newQuery)
 	}
 
 	set(req.session.data, queriesPath, outputQueries)

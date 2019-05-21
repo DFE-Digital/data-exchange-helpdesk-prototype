@@ -23,7 +23,7 @@ getById(data['selected-query']) %} {% block pageTitle %}
 		{{
 			govukBackLink({
 				text: 'Back',
-				href: 'javascript:history.back()'
+				href: 'handled' if isExplained else 'queries'
 			})
 		}}
 	</div>
@@ -49,7 +49,7 @@ getById(data['selected-query']) %} {% block pageTitle %}
 	<div class="govuk-grid-column-one-half">
 		
 		{% set bannerHtml %}
-		<h2 class="govuk-heading-m">{{ data.numberOfPupilsMoved }} pupil{{ 's' if data.numberOfPupilsMoved | float > 1}} moved to 'saved explanations'</h2>
+		<h2 class="govuk-heading-m">{{ data.numberOfPupilsMoved }} pupil{{ 's' if data.numberOfPupilsMoved | float > 1}} moved to <a href="handled">‘saved explanations’</a></h2>
 		{% set remainingPupils = query.pupils | length %}
 		<p>There {{ 'are' if remainingPupils > 1 else 'is'}} {{remainingPupils}} pupil record{{ 's' if remainingPupils > 1 }} still needing an explanation.</p>
 		{% endset %}
@@ -285,22 +285,51 @@ getById(data['selected-query']) %} {% block pageTitle %}
 	<h2 class="govuk-heading-l upn-container"></h2>
 	<h3 class="govuk-heading-m name-container"></h3>
 
+	{% for highlight in query.highlights %}
+		<div class="query-data">
+		{{
+			govukSummaryList({
+				rows: [
+					{
+						key: {
+							text: highlight.item,
+							classes: 'queried-data'
+						},
+						value: {
+							text: highlight.content,
+							classes: 'queried-data dob-container' if highlight.item == 'Date of birth' else 'queried-data'
+						}
+					}
+				]
+			})
+		}}
+		</div>
+	{% endfor %}
 	{{
 		govukSummaryList({
-			rows: [
-				{
-					key: {
-						text: 'Possible sessions',
-						classes: 'queried-data'
-					},
-					value: {
-						text: 0 | friendlyNumber,
-						classes: 'queried-data'
-					}
-				}
-			]
+			rows: hightlightRows
 		})
 	}}
+
+	<script>
+	$(document).on('ready', function
+	() {
+		$('.query-data').each( function() {
+			var itemText = $(this).find('.govuk-summary-list__key').text();
+			var contentText = $(this).find('.govuk-summary-list__value').text();
+			$('.govuk-details .govuk-summary-list__key').each( function() {
+				console.log($(this).text());
+				if ($(this).text() == itemText) {
+					$(this).addClass('queried-data');
+					$(this).next().text(contentText);
+					$(this).next().addClass('queried-data');
+				}
+			});
+		});
+	});
+
+	</script>
+
 
 	<details class="govuk-details">
 		<summary class="govuk-details__summary">
@@ -380,6 +409,15 @@ getById(data['selected-query']) %} {% block pageTitle %}
 							},
 							value: {
 								text: 'England'
+							}
+						},
+						{
+							key: {
+								text: 'Part-time indicator'
+							},
+							value: {
+								text: '',
+								classes: 'False'
 							}
 						}
 					]
@@ -777,12 +815,10 @@ getById(data['selected-query']) %} {% block pageTitle %}
 					rows: [
 						{
 							key: {
-								text: 'Possible sessions',
-								classes: 'queried-data'
+								text: 'Possible sessions'
 							},
 							value: {
-								text: 0 | friendlyNumber,
-								classes: 'queried-data'
+								text: 0 | friendlyNumber
 							}
 						},
 						{

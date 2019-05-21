@@ -231,7 +231,7 @@
                                </a>
                                {% if query['type'] == 'pupil' and query['pupils'] | length != 0 %}
                                     <br>
-                                    <a href="single-query" data-name="selected-query" data-value="{{ query.id }}" class="govuk-button govuk-button-blue govuk-button-small">
+                                    <a href="single-query?selected-query={{ query.id }}&numberOfPupilsMoved=0" class="govuk-button govuk-button-blue govuk-button-small">
                                         View details
                                     </a>
                                 {% endif %}
