@@ -11,7 +11,7 @@ const definedQueries = [
 		category: 'error',
 		type: 'pupil',
 		description: 'Pupils aged 5-15 cannot be shown as having part-time status',
-		guide: 'Full-time attendance is mandatory for pupils aged 5-15',
+		guide: 'All pupils aged 5-15 should be registered as full-time.',
 		pupils: generate.pupils(
 			generate.randomItemFrom([
 				generate.randomNumber(1, 10),
@@ -32,8 +32,7 @@ const definedQueries = [
 		category: 'error',
 		type: 'pupil',
 		description: 'Some address details are missing.',
-		guide:
-			'Correct records need to be kept for each pupil for safeguarding reasons and parent/guardian contact',
+		guide: 'Address records need to be complete for safeguarding reasons.',
 		pupils: generate.pupils(
 			generate.randomItemFrom([
 				generate.randomNumber(1, 10),
@@ -66,7 +65,7 @@ const definedQueries = [
 		type: 'pupil',
 		description: 'The pupil’s age is out of range for this type of school',
 		guide:
-			'You need to explain why the pupil’s age is out of range for this type of school',
+			'You need to explain why the pupil’s age is out of range for this type of school.',
 		confirmationIsAcceptable: false,
 		pupils: generate.pupils(3)
 	},
@@ -229,7 +228,6 @@ router.all('/add-selected-explanation', (req, res) => {
 			return query.id == queryId
 		}
 	)
-	console.log(req.session.data['selected-pupils'])
 	var remainingPupils = []
 	var leavingPupils = []
 	existingQuery.pupils.forEach(pupil => {
@@ -274,7 +272,9 @@ router.all('/add-selected-explanation', (req, res) => {
 	queries.push(newQuery)
 
 	set(req.session.data, queriesPath, queries)
-	res.redirect(req.headers.referer)
+	res.redirect(
+		req.headers.referer + '&numberOfPupilsMoved=' + leavingPupils.length
+	)
 })
 
 router.all('/undo-explanation', (req, res) => {
@@ -282,44 +282,61 @@ router.all('/undo-explanation', (req, res) => {
 	const queriesPath = 'schools[' + schoolIndex + '].queries'
 	var queries = req.session.data.schools[schoolIndex].queries
 	const queryId = req.session.data['selected-query']
-	const existingQuery = req.session.data.schools[schoolIndex].queries.find(
-		query => {
-			return query.id == queryId
-		}
-	)
+	var outputQueries = []
+	const currentQuery = queries.find(query => {
+		return query.id == queryId
+	})
+	const currentQueryPupils = currentQuery.pupils
+
 	var unexplainedQueryExists = false
 	queries.forEach(query => {
-		unexplainedQueryExists =
-			query.explained == 'false' && query.number == existingQuery.number
+		if (query.explained != true && query.number == currentQuery.number) {
+			unexplainedQueryExists = true
+			return
+		}
 	})
+
 	if (unexplainedQueryExists) {
 		queries.map(query => {
-			if (query.explained == 'false' && query.number == existingQuery.number) {
+			if (query.explained != true && query.number == currentQuery.number) {
 				if (Array.isArray(query.pupils)) {
-					query.pupils.concat(existingQuery.pupils)
+					query.pupils.concat(currentQueryPupils)
+				} else {
+					query.pupils = currentQueryPupils
 				}
 			}
-			query.notes.pop()
+			console.log(query.pupils)
+			if (query.id != currentQuery.id) {
+				outputQueries.push(query)
+			}
 		})
 	} else {
-		existingQuery.notes.pop()
+		queries.map(query => {
+			if (query.id != currentQuery.id) {
+				outputQueries.push(query)
+			}
+		})
+		var outputNotes = currentQuery.notes
+		if (Array.isArray(outputNotes)) {
+			outputNotes.pop()
+		}
 		var newQuery = {
 			id: generate.uuid(),
-			number: existingQuery.number,
-			category: existingQuery.category,
-			type: existingQuery.type,
-			description: existingQuery.description,
-			guide: existingQuery.guide,
-			pupils: existingQuery.pupils,
-			notes: existingQuery,
+			number: currentQuery.number,
+			category: currentQuery.category,
+			type: currentQuery.type,
+			description: currentQuery.description,
+			guide: currentQuery.guide,
+			pupils: currentQuery.pupils,
+			notes: outputNotes,
 			explainedOn: null,
 			explained: 'false'
 		}
 
-		queries.push(newQuery)
+		outputQueries.push(newQuery)
 	}
 
-	set(req.session.data, queriesPath, queries)
+	set(req.session.data, queriesPath, outputQueries)
 	res.redirect(req.headers.referer)
 })
 

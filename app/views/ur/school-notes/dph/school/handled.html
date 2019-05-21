@@ -139,7 +139,7 @@
 
         
         {{ govukDetails({
-        summaryText: "Find a query",
+        summaryText: "Find an explanation",
         html: findHTML
         }) }}
 
@@ -198,9 +198,9 @@
                             <td class="govuk-table__cell width-medium">
                             {% if query.category == 'error' %}
                                 {% if query['type'] == 'pupil' and query['pupils'] | length != 0 %}
-                                    <strong class="error-note">You must correct the data for {{ 'each pupil' if query['pupils'] | length > 1 else 'this pupil' }} in your MIS</strong><br>
+                                    <strong>You must correct the data for {{ 'each pupil' if query['pupils'] | length > 1 else 'this pupil' }} in your MIS</strong><br>
                                 {% else %}
-                                    <strong class="error-note">You must correct the data in your MIS</strong><br>
+                                    <strong>You must correct the data in your MIS</strong><br>
                                 {% endif %}
                             {% else %}
                                 {% if query['type'] == 'pupil' and query['pupils'] | length != 0 %}

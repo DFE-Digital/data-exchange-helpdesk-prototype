@@ -503,3 +503,16 @@ $('.hmcts-sub-navigation')
 	.find('a[href=""]')
 	.closest('.hmcts-sub-navigation__item')
 	.hide()
+
+$(document).on('ready', function() {
+	window.addEventListener('pageshow', function(event) {
+		var historyTraversal =
+			event.persisted ||
+			(typeof window.performance != 'undefined' &&
+				window.performance.navigation.type === 2)
+		if (historyTraversal) {
+			// Handle page restore.
+			window.location.reload()
+		}
+	})
+})

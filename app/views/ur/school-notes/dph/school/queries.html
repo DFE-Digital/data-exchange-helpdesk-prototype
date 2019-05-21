@@ -204,20 +204,16 @@
                             
                             <td class="govuk-table__cell width-medium">
                             {% if query.category == 'error' %}
+                                <span class="query-guide">{{ query.guide }}</span><br>
                                 {% if query['type'] == 'pupil' and query['pupils'] | length != 0 %}
-                                    <strong>You must correct the data for {{ 'each pupil' if query['pupils'] | length > 1 else 'this pupil' }} in your MIS</strong><br>
+                                    <strong>You must correct the data for {{ 'each pupil' if query['pupils'] | length > 1 else 'this pupil' }} in your MIS to resolve this query.</strong><br>
                                 {% else %}
-                                    <strong>You must correct the data in your MIS</strong><br>
+                                    <strong>You must correct the data in your MIS to resolve this query.</strong><br>
                                 {% endif %}
                             {% else %}
-                                {% if query['type'] == 'pupil' and query['pupils'] | length != 0 %}
-                                    <strong>You should check that the data for {{ 'each pupil' if query['pupils'] | length > 1 else 'the pupil' }} is correct in your MIS, if so:</strong><br>
-                                {% else %}
-                                <strong>You should check that the data is
-                                    correct in your MIS, if so:</strong><br>
-                                {% endif %}
+                                <strong>Always check first to make sure the data in your MIS is correct.</strong><br>
+                                <span class="query-guide">{{ query.guide }}</span><br>
                             {% endif %}
-                                <span class="query-guide">{{ query.guide }}</span>
                                 <div class="query-index" style="display: none;">{{query.id}}</div>
                                 <div class="query-category" style="display: none;">{{query.category}}</div>
                             </td>
@@ -234,7 +230,7 @@
                                         </button><br>
                                     {% endif %}
                                     {% if query['type'] == 'pupil' and query['pupils'] | length != 0 %}
-                                        <a href="single-query" data-name="selected-query" data-value="{{ query.id }}" class="govuk-button govuk-button-blue govuk-button-small">
+                                        <a href="single-query?selected-query={{ query.id }}" class="govuk-button govuk-button-blue govuk-button-small">
                                             View pupil{{ 's' if query['pupils'] | length > 1 }}
                                         </a>
                                     {% endif %}
