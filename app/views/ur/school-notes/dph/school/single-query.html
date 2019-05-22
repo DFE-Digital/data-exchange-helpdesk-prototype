@@ -207,16 +207,6 @@ getById(data['selected-query']) %} {% block pageTitle %}
 <div class="govuk-grid-row">
 	<div class="govuk-grid-column-one-half">
 
-		{% if isMultiple and not isExplained %}
-
-			<p>
-				You can give different separate explanations for pupils by selecting them
-				and pressing ’Give an explanation for selected pupils’. Repeat these steps
-				to give an explanation for all pupils.
-			</p>
-
-		{% endif %}
-
 		<script>
 			$('.govuk-table__head .table-checkbox-cell input[type=checkbox]').on(
 				'change',

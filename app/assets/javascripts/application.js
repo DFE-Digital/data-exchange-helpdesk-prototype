@@ -254,9 +254,11 @@ Dialog.prototype.addEventListeners = function(openDialogSel, closeDialogSel) {
 					'Explain why you cannot fix this data in your MIS'
 				)
 				$('.dialog .error-warning').show()
+				$('.dialog .query-warning').hide()
 			} else {
 				$('.dialog label[for="reject-reason"]').html('Explanation')
 				$('.dialog .error-warning').hide()
+				$('.dialog .query-warning').show()
 			}
 			$('#selectedQuery').val(selectedQuery)
 			$('.dialog .query-description').html(queryDescription)

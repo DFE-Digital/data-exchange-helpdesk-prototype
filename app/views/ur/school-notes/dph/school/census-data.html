@@ -43,7 +43,17 @@
 
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-one-half">
-        <h1 class="govuk-heading-l">Summer census 2019</h1>
+        <h1 class="govuk-heading-l">Resolve the errors in your data</h1>
+        <p>
+        There are some errors with the census data you have sent us.
+        </p>
+        <p>
+        You need to resolve all errors before the census submission deadline.
+        </p>
+        {{ govukWarningText({
+            text: 'You must be sure the data in your MIS is correct before you begin.',
+            iconFallbackText: 'Warning'
+        }) }}
     </div>
     <div class="govuk-grid-column-one-half" style="text-align: right;">
         <span class="govuk-caption-l">Data sent on 11:21 16 May 2019</span>
@@ -96,7 +106,7 @@
                 items: [
                     notesMenuItem if school.newNote == 'true',
                     {
-                    text: (pendingCount + ' replies needed' if pendingCount != 1 else '1 reply needed') if isReplying else (pendingCount + ' queries to explain' if pendingCount != 1 else '1 query to explain'),
+                    text: (pendingCount + ' replies needed' if pendingCount != 1 else '1 reply needed') if isReplying else (pendingCount + ' errors to resolve' if pendingCount != 1 else '1 error to resolve'),
                     href: 'queries'
                 }, 
                 {

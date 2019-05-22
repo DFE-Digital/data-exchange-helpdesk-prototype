@@ -61,7 +61,17 @@
 
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-one-half">
-        <h1 class="govuk-heading-l">Summer census 2019</h1>
+        <h1 class="govuk-heading-l">Resolve the errors in your data</h1>
+        <p>
+        There are some errors with the census data you have sent us.
+        </p>
+        <p>
+        You need to resolve all errors before the census submission deadline.
+        </p>
+        {{ govukWarningText({
+            text: 'You must be sure the data in your MIS is correct before you begin.',
+            iconFallbackText: 'Warning'
+        }) }}
     </div>
     <div class="govuk-grid-column-one-half" style="text-align: right;">
         <span class="govuk-caption-l">Data sent on 11:21 16 May 2019</span>
@@ -82,7 +92,7 @@
             items: [
                 notesMenuItem if school.newNote == 'true',
                 {
-                    text: (pendingCount + ' replies needed' if pendingCount != 1 else '1 reply needed') if isReplying else (pendingCount + ' queries to explain' if pendingCount != 1 else '1 query to explain'),
+                    text: (pendingCount + ' replies needed' if pendingCount != 1 else '1 reply needed') if isReplying else (pendingCount + ' errors to resolve' if pendingCount != 1 else '1 error to resolve'),
                     href: 'queries',
                     active: true
                 }, 
@@ -147,7 +157,7 @@
             <thead class="govuk-table__head">
                 <tr class="govuk-table__row">
                 
-                <th class="govuk-table__header" scope="col"><span class="no-wrap">Query</span></th>
+                <th class="govuk-table__header" scope="col"><span class="no-wrap">Error</span></th>
 
                 {% if hasNotes %}
                 <th class="govuk-table__header" scope="col"><span class="no-wrap">Notes</span></th>
@@ -204,15 +214,14 @@
                             
                             <td class="govuk-table__cell width-medium">
                             {% if query.category == 'error' %}
-                                <span class="query-guide">{{ query.guide }}</span><br>
                                 {% if query['type'] == 'pupil' and query['pupils'] | length != 0 %}
-                                    <strong>You must correct the data for {{ 'each pupil' if query['pupils'] | length > 1 else 'this pupil' }} in your MIS to resolve this query.</strong><br>
+                                    <span>You must correct the data for {{ 'each pupil' if query['pupils'] | length > 1 else 'this pupil' }} in your MIS to resolve this query.</span><br>
                                 {% else %}
-                                    <strong>You must correct the data in your MIS to resolve this query.</strong><br>
+                                    <span>You must correct the data in your MIS to resolve this query.</span><br>
                                 {% endif %}
                             {% else %}
                                 <span>Always check first to make sure the data in your MIS is correct.</span><br>
-                                <strong class="query-guide">{{ query.guide }}</strong><br>
+                                <span class="query-guide">{{ query.guide }}</span><br>
                             {% endif %}
                                 <div class="query-index" style="display: none;">{{query.id}}</div>
                                 <div class="query-category" style="display: none;">{{query.category}}</div>
@@ -261,6 +270,13 @@
     </div>
 
     <p class="guide"></p>
+    
+    <div class="query-warning">
+        {{ govukWarningText({
+            text: 'You should always check the accuracy of the data in your MIS before providing an explanation',
+            iconFallbackText: 'Warning'
+        }) }}
+    </div>
 
     <form class="internal-form" action="/add-explanation">
         {{ govukTextarea({
