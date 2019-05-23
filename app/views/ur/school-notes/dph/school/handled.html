@@ -110,9 +110,9 @@
 
     <div class="govuk-grid-column-one-half">
 
-        <h2 class="govuk-heading-l">No explanations given</h2>
-
-        <p>You have <a href="overview">{{ pendingCount }} unexplained issues</a> in your data. You must explain each issue before you can submit your census.</p>
+        <p>
+            You have <a href="overview">{{ pendingCount }} issues</a> to resolve in your data. Most errors and queries can be corrected in your MIS. If there is a reason you cannot correct the data in your MIS you will need to explain the reason why. Any explanations you give will be shown on this page.
+        </p>
 
     </div>
 
@@ -122,9 +122,9 @@
 
 <div class="govuk-grid-row">
 
-    <div class="govuk-grid-column-two-thirds">
+    <div class="govuk-grid-column-three-quarters">
 
-        <table class="govuk-table internal-table query-error-table query-table" id="queryTable">
+        <table class="govuk-table internal-table query-error-table query-table explanation-table" id="queryTable">
             
             <caption class="govuk-table__caption">Saved explanations</caption>
             
@@ -132,9 +132,9 @@
             <thead class="govuk-table__head">
                 <tr class="govuk-table__row">
                 
-                <th class="govuk-table__header" scope="col"><span class="no-wrap">Issue</span></th>
+                <th class="govuk-table__header width-medium" scope="col"><span class="no-wrap">Issue</span></th>
 
-                <th class="govuk-table__header width-medium" scope="col"><span class="no-wrap">Type</span></th>
+                <th class="govuk-table__header" scope="col"><span class="no-wrap">Type</span></th>
 
                 <th class="govuk-table__header width-medium" scope="col"><span class="no-wrap"></span></th>
                 
