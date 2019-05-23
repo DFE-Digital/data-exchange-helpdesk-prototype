@@ -249,16 +249,27 @@ Dialog.prototype.addEventListeners = function(openDialogSel, closeDialogSel) {
 			var selectedQuery = queryRow.find('.query-index').html()
 			var selectedQueryType = queryRow.find('.query-category').text()
 			var selectedQueryGuide = queryRow.find('.query-guide').text()
+			$('.dialog #pupilsUrl').text(queryRow.find('.pupils-url').text())
 			if (selectedQueryType == 'error') {
 				$('.dialog label[for="reject-reason"]').html(
-					'Explain why you cannot fix this data in your MIS'
+					'Explain why you cannot correct this data'
 				)
 				$('.dialog .error-warning').show()
 				$('.dialog .query-warning').hide()
+				$('.error-warning [id*=resolve-action]').attr('name', 'resolve-action')
+				$('.query-warning [id*=resolve-action]').attr('name', ':')
+				$('.error-warning #reject-reason').attr('name', 'resolve-action')
+				$('.query-warning #reject-reason').attr('name', ':')
+				$('.dialog button[type=submit]').text('Continue')
 			} else {
-				$('.dialog label[for="reject-reason"]').html('Explanation')
+				$('.dialog label[for="reject-reason"]').html('Give an explanation')
 				$('.dialog .error-warning').hide()
 				$('.dialog .query-warning').show()
+				$('.query-warning [id*=resolve-action]').attr('name', 'resolve-action')
+				$('.error-warning [id*=resolve-action]').attr('name', ':')
+				$('.query-warning #reject-reason').attr('name', 'resolve-action')
+				$('.error-warning #reject-reason').attr('name', ':')
+				$('.dialog button[type=submit]').text('Save explanation')
 			}
 			$('#selectedQuery').val(selectedQuery)
 			$('.dialog .query-description').html(queryDescription)

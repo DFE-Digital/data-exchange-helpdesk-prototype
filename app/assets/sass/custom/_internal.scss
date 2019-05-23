@@ -15,12 +15,18 @@
 	caption {
 		display: none;
 	}
-	font-size: 14px;
-	p {
-		font-size: 14px;
-	}
 	.govuk-table__head {
 		font-size: 19px;
+	}
+	&:not(.query-error-table) {
+		p,
+		.type-tag {
+			font-size: 14px;
+		}
+	}
+	.type-tag,
+	.govuk-button {
+		font-size: 16px;
 	}
 }
 
@@ -235,7 +241,23 @@
 	}
 }
 
-.govuk-button-grey {
+.govuk-button-orange {
+	background-color: govuk-colour('orange');
+	box-shadow: 0 2px 0 darken(govuk-colour('orange'), 20%);
+	&:hover,
+	&:focus,
+	&:active {
+		background-color: darken(govuk-colour('orange'), 10%);
+		box-shadow: 0 2px 0 darken(govuk-colour('orange'), 20%);
+	}
+	&[disabled],
+	&.govuk-button--disabled {
+		background-color: rgba(govuk-colour('orange'), 50%);
+	}
+}
+
+.govuk-button-grey,
+a.govuk-button.govuk-button-grey {
 	color: govuk-colour('black');
 	background-color: govuk-colour('grey-3');
 	box-shadow: 0 2px 0 darken(govuk-colour('grey-3'), 20%);
@@ -318,6 +340,21 @@ a.type-tag,
 		color: govuk-colour('green');
 		background-color: rgba(govuk-colour('green'), 0.025);
 	}
+	&.error {
+		border-color: govuk-colour('red');
+		color: govuk-colour('red');
+		background-color: rgba(govuk-colour('red'), 0.025);
+	}
+	&.count {
+		border-color: lighten(govuk-colour('grey-3'), 5%);
+		color: govuk-colour('black');
+		background-color: lighten(govuk-colour('grey-3'), 5%);
+	}
+	&.query {
+		border-color: darken(govuk-colour('orange'), 10%);
+		color: darken(govuk-colour('orange'), 10%);
+		background-color: rgba(darken(govuk-colour('orange'), 10%), 0.025);
+	}
 	&.term,
 	&.term-on-term {
 		border-color: govuk-colour('pink');
@@ -350,7 +387,7 @@ a.type-tag,
 	margin-right: 15px;
 }
 
-.internal-form {
+.internal--form {
 	.govuk-radios__item {
 		min-height: 20px;
 	}

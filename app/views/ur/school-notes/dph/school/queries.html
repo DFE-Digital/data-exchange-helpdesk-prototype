@@ -61,17 +61,13 @@
 
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-one-half">
-        <h1 class="govuk-heading-l">Resolve the errors in your data</h1>
+        <h1 class="govuk-heading-l">Resolve the errors and queries in your data</h1>
         <p>
-        There are some errors with the census data you have sent us.
+        There are some errors and queries with the census data you have sent us.
         </p>
         <p>
-        You need to resolve all errors before the census submission deadline.
+        You need to resolve all issues before the census submission deadline.
         </p>
-        {{ govukWarningText({
-            text: 'You must be sure the data in your MIS is correct before you begin.',
-            iconFallbackText: 'Warning'
-        }) }}
     </div>
     <div class="govuk-grid-column-one-half" style="text-align: right;">
         <span class="govuk-caption-l">Data sent on 11:21 16 May 2019</span>
@@ -92,7 +88,7 @@
             items: [
                 notesMenuItem if school.newNote == 'true',
                 {
-                    text: (pendingCount + ' replies needed' if pendingCount != 1 else '1 reply needed') if isReplying else (pendingCount + ' errors to resolve' if pendingCount != 1 else '1 error to resolve'),
+                    text: (pendingCount + ' replies needed' if pendingCount != 1 else '1 reply needed') if isReplying else (pendingCount + ' issues to resolve' if pendingCount != 1 else '1 issue to resolve'),
                     href: 'queries',
                     active: true
                 }, 
@@ -132,7 +128,7 @@
     <div class="govuk-grid-row">
 
         <div class="govuk-grid-column-one-half">
-            <h2 class="govuk-heading-l">All queries have an explanation</h1>
+            <h2 class="govuk-heading-l">All errors and queries have an explanation</h1>
             <p>You can <a href="handled">review the explanations</a> before they are sent. Once this census is sent, the Department for Education will approve or reject the explanations provided. You will be notified if any further action is needed.</p>
             {{ govukButton({
                 text: 'Submit census',
@@ -147,23 +143,23 @@
 
 <div class="govuk-grid-row">
 
-    <div class="govuk-grid-column-full">
+    <div class="govuk-grid-column-two-thirds">
 
-        <table id="queryTable" class="govuk-table internal-table query-table">
+        <table id="queryTable" class="govuk-table internal-table query-table query-error-table">
             
-            <caption class="govuk-table__caption">Queries</caption>
+            <caption class="govuk-table__caption">Issues</caption>
             
             
             <thead class="govuk-table__head">
                 <tr class="govuk-table__row">
                 
-                <th class="govuk-table__header" scope="col"><span class="no-wrap">Error</span></th>
+                <th class="govuk-table__header" scope="col"><span class="no-wrap">Issue</span></th>
+
+                <th class="govuk-table__header width-medium" scope="col"><span class="no-wrap">Type</span></th>
 
                 {% if hasNotes %}
                 <th class="govuk-table__header" scope="col"><span class="no-wrap">Notes</span></th>
                 {% endif %}
-                
-                <th class="govuk-table__header width-medium" scope="col"><span class="no-wrap">How to resolve query</span></th>
                 
                 <th class="govuk-table__header numeric" scope="col"><span class="no-wrap"></span></th>
                 
@@ -178,22 +174,32 @@
 
                         <tr class="govuk-table__row">
                             <th class="govuk-table__header query-description" scope="row" data-sort-value="{{ query['number'] }}">
-                                <h3 class="govuk-heading-m" style="margin-bottom: 5px;">
+                                <h3 class="govuk-heading-m" style="margin-bottom: 5px; margin-right: 10px;">
                                     {{ query['number'] }}
                                 </h3>
                                 {% if query['pupils'] | length != 0 %}
-                                    <a href="single-query" class="no-wrap type-tag {{ query['type'] }}"  data-name="selected-query" data-value="{{ query.id }}">
-                                    {% if query['pupils'] | length != 1 %}
-                                        {{ query['pupils'] | length }} pupils
-                                        {% set consolidatedQuery = true %}
-                                    {% else %}
-                                        1 pupil
-                                    {% endif %}
-                                </a>
+                                    <span class="no-wrap type-tag count">
+                                        {% if query['pupils'] | length != 1 %}
+                                            {{ query['pupils'] | length }} pupils
+                                            {% set consolidatedQuery = true %}
+                                        {% else %}
+                                            1 pupil
+                                        {% endif %}
+                                    </span>
                                 {% endif %}
                                 <br>
-                                <p>{{ query.description }}</p>
+                                <p>
+                                    {{ query.description }}<br>
+                                </p>
+                                <div class="query-index" style="display: none;">{{query.id}}</div>
+                                <div class="query-category" style="display: none;">{{query.category}}</div>
                             </th>
+
+                            <td class="govuk-table__cell">
+                            <span class="no-wrap type-tag {{ query.category }} govuk-!-margin-right-8">
+                                {{query.category | sentenceCase}}
+                            </span>
+                            </td>
 
                             {% if hasNotes %}
 
@@ -211,38 +217,18 @@
                             </td>
 
                             {% endif %}
-                            
-                            <td class="govuk-table__cell width-medium">
-                            {% if query.category == 'error' %}
-                                {% if query['type'] == 'pupil' and query['pupils'] | length != 0 %}
-                                    <span>You must correct the data for {{ 'each pupil' if query['pupils'] | length > 1 else 'this pupil' }} in your MIS to resolve this query.</span><br>
-                                {% else %}
-                                    <span>You must correct the data in your MIS to resolve this query.</span><br>
-                                {% endif %}
-                            {% else %}
-                                <span>Always check first to make sure the data in your MIS is correct.</span><br>
-                                <span class="query-guide">{{ query.guide }}</span><br>
-                            {% endif %}
-                                <div class="query-index" style="display: none;">{{query.id}}</div>
-                                <div class="query-category" style="display: none;">{{query.category}}</div>
-                            </td>
 
                             <td class="govuk-table__cell numeric">
                                 <div class="action-buttons">
-                                    {% if query['category'] == 'error' %}
-                                        <button type="button" class="govuk-button govuk-button-small govuk-button-grey open-dialog">
-                                            {{ 'Reply' if isReplying else 'I can’t resolve this' }}
-                                        </button><br>
+                                    <div class="pupils-url" style="display:none;">single-query?selected-query={{ query.id }}&noOfPupilsMoved=0</div>
+                                    {% if query['pupils'] | length != 0 and query.category == 'query' %}
+                                        <a href="single-query?selected-query={{ query.id }}&noOfPupilsMoved=0" class="govuk-button ">Resolve</a>
                                     {% else %}
-                                        <button type="button" class="govuk-button govuk-button-small open-dialog">
-                                            {{ 'Reply' if isReplying else 'Give an explanation' }}
-                                        </button><br>
+                                    <button type="button" class="govuk-button open-dialog">
+                                        Resolve
+                                    </button>
                                     {% endif %}
-                                    {% if query['type'] == 'pupil' and query['pupils'] | length != 0 %}
-                                        <a href="single-query?selected-query={{ query.id }}&numberOfPupilsMoved=0" class="govuk-button govuk-button-blue govuk-button-small">
-                                            View pupil{{ 's' if query['pupils'] | length > 1 }}
-                                        </a>
-                                    {% endif %}
+                                    
                                 </div>
                             </td>
 
@@ -260,38 +246,56 @@
 </div>
 
 <div class="dialog" role="dialog" aria-labelledby="dialog-title" aria-describedby="dialog-description">
+
+    {% set responseHTML %}
+        <p class="guide"></p>
+        {{ govukTextarea({
+                id: 'reject-reason',
+                name: 'reject-reason',
+                label: {
+                    text: 'Reply' if isReplying else 'Give an explanation'
+                }
+        }) }}
+    {% endset %}
             
     <div class="query-description"></div>
-    <div class="error-warning">
-        {{ govukWarningText({
-            text: 'We do not normally accept explanations for this type of query, you must amend this data in your MIS if possible',
-            iconFallbackText: 'Warning'
-        }) }}
-    </div>
-
-    <p class="guide"></p>
-    
-    <div class="query-warning">
-        {{ govukWarningText({
-            text: 'You should always check the accuracy of the data in your MIS before providing an explanation',
-            iconFallbackText: 'Warning'
-        }) }}
-    </div>
 
     <form class="internal-form" action="/add-explanation">
-        {{ govukTextarea({
-            id: 'reject-reason',
-            name: 'reject-reason',
-            label: {
-                text: 'Reply' if isReplying else 'Explanation'
-            }
+    <div class="error-warning">
+        {{ govukRadios({
+            idPrefix: 'resolve-action',
+            name: 'resolve-action',
+            fieldset: {
+                legend: {
+                    text: 'Resolution',
+                    isPageHeading: false,
+                    classes: 'govuk-visually-hidden'
+                }
+            },
+            items: [
+                {
+                    text: 'I’ll correct the data in my MIS',
+                    value: 'mis'
+                },
+                {
+                    text: 'There is a reason I cannot correct the data',
+                    value: 'explain'
+                }
+            ]
         }) }}
+    </div>
     
+    <div class="query-warning">
+        {{ responseHTML | safe }}
+    </div>
+    
+        <div id="pupilsUrl" style="display: none;"></div>
+        <div id="misUrl" style="display: none;">mis-warning</div>
         <input type="hidden" id="selectedQuery" name="selected-query">
         <input type="hidden" id="responseNote" name="response-note" value="">
         <input type="hidden" name="selected-school" value="{{ data['selected-school'] }}">
         {{ govukButton({
-            html: 'Save reply' if isReplying else 'Save explanation',
+            html: 'Save reply' if isReplying else 'Continue',
             classes: 'send'
         }) }}
     </form>
@@ -344,6 +348,17 @@
         newNoteValue = input;
         $('#responseNote').val(newNoteValue);
     }
+
+    $('input[name=resolve-action]').on('change', function() {
+        var pupilsURL = $('#pupilsUrl').text();
+        var misURL = $('#misUrl').text();
+        if ($(this).val() == 'mis') {
+            $('form').attr('action', misURL);
+        } else {
+            $('form').attr('action', pupilsURL);
+        }
+    });
+
 </script>
 
 {% endblock %}

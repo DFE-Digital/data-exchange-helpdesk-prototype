@@ -53,17 +53,13 @@
 
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-one-half">
-        <h1 class="govuk-heading-l">Resolve the errors in your data</h1>
+        <h1 class="govuk-heading-l">Resolve the errors and queries in your data</h1>
         <p>
-        There are some errors with the census data you have sent us.
+        There are some errors and queries with the census data you have sent us.
         </p>
         <p>
-        You need to resolve all errors before the census submission deadline.
+        You need to resolve all issues before the census submission deadline.
         </p>
-        {{ govukWarningText({
-            text: 'You must be sure the data in your MIS is correct before you begin.',
-            iconFallbackText: 'Warning'
-        }) }}
     </div>
     <div class="govuk-grid-column-one-half" style="text-align: right;">
         <span class="govuk-caption-l">Data sent on 11:21 16 May 2019</span>
@@ -89,7 +85,7 @@
             items: [
                 notesMenuItem if school.newNote == 'true',
                 {
-                    text: (pendingCount + ' replies needed' if pendingCount != 1 else '1 reply needed') if isReplying else (pendingCount + ' errors to resolve' if pendingCount != 1 else '1 error to resolve'),
+                    text: (pendingCount + ' replies needed' if pendingCount != 1 else '1 reply needed') if isReplying else (pendingCount + ' issues to resolve' if pendingCount != 1 else '1 issue to resolve'),
                     href: 'queries'
                 }, 
                 {
@@ -116,7 +112,7 @@
 
         <h2 class="govuk-heading-l">No explanations given</h2>
 
-        <p>You have <a href="overview">{{ pendingCount }} unexplained queries</a> in your data. You must explain each query before you can submit your census.</p>
+        <p>You have <a href="overview">{{ pendingCount }} unexplained issues</a> in your data. You must explain each issue before you can submit your census.</p>
 
     </div>
 
@@ -126,23 +122,21 @@
 
 <div class="govuk-grid-row">
 
-    <div class="govuk-grid-column-full">
+    <div class="govuk-grid-column-two-thirds">
 
-        <table class="govuk-table internal-table query-table" id="queryTable">
+        <table class="govuk-table internal-table query-error-table query-table" id="queryTable">
             
-            <caption class="govuk-table__caption">Queries</caption>
+            <caption class="govuk-table__caption">Saved explanations</caption>
             
             
             <thead class="govuk-table__head">
                 <tr class="govuk-table__row">
                 
-                <th class="govuk-table__header" scope="col"><span class="no-wrap">Query</span></th>
-                
-                <th class="govuk-table__header width-medium" scope="col"><span class="no-wrap">How to resolve query</span></th>
+                <th class="govuk-table__header" scope="col"><span class="no-wrap">Issue</span></th>
 
-                <th class="govuk-table__header width-medium" scope="col"><span class="no-wrap">{{ 'Reply' if isReplying else 'Saved explanation' }}</span></th>
-                
-                <th class="govuk-table__header numeric" scope="col"><span class="no-wrap"></span></th>
+                <th class="govuk-table__header width-medium" scope="col"><span class="no-wrap">Type</span></th>
+
+                <th class="govuk-table__header width-medium" scope="col"><span class="no-wrap"></span></th>
                 
                 </tr>
             </thead>
@@ -158,41 +152,35 @@
                                 <h3 class="govuk-heading-m" style="margin-bottom: 5px;">
                                     {{ query.number }}
                                 </h3>
-                                {% if query['pupils'] | length != 0 %}
-                                    <a href="single-query" class="no-wrap type-tag {{ query['type'] }}"  data-name="selected-query" data-value="{{ query.id }}">
-                                    {% if query['pupils'] | length != 1 %}
-                                        {{ query['pupils'] | length }} pupils
-                                        {% set consolidatedQuery = true %}
-                                    {% else %}
-                                        1 pupil
-                                    {% endif %}
-                                </a>
-                                {% endif %}
                                 <br>
-                                <p>{{ query.description }}</p>
+                                <p>
+                                    {{ query.description }}
+                                </p>
                             </th>
 
-                            <td class="govuk-table__cell width-medium">
-                            {% if query.category == 'error' %}
-                                {% if query['type'] == 'pupil' and query['pupils'] | length != 0 %}
-                                    <strong>You must correct the data for {{ 'each pupil' if query['pupils'] | length > 1 else 'this pupil' }} in your MIS</strong><br>
-                                {% else %}
-                                    <strong>You must correct the data in your MIS</strong><br>
-                                {% endif %}
-                            {% else %}
-                                {% if query['type'] == 'pupil' and query['pupils'] | length != 0 %}
-                                    <strong>You should check that the data for {{ 'each pupil' if query['pupils'] | length > 1 else 'the pupil' }} is correct in your MIS, if so:</strong><br>
-                                {% else %}
-                                <strong>You should check that the data is
-                                    correct in your MIS, if so:</strong><br>
-                                {% endif %}
-                            {% endif %}
-                                <span class="query-guide">{{ query.guide }}</span>
-                                <div class="query-index" style="display: none;">{{query.id}}</div>
-                                <div class="query-category" style="display: none;">{{query.category}}</div>
+                            <td class="govuk-table__cell">
+                            <span class="no-wrap type-tag {{ query.category }} govuk-!-margin-right-8">
+                                {{query.category | sentenceCase}}
+                            </span>
                             </td>
 
                             <td class="govuk-table__cell notes width-medium">
+                                <p style="margin-bottom: 10px;">
+                                    <strong>Saved explanation for
+                                    {% if query['type'] == 'pupil' and query['pupils'] | length != 0 %}
+                                        <a href="single-query?selected-query={{ query.id }}&numberOfPupilsMoved=0" style="text-decoration: underline;"> 
+                                            {% if query['pupils'] | length != 1 %}
+                                                {{ query['pupils'] | length }} pupils
+                                                {% set consolidatedQuery = true %}
+                                            {% else %}
+                                                1 pupil
+                                            {% endif %}
+                                        </a>
+                                    {% else %}
+                                    this {{ query.category }}
+                                    {% endif %}
+                                    </strong>
+                                </p>
                                 {% for note in query.notes %}
                                     {% if loop.index == query.notes | length %}
                                         <div class="note">
@@ -200,18 +188,9 @@
                                         </div>
                                     {% endif %}
                                 {% endfor -%}
-                            </td>
-
-                            <td class="govuk-table__cell action numeric">
-                               <a href="/undo-explanation?selected-query={{query.id}}" class="govuk-button govuk-button-small govuk-button-red open-dialog">
+                                <a href="/undo-explanation?selected-query={{query.id}}" class="govuk-button govuk-button-small govuk-button-red open-dialog">
                                 {{ 'Undo reply' if isReplying else 'Undo explanation' }}
                                </a>
-                               {% if query['type'] == 'pupil' and query['pupils'] | length != 0 %}
-                                    <br>
-                                    <a href="single-query?selected-query={{ query.id }}&numberOfPupilsMoved=0" class="govuk-button govuk-button-blue govuk-button-small">
-                                        View details
-                                    </a>
-                                {% endif %}
                             </td>
 
                         </tr>
