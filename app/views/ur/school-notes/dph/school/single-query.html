@@ -17,6 +17,7 @@ getById(data['selected-query']) %} {% block pageTitle %}
 {% endblock %} {% block content %}
 
 {% set isExplained = query.explained == 'true' %}
+{% set isMultiple = query.pupils | length != 1 %}
 
 <div class="govuk-grid-row">
 	<div class="govuk-grid-column-full census-case-nav">
@@ -38,6 +39,12 @@ getById(data['selected-query']) %} {% block pageTitle %}
 		{% set single = query['type'] | length == 0 %}
 
 		<p class="govuk-!-padding-bottom-5">{{ query.description }}</p>
+
+		{% if not isExplained and isMultiple %}
+			{{ govukInsetText({
+				text: 'Select one or more pupils from the list and explain why you cannot resolve this ' + query.category + '.'
+			}) }}
+		{% endif %}
 
 	</div>
 </div>
@@ -72,7 +79,6 @@ getById(data['selected-query']) %} {% block pageTitle %}
 
 <div class="govuk-grid-row">
 	<div class="govuk-grid-column-full">
-		{% set isMultiple = query.pupils | length != 1 %}
 
 		<table class="govuk-table" id="singleQueryTable">
 			<caption class="govuk-table__caption">
@@ -143,8 +149,8 @@ getById(data['selected-query']) %} {% block pageTitle %}
 				<strong>You should check that the data is
 					correct in your MIS, if so:</strong><br>
 				{% endif %}
-			{% endif %}
 			{{ query.guide }}
+			{% endif %}
 		</p>
 
 		{% if not isExplained %}
@@ -195,6 +201,36 @@ getById(data['selected-query']) %} {% block pageTitle %}
 				}) }}
 
 			{% endif %}
+
+		{% endif %}
+
+		{% if isExplained %}
+
+			<p style="margin-bottom: 10px;">
+				<strong>Saved explanation for
+				{% if query['type'] == 'pupil' and query['pupils'] | length != 0 %}
+					<a href="single-query?selected-query={{ query.id }}&numberOfPupilsMoved=0" style="text-decoration: underline;"> 
+						{% if query['pupils'] | length != 1 %}
+							{{ query['pupils'] | length }} pupils
+							{% set consolidatedQuery = true %}
+						{% else %}
+							1 pupil
+						{% endif %}
+					</a>
+				{% else %}
+				this {{ query.category }}
+				{% endif %}
+				</strong>
+			</p>
+			{% for note in query.notes %}
+				{% if loop.index == query.notes | length %}
+					<div class="note">
+						<p>
+						{{ note.text }}
+						</p>
+					</div>
+				{% endif %}
+			{% endfor -%}
 
 		{% endif %}
 
