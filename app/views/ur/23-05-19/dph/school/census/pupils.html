@@ -1,0 +1,683 @@
+<div class="govuk-grid-row">
+
+    <div class="govuk-grid-column-one-half">
+        {% set findHTML %}
+        <div class="govuk-!-padding-bottom-5">
+            {{ hmctsSearch({
+                input: {
+                    id: 'search-pupils',
+                    name: 'search-pupils'
+                },
+                label: {
+                    text: 'Find a pupil',
+                    classes: 'govuk-visually-hidden'
+                },
+                hint: {
+                    text: 'Search by pupil UPN or name'
+                },
+                button: {
+                    text: 'Find'
+                }
+            }) }}
+        </div>
+        {% endset -%}
+
+        
+        {{ govukDetails({
+        summaryText: 'Find a pupil',
+        html: findHTML
+        }) }}
+
+        <br>
+
+    </div>
+
+</div>
+
+{{ hmctsPagination({
+    results: {
+        from: 1,
+        to: 50,
+        count: 1104
+    },
+    next: {
+        text: 'Next',
+        href: '#'
+    },
+    items: [
+        {
+            text: '1',
+            href: '#',
+            selected: true
+        }, {
+            text: '2',
+            href: '#'
+        }, {
+            text: '3',
+            href: '#'
+        }, {
+          type: 'dots'
+        }, {
+            text: '23',
+            href: '#'
+        }
+    ]
+}) }}
+
+<table class="govuk-table" id="pupilsTable">
+    <caption class="govuk-table__caption govuk-visually-hidden">Pupils in census data</caption>
+    <thead class="govuk-table__head">
+        <tr class="govuk-table__row">
+            <th class="govuk-table__header" scope="col" aria-sort="none">UPN</th>
+            <th class="govuk-table__header" scope="col" aria-sort="ascending">Last name</th>
+            <th class="govuk-table__header" scope="col" aria-sort="none">First name</th>
+            <th class="govuk-table__header" scope="col" aria-sort="none">Date of birth</th>
+            <th class="govuk-table__header" scope="col" aria-sort="none">Status</th>
+        </tr>
+    </thead>
+    <tbody class="govuk-table__body">
+        {% for pupil in data.misSchool.pupils | sort(false, true, 'UPN') %}
+        <tr class="govuk-table__row">
+            {% set UPN = [pupil.UPN,pupil.UPN,pupil.UPN,pupil.UPN,pupil.UPN,pupil.UPN,pupil.UPN,pupil.UPN,pupil.UPN,pupil.UPN,pupil.UPN, ' '] | random %}
+            <th class="govuk-table__header" scope="row" data-sort-value="{{ UPN }}">
+                <a href="#" class="open-dialog" data-pupil="{{ loop.index - 1 }}"><span class="upn">{{ 'Missing UPN' if UPN == ' ' else UPN }}</span></a>
+            </th>
+        {% set surname = [pupil.surname,pupil.surname,pupil.surname,pupil.surname,pupil.surname,pupil.surname,pupil.surname,pupil.surname,pupil.surname,pupil.surname,pupil.surname, '-'] | random %}
+            <td class="govuk-table__cell" data-sort-value="{{ surname if surname != '-' }}">
+                <span class="last-name">{{ surname }}</span>
+            </td>
+
+            {% set firstname = [pupil.firstname,pupil.firstname,pupil.firstname,pupil.firstname,pupil.firstname,pupil.firstname,pupil.firstname,pupil.firstname,pupil.firstname,pupil.firstname,pupil.firstname, '-'] | random %}
+            <td class="govuk-table__cell" data-sort-value="{{ firstname if firstname != '-' }}">
+                <span class="first-name">{{ firstname }}</span>
+                <span class="name govuk-visually-hidden">{{ surname }}, {{ firstname }}</span>
+            </td>
+            
+            {% set dob = [pupil.dob,pupil.dob,pupil.dob,pupil.dob,pupil.dob,pupil.dob,pupil.dob,pupil.dob,pupil.dob,pupil.dob,pupil.dob, '-'] | random %}
+            <td class="govuk-table__cell" data-sort-value="{{ dob if dob != '-' }}"><span class="dob">{{dob}}</span></td>
+            <td class="govuk-table__cell">
+                {{ ['On roll', 'On roll', 'On roll', 'On roll', 'On roll', 'On roll', 'On roll', 'Off roll', '-'] | random }}
+                <span class="govuk-visually-hidden pupil-terms">{{ UPN }} {{ firstname }} {{ surname }}</span>
+            </td>
+        </tr>
+        {% endfor -%}
+    </tbody>
+</table>
+
+{{ hmctsPagination({
+    results: {
+        from: 1,
+        to: 50,
+        count: 1104
+    },
+    next: {
+        text: 'Next',
+        href: '#'
+    },
+    items: [
+        {
+            text: '1',
+            href: '#',
+            selected: true
+        }, {
+            text: '2',
+            href: '#'
+        }, {
+            text: '3',
+            href: '#'
+        }, {
+          type: 'dots'
+        }, {
+            text: '23',
+            href: '#'
+        }
+    ]
+}) }}
+
+
+<div class="dialog query-data" role="dialog" aria-labelledby="dialog-title" aria-describedby="dialog-description">
+
+    <p style="float:right;"><a href="#" class="close-dialog">Close</a></p>
+            
+    <h2 class="govuk-heading-l upn-container"></h2>
+    <h3 class="govuk-heading-m name-container"></h3>
+
+
+    {{ govukSummaryList({
+        rows: [
+            {
+                key: {
+                    text: 'Possible sessions',
+                    classes: 'queried-data'
+                },
+                value: {
+                    text: 0 | friendlyNumber,
+                    classes: 'queried-data'
+                }
+            }
+        ]
+    }) }}
+
+    <details class="govuk-details">
+        <summary class="govuk-details__summary">
+            <span class="govuk-details__summary-text">
+            Personal details
+            </span>
+        </summary>
+        <div class="govuk-details__text">
+            {{ govukSummaryList({
+                rows: [
+                    {
+                        key: {
+                            text: 'UPN'
+                        },
+                        value: {
+                            text: '',
+                            classes: 'upn-container'
+                        }
+                    },
+                    {
+                        key: {
+                            text: 'Former UPN'
+                        },
+                        value: {
+                            text: 'W30560031895A'
+                        }
+                    },
+                    {
+                        key: {
+                            text: 'Last name'
+                        },
+                        value: {
+                            text: '',
+                            classes: 'lname-container'
+                        }
+                    },
+                    {
+                        key: {
+                            text: 'First name'
+                        },
+                        value: {
+                            text: '',
+                            classes: 'fname-container'
+                        }
+                    },
+                    {
+                        key: {
+                            text: 'Registration type'
+                        },
+                        value: {
+                            text: 'Dually registered'
+                        }
+                    },
+                    {
+                        key: {
+                            text: 'Date of birth'
+                        },
+                        value: {
+                            text: '',
+                            classes: 'dob-container'
+                        }
+                    },
+                    {
+                        key: {
+                            text: 'Language code'
+                        },
+                        value: {
+                            text: ['ENG', 'ENG', 'ENG', 'ENG', 'ENG', 'ENG', 'PNJ', 'POL'] | random
+                        }
+                    },
+                    {
+                        key: {
+                            text: 'Country of UK'
+                        },
+                        value: {
+                            text: 'England'
+                        }
+                    }
+                ]
+            }) }}
+        </div>
+    </details>
+
+    <details class="govuk-details">
+        <summary class="govuk-details__summary">
+            <span class="govuk-details__summary-text">
+            Address details
+            </span>
+        </summary>
+        <div class="govuk-details__text">
+            {{ govukSummaryList({
+                rows: [
+                    {
+                        key: {
+                            text: 'Postcode'
+                        },
+                        value: {
+                            text: 'DL3 9BG'
+                        }
+                    },
+                    {
+                        key: {
+                            text: 'Unique property reference number 1'
+                        },
+                        value: {
+                            text: 'My Cottage'
+                        }
+                    },
+                    {
+                        key: {
+                            text: 'Primary address object number'
+                        },
+                        value: {
+                            text: 'The Lane'
+                        }
+                    },
+                    {
+                        key: {
+                            text: 'Street'
+                        },
+                        value: {
+                            text: 'Red Lane'
+                        }
+                    },
+                    {
+                        key: {
+                            text: 'Locality'
+                        },
+                        value: {
+                            text: 'Brent'
+                        }
+                    },
+                    {
+                        key: {
+                            text: 'Town'
+                        },
+                        value: {
+                            text: 'London'
+                        }
+                    },
+                    {
+                        key: {
+                            text: 'Address line 1'
+                        },
+                        value: {
+                            text: 'My Cottage'
+                        }
+                    },
+                    {
+                        key: {
+                            text: 'Address line 2'
+                        },
+                        value: {
+                            text: 'The Lane'
+                        }
+                    },
+                    {
+                        key: {
+                            text: 'Address line 3'
+                        },
+                        value: {
+                            text: 'Red Lane'
+                        }
+                    },
+                    {
+                        key: {
+                            text: 'Address line 4'
+                        },
+                        value: {
+                            text: 'Brent'
+                        }
+                    },
+                    {
+                        key: {
+                            text: 'Address line 5'
+                        },
+                        value: {
+                            text: 'London'
+                        }
+                    }
+                ]
+            }) }}
+        </div>
+    </details>
+
+    <details class="govuk-details">
+        <summary class="govuk-details__summary">
+            <span class="govuk-details__summary-text">
+            Funding indicators
+            </span>
+        </summary>
+        <div class="govuk-details__text">
+            {{ govukSummaryList({
+                rows: [
+                    {
+                        key: {
+                            text: 'FSM start date'
+                        },
+                        value: {
+                            text: '1 September 2018'
+                        }
+                    },
+                    {
+                        key: {
+                            text: 'FSM end date'
+                        },
+                        value: {
+                            text: '25 October 2023'
+                        }
+                    },
+                    {
+                        key: {
+                            text: 'School lunch taken'
+                        },
+                        value: {
+                            text: 'Yes'
+                        }
+                    },
+                    {
+                        key: {
+                            text: 'Service children in education indicator'
+                        },
+                        value: {
+                            text: 'Yes'
+                        }
+                    },
+                    {
+                        key: {
+                            text: 'Funded free entitlement hours'
+                        },
+                        value: {
+                            text: '10:50'
+                        }
+                    },
+                    {
+                        key: {
+                            text: 'Extended entitlement hours'
+                        },
+                        value: {
+                            text: '15:50'
+                        }
+                    },
+                    {
+                        key: {
+                            text: '30-hour code'
+                        },
+                        value: {
+                            text: '9483775884'
+                        }
+                    },
+                    {
+                        key: {
+                            text: 'Disability access fund indicator'
+                        },
+                        value: {
+                            text: 'False'
+                        }
+                    },
+                    {
+                        key: {
+                            text: 'Hours at setting'
+                        },
+                        value: {
+                            text: '10'
+                        }
+                    },
+                    {
+                        key: {
+                            text: '2-year-old funding basis'
+                        },
+                        value: {
+                            text: 'ECO'
+                        }
+                    },
+                    {
+                        key: {
+                            text: 'Early years pupil premium receipt'
+                        },
+                        value: {
+                            text: 'True'
+                        }
+                    },
+                    {
+                        key: {
+                            text: 'Early years premium basis of funding'
+                        },
+                        value: {
+                            text: 'RE'
+                        }
+                    },
+                    {
+                        key: {
+                            text: 'Top up funding indicator'
+                        },
+                        value: {
+                            text: 'True'
+                        }
+                    },
+                    {
+                        key: {
+                            text: 'Post looked after arrangements'
+                        },
+                        value: {
+                            text: 'A'
+                        }
+                    }
+                ]
+            }) }}
+        </div>
+    </details>
+    
+    <details class="govuk-details">
+        <summary class="govuk-details__summary">
+            <span class="govuk-details__summary-text">
+            Attainment
+            </span>
+        </summary>
+        <div class="govuk-details__text">
+            {{ govukSummaryList({
+                rows: [
+                    {
+                        key: {
+                            text: 'Pupil enrolment status'
+                        },
+                        value: {
+                            text: 'C'
+                        }
+                    },
+                    {
+                        key: {
+                            text: 'Class type'
+                        },
+                        value: {
+                            text: 'O'
+                        }
+                    },
+                    {
+                        key: {
+                            text: 'Pupil’s actual national curriculum year group'
+                        },
+                        value: {
+                            text: '7'
+                        }
+                    },
+                    {
+                        key: {
+                            text: 'Pupil date of entry'
+                        },
+                        value: {
+                            text: '1 September 2019'
+                        }
+                    },
+                    {
+                        key: {
+                            text: 'Pupil part-time indicator'
+                        },
+                        value: {
+                            text: 'False'
+                        }
+                    },
+                    {
+                        key: {
+                            text: 'Pupil boarder indicator'
+                        },
+                        value: {
+                            text: 'No'
+                        }
+                    }
+                ]
+            }) }}
+        </div>
+    </details>
+
+    <details class="govuk-details">
+        <summary class="govuk-details__summary">
+            <span class="govuk-details__summary-text">
+            SEN
+            </span>
+        </summary>
+        <div class="govuk-details__text">
+            {{ govukSummaryList({
+                rows: [
+                    {
+                        key: {
+                            text: 'Pupil SEN provision (formerly stage)'
+                        },
+                        value: {
+                            text: 'E'
+                        }
+                    },
+                    {
+                        key: {
+                            text: 'Pupil SEN type ranking'
+                        },
+                        value: {
+                            text: '1'
+                        }
+                    },
+                    {
+                        key: {
+                            text: 'Pupil SEN type'
+                        },
+                        value: {
+                            text: 'MLD'
+                        }
+                    },
+                    {
+                        key: {
+                            text: 'Member of SEN unit (sometimes called special class) indicator'
+                        },
+                        value: {
+                            text: 'Yes'
+                        }
+                    },
+                    {
+                        key: {
+                            text: 'Exclusion reason'
+                        },
+                        value: {
+                            text: 'VP'
+                        }
+                    },
+                    {
+                        key: {
+                            text: 'Exclusion start date'
+                        },
+                        value: {
+                            text: '1 March 2019'
+                        }
+                    },
+                    {
+                        key: {
+                            text: 'Exclusion actual number of sessions'
+                        },
+                        value: {
+                            text: '4'
+                        }
+                    },
+                    {
+                        key: {
+                            text: 'Pupil SEN provision (formerly stage)'
+                        },
+                        value: {
+                            text: 'E'
+                        }
+                    }
+                ]
+            }) }}
+        </div>
+    </details>
+
+    <details class="govuk-details">
+        <summary class="govuk-details__summary">
+            <span class="govuk-details__summary-text">
+            Sessions and attendance
+            </span>
+        </summary>
+        <div class="govuk-details__text">
+            {{ govukSummaryList({
+                rows: [
+                    {
+                        key: {
+                            text: 'Possible sessions',
+                            classes: 'queried-data'
+                        },
+                        value: {
+                            text: 0 | friendlyNumber,
+                            classes: 'queried-data'
+                        }
+                    },
+                    {
+                        key: {
+                            text: 'Sessions missed due to authorised absence'
+                        },
+                        value: {
+                            text: 0 | friendlyNumber
+                        }
+                    },
+                    {
+                        key: {
+                            text: 'Sessions missed due to unauthorised absence'
+                        },
+                        value: {
+                            text: 0 | friendlyNumber
+                        }
+                    },
+                    {
+                        key: {
+                            text: 'Attendance codes'
+                        },
+                        value: {
+                            text: 'M'
+                        }
+                    },
+                    {
+                        key: {
+                            text: 'Number of sessions missed'
+                        },
+                        value: {
+                            text: 0 | friendlyNumber
+                        }
+                    }
+                ]
+            }) }}
+        </div>
+    </details>
+        
+</div>
+
+<div class="dialog-overlay" tabindex="-1"></div>
+
+<script>
+$('#search-pupils').on('input', function() {
+    var value = $(this).val();
+    $('.pupil-terms').each(function() {
+        var queryDesc = $(this).html();
+        if (!queryDesc.toLowerCase().includes(value.toLowerCase())) {
+            $(this).closest('tr').hide();
+        } else {
+            $(this).closest('tr').show();
+        }
+    })
+})
+</script>

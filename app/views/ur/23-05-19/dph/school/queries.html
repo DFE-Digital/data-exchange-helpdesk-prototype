@@ -28,6 +28,15 @@
 
 {% block postHeader %}
 
+{% if school.needsTrimming == 'true' %}
+<script>
+    window.location.href = '/trim-approved'
+</script>
+{% elseif queries | length == 0 %}
+<script>
+    window.location.href = 'errors'
+</script>
+{% endif %}
 
 <div class="hmcts-identity-bar">
   <div class="hmcts-identity-bar__container">
@@ -211,15 +220,9 @@
 
                             <td class="govuk-table__cell numeric">
                                 <div class="action-buttons">
-                                    <div class="pupils-url" style="display:none;">single-query?selected-query={{ query.id }}&numberOfPupilsMoved=0</div>
-                                    {% if query['pupils'] | length != 0 %}
-                                        <form action="single-query">
-                                            <input type="hidden" name="numberOfPupilsMoved" value="0">
-                                            <input type="hidden" name="selected-query" value="{{ query.id }}">
-                                            <button type="submit" class="govuk-button">
-                                                Resolve
-                                            </button>
-                                        </form>
+                                    <div class="pupils-url" style="display:none;">single-query?selected-query={{ query.id }}&noOfPupilsMoved=0</div>
+                                    {% if query['pupils'] | length != 0 and query.category == 'query' %}
+                                        <a href="single-query?selected-query={{ query.id }}&noOfPupilsMoved=0" class="govuk-button ">Resolve</a>
                                     {% else %}
                                     <button type="button" class="govuk-button open-dialog">
                                         Resolve

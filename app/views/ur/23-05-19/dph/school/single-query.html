@@ -46,23 +46,6 @@ getById(data['selected-query']) %} {% block pageTitle %}
 			}) }}
 		{% endif %}
 
-		{% if isExplained %}
-
-			<p style="margin-bottom: 10px;">
-				<strong>Saved explanation</strong>
-			</p>
-			{% for note in query.notes %}
-				{% if loop.index == query.notes | length %}
-					<div class="note govuk-!-margin-bottom-8">
-						<p>
-						{{ note.text }}
-						</p>
-					</div>
-				{% endif %}
-			{% endfor -%}
-
-		{% endif %}
-
 	</div>
 </div>
 
@@ -107,7 +90,7 @@ getById(data['selected-query']) %} {% block pageTitle %}
 			</caption>
 			<thead class="govuk-table__head">
 				<tr class="govuk-table__row">
-					{% if isMultiple %}
+					{% if isMultiple and not isExplained %}
 					<th class="govuk-table__header table-checkbox-cell" scope="row">
 						<input type="checkbox" name="selected-pupils" id="select{{ loop.index }}" /><label
 							for="select{{ loop.index }}"
@@ -126,7 +109,7 @@ getById(data['selected-query']) %} {% block pageTitle %}
 			<tbody class="govuk-table__body">
 				{% for pupil in query.pupils | sort(false, true, 'UPN') %}
 				<tr class="govuk-table__row">
-					{% if isMultiple %}
+					{% if isMultiple and not isExplained %}
 					<th class="govuk-table__header table-checkbox-cell" scope="row">
 						<input type="checkbox" name="selected-pupils" id="pupil-{{ loop.index - 1 }}" value="{{ pupil.id }}"/><label
 							for="pupil-{{ loop.index - 1 }}" name="selected-pupils"
@@ -223,11 +206,31 @@ getById(data['selected-query']) %} {% block pageTitle %}
 
 		{% if isExplained %}
 
-			{{ govukButton({
-				html: 'Undo explanation for selected pupils',
-				classes: 'govuk-button-red selected-button',
-				disabled: true
-			}) }}
+			<p style="margin-bottom: 10px;">
+				<strong>Saved explanation for
+				{% if query['type'] == 'pupil' and query['pupils'] | length != 0 %}
+					<a href="single-query?selected-query={{ query.id }}&numberOfPupilsMoved=0" style="text-decoration: underline;"> 
+						{% if query['pupils'] | length != 1 %}
+							{{ query['pupils'] | length }} pupils
+							{% set consolidatedQuery = true %}
+						{% else %}
+							1 pupil
+						{% endif %}
+					</a>
+				{% else %}
+				this {{ query.category }}
+				{% endif %}
+				</strong>
+			</p>
+			{% for note in query.notes %}
+				{% if loop.index == query.notes | length %}
+					<div class="note">
+						<p>
+						{{ note.text }}
+						</p>
+					</div>
+				{% endif %}
+			{% endfor -%}
 
 		{% endif %}
 

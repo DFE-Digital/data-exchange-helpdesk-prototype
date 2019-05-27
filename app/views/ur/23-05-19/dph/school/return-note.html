@@ -1,0 +1,111 @@
+{% extends 'layout_la.html' %}
+
+{% block pageTitle %}
+    Queries
+{% endblock %}
+
+{% set school = data.schools[data['selected-school']] %}
+{% set schoolName = school.name %}
+{% set laestab = school.LAESTAB %}
+{% set queries = school.queries %}
+{% set errors = school.errors %}
+
+{% set handledCount = 0 %}
+{% for query in queries %}
+    {% if query['handled'] == 'true' %}
+        {% set handledCount = handledCount + 1 %}
+    {% endif %}
+{% endfor %}
+
+{% set pendingCount = (queries | length) - handledCount %}
+
+{% block postHeader %}
+
+<div class="hmcts-identity-bar">
+  <div class="hmcts-identity-bar__container">
+    <div class="hmcts-identity-bar__details">
+        <span class="hmcts-identity-bar__title"><b>{{ schoolName }}</b> {{ laestab }} <strong class="govuk-!-padding-right-4"></strong></span>
+    </div>
+    <div style="float:right;">
+        {% if (school.explanationsSent != 'true') and (pendingCount == 0) %}
+            {{ govukButton({
+                text: 'Go back',
+                href: 'javascript:history.back()',
+                classes: 'hmcts-menu-item hmcts-button--secondary'
+            }) }}
+        {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block content %}
+
+{% if school.schoolSent == 'true' %}
+<script>
+    window.location.href = 'sent'
+</script>
+{% endif %}
+
+    <div class="govuk-grid-row">
+
+        <div class="govuk-grid-column-one-half">
+
+            <form action="/school-send-census">
+
+                <h1 class="govuk-heading-xl">Do you want to add any additional notes?</h1>
+
+                <p>Give any additional information which may help us approve your school census</p>
+
+                {% set addNoteHTML %}
+
+                {{ govukTextarea({
+                    id: 'additional-note',
+                    name: 'additional-note',
+                    label: {
+                        text: 'Additional notes',
+                        classes: 'govuk-visually-hidden'
+                    }
+                }) }}
+
+                {% endset %}
+
+                {{ govukRadios({
+                    idPrefix: 'add-additional-note',
+                    name: 'add-additional-note',
+                    fieldset: {
+                        legend: {
+                            text: 'Do you want to add any additional notes?',
+                            isPageHeading: true,
+                            classes: 'govuk-visually-hidden'
+                        }
+                    },
+                    items: [
+                        {
+                            text: 'Yes',
+                            value: 'yes',
+                            conditional: {
+                                html: addNoteHTML
+                            }
+                        },
+                        {
+                            text: 'No, send without additional notes',
+                            value: 'no'
+                        }
+                    ]
+                }) }}
+                
+                {{ govukButton({
+                    html: 'Submit census'
+                }) }}
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+
+{% endblock %}
+
