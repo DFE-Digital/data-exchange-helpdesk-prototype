@@ -372,7 +372,7 @@ router.all('/undo-explanation', (req, res) => {
 
 	if (unexplainedQueryExists) {
 		queries.forEach(query => {
-			if (query.explained != true && query.number == currentQuery.number) {
+			if (query.explained != 'true' && query.number == currentQuery.number) {
 				if (Array.isArray(query.pupils)) {
 					query.pupils = query.pupils.concat(currentQueryPupils)
 				} else {
@@ -402,6 +402,104 @@ router.all('/undo-explanation', (req, res) => {
 
 	set(req.session.data, queriesPath, outputQueries)
 	res.redirect(req.headers.referer)
+})
+
+router.all('/undo-selected-explanation', (req, res) => {
+	const schoolIndex = parseInt(req.session.data['selected-school'])
+	const queriesPath = 'schools[' + schoolIndex + '].queries'
+	var queries = req.session.data.schools[schoolIndex].queries
+	const queryId = req.session.data['selected-query']
+	const currentQuery = queries.find(query => {
+		return query.id == queryId
+	})
+	const currentQueryPupils = currentQuery.pupils
+	var outputQueries = []
+	var remainingPupils = []
+	var leavingPupils = []
+	currentQueryPupils.forEach(pupil => {
+		if (req.session.data['selected-pupils'].includes(pupil.id)) {
+			leavingPupils.push(pupil)
+		} else {
+			remainingPupils.push(pupil)
+		}
+	})
+	var unexplainedQueryExists = false
+	queries.forEach(query => {
+		if (query.explained != 'true' && query.number == currentQuery.number) {
+			unexplainedQueryExists = true
+			return
+		}
+	})
+	if (unexplainedQueryExists) {
+		queries.forEach(query => {
+			if (query.explained != 'true' && query.number == currentQuery.number) {
+				if (Array.isArray(query.pupils)) {
+					query.pupils = query.pupils.concat(leavingPupils)
+				} else {
+					query.pupils = leavingPupils
+				}
+				outputQueries.push(query)
+			} else {
+				if (query.id == currentQuery.id) {
+					query.pupils = remainingPupils
+					if (remainingPupils.length != 0) {
+						outputQueries.push(query)
+					}
+				} else {
+					outputQueries.push(query)
+				}
+			}
+		})
+	} else {
+		queries.forEach(query => {
+			if (query.id == currentQuery.id) {
+				// Save remaining pupils to old query if any
+				if (remainingPupils.length != 0) {
+					query.pupils = remainingPupils
+					outputQueries.push(query)
+				}
+
+				// create new unexplained query
+				var outputNotes = currentQuery.notes
+				if (Array.isArray(outputNotes)) {
+					outputNotes.pop()
+				} else {
+					outputNotes = []
+				}
+				var newQuery = {
+					id: generate.uuid(),
+					number: currentQuery.number,
+					category: currentQuery.category,
+					type: currentQuery.type,
+					description: currentQuery.description,
+					guide: currentQuery.guide,
+					pupils: leavingPupils,
+					notes: outputNotes,
+					explainedOn: null,
+					explained: false
+				}
+				outputQueries.push(newQuery)
+			} else {
+				outputQueries.push(query)
+			}
+		})
+	}
+
+	set(req.session.data, queriesPath, outputQueries)
+	if (remainingPupils.length == 0) {
+		res.redirect(
+			req.headers.referer.substr(0, req.headers.referer.lastIndexOf('/') + 1) +
+				'handled'
+		)
+	} else {
+		res.redirect(
+			setUrlParameter(
+				req.headers.referer,
+				'numberOfPupilsMoved',
+				leavingPupils.length
+			)
+		)
+	}
 })
 
 router.all('/edit-school-explanation', (req, res) => {

@@ -70,16 +70,18 @@ getById(data['selected-query']) %} {% block pageTitle %}
 	</div>
 </div>
 
-{% if not isExplained %}
-
 {% if data.numberOfPupilsMoved | float > 0 %}
 <div class="govuk-grid-row">
 	<div class="govuk-grid-column-one-half">
 		
 		{% set bannerHtml %}
-		<h2 class="govuk-heading-m">{{ data.numberOfPupilsMoved }} pupil{{ 's' if data.numberOfPupilsMoved | float > 1}} moved to <a href="handled">‘saved explanations’</a></h2>
+			<h2 class="govuk-heading-m">{{ data.numberOfPupilsMoved }} pupil{{ 's' if data.numberOfPupilsMoved | float > 1}} {{'moved to <a href="handled">‘saved explanations’' | safe if not isExplained else 'removed from explanation'}}</a></h2>
 		{% set remainingPupils = query.pupils | length %}
-		<p>There {{ 'are' if remainingPupils > 1 else 'is'}} {{remainingPupils}} pupil record{{ 's' if remainingPupils > 1 }} still needing an explanation.</p>
+		{% if not isExplained %}
+			<p>There {{ 'are' if remainingPupils > 1 else 'is'}} {{remainingPupils}} pupil record{{ 's' if remainingPupils > 1 }} still needing an explanation.</p>
+		{% else %}
+			<p>You will find {{ 'these pupils' if remainingPupils > 1 else 'this pupil'}} in the <a href="queries">list of issues</a>.</p>
+		{% endif %}
 		{% endset %}
 
 		{{ hmctsBanner({
@@ -90,12 +92,14 @@ getById(data['selected-query']) %} {% block pageTitle %}
 </div>
 {% endif %}
 
-	{% if isMultiple %}
+{% if isMultiple %}
 	<form action="/add-selected-explanation" class="pupil-select-form">
-	{% else %}
+{% else %}
 	<form action="/add-explanation" class="pupil-select-form">
-	{% endif %}
+{% endif %}
 
+{% if isMultiple and isExplained %}
+<form action="/undo-selected-explanation" class="pupil-select-form">
 {% endif %}
 
 <div class="govuk-grid-row">
@@ -238,7 +242,7 @@ getById(data['selected-query']) %} {% block pageTitle %}
 	</div>
 </div>
 
-{% if not isExplained %}
+{% if not isExplained or isMultiple %}
 </form>
 {% endif %}
 <div class="govuk-grid-row">
@@ -285,7 +289,11 @@ getById(data['selected-query']) %} {% block pageTitle %}
 					'.govuk-table__body .table-checkbox-cell input[type=checkbox]:checked'
 				).length
 
+				//{% if isExplained %}
+				$('.pupil-select-form').attr('action', '/undo-selected-explanation')
+				//{% else %}
 				$('.pupil-select-form').attr('action', selectedCount == maximumCount ? '/add-explanation' : '/add-selected-explanation')
+				//{% endif %}
 				
 				if (selectedCount != 0) {
 					$('.selected-button').removeClass('govuk-button--disabled')
