@@ -25,23 +25,20 @@
 
 {% set pendingCount = (queries | length) - handledCount %}
 {% set isReplying = (school.isReplying == 'true') %}
+{% set isReady = pendingCount == 0 %}
 
 {% block postHeader %}
 
+{% if isReady %}
+<script>
+window.location.href = 'handled'
+</script>
+{% endif %}
 
 <div class="hmcts-identity-bar">
   <div class="hmcts-identity-bar__container">
     <div class="hmcts-identity-bar__details">
         <span class="hmcts-identity-bar__title"><b>{{ schoolName }}</b> {{ laestab }} <strong class="govuk-!-padding-right-4"></strong></span>
-    </div>
-    <div style="float:right;">
-        {% if (school.responsesSent != 'true') and (pendingCount == 0) %}
-            {{ govukButton({
-                text: 'Submit census',
-                href: 'return-note',
-                classes: 'hmcts-menu-item'
-            }) }}
-        {% endif %}
     </div>
   </div>
 </div>

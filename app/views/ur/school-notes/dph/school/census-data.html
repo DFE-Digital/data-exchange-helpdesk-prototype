@@ -18,6 +18,7 @@
 {% endfor %}
 
 {% set pendingCount = (queries | length) - handledCount %}
+{% set isReady = pendingCount == 0 %}
 
 
 {% block postHeader %}
@@ -25,15 +26,6 @@
   <div class="hmcts-identity-bar__container">
     <div class="hmcts-identity-bar__details">
         <span class="hmcts-identity-bar__title"><b>{{ schoolName }}</b> {{ laestab }} <strong class="govuk-!-padding-right-4"></strong></span>
-    </div>
-    <div style="float:right;">
-        {% if (school.responsesSent != 'true') and (pendingCount == 0) %}
-            {{ govukButton({
-                text: 'Submit census',
-                href: 'return-note',
-                classes: 'hmcts-menu-item'
-            }) }}
-        {% endif %}
     </div>
   </div>
 </div>
@@ -43,13 +35,23 @@
 
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-one-half">
-        <h1 class="govuk-heading-l">Resolve the errors and queries in your data</h1>
-        <p>
-        There are some errors and queries with the census data you have sent us.
-        </p>
-        <p>
-        You need to resolve all issues before the census submission deadline.
-        </p>
+        {% if isReady %}
+            <h1 class="govuk-heading-l">All issues have an explanation</h1>
+            <p>You should review the explanations before they are sent. The Department for Education will approve or reject the explanations provided. You will be notified if any further action is needed.</p>
+                {{ govukButton({
+                    text: 'Send explanations',
+                    href: 'return-note',
+                    classes: ''
+                }) }}
+        {% else %}
+            <h1 class="govuk-heading-l">Resolve the errors and queries in your data</h1>
+            <p>
+            There are some errors and queries with the census data you have sent us.
+            </p>
+            <p>
+            You need to resolve all issues before the census submission deadline.
+            </p>
+        {% endif %}
     </div>
     <div class="govuk-grid-column-one-half" style="text-align: right;">
         <span class="govuk-caption-l">Data sent on 11:21 16 May 2019</span>
@@ -104,7 +106,7 @@
                     {
                     text: (pendingCount + ' replies needed' if pendingCount != 1 else '1 reply needed') if isReplying else (pendingCount + ' issues to resolve' if pendingCount != 1 else '1 issue to resolve'),
                     href: 'queries'
-                }, 
+                }  if not isReady, 
                 {
                     text: (handledCount + ' replies given' if handledCount != 1 else '1 reply given') if isReplying else (handledCount + ' saved explanations ' if handledCount != 1 else '1 saved explanation '),
                     href: 'handled'
