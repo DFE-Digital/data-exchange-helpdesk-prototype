@@ -34,7 +34,11 @@ getById(data['selected-query']) %} {% block pageTitle %}
 	<div class="govuk-grid-column-one-half">
 		<h1 class="govuk-heading-xl query-heading govuk-!-margin-bottom-2">
 			{{ query.number }}
+			
 		</h1>
+		<span class="no-wrap type-tag {{ query.category }} govuk-!-margin-right-8">
+			{{query.category | sentenceCase}}
+		</span>
 
 		{% set single = query['type'] | length == 0 %}
 
