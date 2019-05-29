@@ -183,7 +183,7 @@ getById(data['selected-query']) %} {% block pageTitle %}
 		{% if query.category == 'error' %}
 
 			{{ govukWarningText({
-				text: 'We do not normally accept explanations for this type of ' + query.category + ', you must <a href="mis-warning">amend this data in your MIS if possible</a>' | sa,
+				text: 'We do not normally accept explanations for this type of ' + query.category + ', you must <a href="mis-warning">amend this data in your MIS if possible</a>' | safe,
 				iconFallbackText: 'Warning'
 			}) }}
 
