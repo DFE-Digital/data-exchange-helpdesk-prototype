@@ -1,0 +1,268 @@
+{% set external = data.isExternal == 'true' %}{% if external %}{% extends 'layout_la.html' %}{% else %}{% extends 'layout_internal.html' %}{% endif %}
+
+{% block pageTitle %}
+    {{ 'My schools’ collections' if external else 'My work queue' }}
+{% endblock %}
+
+{% set collector = data.collectors | getById(0) %}
+{% set schools = data['schools'] %}
+
+{% set respondedCount = 0 %}
+{% for school in schools %}
+    {% if school.responsesSent == 'true' %}
+        {% set respondedCount = respondedCount + 1 %}
+    {% endif %}
+{% endfor %}
+
+{% set inboxCount = (schools | length) - respondedCount %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+
+    <div class="govuk-grid-column-full census-case-nav">
+
+        <h1 class="govuk-heading-l">{{ 'My schools’ collections' if external else 'My work queue' }}</h1>
+
+        {% set seeAllQueues = { 
+                html: 'See all queues',  
+                href: '#4'
+            }
+         %}
+
+         {% set addMissingSchools  = { 
+                html: 'Add missing schools',  
+                href: '#4'
+            }
+         %}
+
+        {{ hmctsSubNavigation({
+            label: 'Sub navigation',
+            items: [{
+                html: ('Submitted' if external else 'Inbox') + ' <span class="type-tag count-tag">' + inboxCount + '</span>',
+                href: 'my-queue',
+                active: true
+            },{
+                html: ('Awaiting re-submission' if external else 'Responded') + ' <span class="type-tag count-tag">' + respondedCount + '</span>',
+                href: 'my-responses'
+            },{
+                html: 'Not submitted <span class="type-tag count-tag">1,321</span>',
+                href: 'not-submitted'
+            }, addMissingSchools if external else seeAllQueues
+            ]
+        }) }} 
+
+
+        {% if inboxCount == 0 %}
+
+        <div class="govuk-grid-row">
+
+            <div class="govuk-grid-column-one-half">
+                
+                <h2 class="govuk-heading-l">All schools in this queue have a response</h2>
+                <p>There are no schools in this queue waiting on responses. There are <a href="#">1,321</a> schools in this queue that have not submitted their data collection.</p>
+                <p>To respond to submissions you should:</p>
+                <ol class="govuk-list govuk-list--number">
+                    <li>Choose a school in the <a href="my-queue">inbox</a></li>
+                    <li>Provide an action for every query the school has sent responses for</li>
+                    <li>Send all the responses to the school</li>
+                </ol>
+
+            </div>
+  
+        </div>
+
+        {% else %}
+
+        {% set filtersHTML %}
+
+        <form action="">
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-column-one-third">
+                    {{ govukSelect({
+                        id: 'filter-type',
+                        name: 'filter-type',
+                        classes: 'govuk-input--width-20',
+                        label: {
+                            text: 'School type'
+                        },
+                        items: [
+                            {
+                                value: 'published',
+                                text: 'Maintained schools and academies',
+                                selected: true
+                            },
+                            {
+                                value: 'updated',
+                                text: 'Only maintained schools'
+                            },
+                            {
+                                value: 'views',
+                                text: 'Only academies'
+                            }
+                        ]
+                    }) }}
+                    {{ govukInput({
+                        id: 'filter-name',
+                        name: 'filter-name',
+                        value: data['filter-name'] if data['filter-name'] else '',
+                        classes: 'govuk-input--width-20',
+                        label: {
+                            text: 'School name contains',
+                            classes: 'govuk-input--width-20'
+                        }
+                    }) }}
+                    {{ govukInput({
+                        id: 'filter-la',
+                        name: 'filter-la',
+                        value: data['filter-la'] if data['filter-la'] else '',
+                        classes: 'govuk-input--width-20',
+                        label: {
+                            text: 'LAESTAB contains',
+                            classes: 'govuk-input--width-20'
+                        }
+                    }) }}
+                </div>
+                <div class="govuk-grid-column-one-third">
+                    {{ govukInput({
+                        id: 'filter-queries',
+                        name: 'filter-queries',
+                        value: data['filter-queries'] if data['filter-queries'] else '',
+                        attributes: {
+                            placeholder: 'For example, 2520, 2584, 5240'
+                        },
+                        hint: {
+                            text: 'Separate multiple queries with commas'
+                        },
+                        classes: 'govuk-input--width-20',
+                        label: {
+                            text: 'Query numbers',
+                            classes: 'govuk-input--width-20'
+                        }
+                    }) }}
+                    {{ govukInput({
+                        id: 'filter-errors',
+                        name: 'filter-errors',
+                        value: data['filter-errors'] if data['filter-errors'] else '',
+                        attributes: {
+                            placeholder: 'For example, 1500, 1741, 3150'
+                        },
+                        hint: {
+                            text: 'Separate multiple errors with commas'
+                        },
+                        classes: 'govuk-input--width-20',
+                        label: {
+                            text: 'Error numbers',
+                            classes: 'govuk-input--width-20'
+                        }
+                    }) }}
+                </div>
+                <div class="govuk-grid-column-full">
+                    {{ govukButton({
+                        html: 'Apply filters'
+                    }) }}
+                    {{ govukButton({
+                        html: 'Clear filters',
+                        disabled: true,
+                        classes: 'govuk-button-red'
+                    }) }}
+                </div>
+            </div>
+        </form>
+
+        {% endset %}
+
+        {{ govukDetails({
+        summaryText: "Filter schools",
+        html: filtersHTML
+        }) }}
+
+        <table id="queueTable" class="govuk-table internal-table collector-table">
+            
+            <caption class="govuk-table__caption">My work queue</caption>
+            
+            
+            <thead class="govuk-table__head">
+                <tr class="govuk-table__row">
+                
+                <th class="govuk-table__header" scope="col" aria-sort="none"><span class="no-wrap">Name</span></th>
+
+                <th class="govuk-table__header" scope="col" aria-sort="ascending"><span class="no-wrap">Submitted</span></th>
+
+                <th class="govuk-table__header" scope="col" aria-sort="none"><span class="no-wrap">Type</span></th>
+
+                <th class="govuk-table__header numeric" scope="col" aria-sort="none"><span class="no-wrap">LAESTAB</span></th>
+
+                <th class="govuk-table__header numeric" scope="col" aria-sort="none"><span class="no-wrap">Queries</span></th>
+
+                <th class="govuk-table__header numeric" scope="col" aria-sort="none"><span class="no-wrap">Errors</span></th>
+                
+                <th class="govuk-table__header numeric" scope="col"><span class="no-wrap"></span></th>
+                
+                </tr>
+            </thead>
+            
+            <tbody class="govuk-table__body">
+
+                {% for school in schools | sort(false, true, 'submittedDate')  -%}
+
+                {% if school.responsesSent != 'true' %}
+
+                <tr class="govuk-table__row">
+                        <th class="govuk-table__header" scope="row">
+                            <a href="queries/overview.html?selected-school={{ school.id }}">
+                                {{ school.name }}
+                            </a>
+                        </th>
+                        <td class="govuk-table__cell govuk-table__cell--numeric" style="text-align: left" data-sort-value="{{ school.submittedDate }}">
+                            {{ school.submittedDate | formatColumnDate }}
+                        </td>
+                        <td class="govuk-table__cell">
+                            {{ govukTag({
+                                text: school.type,
+                                classes: school.type
+                            }) }}
+                        </td>
+                        <td class="govuk-table__cell govuk-table__cell--numeric">
+                            {{ school.LAESTAB }}
+                        </td>
+                        <td class="govuk-table__cell numeric govuk-table__cell--numeric">
+                            {{ school.noOfQueries }}
+                        </td>
+                        <td class="govuk-table__cell numeric govuk-table__cell--numeric">
+                            {{ school.noOfErrors }}
+                        </td>
+                        <td class="govuk-table__cell numeric">
+                            <a href="queries/overview.html?selected-school={{ school.id }}" class="govuk-button govuk-button-blue govuk-button-small">
+                                Open
+                            </a>
+                        </td>
+                        
+                </tr>
+
+                {% endif %}
+
+                {% endfor -%}
+                
+            </tbody>
+        </table>
+
+        {% endif %}
+
+ 
+    </div>
+
+</div>
+
+
+
+
+
+{% endblock %}
+
+{% block pageScripts %}
+<script>
+    var table = document.getElementById('queueTable')
+    new SortableTable(table)
+</script>
+{% endblock %}

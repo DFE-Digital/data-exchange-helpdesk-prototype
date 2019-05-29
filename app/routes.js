@@ -178,7 +178,6 @@ router.all('*', (req, _, next) => {
 	next()
 })
 
-// Generic 'next page' rule
 router.all('/handle-query', (req, res) => {
 	const schoolIndex = req.session.data['selected-school']
 	var school = 'schools[' + schoolIndex + ']'

@@ -1,0 +1,149 @@
+{% set external = data.isExternal == 'true' %}{% if external %}{% extends 'layout_la.html' %}{% else %}{% extends 'layout_internal.html' %}{% endif %}
+
+{% block pageTitle %}
+    Workloads
+{% endblock %}
+
+
+{% block content %}
+
+<div class="govuk-grid-row">
+
+    <div class="govuk-grid-column-full">
+
+        <h2 class="govuk-heading-l">Manage collectors for 2019 spring census</h2>
+
+        {% if not data.isAllocated %}
+
+        {{ govukWarningText({
+            text: 'There are ' + data.totalNumberOfSchools | friendlyNumber + ' unallocated schools',
+            iconFallbackText: 'alert'
+        }) }}
+
+        {{ govukButton({
+            text: 'Allocate schools to work queues',
+            href: 'allocate',
+            classes: ' '
+        }) }}
+
+        {% endif %}
+
+        <table class="govuk-table internal-table collector-table">
+            
+            <caption class="govuk-table__caption">Collectors</caption>
+            
+            
+            <thead class="govuk-table__head">
+                <tr class="govuk-table__row">
+                
+                <th class="govuk-table__header" scope="col"><span class="no-wrap">Name</span></th>
+
+                <th class="govuk-table__header numeric" scope="col"><span class="no-wrap">Hours per week</span></th>
+
+                <th class="govuk-table__header numeric" scope="col"><span class="no-wrap">LAs</span></th>
+                
+                <th class="govuk-table__header numeric" scope="col"><span class="no-wrap">Maintained schools</span></th>
+                
+                <th class="govuk-table__header width-medium numeric" scope="col"><span class="no-wrap">Academies</span></th>
+                
+                <th class="govuk-table__header width-medium numeric" scope="col"><span class="no-wrap">Total schools</span></th>
+                
+                <th class="govuk-table__header" scope="col"><span class="no-wrap">Actions</span></th>
+                
+                </tr>
+            </thead>
+            
+            <tbody class="govuk-table__body">
+
+                {% set hoursTotal = 0 %}
+                {% set lasTotal = 0 %}
+                {% set maintainedTotal = 0 %}
+                {% set academiesTotal = 0 %}
+
+                {% for collector in data.collectors %}
+
+                <tr class="govuk-table__row">
+                        <th class="govuk-table__header" scope="row">
+                            <a href="single-queue" data-name="selected-user" data-value="{{ collector.id }}">
+                                {{ collector.firstName }} {{ collector.lastName }}
+                            </a>
+                        </th>
+                        <td class="govuk-table__cell numeric">
+                            {{ (collector.weighting | float * 37 if collector.weighting else '37') | round }}
+                            {% set hoursTotal = hoursTotal + collector.weighting * 37 %}
+                        </td>
+                        <td class="govuk-table__cell numeric">
+                            {{ (collector.las | length) | friendlyNumber  }}
+                            {% set lasTotal = lasTotal + collector.las | length %}
+                        </td>
+                        <td class="govuk-table__cell numeric">
+                            {{ collector.laTotal | friendlyNumber }}
+                            {% set maintainedTotal = maintainedTotal + collector.laTotal %}
+                        </td>
+                        <td class="govuk-table__cell numeric">
+                            {{ collector.academiesTotal | friendlyNumber }}
+                            {% set academiesTotal = academiesTotal + collector.academiesTotal %}
+                        </td>
+                        <td class="govuk-table__cell numeric">
+                            {{ [collector.laTotal, collector.academiesTotal] | stringSum }}
+                        </td>
+                        <td class="govuk-table__cell">
+                            <a href="single-queue" data-name="selected-user" data-value="{{ collector.id }}" class="govuk-button govuk-button-blue govuk-button-small">
+                                Manage
+                            </a>
+                            <button type="button" class="govuk-button govuk-button-red govuk-button-small">
+                                Remove
+                            </button>
+                        </td>
+                        
+                </tr>
+
+
+
+                {% endfor -%}
+                
+            </tbody>
+            <tfoot>
+                <tr class="govuk-table__row">
+                        <th class="govuk-table__header" scope="row">
+                            Totals
+                        </th>
+                        <td class="govuk-table__cell numeric">
+                            {{ hoursTotal | friendlyNumber }}
+                        </td>
+                        <td class="govuk-table__cell numeric">
+                            {{ lasTotal | friendlyNumber }}
+                        </td>
+                        <td class="govuk-table__cell numeric">
+                            {{ maintainedTotal | friendlyNumber }}
+                        </td>
+                        <td class="govuk-table__cell numeric">
+                            {{ academiesTotal | friendlyNumber }}
+                        </td>
+                        <td class="govuk-table__cell numeric">
+                            {{ [maintainedTotal, academiesTotal] | stringSum }}
+                        </td>
+                        <td class="govuk-table__cell">
+                            
+                        </td>
+                        
+                </tr>
+            </tfoot>
+        </table>
+        
+        {{ govukButton({
+            text: 'Add a new collector',
+            href: '#',
+            classes: ' ',
+            attributes: {
+                style: 'float: right;'
+            }
+        }) }}
+
+    </div>
+
+</div>
+
+
+
+{% endblock %}

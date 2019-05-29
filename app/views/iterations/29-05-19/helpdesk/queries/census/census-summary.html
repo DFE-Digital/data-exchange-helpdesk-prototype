@@ -1,0 +1,199 @@
+<!--
+<div class="govuk-grid-row govuk-body govuk-!-margin-top-5">
+    
+    <div class="govuk-grid-column-two-thirds">
+        
+        
+        
+
+        <form method="post" action="/v3/view-report">
+            <div class="govuk-form-group">
+              <fieldset class="govuk-fieldset" aria-describedby="report-hint">
+                <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
+                  <h1 class="govuk-fieldset__heading">
+                    Please select the information you wish to view
+                  </h1>
+                </legend>
+                <span id="report-hint" class="govuk-hint">
+                  Select all that apply.
+                </span>
+                <div class="govuk-checkboxes govuk-!-margin-top-9">
+                  <div class="govuk-checkboxes__item">
+                    <input class="govuk-checkboxes__input" id="report-1" name="report" type="checkbox" value="carcasses">
+                    <label class="govuk-label govuk-checkboxes__label" for="report-1">
+                      Pupils on roll by age and gender
+                    </label>
+                  </div>
+                  <div class="govuk-checkboxes__item">
+                    <input class="govuk-checkboxes__input" id="report-2" name="report" type="checkbox" value="carcasses">
+                    <label class="govuk-label govuk-checkboxes__label" for="report-2">
+                      Pupils on roll in each national curriculum year group
+                    </label>
+                  </div>
+                    
+                  <div class="govuk-checkboxes__item">
+                    <input class="govuk-checkboxes__input" id="report-3" name="report" type="checkbox" value="carcasses">
+                    <label class="govuk-label govuk-checkboxes__label" for="report-3">
+                      Pupils on roll by their first language
+                    </label>
+                  </div>
+                    
+                  <div class="govuk-checkboxes__item">
+                    <input class="govuk-checkboxes__input" id="report-4" name="report" type="checkbox" value="carcasses">
+                    <label class="govuk-label govuk-checkboxes__label" for="report-4">
+                      Proficiency in English
+                    </label>
+                  </div>
+                  
+                  <div class="govuk-checkboxes__item">
+                    <input class="govuk-checkboxes__input" id="report-5" name="report" type="checkbox" value="carcasses">
+                    <label class="govuk-label govuk-checkboxes__label" for="report-5">
+                      Pupils on roll by enrolment status
+                    </label>
+                  </div>
+                    
+                  <div class="govuk-checkboxes__item">
+                    <input class="govuk-checkboxes__input" id="report-6" name="report" type="checkbox" value="carcasses">
+                    <label class="govuk-label govuk-checkboxes__label" for="report-6">
+                      Specific types of pupils on roll
+                    </label>
+                  </div>
+                    
+                  <div class="govuk-checkboxes__item">
+                    <input class="govuk-checkboxes__input" id="report-7" name="report" type="checkbox" value="carcasses">
+                    <label class="govuk-label govuk-checkboxes__label" for="report-7">
+                      Early years pupil premium
+                    </label>
+                  </div>
+                  
+                  <div class="govuk-checkboxes__item">
+                    <input class="govuk-checkboxes__input" id="report-8" name="report" type="checkbox" value="carcasses">
+                    <label class="govuk-label govuk-checkboxes__label" for="report-8">
+                      School childcare
+                    </label>
+                  </div>
+                    
+                  <div class="govuk-checkboxes__item">
+                    <input class="govuk-checkboxes__input" id="report-9" name="report" type="checkbox" value="carcasses">
+                    <label class="govuk-label govuk-checkboxes__label" for="report-9">
+                      Pupils on roll with SEN provision
+                    </label>
+                  </div>
+                    
+                  <div class="govuk-checkboxes__item">
+                    <input class="govuk-checkboxes__input" id="report-10" name="report" type="checkbox" value="carcasses">
+                    <label class="govuk-label govuk-checkboxes__label" for="report-10">
+                      SEN need type for pupils on roll with SEN (SEN provision E, S, or K)
+                    </label>
+                  </div>
+                    
+                  <div class="govuk-checkboxes__item">
+                    <input class="govuk-checkboxes__input" id="report-11" name="report" type="checkbox" value="carcasses">
+                    <label class="govuk-label govuk-checkboxes__label" for="report-11">
+                      Number of fixed period, permanent and lunchtime exclusions by reason and SEN provision in the 2017 summer term (terms 3 and 4)
+                    </label>
+                  </div>
+                    
+                  <div class="govuk-checkboxes__item">
+                    <input class="govuk-checkboxes__input" id="report-12" name="report" type="checkbox" value="carcasses">
+                    <label class="govuk-label govuk-checkboxes__label" for="report-12">
+                      Attendance information for the 2017 autumn term (terms 1 and 2) for all pupils aged between 5 and 15 years as at 31/08/2017 
+                    </label>
+                  </div>
+                    
+                  <div class="govuk-checkboxes__item">
+                    <input class="govuk-checkboxes__input" id="report-13" name="report" type="checkbox" value="carcasses">
+                    <label class="govuk-label govuk-checkboxes__label" for="report-13">
+                      Attendance information for the 2017 autumn term (terms 1 and 2) for all pupils aged 4 years as at 31/08/2017
+                    </label>
+                  </div>
+                    
+                  <div class="govuk-checkboxes__item">
+                    <input class="govuk-checkboxes__input" id="report-14" name="report" type="checkbox" value="carcasses">
+                    <label class="govuk-label govuk-checkboxes__label" for="report-14">
+                      Admission appeals
+                    </label>
+                  </div>
+                    
+                  <div class="govuk-checkboxes__item">
+                    <input class="govuk-checkboxes__input" id="report-15" name="report" type="checkbox" value="carcasses">
+                    <label class="govuk-label govuk-checkboxes__label" for="report-15">
+                      Classes as taught at the school's selected time
+                    </label>
+                  </div>
+                    
+                  <div class="govuk-checkboxes__item">
+                    <input class="govuk-checkboxes__input" id="report-16" name="report" type="checkbox" value="carcasses">
+                    <label class="govuk-label govuk-checkboxes__label" for="report-16">
+                      Pupil reconciliation
+                    </label>
+                  </div>
+                    
+                  <div class="govuk-checkboxes__item">
+                    <input class="govuk-checkboxes__input" id="report-17" name="report" type="checkbox" value="carcasses">
+                    <label class="govuk-label govuk-checkboxes__label" for="report-17">
+                      Universal infant school meals
+                    </label>
+                  </div>
+                    
+                  
+
+
+                </div>
+              </fieldset>
+            </div>
+            
+            <input type="submit" class="govuk-button" value="View information" />
+        </form>
+
+    </div>
+</div>
+-->
+<details class="govuk-details">
+  <summary class="govuk-details__summary">
+    <span class="govuk-details__summary-text">
+      Pupils on roll by age and gender
+    </span>
+  </summary>
+  <div class="govuk-details__text">
+    {% include("./summary-tables/pupils-by-age.html") %}
+  </div>
+</details>
+
+
+<details class="govuk-details">
+  <summary class="govuk-details__summary">
+    <span class="govuk-details__summary-text">
+      Pupils on roll in each national curriculum year group
+    </span>
+  </summary>
+  <div class="govuk-details__text">
+    {% include("./summary-tables/pupils-each-curriculum-group.html") %}
+  </div>
+</details>
+
+
+<details class="govuk-details">
+  <summary class="govuk-details__summary">
+    <span class="govuk-details__summary-text">
+      Proficiency in English
+    </span>
+  </summary>
+  <div class="govuk-details__text">
+    {% include("./summary-tables/proficiency-in-english.html") %}
+  </div>
+</details>
+
+<details class="govuk-details">
+  <summary class="govuk-details__summary">
+    <span class="govuk-details__summary-text">
+      Pupils on roll with SEN provision
+    </span>
+  </summary>
+  <div class="govuk-details__text">
+    {% include("./summary-tables/pupils-with-sen.html") %}
+  </div>
+</details>
+
+
+<a href="#" class="govuk-button">Download census summary (PDF)</a>

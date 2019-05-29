@@ -1,0 +1,113 @@
+{% extends 'layout_mis.html' %}
+
+{% block pageTitle %}
+    Spring census submission
+{% endblock %}
+
+{% block content %}
+<div class="submission">
+    <div class="row">
+        <div class="width-container">
+            <div class="col-two-thirds">
+                <h1>Get your spring census data ready</h1>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="width-container">
+            <div class="col-one-half">
+                <h2>There are <span class="increment">{{ data.misSchool.errors | length }}</span> errors in your data</h2>
+                <p>You should fix these errors before you send your census to the Department for Education. The Department for Education do not normally accept census data with errors.</p>
+                <h2>There are <span class="increment">{{ data.misSchool.queries | length }}</span> queries about your data</h2>
+                <p>You should review these queries and consider if the data behind each one is correct. If you submit this census with queries you will need to give an explanation on the Department for Education website.</p>
+                <a href="sent" class="button">Send census to DfE</a>
+                <br><br>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+$('.increment').on('click', function () {
+    var original = parseInt($(this).text())
+    $(this).text(Math.floor(original/2))
+})
+</script>
+
+<div class="row">
+    <div class="width-container">
+        <div class="col-one-quarter">
+            <h1 style="font-weight: 900;">{{ data.misSchool.errors | length }} errors</h1>
+        </div>
+        <div class="col-three-quarters">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Error number</th>
+                        <th>Type</th>
+                        <th>Records affected</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for error in data.misSchool.errors %}
+                    <tr>
+                        <th>{{ error.number }}</th>
+                        <td>{{ error.type | sentenceCase }}</td>
+                        <td>
+                        {% if error.pupils %}
+                            <a href="#">
+                                {{ error.pupils | length if error.pupils }}
+                            </a>
+                        {% endif %}
+                        </td>
+                        <td>{{ error.description }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="width-container">
+        <div class="col-one-quarter">
+            <h1 style="font-weight: 900;">{{ data.misSchool.queries | length }} queries</h1>
+        </div>
+        <div class="col-three-quarters">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Error number</th>
+                        <th>Type</th>
+                        <th>Records affected</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for query in data.misSchool.queries %}
+                    <tr>
+                        <th>{{ query.number }}</th>
+                        <td>{{ query.type | sentenceCase }}</td>
+                        <td>
+                        {% if query.pupils %}
+                            <a href="#">
+                                {{ query.pupils | length if query.pupils }}
+                            </a>
+                        {% endif %}
+                        </td>
+                        <td>{{ query.description }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block pageScripts %}
+
+{% endblock %}
