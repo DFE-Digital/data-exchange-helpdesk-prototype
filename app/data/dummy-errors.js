@@ -40,7 +40,7 @@ module.exports = (randomNumber, randomItemFrom, createPupils) => {
 			number: 160,
 			type: 'school',
 			description:
-				"The establishment's GIAS URN is missing or URN recorded on COLLECT does not match URN recorded on GIAS"
+				'The establishment’s GIAS URN is missing or URN recorded on COLLECT does not match URN recorded on GIAS'
 		},
 		{
 			number: 165,

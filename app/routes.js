@@ -49,6 +49,14 @@ function setUrlParameter(url, key, value) {
 const definedQueries = [
 	{
 		id: generate.uuid(),
+		number: 160,
+		category: 'error',
+		type: 'school',
+		description:
+			'The school’s URN is either missing or doesn’t match the URN recorded on Get information about schools (GIAS)'
+	},
+	{
+		id: generate.uuid(),
 		number: 1940,
 		category: 'error',
 		type: 'pupil',

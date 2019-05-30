@@ -273,7 +273,10 @@ window.location.href = 'handled'
                 },
                 {
                     text: 'There is a reason I cannot correct the data',
-                    value: 'explain'
+                    value: 'explain',
+                    conditional: {
+                        html: responseHTML
+                    }
                 }
             ]
         }) }}
@@ -344,7 +347,7 @@ window.location.href = 'handled'
     }
 
     $('input[name=resolve-action]').on('change', function() {
-        var pupilsURL = $('#pupilsUrl').text();
+        var pupilsURL = '/add-explanation';
         var misURL = $('#misUrl').text();
         if ($(this).val() == 'mis') {
             $('form').attr('action', misURL);
