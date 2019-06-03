@@ -75,12 +75,12 @@ getById(data['selected-query']) %} {% block pageTitle %}
 	<div class="govuk-grid-column-one-half">
 		
 		{% set bannerHtml %}
-			<h2 class="govuk-heading-m">{{ data.numberOfPupilsMoved }} pupil{{ 's' if data.numberOfPupilsMoved | float > 1}} {{'moved to <a href="handled">‘saved explanations’' | safe if not isExplained else 'removed from explanation'}}</a></h2>
+			<h2 class="govuk-heading-m">{{ data.numberOfPupilsMoved }} pupil{{ 's' if data.numberOfPupilsMoved | float > 1}} {{'moved to <a href="handled">‘saved explanations’' | safe if not isExplained else 'removed from ‘saved explanations’'}}</a></h2>
 		{% set remainingPupils = query.pupils | length %}
 		{% if not isExplained %}
-			<p>There {{ 'are' if remainingPupils > 1 else 'is'}} {{remainingPupils}} pupil record{{ 's' if remainingPupils > 1 }} still needing an explanation.</p>
+			<p>You need to explain this {{ query.category }} for {{remainingPupils}} more pupil{{ 's' if remainingPupils > 1 }}.</p>
 		{% else %}
-			<p>You will find {{ 'these pupils' if remainingPupils > 1 else 'this pupil'}} in the <a href="queries">list of issues</a>.</p>
+			<p>You will find {{ 'these pupils' if remainingPupils > 1 else 'this pupil'}} in <a href="queries">issues to resolve</a>.</p>
 		{% endif %}
 		{% endset %}
 
@@ -165,25 +165,24 @@ getById(data['selected-query']) %} {% block pageTitle %}
 
 <div class="govuk-grid-row">
 	<div class="govuk-grid-column-one-half">
-		
-		<p>
+	
 			{% if query.category != 'error' %}
-				{% if query['type'] == 'pupil' and query['pupils'] | length != 0 %}
-					<strong>You should check that the data for {{ 'each pupil' if query['pupils'] | length > 1 else 'the pupil' }} is correct in your MIS, if so:</strong><br>
-				{% else %}
-				<strong>You should check that the data is
-					correct in your MIS, if so:</strong><br>
-				{% endif %}
-			{{ query.guide }}
+				{{ govukWarningText({
+					text: 'You must check the data if your MIS is correct for ' + ('each pupil' if query['pupils'] | length > 1 else 'this pupil') + '.',
+					iconFallbackText: 'Warning'
+				}) }}
+				<p>
+				<strong>If you are sure the data in your MIS is correct - </strong>
+			{{ query.guide }}</p>
 			{% endif %}
-		</p>
+		
 
 		{% if not isExplained %}
 
 		{% if query.category == 'error' %}
 
 			{{ govukWarningText({
-				html: 'We do not normally accept explanations for this type of ' + query.category + ', you must <a href="mis-warning">amend this data in your MIS if possible</a>' | safe,
+				html: 'This type of error should be <a href="mis-warning">resolved in your MIS</a>. We can only accept an explanation for this error in certain cases.' | safe,
 				iconFallbackText: 'Warning'
 			}) }}
 

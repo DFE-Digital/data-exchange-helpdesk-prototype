@@ -260,7 +260,7 @@ Dialog.prototype.addEventListeners = function(openDialogSel, closeDialogSel) {
 				$('.query-warning [id*=resolve-action]').attr('name', ':')
 				$('.error-warning #reject-reason').attr('name', 'resolve-action')
 				$('.query-warning #reject-reason').attr('name', ':')
-				$('.dialog button[type=submit]').text('Continue')
+				$('.dialog button[type=submit]:not(.govuk-button-red)').text('Continue')
 			} else {
 				$('.dialog label[for="reject-reason"]').html('Give an explanation')
 				$('.dialog .error-warning').hide()
@@ -269,8 +269,16 @@ Dialog.prototype.addEventListeners = function(openDialogSel, closeDialogSel) {
 				$('.error-warning [id*=resolve-action]').attr('name', ':')
 				$('.query-warning #reject-reason').attr('name', 'resolve-action')
 				$('.error-warning #reject-reason').attr('name', ':')
-				$('.dialog button[type=submit]').text('Save explanation')
+				$('.dialog button[type=submit]:not(.govuk-button-red)').text(
+					'Save explanation'
+				)
 			}
+			$('#currentExplanation').html(
+				queryRow.find('.explanation-container').html()
+			)
+			$('#currentExplanation a')
+				.contents()
+				.unwrap()
 			$('#selectedQuery').val(selectedQuery)
 			$('.dialog .query-description').html(queryDescription)
 			$('.dialog .notes').html(notes)

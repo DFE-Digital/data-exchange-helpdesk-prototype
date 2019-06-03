@@ -228,9 +228,13 @@ module.exports = function(env) {
 	}
 
 	filters.getByCode = (array, str) => {
-		return array.find(obj => {
-			return obj.code.toString() === str
-		})
+		if (Array.isArray(array)) {
+			return array.find(obj => {
+				return obj.code.toString() === str
+			})
+		} else {
+			return nil
+		}
 	}
 
 	filters.randomSchool = () => {

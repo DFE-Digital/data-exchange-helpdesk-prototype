@@ -12,7 +12,22 @@
 
 {% set handledCount = 0 %}
 {% set notesCount = 0 %}
+{% set queriesTotal = 0 %}
+{% set explanationsTotal = 0 %}
 {% for query in queries %}
+    {% if query.explained != 'true' %}
+        {% if query.pupils %}
+            {% set queriesTotal = queriesTotal + (query.pupils | length) %}
+        {% else %}
+            {% set queriesTotal = queriesTotal + 1 %}
+        {% endif %}
+    {% else %}
+        {% if query.pupils %}
+            {% set explanationsTotal = explanationsTotal + (query.pupils | length) %}
+        {% else %}
+            {% set explanationsTotal = explanationsTotal + 1 %}
+        {% endif %}
+    {% endif %}
     {% if query['explained'] == 'true' %}
         {% set handledCount = handledCount + 1 %}
         {% if query.notes | length %}
@@ -56,6 +71,10 @@ window.location.href = 'handled'
         <p>
         You need to resolve all issues before the census submission deadline.
         </p>
+        {{ govukWarningText({
+            text: 'You must be sure the data in your MIS is correct before you begin.',
+            iconFallbackText: 'Warning'
+        }) }}
     </div>
     <div class="govuk-grid-column-one-half" style="text-align: right;">
         <span class="govuk-caption-l">Data sent on 11:21 16 May 2019</span>
@@ -76,14 +95,14 @@ window.location.href = 'handled'
             items: [
                 notesMenuItem if school.newNote == 'true',
                 {
-                    text: (pendingCount + ' replies needed' if pendingCount != 1 else '1 reply needed') if isReplying else (pendingCount + ' issues to resolve' if pendingCount != 1 else '1 issue to resolve'),
+                    text: (queriesTotal + ' replies needed' if queriesTotal != 1 else '1 reply needed') if isReplying else (queriesTotal + ' issues to resolve' if queriesTotal != 1 else '1 issue to resolve'),
                     href: 'queries',
                     active: true
                 }, 
                 {
                     text: (handledCount + ' replies given' if handledCount != 1 else '1 reply given') if isReplying else (handledCount + ' saved explanations ' if handledCount != 1 else '1 saved explanation '),
                     href: 'handled'
-                },
+                } if handledCount != 0,
                 {
                     text: 'View all census data',
                     href: 'census-data'
@@ -256,6 +275,7 @@ window.location.href = 'handled'
 
     <form class="internal-form" action="/add-explanation">
     <div class="error-warning">
+
         {{ govukRadios({
             idPrefix: 'resolve-action',
             name: 'resolve-action',

@@ -55,7 +55,7 @@
         </h1>
         
         <p>
-            Follow these steps to resolve this query:
+            Follow these steps to resolve this {{ (data.schools[data['selected-school']].queries | getById(data['selected-query'])).category }}:
         </p>
 
         <ol class="govuk-list govuk-list--number">
