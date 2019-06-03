@@ -168,7 +168,7 @@ getById(data['selected-query']) %} {% block pageTitle %}
 	
 			{% if query.category != 'error' %}
 				{{ govukWarningText({
-					text: 'You must check the data if your MIS is correct for ' + ('each pupil' if query['pupils'] | length > 1 else 'this pupil') + '.',
+					text: 'You must check the data in your MIS is correct for ' + ('each pupil' if query['pupils'] | length > 1 else 'this pupil') + '.',
 					iconFallbackText: 'Warning'
 				}) }}
 				<p>
