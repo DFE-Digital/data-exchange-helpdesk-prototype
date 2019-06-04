@@ -41,7 +41,7 @@
 {% set isReady = pendingCount == 0 %}
 
 {% block postHeader %}
-{% if handledCount == 0 %}
+{% if handledCount == 0 and queries.length != 0 %}
 <script>
     window.location.href = 'queries'
 </script>
@@ -117,7 +117,7 @@
                     href: 'queries'
                 } if not isReady, 
                 {
-                    text: (handledCount + ' replies given' if handledCount != 1 else '1 reply given') if isReplying else (handledCount + ' saved explanations ' if handledCount != 1 else '1 saved explanation '),
+                    text: 'Saved explanations',
                     href: 'handled',
                     active: true
                 },
