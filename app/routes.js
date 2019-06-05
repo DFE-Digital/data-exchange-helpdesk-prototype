@@ -449,6 +449,7 @@ router.all('/undo-selected-explanation', (req, res) => {
 			} else {
 				if (query.id == currentQuery.id) {
 					query.pupils = remainingPupils
+					query.notes = currentQuery.notes
 					if (remainingPupils.length != 0) {
 						outputQueries.push(query)
 					}
@@ -467,11 +468,9 @@ router.all('/undo-selected-explanation', (req, res) => {
 				}
 
 				// create new unexplained query
-				var outputNotes = currentQuery.notes
-				if (Array.isArray(outputNotes)) {
-					outputNotes.pop()
-				} else {
-					outputNotes = []
+				var outputNotes = []
+				if (Array.isArray(currentQuery.notes)) {
+					outputNotes = currentQuery.notes.slice(0)
 				}
 				var newQuery = {
 					id: generate.uuid(),
