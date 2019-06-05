@@ -279,6 +279,9 @@ Dialog.prototype.addEventListeners = function(openDialogSel, closeDialogSel) {
 			$('#currentExplanation a')
 				.contents()
 				.unwrap()
+			$('textarea[name="resolve-action"]').on('change', function() {
+				$('#responseNote').val($(this).val())
+			})
 			$('#selectedQuery').val(selectedQuery)
 			$('.dialog .query-description').html(queryDescription)
 			$('.dialog .notes').html(notes)
