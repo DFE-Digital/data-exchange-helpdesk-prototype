@@ -230,11 +230,24 @@ getById(data['selected-query']) %} {% block pageTitle %}
 
 		{% if isExplained %}
 
-			{{ govukButton({
-				html: 'Undo explanation for selected pupils',
-				classes: 'govuk-button-red selected-button',
-				disabled: true
-			}) }}
+
+			{% if isMultiple %}
+
+				{{ govukButton({
+					html: 'Undo explanation for selected pupils',
+					classes: 'govuk-button-red selected-button',
+					disabled: true
+				}) }}
+
+			{% else %}
+
+				{{ govukButton({
+					text: 'Undo explanation',
+					href: '/undo-selected-explanation?selected-pupils=['+ query.pupils[0].id +']',
+					classes: 'govuk-button-red selected-button'
+				}) }}
+
+			{% endif %}
 
 		{% endif %}
 

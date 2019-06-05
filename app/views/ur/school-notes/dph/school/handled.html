@@ -220,11 +220,15 @@
                                     {% endif %}
                                 {% endfor -%}
                                 </div>
+                                {% if not query.pupils %}
                                <button type="button" class="govuk-button govuk-button-small govuk-button-red open-dialog">
-                               {% if query.pupils | length > 1 %}
-                                Undo explanation for {{ query['pupils'] | length }} pupils
-                               {% else %}
                                 Undo explanation
+                               {% else %}
+                                {{ govukButton({
+                                    text: 'Undo explanation for ' + (query['pupils'] | length) + ' pupil' + ('s' if query['pupils'] | length > 1) if (query.pupils | length > 1) + 'Undo explanation',
+                                    href: 'single-query?selected-query=' + query.id + '&numberOfPupilsMoved=0',
+                                    classes: 'govuk-button-small govuk-button-red'
+                                }) }}
                                {% endif %}
                                </button>
                             </td>
@@ -250,7 +254,7 @@
     <form class="internal-form" action="/undo-explanation">
 
 
-        <h4 class="govuk-heading-s">Are sure you want to undo this explanation?</h4>
+        <h4 class="govuk-heading-s">Are you sure you want to undo this explanation?</h4>
     
         {{ govukButton({
             html: 'Yes, undo explanation',
