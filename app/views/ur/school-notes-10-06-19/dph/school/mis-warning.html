@@ -1,0 +1,76 @@
+{% extends 'layout_la.html' %}
+
+{% block pageTitle %}
+    Return to MIS
+{% endblock %}
+
+{% set school = data.schools[data['selected-school']] %}
+{% set schoolName = school.name %}
+{% set laestab = school.LAESTAB %}
+{% set queries = school.queries %}
+{% set errors = school.errors %}
+
+{% set handledCount = 0 %}
+{% for query in queries %}
+    {% if query['explained'] == 'true' %}
+        {% set handledCount = handledCount + 1 %}
+    {% endif %}
+{% endfor %}
+
+{% set pendingCount = (queries | length) - handledCount %}
+
+
+{% block postHeader %}
+<div class="hmcts-identity-bar">
+  <div class="hmcts-identity-bar__container">
+    <div class="hmcts-identity-bar__details">
+        <span class="hmcts-identity-bar__title"><b>{{ schoolName }}</b> {{ laestab }} <strong class="govuk-!-padding-right-4"></strong></span>
+    </div>
+    <div style="float:right;">
+        {% if (school.responsesSent != 'true') and (pendingCount == 0) %}
+            {{ govukButton({
+                text: 'Submit census',
+                href: 'return-note',
+                classes: 'hmcts-menu-item'
+            }) }}
+        {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+    
+    <div class="govuk-grid-column-one-half">
+
+        {{ govukBackLink({
+            text: 'Back',
+            href: 'javascript:history.back()'
+        }) }}
+
+        <h1 class="govuk-heading-l">
+            Return to your MIS
+        </h1>
+        
+        <p>
+            Follow these steps to resolve this {{ (data.schools[data['selected-school']].queries | getById(data['selected-query'])).category }}:
+        </p>
+
+        <ol class="govuk-list govuk-list--number">
+            <li>Go to your MIS</li>
+            <li>Check the data carefully and correct any mistakes</li>
+            <li>Resend the data</li>
+        </ol>
+
+        {{ govukWarningText({
+            text: 'By resending the data you will lose any saved explanations.',
+            iconFallbackText: 'Warning'
+        }) }}
+
+    </div>
+
+</div>
+
+{% endblock %}

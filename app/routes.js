@@ -53,14 +53,14 @@ const definedQueries = [
 		category: 'error',
 		type: 'school',
 		description:
-			'The school’s URN is either missing or doesn’t match the URN recorded on Get information about schools (GIAS)'
+			'The school’s URN is either missing or doesn’t match the URN recorded on Get information about schools (GIAS).'
 	},
 	{
 		id: generate.uuid(),
 		number: 1940,
 		category: 'error',
 		type: 'pupil',
-		description: 'Pupils aged 5-15 cannot be shown as having part-time status',
+		description: 'Pupils aged 5-15 cannot be shown as having part-time status.',
 		guide: 'All pupils aged 5-15 should be registered as full-time.',
 		highlights: [
 			{
@@ -115,7 +115,7 @@ const definedQueries = [
 		category: 'query',
 		type: 'term-on-term',
 		description:
-			'The number of pupils at your school is much higher than during the last census',
+			'The number of pupils at your school is much higher than during the last census.',
 		guide:
 			'You need to explain why the number of pupils at your school is much higher than during the last census.',
 		confirmationIsAcceptable: false
@@ -125,7 +125,7 @@ const definedQueries = [
 		number: '1601Q',
 		category: 'query',
 		type: 'pupil',
-		description: 'The pupil’s age is out of range for this type of school',
+		description: 'The pupil’s age is out of range for this type of school.',
 		guide:
 			'You need to explain why the pupil’s age is out of range for this type of school.',
 		highlights: [
@@ -158,7 +158,7 @@ const definedQueries = [
 		category: 'query',
 		type: 'pupil',
 		description:
-			'The number of possible sessions entered, would mean the pupil started school in a previous term and not on the date shown in your data',
+			'The number of possible sessions entered, would mean the pupil started school in a previous term and not on the date shown in your data.',
 		guide:
 			'You need to explain why there are possible sessions from a previous term. For example, if the pupil left school and was later readmitted this would be acceptable.',
 		highlights: [

@@ -68,7 +68,7 @@
             You can then send your explanations to the Department for Education for review.
             </p>
             <p>
-            You will be notified when your submission is confirmed, or if you need to give us more information.
+            They will contact you by email to confirm your submission, or to ask for more information.
             </p>
                 {{ govukButton({
                     text: 'Send explanations',
@@ -76,13 +76,17 @@
                     classes: ''
                 }) }}
         {% else %}
-            <h1 class="govuk-heading-l">Explain the errors and queries in your data</h1>
+            <h1 class="govuk-heading-l">Resolve the errors and queries in your data</h1>
             <p>
             There are some errors and queries with the census data you have sent us.
             </p>
             <p>
-            You need to give an explanation for these issues before the census submission deadline.
+            You need to resolve all issues before the census submission deadline.
             </p>
+            {{ govukWarningText({
+            text: 'You must be sure the data in your MIS is correct before you begin.',
+            iconFallbackText: 'Warning'
+        }) }}
         {% endif %}
     </div>
     <div class="govuk-grid-column-one-half" style="text-align: right;">
@@ -109,7 +113,7 @@
             items: [
                 notesMenuItem if school.newNote == 'true',
                 {
-                    text: (queriesTotal + ' replies needed' if queriesTotal != 1 else '1 reply needed') if isReplying else (queriesTotal + ' issues' if queriesTotal != 1 else '1 issue'),
+                    text: (queriesTotal + ' replies needed' if queriesTotal != 1 else '1 reply needed') if isReplying else (queriesTotal + ' issues to resolve' if queriesTotal != 1 else '1 issue to resolve'),
                     href: 'queries'
                 } if not isReady, 
                 {

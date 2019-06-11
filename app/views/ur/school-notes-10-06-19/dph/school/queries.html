@@ -64,13 +64,17 @@ window.location.href = 'handled'
 
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-one-half">
-        <h1 class="govuk-heading-l">Explain the errors and queries in your data</h1>
+        <h1 class="govuk-heading-l">Resolve the errors and queries in your data</h1>
         <p>
         There are some errors and queries with the census data you have sent us.
         </p>
         <p>
-        You need to give an explanation for these issues before the census submission deadline.
+        You need to resolve all issues before the census submission deadline.
         </p>
+        {{ govukWarningText({
+            text: 'You must be sure the data in your MIS is correct before you begin.',
+            iconFallbackText: 'Warning'
+        }) }}
     </div>
     <div class="govuk-grid-column-one-half" style="text-align: right;">
         <span class="govuk-caption-l">Data sent on 11:21 16 May 2019</span>
@@ -91,7 +95,7 @@ window.location.href = 'handled'
             items: [
                 notesMenuItem if school.newNote == 'true',
                 {
-                    text: (queriesTotal + ' replies needed' if queriesTotal != 1 else '1 reply needed') if isReplying else (queriesTotal + ' issues' if queriesTotal != 1 else '1 issue'),
+                    text: (queriesTotal + ' replies needed' if queriesTotal != 1 else '1 reply needed') if isReplying else (queriesTotal + ' issues to resolve' if queriesTotal != 1 else '1 issue to resolve'),
                     href: 'queries',
                     active: true
                 }, 
@@ -229,12 +233,12 @@ window.location.href = 'handled'
                                             <input type="hidden" name="numberOfPupilsMoved" value="0">
                                             <input type="hidden" name="selected-query" value="{{ query.id }}">
                                             <button type="submit" class="govuk-button">
-                                                Explain
+                                                Resolve
                                             </button>
                                         </form>
                                     {% else %}
                                     <button type="button" class="govuk-button open-dialog">
-                                        Explain
+                                        Resolve
                                     </button>
                                     {% endif %}
                                     
@@ -272,12 +276,30 @@ window.location.href = 'handled'
     <form class="internal-form" action="/add-explanation">
     <div class="error-warning">
 
-        {{ govukWarningText({
-            html: 'This data should be corrected in your MIS. We can only accept an explanation for this error in certain cases.' | safe,
-            iconFallbackText: 'Warning'
+        {{ govukRadios({
+            idPrefix: 'resolve-action',
+            name: 'resolve-action',
+            fieldset: {
+                legend: {
+                    text: 'Resolution',
+                    isPageHeading: false,
+                    classes: 'govuk-visually-hidden'
+                }
+            },
+            items: [
+                {
+                    text: 'I’ll correct the data in my MIS',
+                    value: 'mis'
+                },
+                {
+                    text: 'There is a reason I cannot correct the data',
+                    value: 'explain',
+                    conditional: {
+                        html: responseHTML
+                    }
+                }
+            ]
         }) }}
-
-        {{ responseHTML | safe }}
     </div>
     
     <div class="query-warning">
