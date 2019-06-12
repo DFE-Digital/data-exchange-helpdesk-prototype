@@ -629,3 +629,26 @@ tr.no-results-row span {
 		margin-right: 0;
 	}
 }
+
+.app-callout-container {
+	text-align: right;
+}
+
+.app-callout {
+	display: inline-block;
+	text-align: left;
+	background: $govuk-brand-colour;
+	color: white;
+	padding: 20px;
+	font-family: $govuk-font-family;
+
+	p {
+		max-width: 325px;
+	}
+
+	*,
+	.govuk-link--no-visited-state,
+	.govuk-link--no-visited-state:visited {
+		color: white;
+	}
+}

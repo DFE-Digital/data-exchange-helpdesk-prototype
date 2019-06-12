@@ -114,12 +114,12 @@
                 } if handledCount != 0,
                 {
                     text: 'Census data',
-                    href: 'census-data',
-                    active: true
+                    href: 'census-data'
                 },
                 {
                     text: 'Reports',
-                    href: 'reports'
+                    href: 'reports',
+                    active: true
                 }
                 ]
             }) }} 
@@ -132,46 +132,20 @@
 
 <div class="govuk-grid-row">
 
-    <div class="govuk-grid-column-full">
+    <div class="govuk-grid-column-one-half">
         
-        {% set summaryHTML  %}
-            {% include './census/census-summary.html' %}
-        {% endset -%}
+        <h3 class="govuk-heading-m">Absence insight report</h3>
 
-        {% set schoolHTML  %}
-            {% include './census/school.html' %}
-        {% endset -%}
+        <p>
+            View the absence data for Lake Sigmund Secondary School and see how it compares nationally both during and after the school census window.
+        </p>
 
-        {% set pupilsHTML  %}
-            {% include './census/pupils.html' %}
-        {% endset -%}
-
-
-        {{ govukTabs({
-            items: [
-                {
-                    label: 'Summary report',
-                    id: 'summary',
-                    panel: {
-                        html: summaryHTML
-                    }
-                },
-                {
-                    label: 'School details',
-                    id: 'school',
-                    panel: {
-                        html: schoolHTML
-                    }
-                },
-                {
-                    label: 'Pupil details',
-                    id: 'pupil',
-                    panel: {
-                        html: pupilsHTML
-                    }
-                }
-            ]
+        {{ govukButton({
+            text: 'Open report',
+            href: 'absence-insight.html',
+            classes: ' '
         }) }}
+
     </div>
 
 </div>

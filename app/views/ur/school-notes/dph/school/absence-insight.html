@@ -1,12 +1,53 @@
-
 {% extends 'layout_la.html' %}
 
 {% block pageTitle %}
-  Home
+    Absence insight report
 {% endblock %}
 
-{% block header %}
-    {% include "includes/header.html" %}
+{% set school = data.schools[data['selected-school']] %}
+{% set schoolName = school.name %}
+{% set laestab = school.LAESTAB %}
+{% set queries = school.queries %}
+{% set errors = school.errors %}
+
+{% set handledCount = 0 %}
+{% set notesCount = 0 %}
+{% set queriesTotal = 0 %}
+{% set explanationsTotal = 0 %}
+{% for query in queries %}
+    {% if query.explained != 'true' %}
+        {% if query.pupils %}
+            {% set queriesTotal = queriesTotal + (query.pupils | length) %}
+        {% else %}
+            {% set queriesTotal = queriesTotal + 1 %}
+        {% endif %}
+    {% else %}
+        {% if query.pupils %}
+            {% set explanationsTotal = explanationsTotal + (query.pupils | length) %}
+        {% else %}
+            {% set explanationsTotal = explanationsTotal + 1 %}
+        {% endif %}
+    {% endif %}
+    {% if query['explained'] == 'true' %}
+        {% set handledCount = handledCount + 1 %}
+        {% if query.notes | length %}
+            {% set notesCount = notesCount + 1 %}
+        {% endif %}
+    {% endif %}
+{% endfor %}
+
+{% set pendingCount = (queries | length) - handledCount %}
+{% set isReady = pendingCount == 0 %}
+
+
+{% block postHeader %}
+<div class="hmcts-identity-bar">
+  <div class="hmcts-identity-bar__container">
+    <div class="hmcts-identity-bar__details">
+        <span class="hmcts-identity-bar__title"><b>{{ schoolName }}</b> {{ laestab }} <strong class="govuk-!-padding-right-4"></strong></span>
+    </div>
+  </div>
+</div>
 {% endblock %}
 
 {% block content %}
@@ -66,6 +107,14 @@
         </table>
 
         <p>Report generated on {{ data.time | formatDate }}</p>
+
+        <p>
+            {{ govukButton({
+                text: 'Return to reports',
+                href: 'reports',
+                classes: ' '
+            }) }}
+        </p>
         
     </div>
 </div>

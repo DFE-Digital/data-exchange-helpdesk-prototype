@@ -73,7 +73,17 @@ window.location.href = 'handled'
         </p>
     </div>
     <div class="govuk-grid-column-one-half" style="text-align: right;">
-        <span class="govuk-caption-l">Data sent on 11:21 16 May 2019</span>
+        <div class="app-callout-container">
+            <div class="app-callout">
+                <h3 class="govuk-heading-s">Download all census data</h3>
+                <p class="govuk-body-s">
+                    Download the census data for {{ school.name }}
+                </p>
+                <p class="govuk-body-s">
+                    <a href="#">Download as XML</a> <a href="#" class="govuk-!-margin-left-3">Download as CSV</a>
+                </p>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -100,8 +110,12 @@ window.location.href = 'handled'
                     href: 'handled'
                 } if handledCount != 0,
                 {
-                    text: 'View all census data',
+                    text: 'Census data',
                     href: 'census-data'
+                },
+                {
+                    text: 'Reports',
+                    href: 'reports'
                 }
             ]
         }) }} 

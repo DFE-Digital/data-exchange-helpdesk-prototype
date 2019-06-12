@@ -77,35 +77,36 @@
 
 </div>
 
+{% set findHTML %}
+    <div class="hmcts-search">
+        <form action="" method="get">
+            <div class="govuk-form-group">
+            <label class="govuk-label hmcts-search__label govuk-visually-hidden" for="search-query">
+                Find a query
+            </label>
+            <span id="search-query-hint" class="govuk-hint hmcts-search__hint ">
+                Search by query number or keyword(s)
+            </span>
+            <input class="govuk-input hmcts-search__input " id="search-query" name="search-query" type="search" aria-describedby="search-query-hint" autocomplete="off">
+            </div>
+            <button type="submit" class="govuk-button hmcts-search__button ">
+            Find
+            </button>
+            <button type="submit" class="govuk-button govuk-button-red hmcts-search__button ">
+            Clear
+            </button>
+        </form>
+    </div>
+{% endset %}
 
 <div class="govuk-grid-row">
 
     <div class="govuk-grid-column-one-half">
-        {% set findHTML %}
-        <div class="govuk-!-padding-bottom-5">
-            {{ hmctsSearch({
-                input: {
-                    id: 'search-query',
-                    name: 'search-query'
-                },
-                label: {
-                    text: 'Find a query',
-                    classes: 'govuk-visually-hidden'
-                },
-                hint: {
-                    text: 'Search by query number or keyword(s)'
-                },
-                button: {
-                    text: 'Find'
-                }
-            }) }}
-        </div>
-        {% endset -%}
 
         
         {{ govukDetails({
-        summaryText: "Find a query",
-        html: findHTML
+            summaryText: "Find a query",
+            html: findHTML
         }) }}
 
         <br>
