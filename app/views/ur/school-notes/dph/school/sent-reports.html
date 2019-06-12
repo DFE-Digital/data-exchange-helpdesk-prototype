@@ -48,7 +48,7 @@
     </div>
     <div class="hmcts-identity-bar__details">
 			<span class="hmcts-identity-bar__title"
-				>Data sent on 12 June 2019 at 10:32</span
+				>Data sent on {{ school.submittedDate | friendlyDate }}</span
 			>
 		</div>
   </div>
@@ -59,31 +59,13 @@
 
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-one-half">
-        {% if isReady %}
-            <h1 class="govuk-heading-l">All issues have an explanation</h1>
+            <h1 class="govuk-heading-l">Your census is submitted</h1>
             <p>
-            Check your explanations carefully. You will not be able to view them once they have been sent.
+            The Department for Education received your census on {{ school.submittedDate | friendlyDate }}.
             </p>
             <p>
-            You can then send your explanations to the Department for Education for review.
+            You will be notified if there is any further action required.
             </p>
-            <p>
-            You will be notified when your submission is confirmed, or if you need to give us more information.
-            </p>
-                {{ govukButton({
-                    text: 'Send explanations',
-                    href: 'return-note',
-                    classes: ''
-                }) }}
-        {% else %}
-            <h1 class="govuk-heading-l">Explain the errors and queries in your data</h1>
-            <p>
-            There are some errors and queries with the census data you have sent us.
-            </p>
-            <p>
-            You need to give an explanation for these issues before the census submission deadline.
-            </p>
-        {% endif %}
     </div>
     <div class="govuk-grid-column-one-half" style="text-align: right;">
         <div class="app-callout-container">
@@ -108,22 +90,13 @@
             {{ hmctsSubNavigation({
                 label: 'Sub navigation',
                 items: [
-                    notesMenuItem if school.newNote == 'true',
-                    {
-                    text: (queriesTotal + ' replies needed' if queriesTotal != 1 else '1 reply needed') if isReplying else (queriesTotal + ' issues' if queriesTotal != 1 else '1 issue'),
-                    href: 'queries'
-                }  if not isReady, 
-                {
-                    text: 'Saved explanations',
-                    href: 'handled'
-                } if handledCount != 0,
                 {
                     text: 'Census data',
-                    href: 'census-data'
+                    href: 'sent'
                 },
                 {
                     text: 'Reports',
-                    href: 'reports',
+                    href: 'sent-reports',
                     active: true
                 }
                 ]

@@ -27,6 +27,11 @@
     <div class="hmcts-identity-bar__details">
         <span class="hmcts-identity-bar__title"><b>{{ schoolName }}</b> {{ laestab }} <strong class="govuk-!-padding-right-4"></strong></span>
     </div>
+    <div class="hmcts-identity-bar__details">
+			<span class="hmcts-identity-bar__title"
+				>Census sent on {{ school.submittedDate | friendlyDate }}</span
+			>
+		</div>
   </div>
 </div>
 {% endblock %}
@@ -37,12 +42,51 @@
     <div class="govuk-grid-column-one-half">
             <h1 class="govuk-heading-l">Your census is submitted</h1>
             <p>
-            The Department for Education received your census on {{ school.submittedDate | friendlyDate }}. You will be notified if there is any further action required.
+            The Department for Education received your census on {{ school.submittedDate | friendlyDate }}.
+            </p>
+            <p>
+            You will be notified if there is any further action required.
             </p>
     </div>
     <div class="govuk-grid-column-one-half" style="text-align: right;">
-        <span class="govuk-caption-l">Census sent on {{ school.submittedDate | friendlyDate }}</span>
+        <div class="app-callout-container">
+            <div class="app-callout">
+                <h3 class="govuk-heading-s">Download all census data</h3>
+                <p class="govuk-body-s">
+                    Download the census data for {{ school.name }}
+                </p>
+                <p class="govuk-body-s">
+                    <a href="#">Download as XML</a> <a href="#" class="govuk-!-margin-left-3">Download as CSV</a>
+                </p>
+            </div>
+        </div>
     </div>
+</div>
+
+<div class="govuk-grid-row">
+
+    <div class="govuk-grid-column-full census-case-nav govuk-!-padding-bottom-5">
+
+        
+            {{ hmctsSubNavigation({
+                label: 'Sub navigation',
+                items: [
+                {
+                    text: 'Census data',
+                    href: 'sent',
+                    active: true
+                },
+                {
+                    text: 'Reports',
+                    href: 'sent-reports'
+                }
+                ]
+            }) }} 
+
+       
+
+    </div>
+
 </div>
 
 <div class="govuk-grid-row">
@@ -65,7 +109,7 @@
         {{ govukTabs({
             items: [
                 {
-                    label: 'Summary',
+                    label: 'Summary report',
                     id: 'summary',
                     panel: {
                         html: summaryHTML

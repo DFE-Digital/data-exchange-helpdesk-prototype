@@ -26,14 +26,10 @@
     <div class="hmcts-identity-bar__details">
         <span class="hmcts-identity-bar__title"><b>{{ schoolName }}</b> {{ laestab }} <strong class="govuk-!-padding-right-4"></strong></span>
     </div>
-    <div style="float:right;">
-        {% if (school.explanationsSent != 'true') and (pendingCount == 0) %}
-            {{ govukButton({
-                text: 'Go back',
-                href: 'javascript:history.back()',
-                classes: 'hmcts-menu-item hmcts-button--secondary'
-            }) }}
-        {% endif %}
+    <div class="hmcts-identity-bar__details">
+        <span class="hmcts-identity-bar__title"
+            >Data sent on 12 June 2019 at 10:32</span
+        >
     </div>
   </div>
 </div>
