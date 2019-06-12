@@ -260,7 +260,6 @@ Dialog.prototype.addEventListeners = function(openDialogSel, closeDialogSel) {
 				$('.query-warning [id*=resolve-action]').attr('name', ':')
 				$('.error-warning #reject-reason').attr('name', 'resolve-action')
 				$('.query-warning #reject-reason').attr('name', ':')
-				$('.dialog button[type=submit]:not(.govuk-button-red)').text('Continue')
 			} else {
 				$('.dialog label[for="reject-reason"]').html('Give an explanation')
 				$('.dialog .error-warning').hide()
