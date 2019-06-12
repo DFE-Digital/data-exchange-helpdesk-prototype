@@ -167,10 +167,6 @@ getById(data['selected-query']) %} {% block pageTitle %}
 	<div class="govuk-grid-column-one-half">
 	
 			{% if query.category != 'error' %}
-				{{ govukWarningText({
-					text: 'You must check the data in your MIS is correct for ' + ('each pupil' if query['pupils'] | length > 1 else 'this pupil') + '.',
-					iconFallbackText: 'Warning'
-				}) }}
 				<p>
 				<strong>If you are sure the data in your MIS is correct - </strong>
 			{{ query.guide }}</p>
