@@ -24,6 +24,8 @@ getById(data['selected-query']) %} {% block pageTitle %}
 {% set isExplained = query.explained == 'true' %}
 {% set isMultiple = query.pupils | length != 1 %}
 
+{% set isSent = school.schoolSent == 'true' %}
+
 <div class="govuk-grid-row">
 	<div class="govuk-grid-column-full census-case-nav">
 		{{
@@ -97,14 +99,16 @@ getById(data['selected-query']) %} {% block pageTitle %}
 </div>
 {% endif %}
 
-{% if isMultiple %}
-	<form action="/add-selected-explanation" class="pupil-select-form">
-{% else %}
-	<form action="/add-explanation" class="pupil-select-form">
-{% endif %}
+{% if not isSent %}
+	{% if isMultiple %}
+		<form action="/add-selected-explanation" class="pupil-select-form">
+	{% else %}
+		<form action="/add-explanation" class="pupil-select-form">
+	{% endif %}
 
-{% if isMultiple and isExplained %}
-<form action="/undo-selected-explanation" class="pupil-select-form">
+	{% if isMultiple and isExplained %}
+	<form action="/undo-selected-explanation" class="pupil-select-form">
+	{% endif %}
 {% endif %}
 
 <div class="govuk-grid-row">
@@ -168,30 +172,51 @@ getById(data['selected-query']) %} {% block pageTitle %}
 	</div>
 </div>
 
-<div class="govuk-grid-row">
-	<div class="govuk-grid-column-one-half">
-	
-			{% if query.category != 'error' %}
-				<p>
-				<strong>If you are sure the data in your MIS is correct - </strong>
-			{{ query.guide }}</p>
-			{% endif %}
+{% if not isSent %}
+
+	<div class="govuk-grid-row">
+		<div class="govuk-grid-column-one-half">
 		
+				{% if query.category != 'error' %}
+					<p>
+					<strong>If you are sure the data in your MIS is correct - </strong>
+				{{ query.guide }}</p>
+				{% endif %}
+			
 
-		{% if not isExplained %}
+			{% if not isExplained %}
 
-		{% if query.category == 'error' %}
+			{% if query.category == 'error' %}
 
-			{{ govukWarningText({
-				html: 'This data should be corrected in your MIS. We can only accept an explanation for this error in certain cases.' | safe,
-				iconFallbackText: 'Warning'
-			}) }}
+				{{ govukWarningText({
+					html: 'This data should be corrected in your MIS. We can only accept an explanation for this error in certain cases.' | safe,
+					iconFallbackText: 'Warning'
+				}) }}
 
-		{% endif %}
+			{% endif %}
 
-			{% if isMultiple %}
+				{% if isMultiple %}
 
-				<div class="explanation-field" style="display: none;">
+					<div class="explanation-field" style="display: none;">
+						{{ govukTextarea({
+							id: 'explanation-content',
+							name: 'response-note',
+							classes: 'govuk-input--width-30',
+							label: {
+								text: 'Explanation' if query.category == 'query' else 'Explain why you cannot correct this data'
+							}
+						}) }}
+					</div>
+
+					{{ govukButton({
+						html: 'Save explanation for selected pupils',
+						classes: 'selected-button',
+						disabled: true
+					}) }}
+
+				{% else %}
+
+
 					{{ govukTextarea({
 						id: 'explanation-content',
 						name: 'response-note',
@@ -200,65 +225,48 @@ getById(data['selected-query']) %} {% block pageTitle %}
 							text: 'Explanation' if query.category == 'query' else 'Explain why you cannot correct this data'
 						}
 					}) }}
-				</div>
-
-				{{ govukButton({
-					html: 'Save explanation for selected pupils',
-					classes: 'selected-button',
-					disabled: true
-				}) }}
-
-			{% else %}
 
 
-				{{ govukTextarea({
-					id: 'explanation-content',
-					name: 'response-note',
-					classes: 'govuk-input--width-30',
-					label: {
-						text: 'Explanation' if query.category == 'query' else 'Explain why you cannot correct this data'
-					}
-				}) }}
+					{{ govukButton({
+						html: 'Save explanation'
+					}) }}
 
-
-				{{ govukButton({
-					html: 'Save explanation'
-				}) }}
+				{% endif %}
 
 			{% endif %}
 
-		{% endif %}
-
-		{% if isExplained %}
+			{% if isExplained %}
 
 
-			{% if isMultiple %}
+				{% if isMultiple %}
 
-				{{ govukButton({
-					html: 'Undo explanation for selected pupils',
-					classes: 'govuk-button-red selected-button',
-					disabled: true
-				}) }}
+					{{ govukButton({
+						html: 'Undo explanation for selected pupils',
+						classes: 'govuk-button-red selected-button',
+						disabled: true
+					}) }}
 
-			{% else %}
+				{% else %}
 
-				{{ govukButton({
-					text: 'Undo explanation',
-					href: '/undo-selected-explanation?selected-pupils=['+ query.pupils[0].id +']',
-					classes: 'govuk-button-red selected-button'
-				}) }}
+					{{ govukButton({
+						text: 'Undo explanation',
+						href: '/undo-selected-explanation?selected-pupils=['+ query.pupils[0].id +']',
+						classes: 'govuk-button-red selected-button'
+					}) }}
+
+				{% endif %}
 
 			{% endif %}
 
-		{% endif %}
+			<p><a href="{{ 'handled' if isExplained else 'queries' }}">Cancel</a></p>
 
-		<p><a href="{{ 'handled' if isExplained else 'queries' }}">Cancel</a></p>
-
+		</div>
 	</div>
-</div>
 
-{% if not isExplained or isMultiple %}
-</form>
+	{% if not isExplained or isMultiple %}
+	</form>
+	{% endif %}
+
 {% endif %}
 <div class="govuk-grid-row">
 	<div class="govuk-grid-column-one-half">

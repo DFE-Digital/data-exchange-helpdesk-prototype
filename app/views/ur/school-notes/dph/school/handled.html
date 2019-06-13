@@ -64,6 +64,19 @@
 
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-one-half">
+    {% set isSent = school.schoolSent == 'true' %}
+    {% if isSent %}
+        <h1 class="govuk-heading-l">Explanantions have been sent for review</h1>
+        <p>
+        The Department for Education received your explanations on {{ school.submittedDate | friendlyDate }}.
+        </p>
+        <p>
+            <b>No further action is required at this time.</b>
+        </p>
+        <p>
+        You will be notified if we have questions about your census.
+        </p>
+    {% else %}
         {% if isReady %}
             <h1 class="govuk-heading-l">All issues have an explanation</h1>
             <p>
@@ -89,6 +102,7 @@
             You need to give an explanation for these issues before the census submission deadline.
             </p>
         {% endif %}
+    {% endif %}
     </div>
     <div class="govuk-grid-column-one-half" style="text-align: right;">
         <div class="app-callout-container">
@@ -128,7 +142,7 @@
                     href: 'queries'
                 } if not isReady, 
                 {
-                    text: 'Saved explanations',
+                    text: 'Explanations in review' if isSent else 'Saved explanations',
                     href: 'handled',
                     active: true
                 },
@@ -162,6 +176,7 @@
 </div>
 
 {% else %}
+
 
 <div class="govuk-grid-row">
 
@@ -211,7 +226,7 @@
                             <td class="govuk-table__cell notes width-medium">
                                 <div class="explanation-container govuk-!-margin-bottom-2">
                                     <p style="margin-bottom: 10px;">
-                                        <strong>Saved explanation for
+                                        <strong>{{'Explanation' if isSent else 'Saved explanation'}} for
                                         {% if query['type'] == 'pupil' and query['pupils'] | length != 0 %}
                                             <a href="single-query?selected-query={{ query.id }}&numberOfPupilsMoved=0" style="text-decoration: underline;"> 
                                                 {% if query['pupils'] | length != 1 %}
@@ -235,15 +250,17 @@
                                     {% endif %}
                                 {% endfor -%}
                                 </div>
-                                {% if not query.pupils %}
-                               <button type="button" class="govuk-button govuk-button-small govuk-button-red open-dialog">
-                                Undo explanation
-                               {% else %}
-                                {{ govukButton({
-                                    text: 'Undo explanation for ' + (query['pupils'] | length) + ' pupil' + ('s' if query['pupils'] | length > 1) if (query.pupils | length > 1) + 'Undo explanation',
-                                    href: 'single-query?selected-query=' + query.id + '&numberOfPupilsMoved=0',
-                                    classes: 'govuk-button-small govuk-button-red'
-                                }) }}
+                                {% if not isSent %}
+                                    {% if not query.pupils %}
+                                <button type="button" class="govuk-button govuk-button-small govuk-button-red open-dialog">
+                                    Undo explanation
+                                {% else %}
+                                    {{ govukButton({
+                                        text: 'Undo explanation for ' + (query['pupils'] | length) + ' pupil' + ('s' if query['pupils'] | length > 1) if (query.pupils | length > 1) + 'Undo explanation',
+                                        href: 'single-query?selected-query=' + query.id + '&numberOfPupilsMoved=0',
+                                        classes: 'govuk-button-small govuk-button-red'
+                                    }) }}
+                                {% endif %}
                                {% endif %}
                                </button>
                             </td>
