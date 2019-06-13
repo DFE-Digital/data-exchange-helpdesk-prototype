@@ -79,29 +79,31 @@
 
 </div>
 
+{% set findHTML %}
+    <div class="hmcts-search">
+        <form action="" method="get">
+            <div class="govuk-form-group">
+            <label class="govuk-label hmcts-search__label govuk-visually-hidden" for="search-error">
+                Find a error
+            </label>
+            <span id="search-error-hint" class="govuk-hint hmcts-search__hint ">
+                Search by error number or keyword(s)
+            </span>
+            <input class="govuk-input hmcts-search__input " id="search-error" name="search-error" type="search" aria-describedby="search-error-hint" autocomplete="off">
+            </div>
+            <button type="submit" class="govuk-button hmcts-search__button ">
+            Find
+            </button>
+            <button type="submit" class="govuk-button govuk-button-red hmcts-search__button ">
+            Clear
+            </button>
+        </form>
+    </div>
+{% endset -%}
+
 <div class="govuk-grid-row">
 
     <div class="govuk-grid-column-one-half">
-        {% set findHTML %}
-        <div class="govuk-!-padding-bottom-5">
-            {{ hmctsSearch({
-                input: {
-                    id: 'search-error',
-                    name: 'search-error'
-                },
-                label: {
-                    text: 'Find an error',
-                    classes: 'govuk-visually-hidden'
-                },
-                hint: {
-                    text: 'Search by error number or keyword(s)'
-                },
-                button: {
-                    text: 'Find'
-                }
-            }) }}
-        </div>
-        {% endset -%}
 
         
         {{ govukDetails({
@@ -139,7 +141,7 @@
                 {% for error in errors | sort(false, true, 'number') %}
                     {% set consolidatedError = false %}
                     <tr class="govuk-table__row">
-                        <th class="govuk-table__header query-description" scope="row" data-sort-value="{{ error['number'] }}">
+                        <th class="govuk-table__header query-description error-description" scope="row" data-sort-value="{{ error['number'] }}">
                             <h3 class="govuk-heading-m" style="margin-bottom: 5px;">
                                 {{ error['number'] }}
                             </h3>
@@ -195,6 +197,18 @@
 
     var table = document.getElementById('errorTable')
     new SortableTable(table)
+
+    $('#search-error').on('input', function() {
+        var value = $(this).val();
+        $('.error-description').each(function() {
+            var errorDesc = $(this).html();
+            if (!errorDesc.toLowerCase().includes(value.toLowerCase())) {
+                $(this).closest('tr').hide();
+            } else {
+                $(this).closest('tr').show();
+            }
+        })
+    })
 
 </script>
 {% endblock %}

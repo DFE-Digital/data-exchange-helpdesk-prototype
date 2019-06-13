@@ -4,7 +4,9 @@ data['schools'][schoolIndex] %} {% set schoolName = school['name'] %} {% set
 laestab = school['LAESTAB'] %} {% set query = school['queries'] |
 getById(data['selected-query']) %} {% block pageTitle %}
 {{ query.number }}
-{% endblock %} {% block postHeader %}
+{% endblock %}
+{% set isSent = school.schoolSent == 'true' %}
+{% block postHeader %}
 <div class="hmcts-identity-bar">
 	<div class="hmcts-identity-bar__container">
 		<div class="hmcts-identity-bar__details">
@@ -13,9 +15,13 @@ getById(data['selected-query']) %} {% block pageTitle %}
 			>
 		</div>
 		<div class="hmcts-identity-bar__details">
-			<span class="hmcts-identity-bar__title"
-				>Data sent on 12 June 2019 at 10:32</span
-			>
+			<span class="hmcts-identity-bar__title">
+			{% if isSent %}
+				Explanations sent {{school.submittedDate | friendlyDate(data.time)}}
+			{% else %}
+				Data sent on 12 June 2019 at 10:32
+			{% endif %}
+			</span>
 		</div>
 	</div>
 </div>
@@ -23,8 +29,6 @@ getById(data['selected-query']) %} {% block pageTitle %}
 
 {% set isExplained = query.explained == 'true' %}
 {% set isMultiple = query.pupils | length != 1 %}
-
-{% set isSent = school.schoolSent == 'true' %}
 
 <div class="govuk-grid-row">
 	<div class="govuk-grid-column-full census-case-nav">
