@@ -74,22 +74,19 @@
             <b>No further action is required at this time.</b>
         </p>
         <p>
-        You will be notified if we have questions about your census.
+        You will be notified when your submission is confirmed, or if we have questions about your census.
         </p>
     {% else %}
         {% if isReady %}
             <h1 class="govuk-heading-l">All issues have an explanation</h1>
             <p>
-            Check your explanations carefully. You will not be able to view them once they have been sent.
+            Check your explanations carefully. You will not be able to change them once they have been sent for review.
             </p>
             <p>
-            You can then send your explanations to the Department for Education for review.
-            </p>
-            <p>
-            You will be notified when your submission is confirmed, or if you need to give us more information.
+            You will be notified when your submission is confirmed, or if we have questions about your census.
             </p>
                 {{ govukButton({
-                    text: 'Send explanations',
+                    text: 'Send explanations for review',
                     href: 'return-note',
                     classes: ''
                 }) }}

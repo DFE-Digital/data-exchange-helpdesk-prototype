@@ -3,22 +3,25 @@
     <div class="govuk-grid-column-one-half">
         {% set findHTML %}
         <div class="govuk-!-padding-bottom-5">
-            {{ hmctsSearch({
-                input: {
-                    id: 'search-pupils',
-                    name: 'search-pupils'
-                },
-                label: {
-                    text: 'Find a pupil',
-                    classes: 'govuk-visually-hidden'
-                },
-                hint: {
-                    text: 'Search by pupil UPN or name'
-                },
-                button: {
-                    text: 'Find'
-                }
-            }) }}
+            <div class="hmcts-search">
+                <form action="" method="get">
+                    <div class="govuk-form-group">
+                    <label class="govuk-label hmcts-search__label govuk-visually-hidden" for="search-pupils">
+                        Find a pupil
+                    </label>
+                    <span id="search-pupils-hint" class="govuk-hint hmcts-search__hint ">
+                        Search by pupil UPN or name
+                    </span>
+                    <input class="govuk-input hmcts-search__input " id="search-pupils" name="search-pupils" type="search" aria-describedby="search-pupils-hint" autocomplete="off">
+                    </div>
+                    <button type="submit" class="govuk-button hmcts-search__button ">
+                    Find
+                    </button>
+                    <button type="submit" class="govuk-button govuk-button-red hmcts-search__button ">
+                    Clear
+                    </button>
+                </form>
+            </div>
         </div>
         {% endset -%}
 
