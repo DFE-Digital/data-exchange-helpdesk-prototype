@@ -1,0 +1,232 @@
+{% extends 'layout_la.html' %}
+
+{% block pageTitle %}
+    Census data
+{% endblock %}
+
+{% set school = data.schools[data['selected-school']] %}
+{% set schoolName = school.name %}
+{% set laestab = school.LAESTAB %}
+{% set queries = school.queries %}
+{% set errors = school.errors %}
+
+{% set handledCount = 0 %}
+{% set notesCount = 0 %}
+{% set queriesTotal = 0 %}
+{% set explanationsTotal = 0 %}
+{% for query in queries %}
+    {% if query.explained != 'true' %}
+        {% if query.pupils %}
+            {% set queriesTotal = queriesTotal + (query.pupils | length) %}
+        {% else %}
+            {% set queriesTotal = queriesTotal + 1 %}
+        {% endif %}
+    {% else %}
+        {% if query.pupils %}
+            {% set explanationsTotal = explanationsTotal + (query.pupils | length) %}
+        {% else %}
+            {% set explanationsTotal = explanationsTotal + 1 %}
+        {% endif %}
+    {% endif %}
+    {% if query['explained'] == 'true' %}
+        {% set handledCount = handledCount + 1 %}
+        {% if query.notes | length %}
+            {% set notesCount = notesCount + 1 %}
+        {% endif %}
+    {% endif %}
+{% endfor %}
+
+{% set pendingCount = (queries | length) - handledCount %}
+{% set isReady = pendingCount == 0 %}
+{% set isSent = school.schoolSent == 'true' %}
+
+{% block postHeader %}
+<div class="hmcts-identity-bar">
+	<div class="hmcts-identity-bar__container">
+		<div class="hmcts-identity-bar__details">
+			<span class="hmcts-identity-bar__title"
+				><b>{{ schoolName }}</b> {{ laestab }}</span
+			>
+		</div>
+		<div class="hmcts-identity-bar__details">
+			<span class="hmcts-identity-bar__title">
+			{% if isSent %}
+				Explanations sent {{school.submittedDate | friendlyDate(data.time)}}
+			{% else %}
+				Data sent on 12 June 2019 at 10:32
+			{% endif %}
+			</span>
+		</div>
+	</div>
+</div>
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-one-half">
+    {% if isSent %}
+        <h1 class="govuk-heading-l">Explanations have been sent for review</h1>
+        <p>
+        The Department for Education received your explanations on {{ school.submittedDate | friendlyDate }}.
+        </p>
+        <p>
+            <b>No further action is required at this time.</b>
+        </p>
+        <p>
+        You will be notified when your submission is confirmed or if we have questions about your census.
+        </p>
+    {% else %}
+        {% if isReady %}
+            <h1 class="govuk-heading-l">All issues have an explanation</h1>
+            <p>
+            Check your explanations carefully. You will not be able to change them once they have been sent for review.
+            </p>
+            <p>
+            You will be notified when your submission is confirmed or if we have questions about your census.
+            </p>
+                {{ govukButton({
+                    text: 'Send explanations for review',
+                    href: 'return-note',
+                    classes: ''
+                }) }}
+        {% else %}
+            <h1 class="govuk-heading-l">Explain the errors and queries in your data</h1>
+            <p>
+            There are some errors and queries with the census data you have sent us.
+            </p>
+            <p>
+            You need to give an explanation for these issues before the census submission deadline.
+            </p>
+        {% endif %}
+    {% endif %}
+    </div>
+    <div class="govuk-grid-column-one-half" style="text-align: right;">
+        <div class="app-callout-container">
+            <div class="app-callout">
+                <h3 class="govuk-heading-s">Download all census data</h3>
+                <p class="govuk-body-s">
+                    Download the census data for {{ school.name }}
+                </p>
+                <p class="govuk-body-s">
+                    <a href="#">Download as XML</a> <a href="#" class="govuk-!-margin-left-3">Download as CSV</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="govuk-grid-row">
+
+    <div class="govuk-grid-column-full census-case-nav govuk-!-padding-bottom-5">
+
+        
+            {{ hmctsSubNavigation({
+                label: 'Sub navigation',
+                items: [
+                    notesMenuItem if school.newNote == 'true',
+                    {
+                    text: (queriesTotal + ' replies needed' if queriesTotal != 1 else '1 reply needed') if isReplying else (queriesTotal + ' issues' if queriesTotal != 1 else '1 issue'),
+                    href: 'queries'
+                }  if not isReady, 
+                {
+                    text: 'Explanations in review' if isSent else 'Saved explanations',
+                    href: 'handled'
+                } if handledCount != 0,
+                {
+                    text: 'Census data',
+                    href: 'census-data',
+                    active: true
+                },
+                {
+                    text: 'Reports',
+                    href: 'reports'
+                }
+                ]
+            }) }} 
+
+       
+
+    </div>
+
+</div>
+
+<div class="govuk-grid-row">
+
+    <div class="govuk-grid-column-full">
+        
+        {% set summaryHTML  %}
+            {% include './census/census-summary.html' %}
+        {% endset -%}
+
+        {% set schoolHTML  %}
+            {% include './census/school.html' %}
+        {% endset -%}
+
+        {% set pupilsHTML  %}
+            {% include './census/pupils.html' %}
+        {% endset -%}
+
+
+        {{ govukTabs({
+            items: [
+                {
+                    label: 'Summary',
+                    id: 'summary',
+                    panel: {
+                        html: summaryHTML
+                    }
+                },
+                {
+                    label: 'School details',
+                    id: 'school',
+                    panel: {
+                        html: schoolHTML
+                    }
+                },
+                {
+                    label: 'Pupil details',
+                    id: 'pupil',
+                    panel: {
+                        html: pupilsHTML
+                    }
+                }
+            ]
+        }) }}
+    </div>
+
+</div>
+
+{% endblock %}
+
+{% block pageScripts %}
+
+<script>
+
+    var table = document.getElementById('pupilsTable')
+    new SortableTable(table)
+
+    var navDialogEl = document.querySelector('.dialog');
+    var dialogOverlay = document.querySelector('.dialog-overlay');
+    
+    var myDialog = new Dialog(navDialogEl, dialogOverlay);
+    myDialog.addEventListeners('.open-dialog', '.close-dialog');
+
+    $('.open-dialog').on('click', function() {
+    var upn = $(this).closest('tr').find('.upn').text();
+    var name = $(this).closest('tr').find('.name').text();
+    var lname = $(this).closest('tr').find('.last-name').text();
+    var fname = $(this).closest('tr').find('.first-name').text();
+    var dob = $(this).closest('tr').find('.dob').text();
+    $('.dialog .upn-container').html(upn);
+    $('.dialog .name-container').html(name);
+    $('.dialog .lname-container').html(lname);
+    $('.dialog .fname-container').html(fname);
+    $('.dialog .dob-container').html(dob);
+
+    })
+
+</script>
+
+{% endblock %}

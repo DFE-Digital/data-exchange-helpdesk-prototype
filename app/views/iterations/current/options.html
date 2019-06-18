@@ -1,79 +1,72 @@
 {% extends 'layout.html' %}
 
 {% block pageTitle %}
-    Prototype options
+    Configure prototype
 {% endblock %}
 
 {% block content %}
 
 <div class="govuk-grid-row">
 
-    <div class="govuk-grid-column-two-thirds">
-
-        {{ govukBackLink({
-            text: 'Back',
-            href: 'javascript:history.back()'
-        }) }}
-
-        <h1 class="govuk-heading-xl">Data provider hub simulation options</h1>
-
-    </div>
-
-</div>
-
-<div class="govuk-grid-row">
-
         <div class="govuk-grid-column-two-thirds">
+
+            {{ govukBackLink({
+                text: 'Back',
+                href: 'javascript:history.back()'
+            }) }}
 
             <form method="post">
 
+                <h1 class="govuk-heading-xl">Configure prototype</h1>
+
+                {% set schoolPreferencesHTML %}
+
+                    {{ govukInput({
+                        id: 'set-school-name',
+                        name: 'set-school-name',
+                        value: data['set-school-name'] if data['set-school-name'] else '' | randomSchool,
+                        label: {
+                            text: 'School name'
+                        },
+                        classes: 'govuk-input--width-20'
+                    }) }}
+
+                    {{ govukInput({
+                        id: 'set-school-user-name',
+                        name: 'set-school-user-name',
+                        value: data['set-school-user-name'] if data['set-school-user-name'] else '' | randomName,
+                        label: {
+                            text: 'School data provider’s name'
+                        },
+                        classes: 'govuk-input--width-20'
+                    }) }}
+
+                {% endset %}
+
                 {{ govukRadios({
-                    idPrefix: 'user-type',
-                    name: 'user-type',
+                    idPrefix: 'set-user-type',
+                    name: 'set-user-type',
                     fieldset: {
                         legend: {
                             text: 'User type',
                             isPageHeading: true,
-                            classes: 'govuk-fieldset__legend--m'
+                            classes: 'govuk-fieldset__legend--l'
                         }
                     },
                     items: [
                         {
-                            text: 'Collector',
-                            value: 'collector',
-                            checked: true
-                        },
-                        {
-                            text: 'Collection lead',
-                            value: 'lead'
-                        },
-                        {
                             text: 'School',
-                            value: 'school'
+                            value: 'school',
+                            conditional : { html: schoolPreferencesHTML }
                         },
                         {
-                            text: 'Local authority',
-                            value: 'la'
-                        },
-                        {
-                            text: 'MAT',
-                            value: 'mat'
+                            text: 'Collector',
+                            value: 'collector'
                         }
                     ]
                 }) }}
 
-                {{ govukInput({
-                    id: 'username',
-                    name: 'username',
-                    value: data['username'] if data['username'] else '' | randomName,
-                    classes: 'govuk-input--width-20',
-                    label: {
-                        text: 'User’s name',
-                        classes: 'govuk-input--width-20'
-                    }
-                }) }}
-                
-                
+                <input type="hidden" name="set-use-defined-queries" value="true">
 
                 {{ govukButton({
                     html: 'Save and continue'
@@ -83,30 +76,18 @@
 
         </div>
 
-        <div class="govuk-grid-column-one-third">
-
-            <h2 class="govuk-heading-m">Other journeys</h2>
-            
-            <ul class="govuk-list">
-                <li>
-                    <a href="mis/home?connected=false">Authorisation journey</a>
-                </li>
-            </ul>
-
-        </div>
-
 </div>
 
+<script>
+
+    var nextPageRoutes = {
+        school: '/load-school',
+        collector: 'dph/internal/school-list'
+    }
+
+</script>
+
 {% endblock %}
 
-{% block pageScripts %}
-<script>
-    nextPageRoutes = {
-        collector: 'helpdesk/my-queue',
-        lead: 'helpdesk/my-queue',
-        school: 'school/overview',
-        la: 'helpdesk/my-queue',
-        mat: 'helpdesk/my-queue'
-    }
-</script>
-{% endblock %}
+
+
