@@ -1,0 +1,111 @@
+{% extends 'layout_la.html' %}
+
+{% block pageTitle %}
+    Reports
+{% endblock %}
+
+{% set school = data.schools[data['selected-school']] %}
+{% set schoolName = school.name %}
+{% set laestab = school.LAESTAB %}
+{% set queries = school.queries %}
+{% set errors = school.errors %}
+
+{% set handledCount = 0 %}
+{% for query in queries %}
+    {% if query['explained'] == 'true' %}
+        {% set handledCount = handledCount + 1 %}
+    {% endif %}
+{% endfor %}
+
+{% set pendingCount = (queries | length) - handledCount %}
+
+
+{% block postHeader %}
+<div class="hmcts-identity-bar">
+  <div class="hmcts-identity-bar__container">
+    <div class="hmcts-identity-bar__details">
+        <span class="hmcts-identity-bar__title"><b>{{ schoolName }}</b> {{ laestab }} <strong class="govuk-!-padding-right-4"></strong></span>
+    </div>
+    <div style="float:right;">
+        {% if (school.responsesSent != 'true') and (pendingCount == 0) %}
+            {{ govukButton({
+                text: 'Submit census',
+                href: 'return-note',
+                classes: 'hmcts-menu-item'
+            }) }}
+        {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block content %}
+    
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+        {{ govukBackLink({
+          text: 'Back',
+          href: 'javascript:history.back()'
+        }) }}
+
+        <h1 class="govuk-heading-xl">Absence insight report</h1>
+        <div class="note-to-user govuk-!-padding-4 govuk-!-margin-bottom-5">
+        {% if data['report-is-within-window'] == 'no' %}
+            <p class="govuk-!-font-size-16">The data collection is now closed, these figures will not change.  These figures are presented here for management purposes only, final official statistics (for all schools in England) will be published through the school absence national statistics releases.</p>
+        {% else %}
+            <p class="govuk-!-font-size-16">This data is being calculated periodically as live information is collected by DfE and therefore intermediate figures may not be representative of the final picture.  These figures are presented here for management purposes only, final official statistics (for all schools in England) will be published through the school absence national statistics releases.</p>
+
+        {% endif %}
+        
+        <p class="govuk-!-font-size-16">The data used in these releases undergoes a data linking and cleaning process before publishing and therefore may not match National figures shown here.</p>
+        </div>
+        <table class="govuk-table">
+          <thead class="govuk-table__head">
+            <tr class="govuk-table__row">
+              <th class="govuk-table__header" scope="col">&nbsp;</th>
+              <th class="govuk-table__header govuk-table__header--numeric" scope="col">Overall absence rate</th>
+              <th class="govuk-table__header govuk-table__header--numeric" scope="col">Authorised absence rate</th>
+              <th class="govuk-table__header govuk-table__header--numeric" scope="col">Unauthorised absence rate</th>
+              <th class="govuk-table__header govuk-table__header--numeric" scope="col">Persistent absence rate</th>
+            </tr>
+          </thead>
+          <tbody class="govuk-table__body">
+            <tr class="govuk-table__row">
+              <th class="govuk-table__header" scope="row">School % this term</th>
+              <td class="govuk-table__cell govuk-table__cell--numeric">8.5%</td>
+              <td class="govuk-table__cell govuk-table__cell--numeric">7.3%</td>
+              <td class="govuk-table__cell govuk-table__cell--numeric">1.2%</td>
+              <td class="govuk-table__cell govuk-table__cell--numeric">2.0%</td>
+            </tr>
+            <tr class="govuk-table__row">
+              <th class="govuk-table__header" scope="row">National average % this term</th>
+              <td class="govuk-table__cell govuk-table__cell--numeric">9.0%</td>
+              <td class="govuk-table__cell govuk-table__cell--numeric">8.0%</td>
+              <td class="govuk-table__cell govuk-table__cell--numeric">1.0%</td>
+              <td class="govuk-table__cell govuk-table__cell--numeric">3.0%</td>
+            </tr>
+            <tr class="govuk-table__row">
+              <th class="govuk-table__header" scope="row">School % last year</th>
+              <td class="govuk-table__cell govuk-table__cell--numeric">10.1%</td>
+              <td class="govuk-table__cell govuk-table__cell--numeric">7.1%</td>
+              <td class="govuk-table__cell govuk-table__cell--numeric">3.0%</td>
+              <td class="govuk-table__cell govuk-table__cell--numeric">2.1%</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <p>Report generated on {{ data.time | formatDate }}</p>
+
+        <p>
+            {{ govukButton({
+                text: 'Return to reports',
+                href: 'reports',
+                classes: ' '
+            }) }}
+        </p>
+        
+    </div>
+</div>
+
+{% endblock %}

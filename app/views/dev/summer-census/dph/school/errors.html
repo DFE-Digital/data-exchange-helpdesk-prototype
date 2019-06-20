@@ -47,6 +47,28 @@
 {% block content %}
 
 <div class="govuk-grid-row">
+    <div class="govuk-grid-column-one-half">
+        <h1 class="govuk-heading-l">Summer census submission summary</h1>
+        <p>
+            When launched, you will be able to use this service to give explanations for the errors and queries in your data. You will also be able to provide additional information to help us authorise your census submission.
+        </p>
+    </div>
+    <div class="govuk-grid-column-one-half" style="text-align: right;">
+        <div class="app-callout-container">
+            <div class="app-callout">
+                <h3 class="govuk-heading-s">Download all census data</h3>
+                <p class="govuk-body-s">
+                    Download the census data for {{ school.name }}
+                </p>
+                <p class="govuk-body-s">
+                    <a href="#">Download as XML</a> <a href="#" class="govuk-!-margin-left-3">Download as CSV</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="govuk-grid-row">
 
     <div class="govuk-grid-column-full census-case-nav govuk-!-padding-bottom-5">
 
@@ -69,8 +91,12 @@
                     active: true
                 },
                 {
-                    text: 'View all census data',
+                    text: 'Census data',
                     href: 'census-data'
+                },
+                {
+                    text: 'Reports',
+                    href: 'reports'
                 }
             ]
         }) }} 
