@@ -80,14 +80,8 @@ window.location.href = 'handled'
         There are some errors and queries with the census data you have sent us.
         </p>
         <p>
-        You need to give an explanation for these issues before the census submission deadline on 6 July 2019.
+        You need to give an explanation for these issues before the census submission deadline.
         </p>
-
-        {{ govukWarningText({
-            html: 'There are 4 days until the submission deadline.' | safe,
-            iconFallbackText: 'Warning'
-        }) }}
-
     </div>
     <div class="govuk-grid-column-one-half" style="text-align: right;">
         <div class="app-callout-container">
@@ -260,12 +254,12 @@ window.location.href = 'handled'
                                             <input type="hidden" name="numberOfPupilsMoved" value="0">
                                             <input type="hidden" name="selected-query" value="{{ query.id }}">
                                             <button type="submit" class="govuk-button">
-                                                Give explanation
+                                                Explain
                                             </button>
                                         </form>
                                     {% else %}
                                     <button type="button" class="govuk-button open-dialog">
-                                        Give explanation
+                                        Explain
                                     </button>
                                     {% endif %}
                                     

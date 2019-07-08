@@ -1,39 +1,47 @@
-{% extends "layout.html" %}
-
-{% block pageTitle %}
-  Send your school census
-{% endblock %}
-
-{% block content %}
+{% extends "layout.html" %} {% block pageTitle %} Send your school census {%
+endblock %} {% block content %}
 
 <div class="govuk-grid-row">
-
 	<div class="govuk-grid-column-two-thirds">
-
 		<h1 class="govuk-heading-xl">
 			{{ serviceName }} prototype
-			<span class="govuk-caption-xl">GOV.UK Prototype Kit {{releaseVersion}}</span>
+			<span class="govuk-caption-xl"
+				>GOV.UK Prototype Kit {{ releaseVersion }}</span
+			>
 		</h1>
 
 		<p class="govuk-body">
-			The content of this service is to be made available to authorised Department for Education employees and contractors only. This is a prototype, do not use this version to submit real school data.
+			The content of this service is to be made available to authorised
+			Department for Education employees and contractors only. This is a
+			prototype, do not use this version to submit real school data.
 		</p>
-
 	</div>
-	
 </div>
 
 <div class="govuk-grid-row cards">
-
 	<div class="card">
 		<div class="card-body active">
 			<h3 class="govuk-heading-s card-heading">Design</h3>
 		</div>
 		<div class="card-action govuk-body-s">
 			<ul class="govuk-list govuk-!-font-size-16">
-				<li><a class="govuk-link" href="iterations/current/options.html">Current iteration</a></li>
-				<li><a class="govuk-link" href="iterations/18-06-18/options.html">18 June 2018</a></li>
-				<li><a class="govuk-link" href="https://dfe-data-exchange-dataprovider.herokuapp.com/">Archive</a></li>
+				<li>
+					<a class="govuk-link" href="iterations/current/options.html"
+						>Current iteration</a
+					>
+				</li>
+				<li>
+					<a class="govuk-link" href="iterations/18-06-18/options.html"
+						>18 June 2018</a
+					>
+				</li>
+				<li>
+					<a
+						class="govuk-link"
+						href="https://dfe-data-exchange-dataprovider.herokuapp.com/"
+						>Archive</a
+					>
+				</li>
 			</ul>
 		</div>
 	</div>
@@ -44,11 +52,36 @@
 		</div>
 		<div class="card-action">
 			<ul class="govuk-list govuk-!-font-size-16">
-				<li><a class="govuk-link" href="ur/school-notes/options">School notes</a><br></li>
-				<li><a class="govuk-link" href="ur/23-05-19/options">23 May 2019</a><br>School notes</li>
-				<li><a class="govuk-link" href="ur/SLT/options">SLT demonstration</a><br></li>
-				<li><a class="govuk-link" href="ur/current/helpdesk/my-queue?isExternal=false">24 April 2019</a><br>Helpdesk agents</li>
-				<li><a class="govuk-link" href="ur/19-03-19/helpdesk/my-queue?isExternal=false">19 March 2019</a><br>Helpdesk agents</li>
+				<li>
+					<a class="govuk-link" href="ur/school-notes/options">School notes</a
+					><br />
+				</li>
+				<li>
+					<a class="govuk-link" href="ur/19-06-19/options">19 June 2019</a
+					><br />School notes
+				</li>
+				<li>
+					<a class="govuk-link" href="ur/23-05-19/options">23 May 2019</a
+					><br />School notes
+				</li>
+				<li>
+					<a class="govuk-link" href="ur/SLT/options">SLT demonstration</a
+					><br />
+				</li>
+				<li>
+					<a
+						class="govuk-link"
+						href="ur/current/helpdesk/my-queue?isExternal=false"
+						>24 April 2019</a
+					><br />Helpdesk agents
+				</li>
+				<li>
+					<a
+						class="govuk-link"
+						href="ur/19-03-19/helpdesk/my-queue?isExternal=false"
+						>19 March 2019</a
+					><br />Helpdesk agents
+				</li>
 			</ul>
 		</div>
 	</div>
@@ -59,13 +92,24 @@
 		</div>
 		<div class="card-action">
 			<ul class="govuk-list govuk-!-font-size-16">
-				<li><a class="govuk-link" href="dev/current/options.html">Current views for development</a></li>
-				<li><a class="govuk-link" href="dev/summer-census/options.html">Summer census version</a></li>
-				<li><a class="govuk-link" href="dev/next-steps/options.html">‘Next steps’ version</a></li>
+				<li>
+					<a class="govuk-link" href="dev/current/options.html"
+						>Current views for development</a
+					>
+				</li>
+				<li>
+					<a class="govuk-link" href="dev/summer-census/options.html"
+						>Summer census version</a
+					>
+				</li>
+				<li>
+					<a class="govuk-link" href="dev/next-steps/options.html"
+						>‘Next steps’ version</a
+					>
+				</li>
 			</ul>
 		</div>
 	</div>
-
 </div>
 
 {% endblock %}

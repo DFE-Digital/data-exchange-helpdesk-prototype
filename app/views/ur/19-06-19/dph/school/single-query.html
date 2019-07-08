@@ -30,28 +30,6 @@ getById(data['selected-query']) %} {% block pageTitle %}
 {% set isExplained = query.explained == 'true' %}
 {% set isMultiple = query.pupils | length != 1 %}
 
-{% if data.numberOfPupilsMoved | float > 0 %}
-<div class="govuk-grid-row">
-	<div class="govuk-grid-column-one-half">
-		
-		{% set bannerHtml %}
-			<h2 class="govuk-heading-m">{{ data.numberOfPupilsMoved }} pupil{{ 's' if data.numberOfPupilsMoved | float > 1}} {{'moved to <a href="handled">‘saved explanations’' | safe if not isExplained else 'removed from ‘saved explanations’'}}</a></h2>
-		{% set remainingPupils = query.pupils | length %}
-		{% if not isExplained %}
-			<p>You need to explain this {{ query.category }} for {{remainingPupils}} more pupil{{ 's' if remainingPupils > 1 }}.</p>
-		{% else %}
-			<p>You will find {{ 'these pupils' if remainingPupils > 1 else 'this pupil'}} in <a href="queries">issues to resolve</a>.</p>
-		{% endif %}
-		{% endset %}
-
-		{{ hmctsBanner({
-		html: bannerHtml
-		}) }} 
-
-	</div>
-</div>
-{% endif %}
-
 <div class="govuk-grid-row">
 	<div class="govuk-grid-column-full census-case-nav">
 		{{
@@ -102,6 +80,28 @@ getById(data['selected-query']) %} {% block pageTitle %}
 
 	</div>
 </div>
+
+{% if data.numberOfPupilsMoved | float > 0 %}
+<div class="govuk-grid-row">
+	<div class="govuk-grid-column-one-half">
+		
+		{% set bannerHtml %}
+			<h2 class="govuk-heading-m">{{ data.numberOfPupilsMoved }} pupil{{ 's' if data.numberOfPupilsMoved | float > 1}} {{'moved to <a href="handled">‘saved explanations’' | safe if not isExplained else 'removed from ‘saved explanations’'}}</a></h2>
+		{% set remainingPupils = query.pupils | length %}
+		{% if not isExplained %}
+			<p>You need to explain this {{ query.category }} for {{remainingPupils}} more pupil{{ 's' if remainingPupils > 1 }}.</p>
+		{% else %}
+			<p>You will find {{ 'these pupils' if remainingPupils > 1 else 'this pupil'}} in <a href="queries">issues to resolve</a>.</p>
+		{% endif %}
+		{% endset %}
+
+		{{ hmctsBanner({
+		html: bannerHtml
+		}) }} 
+
+	</div>
+</div>
+{% endif %}
 
 {% if not isSent %}
 	{% if isMultiple %}
